@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="班汇通后台管理系统"
+        width="800" height="600"
+        icon="app-icon.png">
+    <action name="browseProjects" title="贷款项目(P)..." mnemonic="P" accelerator="ctrl P" description="贷款项目管理"/>
+    <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" description="债权转让管理"/>
+    <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
+    <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
+    <menuBar>
+        <menu title="项目管理(P)" mnemonic="P">
+            <menuItem value="browseProjects"/>
+            <menuItem value="browseCreditAssignments"/>
+            <menuItem value="-"/>
+            <menuItem value="exit"/>
+        </menu>
+        <menu title="->"/>
+        <menu title="帮助(H)" mnemonic="H">
+            <menuItem value="about"/>
+        </menu>
+    </menuBar>
+</ui>

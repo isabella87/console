@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="登录">
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column stretch="0" alignment="BOTH"/>
+        <column stretch="0" alignment="BOTH"/>
+        <column stretch="100" alignment="BOTH"/>
+        <row>
+            <cell>
+                <label for="login-name">登录名：</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="login-name" type="TEXT"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="password">密码：</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="password" type="PASSWORD"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="captcha-code">验证码：</label>
+            </cell>
+            <cell>
+                <image name="captcha-image"/>
+            </cell>
+            <cell>
+                <text name="captcha-code" type="TEXT"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="3" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

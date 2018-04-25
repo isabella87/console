@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress XmlUnboundNsPrefix -->
+<Configuration strict="true">
+    <Appenders>
+        <Appender name="Console" type="Console">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%-5p] %C (%F:%L) - %m%n"/>
+        </Appender>
+    </Appenders>
+    <Loggers>
+        <Root level="TRACE">
+            <AppenderRef ref="Console"/>
+        </Root>
+        <Logger name="org.apache.commons" level="WARN"/>
+    </Loggers>
+</Configuration>

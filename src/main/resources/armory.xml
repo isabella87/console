@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org" xsi:schemaLocation="http://armory.xx.org armory.xsd">
+    <security>
+        <keys>
+            <key name="verify-params-public"
+                 value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA21ekeivwf8hP6Ic7RNT9UsJPzS5yb83kQHZKne2+GrWjaDwQIgQpguGsjb1LfLiAeTz4GrhWfayXhmisz2McaffRlKlNI/7GTi6PpdP9nTjk8Ihj3vakePgPLCMksqEDTD9rYxg0ShyY0/My6P8tCcmw83AP2o+2YI9JsoaoY/YixpY6aEkCQomJZugja7nAnLPEcIqMWyCIOjzdz+NfI5nElEALDpf3oE3vDO2WRbiPxO45X/KOHG4fRvQjork1FRrbs1adIgLU0+yt+y3DRJyfVD2vyuISNEq/OvOgv3Xo8+SQaWbPG0/DmmWS6TQ+8sjtShUUfqbhp1ZOq8JD8wIDAQAB"/>
+            <key name="verify-params-private"
+                 value="MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDbV6R6K/B/yE/ohztE1P1Swk/NLnJvzeRAdkqd7b4ataNoPBAiBCmC4ayNvUt8uIB5PPgauFZ9rJeGaKzPYxxp99GUqU0j/sZOLo+l0/2dOOTwiGPe9qR4+A8sIySyoQNMP2tjGDRKHJjT8zLo/y0JybDzcA/aj7Zgj0myhqhj9iLGljpoSQJCiYlm6CNrucCcs8RwioxbIIg6PN3P418jmcSUQAsOl/egTe8M7ZZFuI/E7jlf8o4cbh9G9COiuTUVGtuzVp0iAtTT7K37LcNEnJ9UPa/K4hI0Sr8686C/dejz5JBpZs8bT8OaZZLpND7yyO1KFRR+puGnVk6rwkPzAgMBAAECggEBAK0D6fKQnEk/SYDiwuadlyDjsyzm2U/Fuaj7ZgpDEPRimH3M+vDKFbBusLyxN00u//AiHpZ9F4RUUsWr5bxEspIH7+Jy1S1ydxwOcDLfECsnSLdO7nBeXwgoq1cmdXkNtts7H0rwObbH7ekp6duOBQm2dYTgvTCqsbJi9EAFJeiKNZMGUzZLOcdfu5yWeqs1hF/poNNY/3TA/ueQnxE9MLvQBMGvf+tA1M3lniiUGLmONSfrKKMLC7gbSEPYQCix/S+k4a3QiWyyIx3EqkIRuvs6Sf/rqeq1POD/yIumpbuEgSSUBHw/pkqOnHEroZwHu562QsYbxGHMFkjWap7kE8ECgYEA867vkm6oPiwHp2J2hohnpFaqVAUKozoP3COtOt5xwpwFYaGTo/Nix5A5NUhVi7DSumNOVCaZnkeMJSQjny6bPVKCRZ+nalKYquuwTUmA3UYiBW4fWZJrjk7u9z42CBaYkjkT79csr0mlImr9jIO9sdyrXXV2ouGzzLDK5ybVyJMCgYEA5m3BCjZWvwimFoIeSsdC1xSUey+axuLu/VRzOl1p5Wt+Dz0czFBlEc0+uW4jc7ZD+Y0QJHYtCFGuYQuhjm/04CzMhwdlpz+Sku6o6xAIf2Gee64U+mQ5XlKwLreHXmHZmL7/qsk+lV8ZgfaPgSBhGGW2J3Z04hZ9+8v3uY89kyECgYEA3sOyALQmG0fW616oqY2y6VnMtagyNEtUylLW/rTxXA2TIdA6jqtlRrgChEIO6feIfJlhtq3eywHvDNj/s3pAsgtmSc2MlzbQl5eEAPNL2XxOh5ZHFHQ03NAtxlnZvQUjDrEdF6kmEUwKqO8TwEuCs0Deaz6BaJ9Z5apMooku7/8CgYAksIcTHDHVuwfO/6rZFz8iRemab6sCTfHlrkOmoGcTG3l37bAfLBHbssVw+wN0Eipimr5eP97Nu0u7sgFoT5U6+IccXOYnqiypbozA2M2xkpaMdNxsPfcQeLQKzDgmpAfklUzaIa7wU7MZCWwyEDjFjLRjNi5ILXKj3Ac2qYMRYQKBgEJ+H8UYzKuKBQ3sPe9BD9sEsJVGrD3/Vfq8XAOmSFT5WA0/uwBl45Z92gYwz5YfRRoq0LcSEVhKWSyxYHMXuSk0PsjmU7QyUJsqIwlLcQtjA4RWsUU3PvBQMLZE+C8NEEpT0m/MqkyPqRvF0C7RrZeLc70Y0vEICfUI8C804veS"/>
+        </keys>
+    </security>
+</configuration>
