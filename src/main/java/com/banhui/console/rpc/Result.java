@@ -84,4 +84,17 @@ public interface Result {
      * @return 返回结果的映射形式，如果响应结果无法被解析为映射则返回空映射。
      */
     Map<String, Object> map();
+
+    /**
+     * 在控制台输出返回结果的内容。
+     *
+     * @return 返回结果本身。
+     */
+    Result dump();
+
+    /**
+     * 废弃返回结果，不做任何处理。
+     */
+    default void none() {
+    }
 }

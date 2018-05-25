@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="借款机构"
+        width="800"
+        height="600">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="create" title="创建(C)" mnemonic="C"/>
+    <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
+    <action name="check" title="核实列表"/>
+    <action name="credit-file" title="征信报告情况文件"/>
+    <action name="debt-file" title="收入及负债情况文件"/>
+    <action name="delete" title="删除(X)" mnemonic="X"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <gridLayout>
+        <column stretch="1" alignment="FIRST"/>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label mnemonic="D" for="create-date">创建时间(D)：</label>
+                <text name="start-date" type="DATE"/>
+                <literal>-</literal>
+                <text name="end-date" type="DATE"/>
+                <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                <label mnemonic="K" for="search-key">关键字(K)：</label>
+                <text name="search-key" type="TEXT"/>
+                <button actionName="search" default="true"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <button actionName="create"/>
+                <button actionName="edit"/>
+                <button actionName="check"/>
+                <button actionName="credit-file"/>
+                <button actionName="debt-file"/>
+                <button actionName="delete"/>
+            </cell>
+        </row>
+        <row>
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="bpmoId" title="ID" type="TEXT" size="60"/>
+                    <tableColumn name="orgName" title="机构名称" type="TEXT" size="120"/>
+                    <tableColumn name="showOrgName" title="机构展示名称" type="TEXT" size="120"/>
+                    <tableColumn name="registeredFund" title="注册资金（万元）" type="CURRENCY" size="160"/>
+                    <tableColumn name="registeredShowFund" title="注册展示资金" type="TEXT" size="160"/>
+                    <tableColumn name="legalPersonName" title="法人姓名" type="TEXT" size="100"/>
+                    <tableColumn name="legalPersonShowName" title="法人展示姓名" type="TEXT" size="100"/>
+                    <tableColumn name="mobile" title="手机" type="TEXT" size="120"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="creator" title="创建人" type="TEXT" size="80"/>
+                    <tableColumn name="updateTime" title="修改时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="updater" title="修改人" type="TEXT" size="80"/>
+                    <tableColumn name="workAddress" title="办公地址" type="TEXT" size="160"/>
+                    <tableColumn name="showWorkAddress" title="展示办公地址" type="TEXT" size="160"/>
+                    <tableColumn name="shareholderInfo" title="股东信息" type="TEXT" size="160"/>
+                    <tableColumn name="showShareholderInfo" title="展示股东信息" type="TEXT" size="160"/>
+                    <tableColumn name="operateArea" title="经营区域" type="TEXT" size="160"/>
+                    <tableColumn name="otherInfo" title="其他信息" type="TEXT" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

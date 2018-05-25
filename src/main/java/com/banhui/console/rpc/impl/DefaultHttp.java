@@ -1,11 +1,11 @@
 package com.banhui.console.rpc.impl;
 
-import com.banhui.console.RpcException;
 import com.banhui.console.rpc.History;
 import com.banhui.console.rpc.HistoryLevel;
 import com.banhui.console.rpc.HistoryManager;
 import com.banhui.console.rpc.Http;
 import com.banhui.console.rpc.Result;
+import com.banhui.console.rpc.RpcException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -70,6 +70,7 @@ import static org.xx.armory.http.SSLContextUtils.ignoreCert;
 public final class DefaultHttp
         extends AbstractHttp
         implements Http {
+    public static final ContentType APPLICATION_FORM_URLENCODED = ContentType.create("application/x-www-form-urlencoded", UTF_8);
     private static final RequestConfig GLOBAL_REQUEST_CONFIG = createGlobalRequestConfig();
     private static final CookieStore GLOBAL_COOKIE_STORE = createGlobalCookieStore();
     private static final CacheConfig GLOBAL_CACHE_CONFIG = createGlobalCacheConfig();
@@ -214,7 +215,7 @@ public final class DefaultHttp
             final String charsetName = contentTypeParts[1];
             final Charset charset = !charsetName.isEmpty() ? Charset.forName(charsetName) : null;
 
-            final String content = readString(response.getEntity().getContent(), charset != null ? charset : UTF_8);
+            final String content = readString(response.getEntity().getContent(), charset != null ? charset : UTF_8).trim();
 
             // 记录History
             final HistoryLevel level = statusCode >= 200 && statusCode < 300 ? HistoryLevel.OK : HistoryLevel.ERROR;
@@ -228,10 +229,10 @@ public final class DefaultHttp
                 return content;
             } else if (statusCode >= 400 && statusCode < 500) {
                 // 由于HTTP请求不正确造成的错误，权限不足，登录超时，服务URI错误等等。
-                throw new RpcException(request.getURI(), statusCode, reasonPhrase);
+                throw new RpcException(request.getMethod(), request.getURI(), statusCode, reasonPhrase);
             } else if (statusCode >= 500 && statusCode < 600) {
                 // 后端的错误。
-                throw new RpcException(request.getURI(), statusCode, content);
+                throw new RpcException(request.getMethod(), request.getURI(), statusCode, content);
             } else {
                 // 其它不应该出现的状态。
                 throw new IllegalStateException("illegal status code: " + statusCode);
@@ -485,12 +486,12 @@ public final class DefaultHttp
     ) {
         if (params == null || params.size() == 0) {
             return EntityBuilder.create()
-                                .setContentType(ContentType.APPLICATION_FORM_URLENCODED)
+                                .setContentType(APPLICATION_FORM_URLENCODED)
                                 .setText("")
                                 .build();
         } else {
             return EntityBuilder.create()
-                                .setContentType(ContentType.APPLICATION_FORM_URLENCODED)
+                                .setContentType(APPLICATION_FORM_URLENCODED)
                                 .setParameters(params.entrySet().stream()
                                                      .map(entry -> new BasicNameValuePair(entry.getKey(), paramValueToString(entry.getValue())))
                                                      .toArray(NameValuePair[]::new))

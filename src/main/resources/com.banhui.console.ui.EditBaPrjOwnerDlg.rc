@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="项目业主">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="owner-nature">
+        <option>无</option>
+        <option>上市房企</option>
+        <option>股份制</option>
+        <option>国有</option>
+        <option>民营</option>
+    </options>
+    <options name="owner-quality">
+        <option>无</option>
+        <option>上市公司</option>
+        <option>非上市公司</option>
+    </options>
+    <options name="owner-strength">
+        <option>无</option>
+        <option>全国500强施工企业</option>
+        <option>全国百强施工企业</option>
+        <option>区域龙头施工企业</option>
+        <option>全国性施工企业</option>
+        <option>区域性施工企业</option>
+    </options>
+    <options name="ent-industry">
+        <option>无</option>
+        <option>农业</option>
+        <option>工业</option>
+        <option>建筑业</option>
+        <option>运输和邮电</option>
+        <option>批发和零售业</option>
+        <option>住宿、餐饮和旅游业</option>
+        <option>金融业</option>
+        <option>教育和科技</option>
+        <option>卫生和社会服务</option>
+        <option>文化和体育</option>
+        <option>公共管理、社会保障和其他</option>
+        <option>房地产业</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <row stretch="0">
+            <cell>
+                <label for="owner-name">企业名称：</label>
+            </cell>
+            <cell>
+                <text name="owner-name"/>
+            </cell>
+            <cell>
+                <label for="show-owner-name">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-owner-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="registered-date">注册时间：</label>
+            </cell>
+            <cell>
+                <text name="registered-date"/>
+            </cell>
+            <cell>
+                <label for="reg-years">注册年限：</label>
+            </cell>
+            <cell>
+                <text name="reg-years"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="reg-funds">注册资金：</label>
+            </cell>
+            <cell>
+                <text name="reg-funds" suffix="万元"/>
+            </cell>
+            <cell>
+                <label for="show-reg-funds">展示注册资金：</label>
+            </cell>
+            <cell>
+                <text name="show-reg-funds" suffix="万元"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="ent-industry">行业：</label>
+            </cell>
+            <cell>
+                <text name="ent-industry" optionsName="ent-industry" size="10"/>
+            </cell>
+            <cell>
+                <label for="owner-nature">企业性质：</label>
+            </cell>
+            <cell>
+                <text name="owner-nature" optionsName="owner-nature" size="10"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="owner-strength">企业实力：</label>
+            </cell>
+            <cell>
+                <text name="owner-strength" optionsName="owner-strength" size="10"/>
+            </cell>
+            <cell>
+                <label for="owner-quality">企业质量：</label>
+            </cell>
+            <cell>
+                <text name="owner-quality" optionsName="owner-quality" size="10"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="intro">项目业主介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+
+            </cell>
+
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="担保个人">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="gender">
+        <option>女</option>
+        <option>男</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
+        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
+        <row stretch="0">
+            <cell>
+                <label for="name">姓名：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+            <cell>
+                <label for="show-name">展示姓名：</label>
+            </cell>
+            <cell>
+                <text name="show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="age">年龄：</label>
+            </cell>
+            <cell>
+                <text name="age"/>
+            </cell>
+            <cell>
+                <label for="show-age">展示年龄：</label>
+            </cell>
+            <cell>
+                <text name="show-age"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="id-card">身份证号：</label>
+            </cell>
+            <cell>
+                <text name="id-card"/>
+            </cell>
+            <cell>
+                <label for="gender">性别：</label>
+            </cell>
+            <cell>
+                <text name="gender" optionsName="gender" size="2"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="address">地址：</label>
+            </cell>
+            <cell>
+                <text name="address"/>
+            </cell>
+            <cell>
+                <label for="show-address">展示地址：</label>
+            </cell>
+            <cell>
+                <text name="show-address"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="mobile">联系电话：</label>
+            </cell>
+            <cell>
+                <text name="mobile"/>
+            </cell>
+            <cell>
+                <label for="postcode">邮编：</label>
+            </cell>
+            <cell>
+                <text name="postcode"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="intro">个人介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

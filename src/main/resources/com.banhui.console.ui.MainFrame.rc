@@ -5,8 +5,18 @@
         title="班汇通后台管理系统"
         width="800" height="600"
         icon="app-icon.png">
-    <action name="browseProjects" title="贷款项目(P)..." mnemonic="P" accelerator="ctrl P" description="贷款项目管理"/>
-    <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" description="债权转让管理"/>
+    <action name="browseProjects" title="贷款项目(P)..." mnemonic="P" accelerator="ctrl P" description="管理贷款项目"/>
+    <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" description="管理债权转让"/>
+
+    <action name="browseBaPrjEngineers" title="工程项目(N)" mnemonic="N" description="工程项目"/>
+    <action name="browseBaPrjCtors" title="施工单位(C)" mnemonic="C" description="施工单位"/>
+    <action name="browseBaPrjOwners" title="项目业主(E)" mnemonic="E" description="项目业主"/>
+    <action name="browseBaPrjGuaranteePers" title="担保个人(A)" mnemonic="A" description="担保个人"/>
+    <action name="browseBaPrjGuaranteeOrgs" title="担保机构(G)" mnemonic="G" description="担保机构"/>
+    <action name="browseBaPrjBorPers" title="借款个人(P)" mnemonic="P" description="借款个人"/>
+    <action name="browseBaPrjBorOrgs" title="借款机构(O)" mnemonic="O" description="借款机构"/>
+
+    <action name="browseSysUsers" title="帐户管理(U)" mnemonic="U" description="管理后台帐户" />
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
     <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
     <menuBar>
@@ -15,6 +25,20 @@
             <menuItem value="browseCreditAssignments"/>
             <menuItem value="-"/>
             <menuItem value="exit"/>
+        </menu>
+        <menu title="基础数据(D)" mnemonic="D">
+            <menuItem value="browseBaPrjEngineers" />
+            <menuItem value="browseBaPrjCtors" />
+            <menuItem value="browseBaPrjOwners" />
+            <menuItem value="-"/>
+            <menuItem value="browseBaPrjGuaranteePers" />
+            <menuItem value="browseBaPrjGuaranteeOrgs" />
+            <menuItem value="-"/>
+            <menuItem value="browseBaPrjBorPers" />
+            <menuItem value="browseBaPrjBorOrgs" />
+        </menu>
+        <menu title="后台管理(M)" mnemonic="M">
+            <menuItem value="browseSysUsers" />
         </menu>
         <menu title="->"/>
         <menu title="帮助(H)" mnemonic="H">

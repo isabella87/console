@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="借款机构">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="industry-status">
+        <option>农、林牧、渔业</option>
+        <option>采矿业</option>
+        <option>制造业</option>
+        <option>电力、热力、燃气及水生产和供应业</option>
+        <option>建筑业</option>
+        <option>批发和零售业</option>
+        <option>交通运输、仓储和邮政业</option>
+        <option>住宿和餐饮业</option>
+        <option>信息传输、软件和信息技术服务业</option>
+        <option>金融业</option>
+        <option>房地产业</option>
+        <option>租赁和商务服务业</option>
+        <option>科学研究和技术服务业</option>
+        <option>水利、环境和公共设施管理业</option>
+        <option>居民服务、修理和其他服务业</option>
+        <option>教育</option>
+        <option>卫生和社会工作</option>
+        <option>文化、体育和娱乐业</option>
+        <option>公共管理、社会保障和社会组织</option>
+        <option>组织</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
+        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
+        <row stretch="0">
+            <cell columnSpan="4" border="BOTTOM" horizontalAlignment="CENTER">
+                <literal>机构信息</literal>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="org-name">机构名称：</label>
+            </cell>
+            <cell>
+                <text name="org-name" size="19"/>
+            </cell>
+            <cell>
+                <label for="show-org-name">机构展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-org-name" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="registered-fund">注册资金：</label>
+            </cell>
+            <cell>
+                <text name="registered-fund" size="10"/>
+                <label>万元</label>
+            </cell>
+            <cell>
+                <label for="registered-show-fund">注册展示资金：</label>
+            </cell>
+            <cell>
+                <text name="registered-show-fund" size="10"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="address">注册地址：</label>
+            </cell>
+            <cell>
+                <text name="address" size="19"/>
+            </cell>
+            <cell>
+                <label for="show-address">注册展示地址：</label>
+            </cell>
+            <cell>
+                <text name="show-address" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="registered-date">注册时间：</label>
+            </cell>
+            <cell>
+                <text name="registered-date" size="10" type="DATE"/>
+            </cell>
+            <cell>
+                <label for="industry">所属行业：</label>
+            </cell>
+            <cell>
+                <text name="industry" optionsName="industry-status"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="social-credit-code">社会信用代码：</label>
+            </cell>
+            <cell>
+                <text name="social-credit-code" size="19"/>
+            </cell>
+            <cell>
+                <label for="show-social-credit-code">展示社会信用代码：</label>
+            </cell>
+            <cell>
+                <text name="show-social-credit-code" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="work-address">办公地址：</label>
+            </cell>
+            <cell>
+                <text name="work-address" size="19"/>
+            </cell>
+            <cell>
+                <label for="show-work-address">展示办公地址：</label>
+            </cell>
+            <cell>
+                <text name="show-work-address" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label for="shareholder-info">股东信息：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="shareholder-info"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label for="show-shareholder-info">展示股东信息：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="show-shareholder-info"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label for="operate-area">经营区域：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="operate-area"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="other-info">其他信息：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="other-info" type="TEXT_AREA" rowSize="3"/>
+            </cell>
+        </row>
+
+        <row stretch="0">
+            <cell columnSpan="4" border="BOTTOM" horizontalAlignment="CENTER">
+                <literal>法人信息</literal>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="legal-person-name">姓名：</label>
+            </cell>
+            <cell>
+                <text name="legal-person-name" size="19"/>
+            </cell>
+            <cell>
+                <label for="legal-person-show-name">展示姓名：</label>
+            </cell>
+            <cell>
+                <text name="legal-person-show-name" size="19" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="legal-id-card">身份证号：</label>
+            </cell>
+            <cell>
+                <text name="legal-id-card" size="19"/>
+            </cell>
+            <cell>
+                <label for="mobile">手机号：</label>
+            </cell>
+            <cell>
+                <text name="mobile" size="19" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="email">E-Mail：</label>
+            </cell>
+            <cell>
+                <text name="email" size="19"/>
+            </cell>
+            <cell>
+                <label for="wchat">微信：</label>
+            </cell>
+            <cell>
+                <text name="wchat" size="19" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="fax">传真：</label>
+            </cell>
+            <cell>
+                <text name="fax" size="19"/>
+            </cell>
+        </row>
+
+        <row stretch="0">
+            <cell columnSpan="4" border="BOTTOM" horizontalAlignment="CENTER">
+                <literal>联系人信息</literal>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman-name">姓名：</label>
+            </cell>
+            <cell>
+                <text name="linkman-name" size="19"/>
+            </cell>
+            <cell>
+                <label for="linkman-show-name">展示姓名：</label>
+            </cell>
+            <cell>
+                <text name="linkman-show-name" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman-id-card">身份证号：</label>
+            </cell>
+            <cell>
+                <text name="linkman-id-card" size="19"/>
+            </cell>
+            <cell>
+                <label for="linkman-mobile">手机号：</label>
+            </cell>
+            <cell>
+                <text name="linkman-mobile" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman-email">E-Mail：</label>
+            </cell>
+            <cell>
+                <text name="linkman-email" size="19"/>
+            </cell>
+            <cell>
+                <label for="linkman-wchat">微信：</label>
+            </cell>
+            <cell>
+                <text name="linkman-wchat"  size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman-address">送达地址：</label>
+            </cell>
+            <cell>
+                <text name="linkman-address" size="19"/>
+            </cell>
+            <cell>
+                <label for="linkman-show-address">展示送达地址：</label>
+            </cell>
+            <cell>
+                <text name="linkman-show-address" size="19" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman-fax">传真：</label>
+            </cell>
+            <cell>
+                <text name="linkman-fax" size="19"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="intro">介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

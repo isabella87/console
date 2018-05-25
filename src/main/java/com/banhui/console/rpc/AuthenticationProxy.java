@@ -20,11 +20,11 @@ public final class AuthenticationProxy
     public CompletableFuture<Result> signIn(
             Map<String, Object> params
     ) {
-        return http().post("/p2psrv/security/signin", params);
+        return http().post("security/signin", params);
     }
 
     public CompletableFuture<byte[]> captchaImage() {
-        return http().getRaw("/p2psrv/security/captcha-image", null);
+        return http().getRaw("security/captcha-image", null);
     }
 
     /**

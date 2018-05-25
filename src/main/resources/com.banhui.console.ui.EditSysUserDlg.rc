@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="后台帐户">
+    <message name="create" >创建</message>
+    <message name="edit" >编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="100" alignment="BOTH"/>
+        <row stretch="0">
+            <cell>
+                <label mnemonic="U" for="user-name">登录名(U)：</label>
+            </cell>
+            <cell>
+                <text name="user-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label mnemonic="M" for="mobile">手机号码(M)：</label>
+            </cell>
+            <cell>
+                <text name="mobile"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label mnemonic="I" for="email">电子邮箱(I)：</label>
+            </cell>
+            <cell>
+                <text name="email"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label mnemonic="E" for="enabled">是否启用(E)：</label>
+            </cell>
+            <cell>
+                <checkBox name="enabled"/>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell columnSpan="2" title="所属角色">
+                <listBox name="roles" rowSize="12"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label mnemonic="D" for="createDate">修改日期(D)：</label>
+            </cell>
+            <cell>
+                <text name="create-date"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="2" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

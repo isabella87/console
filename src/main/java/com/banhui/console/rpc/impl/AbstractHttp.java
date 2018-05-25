@@ -207,7 +207,7 @@ public abstract class AbstractHttp
      *         原路径。
      * @return 如果原路径是绝对路径，那么直接返回原路径，否则通过基础URI将此路径转化为绝对路径。
      * @throws IllegalArgumentException
-     *         如果参数{@code relativeUri}是{@code null}或者只包含空白字符。
+     *         如果参数{@code uri}是{@code null}或者只包含空白字符。
      */
     protected URI fullUri(
             String uri

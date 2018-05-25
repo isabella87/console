@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="担保机构">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
+        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
+        <row stretch="0">
+            <cell>
+                <label for="name">企业名称：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+            <cell>
+                <label for="show-name">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="registered-date">注册时间：</label>
+            </cell>
+            <cell>
+                <text name="registered-date" type="DATE" size="10"/>
+            </cell>
+            <cell>
+                <label for="reg-years">注册年限：</label>
+            </cell>
+            <cell>
+                <text name="reg-years" size="10"/>
+                <label>年</label>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="reg-funds">注册资金：</label>
+            </cell>
+            <cell>
+                <text name="reg-funds" size="10"/>
+                <label>万元</label>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="reg-address">注册地址：</label>
+            </cell>
+            <cell>
+                <text name="reg-address"/>
+            </cell>
+            <cell>
+                <label for="show-reg-address">显示注册地址：</label>
+            </cell>
+            <cell>
+                <text name="show-reg-address"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="postcode">邮编：</label>
+            </cell>
+            <cell>
+                <text name="postcode" size="10"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="legal-id-card">法人身份证号：</label>
+            </cell>
+            <cell>
+                <text name="legal-id-card"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="legal-person-name">法人姓名：</label>
+            </cell>
+            <cell>
+                <text name="legal-person-name"/>
+            </cell>
+            <cell>
+                <label for="legal-person-show-name">法人展示名：</label>
+            </cell>
+            <cell>
+                <text name="legal-person-show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="linkman">联系人：</label>
+            </cell>
+            <cell>
+                <text name="linkman"/>
+            </cell>
+            <cell>
+                <label for="mobile">联系电话：</label>
+            </cell>
+            <cell>
+                <text name="mobile"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="ranking">行业地位：</label>
+            </cell>
+            <cell>
+                <label>第</label>
+                <text name="ranking" size="5"/>
+                <label>位</label>
+            </cell>
+            <cell>
+                <label for="qualification">行业资质：</label>
+            </cell>
+            <cell>
+                <text name="qualification"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="social-credit-code">社会信用代码：</label>
+            </cell>
+            <cell>
+                <text name="social-credit-code"/>
+            </cell>
+            <cell>
+                <label for="show-social-credit-code">展示社会信用代码：</label>
+            </cell>
+            <cell>
+                <text name="show-social-credit-code" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label for="get-prize">获得奖项：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="get-prize" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="org-web-site">公司官网：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="org-web-site" />
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="intro">企业介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

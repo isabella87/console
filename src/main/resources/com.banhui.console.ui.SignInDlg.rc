@@ -2,7 +2,9 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title="登录">
+        title="登录"
+        icon="app-icon.png">
+    <message name="fail">登录失败！</message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
@@ -11,7 +13,7 @@
         <column stretch="100" alignment="BOTH"/>
         <row>
             <cell>
-                <label for="login-name">登录名：</label>
+                <label mnemonic="L" for="login-name">登录名(L)：</label>
             </cell>
             <cell columnSpan="2">
                 <text name="login-name" type="TEXT"/>
@@ -19,7 +21,7 @@
         </row>
         <row>
             <cell>
-                <label for="password">密码：</label>
+                <label mnemonic="P" for="password">密码(P)：</label>
             </cell>
             <cell columnSpan="2">
                 <text name="password" type="PASSWORD"/>
@@ -27,10 +29,10 @@
         </row>
         <row>
             <cell>
-                <label for="captcha-code">验证码：</label>
+                <label mnemonic="T" for="captcha-code">验证码(T)：</label>
             </cell>
             <cell>
-                <image name="captcha-image"/>
+                <imageBox name="captcha-image"/>
             </cell>
             <cell>
                 <text name="captcha-code" type="TEXT"/>

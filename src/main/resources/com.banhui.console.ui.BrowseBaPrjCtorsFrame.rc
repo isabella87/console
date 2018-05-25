@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="施工单位"
+        width="800"
+        height="600">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="create" title="创建(C)" mnemonic="C"/>
+    <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
+    <action name="check" title="核实列表"/>
+    <action name="delete" title="删除(X)" mnemonic="X"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <gridLayout>
+        <column stretch="1" alignment="FIRST"/>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <label mnemonic="D" for="create-date">创建时间(D)：</label>
+                <text name="start-date" type="DATE"/>
+                <literal>-</literal>
+                <text name="end-date" type="DATE"/>
+                <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                <label mnemonic="K" for="search-key">关键字(K)：</label>
+                <text name="search-key" type="TEXT"/>
+                <button actionName="search" default="true"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell horizontalAlignment="FIRST">
+                <button actionName="create"/>
+                <button actionName="edit"/>
+                <button actionName="check"/>
+                <button actionName="delete"/>
+            </cell>
+        </row>
+        <row>
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="bcoId" title="ID" type="TEXT" size="60"/>
+                    <tableColumn name="name" title="企业名称" type="TEXT" size="100"/>
+                    <tableColumn name="regYears" title="注册年限" type="NUMBER" size="60"/>
+                    <tableColumn name="qualification" title="行业资质" type="TEXT" size="100"/>
+                    <tableColumn name="regFunds" title="注册资本金（万元）" type="NUMBER" size="160"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

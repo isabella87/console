@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="施工单位">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="ent-nature">
+        <option>无</option>
+        <option>上市房企</option>
+        <option>股份制</option>
+        <option>国有</option>
+        <option>民营</option>
+    </options>
+    <options name="ent-quality">
+        <option>无</option>
+        <option>上市公司</option>
+        <option>非上市公司</option>
+    </options>
+    <options name="ent-strength">
+        <option>无</option>
+        <option>全国500强施工企业</option>
+        <option>全国百强施工企业</option>
+        <option>区域龙头施工企业</option>
+        <option>全国性施工企业</option>
+        <option>区域性施工企业</option>
+    </options>
+    <options name="qualification">
+        <option>无</option>
+        <option>总承包特级</option>
+        <option>总承包壹级</option>
+        <option>总承包贰级及以下</option>
+        <option>专业承包壹级</option>
+        <option>专业承包贰级及以下</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <row stretch="0">
+            <cell>
+                <label for="name">企业名称：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+            <cell>
+                <label for="show-name">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="ent-nature">企业性质：</label>
+            </cell>
+            <cell>
+                <text name="ent-nature" optionsName="ent-nature" size="10"/>
+            </cell>
+            <cell>
+                <label for="ent-quality">企业质量：</label>
+            </cell>
+            <cell>
+                <text name="ent-quality" optionsName="ent-quality" size="10"/>
+            </cell>
+        </row>
+
+        <row stretch="0">
+            <cell>
+                <label for="ent-strength">企业实力：</label>
+            </cell>
+            <cell>
+                <text name="ent-strength" optionsName="ent-strength" size="10"/>
+            </cell>
+            <cell>
+                <label for="registered-date">注册时间：</label>
+            </cell>
+            <cell>
+                <text name="registered-date" type="DATE"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="reg-years">注册年限：</label>
+            </cell>
+            <cell>
+                <text name="reg-years"/>
+            </cell>
+            <cell>
+                <label for="show-reg-years">展示注册年限：</label>
+            </cell>
+            <cell>
+                <text name="show-reg-years"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="reg-funds">注册资金：</label>
+            </cell>
+            <cell>
+                <text name="reg-funds" suffix="万元"/>
+            </cell>
+            <cell>
+                <label for="show-reg-funds">展示注册资金：大于等于</label>
+            </cell>
+            <cell>
+                <text name="show-reg-funds" suffix="万元"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="lasted-area">上一年度施工面积：</label>
+            </cell>
+            <cell>
+                <text name="lasted-area" suffix="平米"/>
+            </cell>
+            <cell>
+                <label for="lasted-output">上一年度产值：</label>
+            </cell>
+            <cell>
+                <text name="lasted-output" suffix="亿"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="qualification">行业资质：</label>
+            </cell>
+            <cell>
+                <text name="qualification" optionsName="qualification" size="10"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="nation-prize-count">全国性工程奖：</label>
+            </cell>
+            <cell>
+                <text name="nation-prize-count" suffix="次"/>
+            </cell>
+            <cell>
+                <label for="provin-prize-count">省级工程奖：</label>
+            </cell>
+            <cell>
+                <text name="provin-prize-count" suffix="次"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="intro">施工单位介绍：</label>
+            </cell>
+            <cell columnSpan="7" horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+
+            </cell>
+
+        </row>
+
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

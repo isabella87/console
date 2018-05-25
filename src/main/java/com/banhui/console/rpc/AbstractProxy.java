@@ -1,6 +1,5 @@
 package com.banhui.console.rpc;
 
-import com.banhui.console.RpcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

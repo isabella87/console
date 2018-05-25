@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="工程项目">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="grade-status">
+        <option>无</option>
+        <option>甲级</option>
+        <option>乙级</option>
+    </options>
+    <options name="gender-status">
+        <option value="0">女</option>
+        <option value="1">男</option>
+    </options>
+    <options name="eng-type">
+        <option>无</option>
+        <option>普通住宅项目</option>
+        <option>保障房</option>
+        <option>别墅</option>
+        <option>办公楼</option>
+        <option>公共建筑</option>
+        <option>市政项目</option>
+        <option>路桥项目</option>
+        <option>其他项目</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
+        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
+        <row stretch="0">
+            <cell columnSpan="4" border="BOTTOM" horizontalAlignment="CENTER">
+                <literal>基本信息</literal>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="name">工程名称：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+            <cell>
+                <label for="eng-show-name">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="eng-show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="address">建设地址：</label>
+            </cell>
+            <cell>
+                <text name="address"/>
+            </cell>
+            <cell>
+                <label for="eng-show-address">展示地址：</label>
+            </cell>
+            <cell>
+                <text name="eng-show-address"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="mgr-org">监理单位：</label>
+            </cell>
+            <cell>
+                <text name="mgr-org-level" optionsName="grade-status" size="2"/>
+                <text name="mgr-org" size="11"/>
+            </cell>
+            <cell>
+                <label for="show-mgr-org">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-mgr-org"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="design-org">设计单位：</label>
+            </cell>
+            <cell>
+                <text name="design-org-level" optionsName="grade-status" size="2"/>
+                <text name="design-org" size="11"/>
+            </cell>
+            <cell>
+                <label for="show-design-org">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-design-org"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="eng-type">工程类型：</label>
+            </cell>
+            <cell>
+                <text name="eng-type" optionsName="eng-type" size="8"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="all-org">总包单位：</label>
+            </cell>
+            <cell>
+                <text name="all-org"/>
+            </cell>
+            <cell>
+                <label for="show-all-org">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="show-all-org"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="area">建筑面积：</label>
+            </cell>
+            <cell>
+                <text name="area" suffix="平米" size="8"/>
+            </cell>
+            <cell>
+                <label for="show-area">展示面积：</label>
+            </cell>
+            <cell>
+                <text name="show-area" suffix="平米" size="8"/>
+            </cell>
+            <cell>
+
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="prj-start-time">开工日期：</label>
+            </cell>
+            <cell>
+                <text name="prj-start-time" type="DATE"/>
+            </cell>
+            <cell>
+                <label for="prj-end-time">竣工日期：</label>
+            </cell>
+            <cell>
+                <text name="prj-end-time" type="DATE"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="pro-intro">项目介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="pro-intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="BOTTOM" horizontalAlignment="CENTER">
+                <literal>项目经理</literal>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="mgr-real-name">真实姓名：</label>
+            </cell>
+            <cell>
+                <text name="mgr-real-name"/>
+            </cell>
+            <cell>
+                <label for="mgr-show-name">展示名：</label>
+            </cell>
+            <cell>
+                <text name="mgr-show-name"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="mgr-age">年龄：</label>
+            </cell>
+            <cell>
+                <text name="mgr-age" size="6"/>
+            </cell>
+            <cell>
+                <label for="mgr-show-age">展示年龄：</label>
+            </cell>
+            <cell>
+                <text name="mgr-show-age" size="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell>
+                <label for="mgr-gender">性别：</label>
+            </cell>
+            <cell>
+                <dropDown name="mgr-gender" optionsName="gender-status"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="qualification">从业资质：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="qualification"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell verticalAlignment="FIRST">
+                <label for="mgr-intro">介绍：</label>
+            </cell>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <text name="mgr-intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+                <button actionName="ok" default="true"/>
+                <button actionName="cancel"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

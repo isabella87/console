@@ -201,6 +201,15 @@ public abstract class AbstractResult
      * {@inheritDoc}
      */
     @Override
+    public Result dump() {
+        System.out.println("result: " + this.toString());
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
         return this.content;
     }
