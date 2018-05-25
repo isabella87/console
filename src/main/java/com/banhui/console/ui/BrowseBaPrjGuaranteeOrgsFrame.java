@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.Application;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -83,9 +84,19 @@ public class BrowseBaPrjGuaranteeOrgsFrame
     private void create(
             ActionEvent event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = 0;
+
         final EditBaPrjGuaranteeOrgDlg dlg = new EditBaPrjGuaranteeOrgDlg(0);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, row);
+            }
+        }
     }
 
     private void edit(
@@ -93,10 +104,19 @@ public class BrowseBaPrjGuaranteeOrgsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long id = tableModel.getNumberByName(table.getSelectedRow(), "bgoId");
+        final int selectedRow = table.getSelectedRow();
+
+        final long id = tableModel.getNumberByName(selectedRow, "bgoId");
         final EditBaPrjGuaranteeOrgDlg dlg = new EditBaPrjGuaranteeOrgDlg(id);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+
+            if (row != null && !row.isEmpty()) {
+                tableModel.setRow(selectedRow, row);
+            }
+        }
     }
 
     private void delete(
@@ -110,19 +130,23 @@ public class BrowseBaPrjGuaranteeOrgsFrame
 
         new BaPrjGuaranteeOrgsProxy().del(bpeId)
                                      .thenApplyAsync(Result::map)
-                                     .thenAcceptAsync(this::delCallback, UPDATE_UI)
-                                     .exceptionally(MsgBox::showError)
-                                     .thenAcceptAsync(v -> controller().enable("delete"), UPDATE_UI);
+                                     .whenCompleteAsync(this::delCallback, UPDATE_UI);
     }
 
     private void delCallback(
-            Map<String, Object> deletedRow
+            Map<String, Object> deletedRow,
+            Throwable t
     ) {
-        logger.debug("ba-prj-engineer {} delete", deletedRow);
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (t != null) {
+            MsgBox.showError(t);
+        } else {
+            logger.debug("ba-prj-engineer {} delete", deletedRow);
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
-        tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bgoId"), row.get("bgoId")));
+            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bgoId"), row.get("bgoId")));
+        }
+        controller().enable("delete");
     }
 
     private void check(

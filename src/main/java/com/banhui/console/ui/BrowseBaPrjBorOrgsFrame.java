@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.Application;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -86,9 +87,18 @@ public class BrowseBaPrjBorOrgsFrame
     private void create(
             ActionEvent event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = 0;
+
         final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(0);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, row);
+            }
+        }
     }
 
     private void edit(
@@ -96,10 +106,17 @@ public class BrowseBaPrjBorOrgsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long id = tableModel.getNumberByName(table.getSelectedRow(), "bpmoId");
+        final int selectedRow = table.getSelectedRow();
+        final long id = tableModel.getNumberByName(selectedRow, "bpmoId");
         final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(id);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+
+            if (row != null && !row.isEmpty()) {
+                tableModel.setRow(selectedRow, row);
+            }
+        }
     }
 
     private void delete(
@@ -113,19 +130,22 @@ public class BrowseBaPrjBorOrgsFrame
 
         new BaPrjBorOrgsProxy().del(bpeId)
                                .thenApplyAsync(Result::map)
-                               .thenAcceptAsync(this::delCallback, UPDATE_UI)
-                               .exceptionally(MsgBox::showError)
-                               .thenAcceptAsync(v -> controller().enable("delete"), UPDATE_UI);
+                               .whenCompleteAsync(this::delCallback, UPDATE_UI);
     }
 
     private void delCallback(
-            Map<String, Object> deletedRow
+            Map<String, Object> deletedRow,
+            Throwable t
     ) {
-        logger.debug("ba-prj-engineer {} delete", deletedRow);
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (t != null) {
+            MsgBox.showError(t);
+        } else {
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
-        tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmoId"), row.get("bpmoId")));
+            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmoId"), row.get("bpmoId")));
+        }
+        controller().enable("delete");
     }
 
     private void check(

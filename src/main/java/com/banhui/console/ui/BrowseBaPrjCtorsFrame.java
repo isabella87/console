@@ -2,10 +2,12 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.BaPrjCtrosProxy;
 import com.banhui.console.rpc.Result;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.Application;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -83,9 +85,20 @@ public class BrowseBaPrjCtorsFrame
     private void create(
             ActionEvent event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = 0;
+
         final EditBaPrjCtorDlg dlg = new EditBaPrjCtorDlg(0);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, row);
+            }
+        }
     }
 
     private void edit(
@@ -93,10 +106,16 @@ public class BrowseBaPrjCtorsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long id = tableModel.getNumberByName(table.getSelectedRow(), "bcoId");
+        final int selectedRow = table.getSelectedRow();
+        final long id = tableModel.getNumberByName(selectedRow, "bcoId");
         final EditBaPrjCtorDlg dlg = new EditBaPrjCtorDlg(id);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            if (row != null && !row.isEmpty()) {
+                tableModel.setRow(selectedRow, row);
+            }
+        }
     }
 
     private void delete(
@@ -110,19 +129,23 @@ public class BrowseBaPrjCtorsFrame
 
         new BaPrjCtrosProxy().del(bpeId)
                              .thenApplyAsync(Result::map)
-                             .thenAcceptAsync(this::delCallback, UPDATE_UI)
-                             .exceptionally(MsgBox::showError)
-                             .thenAcceptAsync(v -> controller().enable("delete"), UPDATE_UI);
+                             .whenCompleteAsync(this::delCallback, UPDATE_UI);
     }
 
     private void delCallback(
-            Map<String, Object> deletedRow
+            Map<String, Object> deletedRow,
+            Throwable t
     ) {
-        logger.debug("ba-prj-engineer {} delete", deletedRow);
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (t != null) {
+            MsgBox.showError(t);
+        } else {
+            logger.debug("ba-prj-engineer {} delete", deletedRow);
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
-        tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bcoId"), row.get("bcoId")));
+            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bcoId"), row.get("bcoId")));
+        }
+        controller().enable("delete");
     }
 
     private void check(

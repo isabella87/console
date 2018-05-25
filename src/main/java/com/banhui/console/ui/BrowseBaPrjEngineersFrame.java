@@ -85,19 +85,19 @@ public class BrowseBaPrjEngineersFrame
     private void create(
             ActionEvent event
     ) {
-        final JTable table = controller().get(JTable.class,"list");
+        final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = 0;
         final EditBaPrjEngineerDlg dlg = new EditBaPrjEngineerDlg(0);
         dlg.setFixedSize(false);
 
-       if(showModel(Application.mainFrame(), dlg)==DialogPane.OK){
-           Map<String,Object> row = dlg.getResultRow();
-           if(row!=null && !row.isEmpty()){
-               tableModel.insertRow(selectedRow,dlg.getResultRow());
-           }
+        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, dlg.getResultRow());
+            }
 
-       }
+        }
 
 
     }
@@ -139,7 +139,7 @@ public class BrowseBaPrjEngineersFrame
             Map<String, Object> deletedRow,
             Throwable t
     ) {
-        if ( t != null) {
+        if (t != null) {
             MsgBox.showError(t);
         } else {
             final JTable table = controller().get(JTable.class, "list");
