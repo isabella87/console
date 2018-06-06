@@ -5,7 +5,6 @@ import com.banhui.console.rpc.AuthenticationProxy;
 import com.banhui.console.rpc.ResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xx.armory.swing.UIUtils;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.ImageBox;
 
@@ -14,6 +13,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.xx.armory.swing.DialogUtils.fail;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 /**
@@ -58,7 +58,7 @@ public class SignInDlg
             new AuthenticationProxy().signIn(params)
                                      .thenApplyAsync(r -> r.booleanValue().orElse(false))
                                      .thenAcceptAsync(this::signInCallback, UPDATE_UI)
-                                     .exceptionally(MsgBox::showError)
+                                     .exceptionally(ErrorHandler::handle)
                                      .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -75,7 +75,7 @@ public class SignInDlg
         new AuthenticationProxy().captchaImage()
                                  .thenApplyAsync(ResultUtils::readImage)
                                  .thenAcceptAsync(this::updateCaptchaImageCallback, UPDATE_UI)
-                                 .exceptionally(MsgBox::showError);
+                                 .exceptionally(ErrorHandler::handle);
     }
 
     private void updateCaptchaImageCallback(
@@ -91,7 +91,7 @@ public class SignInDlg
         if (result) {
             super.done(OK);
         } else {
-            MsgBox.popupFail(controller().getMessage("fail"));
+            fail(controller().getMessage("fail"));
 
             controller().setText("password", null);
             controller().setText("captcha-code", null);

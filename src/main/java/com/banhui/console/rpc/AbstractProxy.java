@@ -22,7 +22,7 @@ public abstract class AbstractProxy
             // 后端调用时发生了异常。
             if (throwable instanceof Error) {
                 // 错误，应当立刻退出应用程序。
-                logger.error("system error", throwable);
+                logger.error("system handle", throwable);
                 System.exit(1);
             }
 

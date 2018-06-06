@@ -55,7 +55,7 @@ public class MainEntry {
             public void startUp(ApplicationEvent event) {
                 super.startUp(event);
                 ConfigurationManager.register(new XmlFileConfigurationProvider("classpath://armory.xml"));
-                HttpManager.setBaseUri(URI.create("http://192.168.11.67:8889/p2psrv/"));
+                HttpManager.setBaseUri(URI.create("http://192.168.11.30/p2psrv/"));
             }
         });
 

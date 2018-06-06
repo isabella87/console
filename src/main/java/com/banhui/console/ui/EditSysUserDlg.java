@@ -93,7 +93,7 @@ public class EditSysUserDlg
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             // 所有角色列表。
             final List<Map<String, Object>> allRoles = (List<Map<String, Object>>) data[0];
@@ -121,7 +121,7 @@ public class EditSysUserDlg
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             this.resultObj = row;
 

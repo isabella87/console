@@ -13,9 +13,9 @@
     </options>
     <gridLayout>
         <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
+        <column stretch="100" alignment="BOTH"/>
         <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
-        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
+        <column stretch="100" alignment="BOTH"/> <!--两端拉升 -->
         <row stretch="0">
             <cell>
                 <label for="name">姓名：</label>
@@ -55,7 +55,7 @@
                 <label for="gender">性别：</label>
             </cell>
             <cell>
-                <text name="gender" optionsName="gender" size="2"/>
+                <text name="gender" optionsName="gender" size="1"/>
             </cell>
         </row>
         <row stretch="0">
@@ -95,9 +95,11 @@
             </cell>
         </row>
         <row stretch="0">
-            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
-                <button actionName="ok" default="true"/>
-                <button actionName="cancel"/>
+            <cell columnSpan="4">
+                <boxLayout  border="LOWERED,,," horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
             </cell>
         </row>
     </gridLayout>

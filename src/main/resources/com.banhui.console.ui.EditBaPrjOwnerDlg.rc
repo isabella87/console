@@ -44,9 +44,9 @@
     </options>
     <gridLayout>
         <column stretch="0" alignment="FIRST"/>
+        <column stretch="100" alignment="BOTH"/>
         <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
+        <column stretch="100" alignment="BOTH"/>
         <row stretch="0">
             <cell>
                 <label for="owner-name">企业名称：</label>
@@ -94,13 +94,13 @@
                 <label for="ent-industry">行业：</label>
             </cell>
             <cell>
-                <text name="ent-industry" optionsName="ent-industry" size="10"/>
+                <text name="ent-industry" optionsName="ent-industry" size="6"/>
             </cell>
             <cell>
                 <label for="owner-nature">企业性质：</label>
             </cell>
             <cell>
-                <text name="owner-nature" optionsName="owner-nature" size="10"/>
+                <text name="owner-nature" optionsName="owner-nature" size="6"/>
             </cell>
         </row>
         <row stretch="0">
@@ -108,7 +108,7 @@
                 <label for="owner-strength">企业实力：</label>
             </cell>
             <cell>
-                <text name="owner-strength" optionsName="owner-strength" size="10"/>
+                <text name="owner-strength" optionsName="owner-strength" size="6"/>
             </cell>
             <cell>
                 <label for="owner-quality">企业质量：</label>
@@ -128,9 +128,11 @@
 
         </row>
         <row stretch="0">
-            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
-                <button actionName="ok" default="true"/>
-                <button actionName="cancel"/>
+            <cell columnSpan="4">
+                <boxLayout  border="LOWERED,,," horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
             </cell>
         </row>
     </gridLayout>

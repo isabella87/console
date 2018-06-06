@@ -10,9 +10,6 @@ import org.xx.armory.swing.components.DialogPane;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.banhui.console.rpc.ResultUtils.dateValue;
-import static com.banhui.console.rpc.ResultUtils.decimalValue;
-import static com.banhui.console.rpc.ResultUtils.intValue;
 import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -20,6 +17,7 @@ import static org.xx.armory.swing.UIUtils.assertUIThread;
 
 public class EditBaPrjBorPerDlg
         extends DialogPane {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(EditBaPrjBorPerDlg.class);
 
     private volatile long id;
@@ -90,8 +88,7 @@ public class EditBaPrjBorPerDlg
 
             (this.id == 0 ? new BaPrjBorPersProxy().add(params) : new BaPrjBorPersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(MsgBox::showError)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -108,7 +105,7 @@ public class EditBaPrjBorPerDlg
         new BaPrjBorPersProxy().query(this.id)
                                .thenApplyAsync(Result::map)
                                .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                               .exceptionally(MsgBox::showError);
+                               .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")
@@ -149,12 +146,16 @@ public class EditBaPrjBorPerDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
 
-        this.row = row;
-
-        super.done(OK);
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

@@ -2,6 +2,7 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
+import org.xx.armory.swing.Application;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -27,10 +29,12 @@ public class BrowseProjectsFrame
         super.initUi();
 
         controller().connect("search", this::search);
+        controller().connect("audit",this::audit);
         controller().connect("view", this::view);
         controller().connect("edit", this::edit);
         controller().connect("list", "change", this::listChanged);
 
+        controller().disable("audit");
         controller().disable("view");
         controller().disable("edit");
         controller().disable("delete");
@@ -42,7 +46,7 @@ public class BrowseProjectsFrame
         assertUIThread();
 
         final int dateType = controller().getInteger("date-type");
-        final int status = controller().getInteger("status");
+        final int status = Integer.valueOf(controller().getText("status"));
         final int keyType = controller().getInteger("key-type");
         final String key = controller().getText("search-key");
         final Date startDate = floorOfDay(controller().getDate("start-date"));
@@ -96,7 +100,7 @@ public class BrowseProjectsFrame
         new ProjectProxy().allProjects(params)
                           .thenApplyAsync(Result::list)
                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(MsgBox::showError)
+                          .exceptionally(ErrorHandler::handle)
                           .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -119,6 +123,21 @@ public class BrowseProjectsFrame
 
     }
 
+    //审批
+    private void audit(
+            ActionEvent event
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final long id = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
+        final AuditProjectsDlg dlg = new AuditProjectsDlg(id,status);
+        dlg.setFixedSize(false);
+        showModel(Application.mainFrame(), dlg);
+    }
+
+
     private void listChanged(
             Object event
     ) {
@@ -128,14 +147,17 @@ public class BrowseProjectsFrame
             controller().enable("view");
             controller().enable("edit");
             controller().enable("delete");
+            controller().enable("audit");
         } else if (selectedRows.length > 1) {
             controller().disable("view");
             controller().disable("edit");
             controller().enable("delete");
+            controller().disable("audit");
         } else {
             controller().disable("view");
             controller().disable("edit");
             controller().disable("delete");
+            controller().disable("audit");
         }
     }
 }

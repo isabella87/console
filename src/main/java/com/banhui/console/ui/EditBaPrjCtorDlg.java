@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.dateValue;
-import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.intValue;
-import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -77,7 +75,7 @@ public class EditBaPrjCtorDlg
             (this.id == 0 ? new BaPrjCtrosProxy().add(params) : new BaPrjCtrosProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(MsgBox::showError)
+                    .exceptionally(ErrorHandler::handle)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -94,7 +92,7 @@ public class EditBaPrjCtorDlg
         new BaPrjCtrosProxy().query(this.id)
                              .thenApplyAsync(Result::map)
                              .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                             .exceptionally(MsgBox::showError);
+                             .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")

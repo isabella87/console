@@ -2,7 +2,6 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.BaPrjCtrosProxy;
 import com.banhui.console.rpc.Result;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
@@ -71,7 +70,7 @@ public class BrowseBaPrjCtorsFrame
         new BaPrjCtrosProxy().all(params)
                              .thenApplyAsync(Result::list)
                              .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                             .exceptionally(MsgBox::showError)
+                             .exceptionally(ErrorHandler::handle)
                              .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -137,7 +136,7 @@ public class BrowseBaPrjCtorsFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             logger.debug("ba-prj-engineer {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
@@ -158,7 +157,7 @@ public class BrowseBaPrjCtorsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(years);
+        DateRange dateRange = latestSomeYears(new Date(), years);
         if (dateRange != null) {
             controller().setDate("start-date", dateRange.getStart());
             controller().setDate("end-date", dateRange.getEnd());

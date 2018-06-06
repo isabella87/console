@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="审批"
+        width="750"
+        height="550">
+    <message name="confirm-close"><![CDATA[尚有 <b><u>{}</u></b> 元未还款，确定结清此企业贷吗？]]></message>
+    <message name="confirm-completed"><![CDATA[结清]]></message>
+    <message name="confirm-auctionsPass-text"><![CDATA[该项目将流标，确认吗？]]></message>
+    <message name="confirm-auctionsPass"><![CDATA[不通过且流标]]></message>
+    <message name="confirm-npass-blank"><![CDATA[审批不通过时必须输入备注]]></message>
+    <message name="audit">审批</message>
+    <standardAction value="cancel"/>
+    <action name="pass" title="通过(P)" mnemonic="P"/>
+    <action name="npass" title="不通过(N)" mnemonic="N"/>
+    <action name="auctionsPass" title="不通过(流标)" />
+    <action name="investor" title="生成出借人信息表" />
+    <action name="loan" title="查看放款记录" />
+    <action name="lock" title="锁定"/>
+    <action name="unlock" title="解锁" />
+    <action name="tender" title="查看投标" />
+    <action name="auctions" title="执行流标" />
+    <action name="investment" title="有效投资" />
+    <action name="completed" title="结清" />
+    <options name="status">
+        <!--<option value="0">未提交</option>-->
+        <option value="1">提交</option>
+        <option value="10">项目经理审批</option>
+        <option value="20">风控审批</option>
+        <option value="30">评委会审批</option>
+        <option value="40">业务副总批准上线</option>
+        <option value="50">业务副总中途流标</option>
+        <option value="60">业务副总确认满标</option>
+        <option value="70">财务核收服务费</option>
+        <option value="80">业务副总批准放款</option>
+        <!--<option value="90">正在还款</option>-->
+        <option value="999">结清</option>
+        <!--<option value="-1">流标</option>-->
+    </options>
+    <options name="yes">
+        <option value="1">是</option>
+        <option value="0">否</option>
+    </options>
+    <gridLayout>
+        <column stretch="1" alignment="FIRST"/>
+        <row>
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="60" />
+                    <tableColumn name="opTime" title="时间" type="DATE_TIME" size="180"/>
+                    <tableColumn name="opUser" title="操作人" type="TEXT" size="120"/>
+                    <tableColumn name="aOrder" title="业务操作" type="TEXT" size="160" optionsName="status"/>
+                    <tableColumn name="flag" title="是否通过" type="TEXT" size="80" optionsName="yes"/>
+                    <tableColumn name="comments" title="备注" type="TEXT" size="120"/>
+                </table>
+            </cell>
+        </row>
+            <row stretch="0">
+            <cell  horizontalAlignment="BOTH">
+                <label name="role"></label>
+            </cell>
+        </row>
+        <row stretch="10">
+            <cell>
+                <boxLayout horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <label name="beizhu">备注：</label>
+                <text name="comments" type="TEXT_AREA" rowSize="3" />
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="0">
+            <cell >
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="pass" name="pass"/>
+                    <button actionName="npass" name="npass"/>
+                    <button actionName="auctionsPass" name="auctionsPass"/>
+                    <button actionName="investor" name="investor"/>
+                    <button actionName="tender" name="tender"/>
+                    <button actionName="loan" name="loan" />
+                    <button actionName="investment" name="investment" />
+                    <button actionName="auctions" name="auctions"/>
+                    <button actionName="completed" name="completed"/>
+                    <button actionName="lock" name="lock"/>
+                    <button actionName="unlock" name="unlock"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

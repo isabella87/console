@@ -19,24 +19,28 @@
     <gridLayout>
         <column stretch="1" alignment="FIRST"/>
         <row stretch="0">
-            <cell horizontalAlignment="FIRST">
-                <label mnemonic="D" for="create-date">创建时间(D)：</label>
-                <text name="start-date" type="DATE"/>
-                <literal>-</literal>
-                <text name="end-date" type="DATE"/>
-                <dropDown name="accelerate-date" optionsName="accelerate-date"/>
-                <label mnemonic="K" for="search-key">关键字(K)：</label>
-                <text name="search-key" type="TEXT"/>
-                <button actionName="search" default="true"/>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label mnemonic="D" for="create-date">创建时间(D)：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label mnemonic="K" for="search-key">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
             </cell>
         </row>
         <row stretch="0">
-            <cell horizontalAlignment="FIRST">
-                <button actionName="create"/>
-                <button actionName="edit"/>
-                <button actionName="eng-check"/>
-                <button actionName="mgr-check"/>
-                <button actionName="delete"/>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="edit"/>
+                    <button actionName="eng-check"/>
+                    <button actionName="mgr-check"/>
+                    <button actionName="delete"/>
+                </boxLayout>
             </cell>
         </row>
         <row>

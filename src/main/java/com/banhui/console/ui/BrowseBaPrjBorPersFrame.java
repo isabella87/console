@@ -73,7 +73,7 @@ public class BrowseBaPrjBorPersFrame
         new BaPrjBorPersProxy().all(params)
                                .thenApplyAsync(Result::list)
                                .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                               .exceptionally(MsgBox::showError)
+                               .exceptionally(ErrorHandler::handle)
                                .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -142,7 +142,7 @@ public class BrowseBaPrjBorPersFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             logger.debug("ba-prj-engineer {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
@@ -175,7 +175,7 @@ public class BrowseBaPrjBorPersFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(years);
+        DateRange dateRange = latestSomeYears(new Date(), years);
         if (dateRange != null) {
             controller().setDate("start-date", dateRange.getStart());
             controller().setDate("end-date", dateRange.getEnd());

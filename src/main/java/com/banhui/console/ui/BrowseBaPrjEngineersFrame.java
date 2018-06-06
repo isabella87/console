@@ -71,7 +71,7 @@ public class BrowseBaPrjEngineersFrame
         new BaPrjEngineersProxy().all(params)
                                  .thenApplyAsync(Result::list)
                                  .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                 .exceptionally(MsgBox::showError)
+                                 .exceptionally(ErrorHandler::handle)
                                  .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -140,7 +140,7 @@ public class BrowseBaPrjEngineersFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
@@ -167,7 +167,7 @@ public class BrowseBaPrjEngineersFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(years);
+        DateRange dateRange = latestSomeYears(new Date(), years);
         if (dateRange != null) {
             controller().setDate("start-date", dateRange.getStart());
             controller().setDate("end-date", dateRange.getEnd());

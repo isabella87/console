@@ -3,8 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="后台帐户">
-    <message name="create" >创建</message>
-    <message name="edit" >编辑</message>
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
@@ -43,8 +43,10 @@
             </cell>
         </row>
         <row stretch="100">
-            <cell columnSpan="2" title="所属角色">
-                <listBox name="roles" rowSize="12"/>
+            <cell columnSpan="2">
+                <boxLayout title="所属角色">
+                    <listBox name="roles" rowSize="12"/>
+                </boxLayout>
             </cell>
         </row>
         <row stretch="0">
@@ -52,13 +54,15 @@
                 <label mnemonic="D" for="createDate">修改日期(D)：</label>
             </cell>
             <cell>
-                <text name="create-date"/>
+                <text name="create-date" type="DATE_TIME"/>
             </cell>
         </row>
         <row stretch="0">
-            <cell columnSpan="2" border="TOP" horizontalAlignment="CENTER">
-                <button actionName="ok" default="true"/>
-                <button actionName="cancel"/>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <boxLayout border="LOWERED,,EMPTY," horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
             </cell>
         </row>
     </gridLayout>

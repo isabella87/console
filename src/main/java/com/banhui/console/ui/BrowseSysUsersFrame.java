@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.banhui.console.ui.MsgBox.showConfirm;
+import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.ComponentUtils.updateDropDown;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -44,7 +44,7 @@ public class BrowseSysUsersFrame
         new SysProxy().allRoles(null)
                       .thenApplyAsync(Result::list)
                       .thenAcceptAsync(this::updateRoles, UPDATE_UI)
-                      .exceptionally(MsgBox::showError);
+                      .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")
@@ -84,7 +84,7 @@ public class BrowseSysUsersFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
             tableModel.setAllRows(c);
@@ -147,7 +147,7 @@ public class BrowseSysUsersFrame
         final String userName = tableModel.getStringByName(selectedRow, "userName");
 
         final String message = controller().formatMessage("confirm-reset-password", userName);
-        if (showConfirm(message)) {
+        if (confirm(message)) {
             controller().disable("reset-password");
 
             new SysProxy().resetPassword(userName)
@@ -169,7 +169,7 @@ public class BrowseSysUsersFrame
 
         final String message = controller().formatMessage("confirm-delete", userName);
         final String expectedValue = controller().getMessage("confirm-delete-expected");
-        if (showConfirm(message, expectedValue)) {
+        if (confirm(message, expectedValue)) {
             controller().disable("delete");
 
             new SysProxy().delete(userName)
@@ -199,7 +199,7 @@ public class BrowseSysUsersFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         }
 
         controller().enable("reset-password");
@@ -210,7 +210,7 @@ public class BrowseSysUsersFrame
             Throwable t
     ) {
         if (t != null) {
-            MsgBox.showError(t);
+            ErrorHandler.handle(t);
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();

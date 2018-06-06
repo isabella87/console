@@ -10,10 +10,7 @@ import org.xx.armory.swing.components.DialogPane;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.banhui.console.rpc.ResultUtils.dateValue;
-import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.intValue;
-import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -72,7 +69,7 @@ public class EditBaPrjGuaranteePerDlg
             (this.id == 0 ? new BaPrjGuaranteePersProxy().add(params) : new BaPrjGuaranteePersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(MsgBox::showError)
+                    .exceptionally(ErrorHandler::handle)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -89,7 +86,7 @@ public class EditBaPrjGuaranteePerDlg
         new BaPrjGuaranteePersProxy().query(this.id)
                                      .thenApplyAsync(Result::map)
                                      .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                     .exceptionally(MsgBox::showError);
+                                     .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")

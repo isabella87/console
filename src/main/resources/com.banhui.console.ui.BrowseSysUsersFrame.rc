@@ -17,25 +17,29 @@
     <gridLayout>
         <column stretch="1" alignment="FIRST"/>
         <row stretch="0">
-            <cell horizontalAlignment="FIRST">
-                <label for="role-name" mnemonic="R">角色(R)：</label>
-                <dropDown name="role-name"/>
-                <label for="enabled" mnemonic="E">是否启用(E)：</label>
-                <dropDown name="enabled" includeAll="true">
-                    <option value="1">是</option>
-                    <option value="0">否</option>
-                </dropDown>
-                <label for="search-key" mnemonic="K">关键字(K)：</label>
-                <text name="search-key" type="TEXT"/>
-                <button actionName="search" default="true"/>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="role-name" mnemonic="R">角色(R)：</label>
+                    <dropDown name="role-name"/>
+                    <label for="enabled" mnemonic="E">是否启用(E)：</label>
+                    <dropDown name="enabled" includeAll="true">
+                        <option value="1">是</option>
+                        <option value="0">否</option>
+                    </dropDown>
+                    <label for="search-key" mnemonic="K">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
             </cell>
         </row>
         <row stretch="0">
-            <cell horizontalAlignment="FIRST">
-                <button actionName="create"/>
-                <button actionName="edit"/>
-                <button actionName="reset-password"/>
-                <button actionName="delete"/>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="edit"/>
+                    <button actionName="reset-password"/>
+                    <button actionName="delete"/>
+                </boxLayout>
             </cell>
         </row>
         <row>

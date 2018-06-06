@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.swing.components.DialogPane;
 
-import javax.swing.text.JTextComponent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +20,7 @@ import static org.xx.armory.swing.UIUtils.assertUIThread;
 
 public class EditBaPrjEngineerDlg
         extends DialogPane {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(EditBaPrjEngineerDlg.class);
 
     private volatile long id;
@@ -81,7 +81,7 @@ public class EditBaPrjEngineerDlg
             (this.id == 0 ? new BaPrjEngineersProxy().add(params) : new BaPrjEngineersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(MsgBox::showError)
+                    .exceptionally(ErrorHandler::handle)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -98,7 +98,7 @@ public class EditBaPrjEngineerDlg
         new BaPrjEngineersProxy().query(this.id)
                                  .thenApplyAsync(Result::map)
                                  .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                 .exceptionally(MsgBox::showError);
+                                 .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")
@@ -138,7 +138,6 @@ public class EditBaPrjEngineerDlg
     private void saveCallback(
             Map<String, Object> row
     ) {
-
         this.row = row;
 
         super.done(OK);

@@ -37,8 +37,7 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years" size="10"/>
-                <label>年</label>
+                <text name="reg-years" size="10" suffix="年"/>
             </cell>
         </row>
         <row stretch="0">
@@ -46,8 +45,7 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" size="10"/>
-                <label>万元</label>
+                <text name="reg-funds" size="10" suffix="万元"/>
             </cell>
         </row>
         <row stretch="0">
@@ -113,9 +111,7 @@
                 <label for="ranking">行业地位：</label>
             </cell>
             <cell>
-                <label>第</label>
-                <text name="ranking" size="5"/>
-                <label>位</label>
+                <text name="ranking" size="5" prefix="第" suffix="位"/>
             </cell>
             <cell>
                 <label for="qualification">行业资质：</label>
@@ -163,9 +159,11 @@
             </cell>
         </row>
         <row stretch="0">
-            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
-                <button actionName="ok" default="true"/>
-                <button actionName="cancel"/>
+            <cell columnSpan="4">
+                <boxLayout  border="LOWERED,,," horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
             </cell>
         </row>
     </gridLayout>

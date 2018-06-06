@@ -88,13 +88,13 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years"/>
+                <text name="reg-years" size="10"/>
             </cell>
             <cell>
                 <label for="show-reg-years">展示注册年限：</label>
             </cell>
             <cell>
-                <text name="show-reg-years"/>
+                <text name="show-reg-years" size="10"/>
             </cell>
         </row>
         <row stretch="0">
@@ -102,13 +102,13 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" suffix="万元"/>
+                <text name="reg-funds" size="10" suffix="万元"/>
             </cell>
             <cell>
-                <label for="show-reg-funds">展示注册资金：大于等于</label>
+                <label for="show-reg-funds">展示注册资金：</label>
             </cell>
             <cell>
-                <text name="show-reg-funds" suffix="万元"/>
+                <text name="show-reg-funds" prefix="大于等于>=" suffix="万元" size="8"/>
             </cell>
         </row>
         <row stretch="0">
@@ -116,13 +116,13 @@
                 <label for="lasted-area">上一年度施工面积：</label>
             </cell>
             <cell>
-                <text name="lasted-area" suffix="平米"/>
+                <text name="lasted-area" suffix="平米" size="10"/>
             </cell>
             <cell>
                 <label for="lasted-output">上一年度产值：</label>
             </cell>
             <cell>
-                <text name="lasted-output" suffix="亿"/>
+                <text name="lasted-output" suffix="亿" size="10"/>
             </cell>
         </row>
         <row stretch="0">
@@ -138,13 +138,13 @@
                 <label for="nation-prize-count">全国性工程奖：</label>
             </cell>
             <cell>
-                <text name="nation-prize-count" suffix="次"/>
+                <text name="nation-prize-count" size="10" suffix="次"/>
             </cell>
             <cell>
                 <label for="provin-prize-count">省级工程奖：</label>
             </cell>
             <cell>
-                <text name="provin-prize-count" suffix="次"/>
+                <text name="provin-prize-count" size="10" suffix="次"/>
             </cell>
         </row>
         <row stretch="0">
@@ -153,13 +153,12 @@
             </cell>
             <cell columnSpan="7" horizontalAlignment="BOTH">
                 <text name="intro" type="TEXT_AREA" rowSize="6"/>
-
             </cell>
 
         </row>
 
         <row stretch="0">
-            <cell columnSpan="4" border="TOP" horizontalAlignment="CENTER">
+            <cell columnSpan="4" border="LOWERED,,," horizontalAlignment="CENTER">
                 <button actionName="ok" default="true"/>
                 <button actionName="cancel"/>
             </cell>

@@ -2,7 +2,6 @@ package com.banhui.console.ui;
 
 
 import com.banhui.console.rpc.BaPrjBorOrgsProxy;
-import com.banhui.console.rpc.BaPrjEngineersProxy;
 import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,6 @@ import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.dateValue;
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
-import static com.banhui.console.rpc.ResultUtils.intValue;
-import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -96,7 +93,7 @@ public class EditBaPrjBorOrgDlg
             (this.id == 0 ? new BaPrjBorOrgsProxy().add(params) : new BaPrjBorOrgsProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(MsgBox::showError)
+                    .exceptionally(ErrorHandler::handle)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -113,7 +110,7 @@ public class EditBaPrjBorOrgDlg
         new BaPrjBorOrgsProxy().query(this.id)
                                .thenApplyAsync(Result::map)
                                .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                               .exceptionally(MsgBox::showError);
+                               .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")

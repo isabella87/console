@@ -5,17 +5,16 @@
         title="贷款项目"
         width="800"
         height="600">
-    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
-    <action name="create" title="创建(C)" mnemonic="C" smallIcon="create.png"/>
-    <action name="audit" title="审批(A)" mnemonic="A"/>
+    <action name="create" title="发起还款(R)" mnemonic="R"/>
     <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
     <action name="delete" title="删除(X)" mnemonic="X"/>
+    <action name="approve" title="审批" />
     <action name="prj-sign" title="项目签章"/>
     <action name="credit-sign" title="债权签章"/>
     <action name="repay" title="还款"/>
     <action name="hide" title="隐藏"/>
-    <action name="top" title="置顶"/>
+    <action name="to-top" title="置顶"/>
     <action name="repayed-upload-record" title="查看还款文件上传记录(A)" mnemonic="A"/>
     <action name="loaded-upload-record" title="查看放款文件上传记录(B)" mnemonic="B"/>
     <options name="status">
@@ -40,39 +39,33 @@
     <gridLayout>
         <column stretch="1" alignment="FIRST"/>
         <row stretch="0">
-            <cell>
-                <boxLayout horizontalAlignment="FIRST">
-                    <dropDown name="date-type">
-                        <option value="1">创建时间：</option>
-                        <option value="2">上线时间：</option>
-                        <option value="3">放款时间：</option>
-                        <option value="4">预计还本时间：</option>
-                        <option value="5">结清时间：</option>
-                    </dropDown>
-                    <text name="start-date" type="DATE"/>
-                    <literal>-</literal>
-                    <text name="end-date" type="DATE"/>
-                    <dropDown name="status" includeAll="true" optionsName="status"/>
-                    <dropDown name="key-type">
-                        <option value="1">编号：</option>
-                        <option value="2">名称：</option>
-                        <option value="3">融资方：</option>
-                        <option value="3">创建人：</option>
-                    </dropDown>
-                    <text name="search-key" type="TEXT"/>
-                    <button actionName="search" default="true"/>
-                </boxLayout>
+            <cell horizontalAlignment="FIRST">
+                <dropDown name="date-type">
+                    <option value="1">创建时间：</option>
+                    <option value="2">上线时间：</option>
+                    <option value="3">放款时间：</option>
+                    <option value="4">预计还本时间：</option>
+                    <option value="5">结清时间：</option>
+                </dropDown>
+                <text name="start-date" type="DATE"/>
+                <literal>-</literal>
+                <text name="end-date" type="DATE"/>
+                <dropDown name="status" includeAll="true" optionsName="status"/>
+                <dropDown name="key-type">
+                    <option value="1">编号：</option>
+                    <option value="2">名称：</option>
+                    <option value="3">融资方：</option>
+                    <option value="3">创建人：</option>
+                </dropDown>
+                <text name="search-key" type="TEXT"/>
+                <button actionName="search" default="true"/>
             </cell>
         </row>
         <row stretch="0">
-            <cell>
-                <boxLayout horizontalAlignment="FIRST">
-                    <button actionName="create"/>
-                    <button actionName="audit"/>
-                    <button actionName="view"/>
-                    <button actionName="edit"/>
-                    <button actionName="delete"/>
-                </boxLayout>
+            <cell horizontalAlignment="FIRST">
+                <button actionName="view"/>
+                <button actionName="edit"/>
+                <button actionName="delete"/>
             </cell>
         </row>
         <row>
