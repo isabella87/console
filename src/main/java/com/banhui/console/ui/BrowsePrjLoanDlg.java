@@ -56,7 +56,10 @@ public class BrowsePrjLoanDlg extends DialogPane {
     private void refresh(
             ActionEvent actionEvent
     ) {
-        new BrowsePrjLoanDlg(id);
+        new ProjectProxy().queryLoans(id)
+                          .thenApplyAsync(Result::map)
+                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                          .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")
@@ -81,7 +84,7 @@ public class BrowsePrjLoanDlg extends DialogPane {
                 sum2 = sum2 + execute;
             }
         }
-        controller().setText("progress", "已执行金额：" + sum2 + " 元  " + "总共金额: " + (sum1 + sum2) + " 元");
+        controller().setText("progress", "已执行金额" + sum2 + "元  " + "总共金额:" + (sum1 + sum2) + "元");
     }
 
     private void saveCallback(

@@ -47,6 +47,14 @@ public class ProjectProxy
         return super.http().post("mgr/trans/cancel-tender/" + tct_id + "/execution", null);
     }
 
+    //输入服务费
+    public CompletableFuture<Result> updatePrjBond(
+            Map<String, Object> params,
+            long id
+    ) {
+        return super.http().post("mgr/prj/" + id + "/bond", params);
+    }
+
     //查看放款记录
     public CompletableFuture<Result> queryLoans(
             long id

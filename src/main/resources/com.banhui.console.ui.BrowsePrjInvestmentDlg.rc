@@ -6,7 +6,7 @@
         width="1000"
         height="600">
     <message name="title">有效投资</message>
-    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <!--<action name="search" title="搜索(S)" mnemonic="S"/>-->
     <action name="excel" title="导出Excel"/>
     <options name="s-type">
         <option value="1">投标</option>

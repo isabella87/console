@@ -128,8 +128,8 @@
 
         </row>
         <row stretch="0">
-            <cell columnSpan="4">
-                <boxLayout  border="LOWERED,,," horizontalAlignment="CENTER">
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout border="LOWERED,,," horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>

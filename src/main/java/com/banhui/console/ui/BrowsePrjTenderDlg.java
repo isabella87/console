@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 
@@ -47,7 +48,6 @@ public class BrowsePrjTenderDlg extends DialogPane {
     protected void initUi() {
         super.initUi();
         controller().disable("revoke");
-        controller().disable("midway");
         controller().connect("list", "change", this::listChanged);
 
         controller().connect("revoke", this::revoke);//撤销投标
@@ -60,8 +60,9 @@ public class BrowsePrjTenderDlg extends DialogPane {
     private void midway(
             ActionEvent actionEvent
     ) {
-        int n = JOptionPane.showConfirmDialog(null, "将“整个项目”中途流标，此操作无法撤销！确认吗？", "操作", JOptionPane.YES_NO_OPTION);
-        if (n == JOptionPane.YES_OPTION) {
+        String confirmTenderText = controller().formatMessage("confirm-tender-text");
+        String confirmComplete = controller().formatMessage("confirm-complete");
+        if (confirm(confirmTenderText, confirmComplete)) {
             final Map<String, Object> params = new HashMap<>();
             if (this.id != 0) {
                 params.put("p-id", id);
@@ -81,14 +82,17 @@ public class BrowsePrjTenderDlg extends DialogPane {
             ActionEvent actionEvent
     ) {
         controller().disable("revoke");
-        final Map<String, Object> params = new HashMap<>();
-        params.put("remark", null);
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long ttId = tableModel.getNumberByName(table.getSelectedRow(), "ttId");
-        new ProjectProxy().createTsCancelTender(ttId, params)
-                          .thenApplyAsync(Result::map)
-                          .whenCompleteAsync(this::delCallback, UPDATE_UI);
+        String confirmRevokeText = controller().formatMessage("confirm-revoke-text");
+        if (confirm(confirmRevokeText)) {
+            final Map<String, Object> params = new HashMap<>();
+            params.put("remark", null);
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+            final long ttId = tableModel.getNumberByName(table.getSelectedRow(), "ttId");
+            new ProjectProxy().createTsCancelTender(ttId, params)
+                              .thenApplyAsync(Result::map)
+                              .whenCompleteAsync(this::delCallback, UPDATE_UI);
+        }
     }
 
 

@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -119,15 +120,18 @@ public class BrowseBaPrjGuaranteePersFrame
     private void delete(
             ActionEvent event
     ) {
-        controller().disable("delete");
+        String confirmDeleteText = controller().formatMessage("confirm-delete-text");
+        if (confirm(confirmDeleteText)) {
+            controller().disable("delete");
 
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bgpId");
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+            final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bgpId");
 
-        new BaPrjGuaranteePersProxy().del(bpeId)
-                                     .thenApplyAsync(Result::map)
-                                     .whenCompleteAsync(this::delCallback, UPDATE_UI);
+            new BaPrjGuaranteePersProxy().del(bpeId)
+                                         .thenApplyAsync(Result::map)
+                                         .whenCompleteAsync(this::delCallback, UPDATE_UI);
+        }
     }
 
     private void delCallback(

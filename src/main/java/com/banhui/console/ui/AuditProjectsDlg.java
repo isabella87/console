@@ -11,7 +11,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.OptionalLong;
@@ -41,13 +40,11 @@ public class AuditProjectsDlg extends DialogPane {
         new ProjectProxy().queryAudit(id)
                           .thenApplyAsync(Result::list)
                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle)
-                          .thenAcceptAsync(v -> controller().enable("audit"), UPDATE_UI);
+                          .exceptionally(ErrorHandler::handle);
         getUi();
         new ProjectProxy().prjLockStatus(id)
                           .thenApplyAsync(Result::longValue)
                           .thenAcceptAsync(this::lockStatus, UPDATE_UI);
-
     }
 
     @Override
@@ -74,6 +71,26 @@ public class AuditProjectsDlg extends DialogPane {
         controller().hide("beizhu");
         controller().hide("auctionsPass");
         controller().hide("completed");
+        controller().hide("lock");
+        controller().hide("unlock");
+    }
+
+    private void lockStatus(
+            OptionalLong status
+    ) {
+        if (status.getAsLong() == 1) {
+            controller().hide("pass");
+            controller().hide("npass");
+            controller().hide("auctions");
+            controller().hide("auctionsPass");
+            controller().hide("completed");
+            controller().hide("lock");
+            controller().hide("beizhu");
+            controller().hide("comments");
+        } else {
+            controller().show("lock");
+            controller().hide("unlock");
+        }
     }
 
     //锁定
@@ -125,7 +142,7 @@ public class AuditProjectsDlg extends DialogPane {
         String confirmClose = controller().formatMessage("confirm-close", unPaidAmt);
         String confirmCompleted = controller().formatMessage("confirm-completed");
 
-        if (confirm(confirmClose,confirmCompleted)) {
+        if (confirm(confirmClose, confirmCompleted)) {
             new ProjectProxy().completedPrj(id)
                               .thenApplyAsync(Result::map)
                               .thenAcceptAsync(this::saveCallback, UPDATE_UI)
@@ -233,19 +250,31 @@ public class AuditProjectsDlg extends DialogPane {
             ActionEvent actionEvent
     ) {
         final Map<String, Object> params = new HashMap<>();
-        controller().disable("pass");
-        controller().disable("npass");
+//        controller().disable("pass");
+//        controller().disable("npass");
         if (this.id != 0) {
             params.put("p-id", id);
         }
         params.put("flag", true);
         params.put("comments", controller().getText("comments").trim());
         params.put("signature", null);
-        if(role==60){
-            inputText("输入财务核收服务费","0");
+        if (role == 60) {
+            String bondText = inputText("输入财务核收服务费", "0");
+            long bond;
+            if (bondText != null) {
+                bond = Long.valueOf(bondText);
+            } else {
+                return;
+            }
+            final Map<String, Object> params2 = new HashMap<>();
+            params2.put("bond_amt", bond);
+            new ProjectProxy().updatePrjBond(params2, this.id)
+                              .thenApplyAsync(Result::map)
+                              .thenAcceptAsync(this::saveCallback, UPDATE_UI)
+                              .exceptionally(ErrorHandler::handle)
+                              .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
         }
         doAudit(params);
-
     }
 
     public void doAudit(
@@ -329,23 +358,6 @@ public class AuditProjectsDlg extends DialogPane {
         super.done(OK);
     }
 
-    private void lockStatus(
-            OptionalLong status
-    ) {
-        if (status.getAsLong() == 1) {
-            controller().hide("pass");
-            controller().hide("npass");
-            controller().hide("auctions");
-            controller().hide("auctionsPass");
-            controller().hide("completed");
-            controller().hide("lock");
-            controller().hide("beizhu");
-            controller().hide("comments");
-        } else {
-            controller().show("lock");
-            controller().hide("unlock");
-        }
-    }
 
     public Map<String, Object> getResultRow() {
         return this.row;
@@ -380,7 +392,6 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("beizhu");
                 break;
             case 40:
-                controller().setText("role", "募集中");
                 controller().show("tender");
                 controller().show("auctions");
                 controller().hide("npass");
@@ -413,7 +424,6 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("auctionsPass");
                 break;
             case 80:
-                controller().setText("role", "已放款");
                 controller().show("investor");
                 controller().show("tender");
                 controller().show("loan");
@@ -423,7 +433,6 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("comments");
                 break;
             case 90:
-                controller().setText("role", "正在还款");
                 controller().show("investor");
                 controller().show("tender");
                 controller().show("loan");
@@ -435,7 +444,6 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("comments");
                 break;
             case 999:
-                controller().setText("role", "已结清");
                 controller().show("investor");
                 controller().show("tender");
                 controller().show("loan");
@@ -446,7 +454,6 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("comments");
                 break;
             case -1:
-                controller().setText("role", "已流标");
                 controller().show("auctions");
                 controller().show("tender");
                 controller().hide("npass");

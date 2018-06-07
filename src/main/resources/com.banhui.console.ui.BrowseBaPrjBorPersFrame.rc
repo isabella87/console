@@ -5,6 +5,7 @@
         title="借款个人"
         width="800"
         height="600">
+    <message name="confirm-delete-text"><![CDATA[确定删除吗？]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="create" title="创建(C)" mnemonic="C"/>
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>

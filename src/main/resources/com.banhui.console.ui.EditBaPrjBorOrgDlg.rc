@@ -293,7 +293,7 @@
             </gridLayout>
         </tab>
     </tabLayout>
-    <boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
         <button actionName="ok" default="true"/>
         <button actionName="cancel"/>
     </boxLayout>

@@ -7,8 +7,8 @@
         height="550">
     <message name="confirm-close"><![CDATA[尚有 <b><u>{}</u></b> 元未还款，确定结清此企业贷吗？]]></message>
     <message name="confirm-completed"><![CDATA[结清]]></message>
-    <message name="confirm-auctionsPass-text"><![CDATA[该项目将流标，确认吗？]]></message>
-    <message name="confirm-auctionsPass"><![CDATA[不通过且流标]]></message>
+    <message name="confirm-auctionsPass-text"><![CDATA[该项目将流标，此操作无法撤销！确认吗？]]></message>
+    <message name="confirm-auctionsPass"><![CDATA[不通过]]></message>
     <message name="confirm-npass-blank"><![CDATA[审批不通过时必须输入备注]]></message>
     <message name="audit">审批</message>
     <standardAction value="cancel"/>
@@ -62,15 +62,15 @@
             </cell>
         </row>
         <row stretch="10">
-            <cell>
-                <boxLayout horizontalAlignment="BOTH" verticalAlignment="BOTH">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <boxLayout>
                 <label name="beizhu">备注：</label>
-                <text name="comments" type="TEXT_AREA" rowSize="3" />
+                <text name="comments" type="TEXT_AREA" rowSize="3" size="55"/>
                 </boxLayout>
             </cell>
         </row>
         <row stretch="0">
-            <cell >
+            <cell horizontalAlignment="BOTH">
                 <boxLayout horizontalAlignment="CENTER">
                     <button actionName="pass" name="pass"/>
                     <button actionName="npass" name="npass"/>
