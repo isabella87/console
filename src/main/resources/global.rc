@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="">
+    <message name="error-input-format">输入数据格式不正确。</message>
+    <message name="error-rpc-not-found">找不到服务。</message>
+    <message name="error-rpc-access-denied">没有足够的权限，请重新登录或者请管理员分配更多的权限。。</message>
+    <message name="error-rpc-server-internal">服务端内部错误。</message>
+    <message name="error-rpc-detail"><![CDATA[方法：{}
+地址：{}]]></message>
+</ui>

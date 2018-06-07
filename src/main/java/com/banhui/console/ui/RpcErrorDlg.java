@@ -1,6 +1,7 @@
 package com.banhui.console.ui;
 
 import com.banhui.console.rpc.RpcException;
+import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.ErrorDialog;
 
 public class RpcErrorDlg
@@ -21,13 +22,13 @@ public class RpcErrorDlg
     protected String getMessage() {
         switch (getThrowable().getStatusCode()) {
             case 403:
-                return "没有足够的权限，请重新登录或者请管理员分配更多的权限。";
+                return UIControllers.GLOBAL.getMessage("error-rpc-access-denied");
             case 404:
-                return "找不到服务。";
+                return UIControllers.GLOBAL.getMessage("error-rpc-not-found");
             case 500:
                 final String content = getThrowable().getMessage();
                 if (content.isEmpty()) {
-                    return "服务端内部错误";
+                    return UIControllers.GLOBAL.getMessage("error-rpc-server-internal");
                 } else {
                     final int p1 = content.indexOf('*');
                     return content.substring(p1 + 1);
@@ -42,6 +43,6 @@ public class RpcErrorDlg
      */
     @Override
     protected String getDetail() {
-        return "访问方法：" + getThrowable().getMethod() + "\n访问地址：" + getThrowable().getUri();
+        return UIControllers.GLOBAL.formatMessage("error-rpc-detail", getThrowable().getMethod(), getThrowable().getUri());
     }
 }

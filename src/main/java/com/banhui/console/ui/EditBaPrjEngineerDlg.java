@@ -37,6 +37,8 @@ public class EditBaPrjEngineerDlg
             setTitle(controller().getMessage("edit") + getTitle());
             updateData();
         }
+
+        controller().connect("", "verify-error", MsgUtils::verifyError);
     }
 
     @Override

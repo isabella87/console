@@ -9,10 +9,11 @@ import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.ImageBox;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.xx.armory.swing.ComponentUtils.focusInWindow;
 import static org.xx.armory.swing.DialogUtils.fail;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
@@ -44,7 +45,7 @@ public class SignInDlg
             final String captchaCode = controller().getText("captcha-code").trim();
 
             if (loginName.isEmpty() || password.isEmpty() || captchaCode.isEmpty()) {
-                controller().get(JComponent.class, "login-name").requestFocus();
+                focusInWindow(controller().get(JComponent.class, "login-name"));
                 return;
             }
 
@@ -57,9 +58,8 @@ public class SignInDlg
 
             new AuthenticationProxy().signIn(params)
                                      .thenApplyAsync(r -> r.booleanValue().orElse(false))
-                                     .thenAcceptAsync(this::signInCallback, UPDATE_UI)
-                                     .exceptionally(ErrorHandler::handle)
-                                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
+                                     //.exceptionally(UIUtils::defaultDumpThrowable)
+                                     .whenCompleteAsync(this::signInCallback, UPDATE_UI);
         } else {
             super.done(result);
         }
@@ -86,8 +86,13 @@ public class SignInDlg
     }
 
     private void signInCallback(
-            boolean result
+            Boolean result,
+            Throwable throwable
     ) {
+        if (throwable != null) {
+            ErrorHandler.handle(throwable);
+        }
+
         if (result) {
             super.done(OK);
         } else {
@@ -95,7 +100,9 @@ public class SignInDlg
 
             controller().setText("password", null);
             controller().setText("captcha-code", null);
-            controller().get(JComponent.class, "password").requestFocusInWindow();
+            focusInWindow(controller().get(JComponent.class, "password"));
         }
+
+        controller().enable("ok");
     }
 }
