@@ -7,10 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
 
 public abstract class LocalResult
         implements Result {
@@ -21,16 +17,16 @@ public abstract class LocalResult
      * {@inheritDoc}
      */
     @Override
-    public OptionalInt intValue() {
-        return OptionalInt.empty();
+    public int intValue() {
+        return 0;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OptionalLong longValue() {
-        return OptionalLong.empty();
+    public long longValue() {
+        return 0L;
     }
 
     /**
@@ -45,32 +41,32 @@ public abstract class LocalResult
      * {@inheritDoc}
      */
     @Override
-    public Optional<Boolean> booleanValue() {
-        return Optional.empty();
+    public boolean booleanValue() {
+        return false;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<BigDecimal> decimalValue() {
-        return Optional.empty();
+    public BigDecimal decimalValue() {
+        return BigDecimal.ZERO;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OptionalDouble doubleValue() {
-        return OptionalDouble.empty();
+    public double doubleValue() {
+        return 0D;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<Date> dateValue() {
-        return Optional.empty();
+    public Date dateValue() {
+        return new Date(0L);
     }
 
     /**

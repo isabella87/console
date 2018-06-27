@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="账户管理-发送短信"
+>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="create" title="创建消息(C)" mnemonic="S"/>
+    <action name="edit" title="查看(C)" mnemonic="S"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="status">
+        <option value="0">未发送</option>
+        <option value="1">失败</option>
+        <option value="2">成功</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label mnemonic="D" for="create-date">发送日期(D)：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label mnemonic="K" for="search-key">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="edit"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="amId" title="ID" type="NUMBER" size="60"/>
+                    <tableColumn name="createTime" title="发送时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="loginName" title="收件人登录名" type="TEXT" size="100"/>
+                    <tableColumn name="realName" title="收件人姓名" type="TEXT" size="160"/>
+                    <tableColumn name="title" title="标题" type="TEXT" size="200"/>
+                    <tableColumn name="brief" title="摘要" type="TEXT" size="260"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

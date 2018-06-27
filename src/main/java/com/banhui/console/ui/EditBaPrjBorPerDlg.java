@@ -37,12 +37,6 @@ public class EditBaPrjBorPerDlg
     }
 
     @Override
-    protected void initUi() {
-        super.initUi();
-
-    }
-
-    @Override
     public void done(
             int result
     ) {
@@ -108,9 +102,8 @@ public class EditBaPrjBorPerDlg
                                .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("real-name", stringValue(data, "realName"));
         controller().setText("show-name", stringValue(data, "showName"));

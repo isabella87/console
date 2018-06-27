@@ -4,10 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
 
 /**
  * Rpc调用的结果。
@@ -16,16 +12,20 @@ public interface Result {
     /**
      * 获得返回结果的整数形式。
      *
-     * @return 返回结果的整数形式，如果响应结果无法被解析为整数则返回{@link Optional#empty()}。
+     * @return 返回结果的整数形式。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化为整数。
      */
-    OptionalInt intValue();
+    int intValue();
 
     /**
      * 获得返回结果的长整数形式。
      *
-     * @return 返回结果的长整数形式，如果响应结果无法被解析为长整数则返回{@link Optional#empty()}。
+     * @return 返回结果的长整数形式。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化为长整数。
      */
-    OptionalLong longValue();
+    long longValue();
 
     /**
      * 获得返回结果的字符串形式。
@@ -35,34 +35,40 @@ public interface Result {
     String stringValue();
 
     /**
-     * 获得返回结果的布尔形式。
+     * 获得返回结果的布尔值。
      *
-     * @return 返回结果的布尔形式，如果响应结果无法被解析为布尔值则返回{@link Optional#empty()}。
+     * @return 返回结果的布尔值。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化布尔值。
      */
-    Optional<Boolean> booleanValue();
+    boolean booleanValue();
 
     /**
-     * 获得返回结果的十进制数形式。
+     * 获得返回结果的十进制值。
      *
-     * @return 返回结果的十进制数形式，如果响应结果无法被解析为十进制数则返回{@link Optional#empty()}。
+     * @return 返回结果的十进制值。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化为十进制值。
      */
-    Optional<BigDecimal> decimalValue();
+    BigDecimal decimalValue();
 
     /**
-     * 获得返回结果的双精度数形式。
+     * 获得返回结果的双精度值。
      *
-     * @return 返回结果的双精度数形式，如果响应结果无法被解析为双精度数则返回{@link Optional#empty()}。
+     * @return 返回结果的双精度数值。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化为双精度值。
      */
-    OptionalDouble doubleValue();
+    double doubleValue();
 
     /**
-     * 获得返回结果的日期形式。
+     * 获得返回结果的日期值。
      *
-     * <p>首先将返回结果解析为长整数，然后作为时间戳转化为日期。</p>
-     *
-     * @return 返回结果的日期形式，如果响应结果无法被解析为日期则返回{@link Optional#empty()}。
+     * @return 返回结果的日期值。
+     * @throws IllegalStateException
+     *         如果响应结果无法被转化为日期值。
      */
-    Optional<Date> dateValue();
+    Date dateValue();
 
     /**
      * 获得返回结果的数组形式。

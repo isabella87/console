@@ -5,7 +5,6 @@ import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.Application;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -33,10 +32,7 @@ public class BrowseBaPrjBorPersFrame
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected void initUi() {
-        super.initUi();
-
+    public BrowseBaPrjBorPersFrame() {
         controller().connect("search", this::search);
         controller().connect("create", this::create);
         controller().connect("edit", this::edit);
@@ -95,7 +91,7 @@ public class BrowseBaPrjBorPersFrame
         final EditBaPrjBorPerDlg dlg = new EditBaPrjBorPerDlg(0);
         dlg.setFixedSize(false);
 
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
@@ -115,7 +111,7 @@ public class BrowseBaPrjBorPersFrame
         final EditBaPrjBorPerDlg dlg = new EditBaPrjBorPerDlg(id);
         dlg.setFixedSize(false);
 
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
@@ -128,7 +124,7 @@ public class BrowseBaPrjBorPersFrame
             ActionEvent event
     ) {
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
-        if (confirm(confirmDeleteText)) {
+        if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
 
             final JTable table = controller().get(JTable.class, "list");

@@ -8,9 +8,9 @@
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="100" alignment="BOTH"/>
-        <row stretch="0">
+        <column stretch="0"/>
+        <column/>
+        <row>
             <cell>
                 <label mnemonic="U" for="user-name">登录名(U)：</label>
             </cell>
@@ -18,7 +18,7 @@
                 <text name="user-name"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label mnemonic="M" for="mobile">手机号码(M)：</label>
             </cell>
@@ -26,7 +26,7 @@
                 <text name="mobile"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label mnemonic="I" for="email">电子邮箱(I)：</label>
             </cell>
@@ -34,7 +34,7 @@
                 <text name="email"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label mnemonic="E" for="enabled">是否启用(E)：</label>
             </cell>
@@ -43,13 +43,13 @@
             </cell>
         </row>
         <row stretch="100">
-            <cell columnSpan="2">
-                <boxLayout title="所属角色">
+            <cell columnSpan="2" horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <boxLayout title="所属角色" name="roles-box">
                     <listBox name="roles" rowSize="12"/>
                 </boxLayout>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label mnemonic="D" for="createDate">修改日期(D)：</label>
             </cell>
@@ -57,9 +57,14 @@
                 <text name="create-date" type="DATE_TIME"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell columnSpan="2" horizontalAlignment="BOTH">
-                <boxLayout border="LOWERED,,EMPTY," horizontalAlignment="CENTER">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>

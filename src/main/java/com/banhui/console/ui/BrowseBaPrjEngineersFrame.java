@@ -5,7 +5,6 @@ import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.Application;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -28,16 +27,13 @@ import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseBaPrjEngineersFrame
         extends InternalFramePane {
-
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(BrowseBaPrjEngineersFrame.class);
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected void initUi() {
-        super.initUi();
-
+    public BrowseBaPrjEngineersFrame() {
         controller().connect("search", this::search);
         controller().connect("create", this::create);
         controller().connect("edit", this::edit);
@@ -71,16 +67,21 @@ public class BrowseBaPrjEngineersFrame
         controller().disable("search");
         new BaPrjEngineersProxy().all(params)
                                  .thenApplyAsync(Result::list)
-                                 .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                 .exceptionally(ErrorHandler::handle)
-                                 .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
+                                 .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable throwable
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (throwable != null) {
+            ErrorHandler.handle(throwable);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
+
+        controller().enable("search");
     }
 
     private void create(
@@ -92,7 +93,7 @@ public class BrowseBaPrjEngineersFrame
         final EditBaPrjEngineerDlg dlg = new EditBaPrjEngineerDlg(0);
         dlg.setFixedSize(false);
 
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
             if (row != null && !row.isEmpty()) {
                 tableModel.insertRow(selectedRow, dlg.getResultRow());
@@ -116,7 +117,7 @@ public class BrowseBaPrjEngineersFrame
         final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bpeId");
         final EditBaPrjEngineerDlg dlg = new EditBaPrjEngineerDlg(bpeId);
         dlg.setFixedSize(false);
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
             tableModel.setRow(selectedRow, row);
         }
@@ -126,7 +127,7 @@ public class BrowseBaPrjEngineersFrame
             ActionEvent event
     ) {
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
-        if (confirm(confirmDeleteText)) {
+        if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
 
             final JTable table = controller().get(JTable.class, "list");

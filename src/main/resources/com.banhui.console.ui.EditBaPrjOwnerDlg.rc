@@ -43,16 +43,16 @@
         <option>房地产业</option>
     </options>
     <gridLayout>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="100" alignment="BOTH"/>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="100" alignment="BOTH"/>
-        <row stretch="0">
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <column/>
+        <row>
             <cell>
                 <label for="owner-name">企业名称：</label>
             </cell>
             <cell>
-                <text name="owner-name"/>
+                <text name="owner-name" required="true" pattern="\w{2,}"/>
             </cell>
             <cell>
                 <label for="show-owner-name">展示名称：</label>
@@ -61,7 +61,7 @@
                 <text name="show-owner-name"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="registered-date">注册时间：</label>
             </cell>
@@ -75,7 +75,7 @@
                 <text name="reg-years"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="reg-funds">注册资金：</label>
             </cell>
@@ -89,7 +89,7 @@
                 <text name="show-reg-funds" suffix="万元"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="ent-industry">行业：</label>
             </cell>
@@ -103,7 +103,7 @@
                 <text name="owner-nature" optionsName="owner-nature" size="6"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="owner-strength">企业实力：</label>
             </cell>
@@ -117,19 +117,23 @@
                 <text name="owner-quality" optionsName="owner-quality" size="10"/>
             </cell>
         </row>
-        <row stretch="0">
-            <cell>
+        <row>
+            <cell verticalAlignment="FIRST">
                 <label for="intro">项目业主介绍：</label>
             </cell>
             <cell columnSpan="3" horizontalAlignment="BOTH">
                 <text name="intro" type="TEXT_AREA" rowSize="6"/>
 
             </cell>
-
         </row>
-        <row stretch="0">
+        <row>
             <cell columnSpan="4" horizontalAlignment="BOTH">
-                <boxLayout border="LOWERED,,," horizontalAlignment="CENTER">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>

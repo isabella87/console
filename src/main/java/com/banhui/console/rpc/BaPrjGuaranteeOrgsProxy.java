@@ -24,20 +24,23 @@ public class BaPrjGuaranteeOrgsProxy
         return super.http().put("mgr/ba/prj-guarantee-orgs", params);
     }
 
-    public CompletableFuture<Result> update(long id,
+    public CompletableFuture<Result> update(
             Map<String, Object> params
     ) {
-        return super.http().post("mgr/ba/prj-guarantee-orgs/"+id, params);
+        final long id = takeLong(params, "id");
+        return super.http().post("mgr/ba/prj-guarantee-orgs/" + id, params);
     }
 
-    public CompletableFuture<Result> del(long id
+    public CompletableFuture<Result> del(
+            long id
     ) {
         return super.http().delete("mgr/ba/prj-guarantee-orgs/" + id, null);
     }
 
-    public CompletableFuture<Result> query(long id
+    public CompletableFuture<Result> query(
+            long id
     ) {
-        return super.http().get("mgr/ba/prj-guarantee-orgs/"+ id,null);
+        return super.http().get("mgr/ba/prj-guarantee-orgs/" + id, null);
     }
 
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="手工录入"
+>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <row>
+            <cell>
+                <label for="login-name">登录名：</label>
+            </cell>
+            <cell>
+                <text name="login-name" required="true" pattern="\w{2,}"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="mobile">手机号码：</label>
+            </cell>
+            <cell>
+                <text name="mobile" required="true"/>
+                <!--pattern="^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$"-->
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

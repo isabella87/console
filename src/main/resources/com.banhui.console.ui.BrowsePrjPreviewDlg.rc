@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="预计还款计划"
+        width="400"
+        height="400">
+    <options name="tran">
+        <option value="0">利息</option>
+        <option value="1">本金</option>
+        <option value="2">总计</option>
+    </options>
+    <gridLayout>
+        <column alignment="FIRST"/>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="type" title="类型" type="TEXT" size="110" optionsName="tran"/>
+                    <tableColumn name="datepoint" title="日期" type="DATE" size="140"/>
+                    <tableColumn name="amt" title="金额" type="CURRENCY" size="120"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

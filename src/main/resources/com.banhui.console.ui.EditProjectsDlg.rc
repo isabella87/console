@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="项目"
+>
+    <message name="delete-guaPer"><![CDATA[删除以下担保人：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="delete-guaOrg"><![CDATA[删除以下担保机构：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="delete-borPer"><![CDATA[删除以下借款人：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="delete-borOrg"><![CDATA[删除以下借款机构：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="create">创建-</message>
+    <message name="edit">编辑-</message>
+    <message name="view">查看-</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <standardAction value="close"/>
+    <action name="preview" title="预览(P)" mnemonic="P"/>
+    <action name="delay" title="延期募集" mnemonic="P"/>
+    <action name="chooseMgrPer" title="选择"/>
+    <action name="chooseBondsMan" title="选择"/>
+    <action name="cancelBondsMan" title="取消"/>
+    <action name="choose1" title="选择"/>
+    <action name="cancel1" title="取消"/>
+    <action name="operate" title="操作"/>
+    <action name="editPermissible" title="编辑"/>
+    <action name="createBondsman" title="创建担保人(F)" mnemonic="F"/>
+    <action name="deleteBondsman" title="删除(I)" mnemonic="I"/>
+    <action name="createGuaOrg" title="创建担保机构(C)" mnemonic="C"/>
+    <action name="deleteGuaOrg" title="删除(K)" mnemonic="K"/>
+    <action name="createBorPer" title="创建借款人(B)" mnemonic="B"/>
+    <action name="deleteBorPer" title="删除(L)" mnemonic="L"/>
+    <action name="createBorOrg" title="创建借款机构(E)" mnemonic="E"/>
+    <action name="deleteBorOrg" title="删除(M)" mnemonic="M"/>
+    <options name="project-type">
+        <option value="10">企业贷</option>
+        <option value="5">票据贷</option>
+    </options>
+    <options name="repayment">
+        <option value="1">每月固定日还款（放款30天作为首次还款日）</option>
+        <option value="2">每月固定日还款（首次还款日为指定日）</option>
+        <option value="3">固定周期还款</option>
+    </options>
+    <options name="water">
+        <option>xs</option>
+        <option>zf12_2</option>
+        <option>zf12_3</option>
+        <option>zf12_4</option>
+        <option>zf14_2</option>
+        <option>guoqing_biao</option>
+        <option>tujian_20160720</option>
+        <option>zhouqianqing</option>
+    </options>
+    <options name="rating">
+        <option>3A</option>
+        <option>2A+</option>
+        <option>2A</option>
+        <option>A+</option>
+        <option>A</option>
+    </options>
+    <options name="visible">
+        <option value="1">可见</option>
+        <option value="0">不可见</option>
+    </options>
+    <boxLayout>
+        <tabbedPane>
+            <tab title="基本信息" description="基础数据">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column alignment="FIRST"/>
+                    <column stretch="0"/>
+                    <column alignment="FIRST"/>
+                    <row>
+                        <cell>
+                            <label for="item-name">融资项目名称：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="item-name" required="true" pattern="\w{2,}"/>
+                        </cell>
+                        <cell>
+                            <label for="item-show-name">展示名称：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="item-show-name"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="item-no">项目编号：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="item-no"/>
+                        </cell>
+                        <cell>
+                            <label for="type">项目类型：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <boxLayout>
+                                <dropDown name="type" optionsName="project-type" size="7"/>
+                                <label for="in-proxy">项目经理：</label>
+                                <text name="in-proxy" size="8"/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="out-proxy">代理：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="out-proxy"/>
+                        </cell>
+                        <cell>
+                            <label for="financier">借款人：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <boxLayout>
+                                <text name="financier" size="8"/>
+                                <label for="core-guara-name">核心担保人：</label>
+                                <text name="core-guara-name" size="8"/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="amt">借款金额：</label>
+                        </cell>
+                        <cell>
+                            <text name="amt" suffix=" 元 " type="CURRENCY" size="10"/>
+                        </cell>
+                        <cell>
+                            <label for="src">项目来源：</label>
+                        </cell>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="src"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="rate">借款利率：</label>
+                        </cell>
+                        <cell>
+                            <text name="rate" suffix=" % " type="CURRENCY" size="7"/>
+                        </cell>
+                        <cell>
+                            <label for="extension-rate">展期利率：</label>
+                        </cell>
+                        <cell>
+                            <text name="extension-rate" suffix=" % " type="CURRENCY" size="7"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="time-out-rate">逾期利率：</label>
+                        </cell>
+                        <cell>
+                            <text name="time-out-rate" suffix=" % " type="CURRENCY" size="7"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="deposit-ratio">保证金比例：</label>
+                        </cell>
+                        <cell>
+                            <text name="deposit-ratio" suffix=" % " type="CURRENCY" size="7"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="borrow-days">借款天数：</label>
+                        </cell>
+                        <cell>
+                            <text name="borrow-days" suffix=" 天 " type="NUMBER" size="7"/>
+                        </cell>
+                        <cell>
+                            <label for="extension-days">允许展期：</label>
+                        </cell>
+                        <cell>
+                            <text name="extension-days" suffix=" 天 " type="NUMBER" size="7"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="cost-fee">总借款成本：</label>
+                        </cell>
+                        <cell>
+                            <text name="cost-fee" suffix=" % " type="CURRENCY" size="7"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="in-time">内部上线时间：</label>
+                        </cell>
+                        <cell>
+                            <boxLayout>
+                                <text name="in-time" type="DATE"/>
+                                <checkBox name="for-in-time" text="内外部上线时间同步"/>
+                            </boxLayout>
+                        </cell>
+                        <cell>
+                            <label for="out-time">外部上线时间：</label>
+                        </cell>
+                        <cell>
+                            <text name="out-time" type="DATE"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="financing-days">募集天数：</label>
+                        </cell>
+                        <cell>
+                            <text name="financing-days" suffix=" 天 " type="NUMBER" size="7"/>
+                        </cell>
+                        <cell>
+                            <label for="expected-borrow-time">预期放款日期：</label>
+                        </cell>
+                        <cell>
+                            <boxLayout>
+                                <text name="expected-borrow-time" type="DATE"/>
+                                <button actionName="delay" name="delay"/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="interest">总利息：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <boxLayout>
+                                <text name="interest" suffix=" 元     " type="CURRENCY" size="10"/>
+                                <label><![CDATA[<html><font color="red">
+                                注意！此处的总利息与最终的每期应付利息总和相比可能存在误差！</font></html>]]></label>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="per-invest-min-amt">起投金额：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="FIRST">
+                            <boxLayout>
+                                <text name="per-invest-min-amt" suffix="元   " type="NUMBER" size="10"/>
+                                <label for="per-invest-amt">每份起投金额：</label>
+                                <text name="per-invest-amt" suffix="元   " type="NUMBER" size="10"/>
+                                <label for="fee-rate">利息服务费率：</label>
+                                <text name="fee-rate" suffix=" %   " type="CURRENCY" size="7"/>
+                                <label name="per-amt">注意！起投金额必须为每份起投金额的整数倍！</label>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="invest-max-amt-ratio">投资限额：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="FIRST">
+                            <boxLayout>
+                                <checkBox name="for-invest-max-amt-ratio" text="不能大于融资金额的"/>
+                                <text name="invest-max-amt-ratio" suffix=" % " type="CURRENCY" size="8"/>
+                                <checkBox name="for-invest-max-amt" text="不能大于"/>
+                                <text name="invest-max-amt" type="NUMBER" size="10" suffix=" 元 "/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="invest-max-amt">单笔投资上限额：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <boxLayout horizontalAlignment="FIRST">
+                                <checkBox name="for-per-invest-max-amt" text="不能高于"/>
+                                <text name="per-invest-max-amt" suffix=" 元   " type="NUMBER" size="8" minValue="1000"/>
+                                <label><![CDATA[<html><font color="red">
+                            注意！单笔投资限额设置：下限1千元，上限为借款总额！</font></html>]]></label>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label>还款周期：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <boxLayout>
+                                <dropDown name="bonus-period" optionsName="repayment"/>
+                                <text name="bonus-day" suffix=" 日     " type="NUMBER" size="5" minValue="1"
+                                      maxValue="31"/>
+                                <button actionName="preview" name="preview"/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell horizontalAlignment="FIRST">
+                            <label for="loan-purposes">借款用途：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH">
+                            <text name="loan-purposes"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell horizontalAlignment="FIRST">
+                            <label for="remark">备注：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH">
+                            <text name="remark"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell verticalAlignment="FIRST">
+                            <label for="prj-intro">项目简介：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH">
+                            <text name="prj-intro" type="TEXT_AREA" rowSize="6"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="其他信息" description="其他信息">
+                <gridLayout>
+                    <column/>
+                    <row>
+                        <cell>
+                            <gridLayout title="账户">
+                                <column stretch="0"/>
+                                <column/>
+                                <column stretch="0"/>
+                                <row>
+                                    <cell>
+                                        <label for="financier_cu">借款人账户：</label>
+                                    </cell>
+                                    <cell>
+                                        <text name="financier_cu"/>
+                                    </cell>
+                                    <cell horizontalAlignment="FIRST">
+                                        <button actionName="chooseMgrPer"/>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label for="nominal_au">名义借款人账户：</label>
+                                    </cell>
+                                    <cell>
+                                        <text name="nominal_au"/>
+                                    </cell>
+                                    <cell>
+                                        <boxLayout>
+                                            <button actionName="choose1"/>
+                                            <button actionName="cancel1"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label for="bondsman_au">代偿账户：</label>
+                                    </cell>
+                                    <cell>
+                                        <text name="bondsman_au"/>
+                                    </cell>
+                                    <cell>
+                                        <boxLayout>
+                                            <button actionName="chooseBondsMan"/>
+                                            <button actionName="cancelBondsMan"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <gridLayout title="附加">
+                                <column stretch="0"/>
+                                <column/>
+                                <column stretch="0"/>
+                                <row>
+                                    <cell>
+                                        <label for="contract">适用合同：</label>
+                                    </cell>
+                                    <cell columnSpan="2" horizontalAlignment="FIRST">
+                                        <boxLayout>
+                                            <checkBox name="contract1"/>
+                                            <label>《出借居住协议》</label>
+                                            <checkBox name="contract2"/>
+                                            <label>《借款协议》</label>
+                                            <checkBox name="contract3"/>
+                                            <label>《票据融资协议》</label>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label for="key">关键词：</label>
+                                    </cell>
+                                    <cell columnSpan="2">
+                                        <text name="key"/>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label for="flags">其他标志：</label>
+                                    </cell>
+                                    <cell columnSpan="2" horizontalAlignment="FIRST">
+                                        <boxLayout>
+                                            <checkBox name="flag1"/>
+                                            <label>新手项目</label>
+                                            <checkBox name="flag2"/>
+                                            <label>优选标</label>
+                                            <checkBox name="flag3"/>
+                                            <label>保险</label>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label for="water-mark">水印图片：</label>
+                                    </cell>
+                                    <cell horizontalAlignment="FIRST">
+                                        <text name="water-mark" optionsName="water"/>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <label>质押票据文件：</label>
+                                    </cell>
+                                    <cell horizontalAlignment="FIRST">
+                                        <button actionName="operate"/>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <gridLayout title="项目评级">
+                                <column/>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <label for="prj-rating">项目评级：</label>
+                                            <text name="prj-rating" optionsName="rating" size="6"/>
+                                            <label for="s-all">项目总评分：</label>
+                                            <text name="s-all" type="NUMBER" size="6"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="BOTH">
+                                            <label for="prj-risk-assess">项目风险评估：</label>
+                                            <text name="prj-risk-assess" pattern="\w{2,}"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                    <row stretch="100" alignment="BOTH">
+                        <cell>
+                            <gridLayout title="白名单">
+                                <column alignment="FIRST"/>
+                                <row>
+                                    <cell>
+                                        <button actionName="editPermissible"/>
+                                    </cell>
+                                </row>
+                                <row stretch="100" alignment="BOTH">
+                                    <cell><literal/></cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="担保信息" description="担保信息">
+                <gridLayout>
+                    <column/>
+                    <row stretch="100">
+                        <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                            <gridLayout title="担保人">
+                                <column/>
+                                <row stretch="100">
+                                    <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                        <table name="guaranteePersons">
+                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                            <tableColumn name="pgpId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
+                                            <tableColumn name="name" title="名称" type="TEXT" size="100"/>
+                                            <tableColumn name="showName" title="展示名称" type="TEXT" size="100"/>
+                                            <tableColumn name="form" title="担保方式" type="TEXT" size="130"/>
+                                            <tableColumn name="range" title="担保范围" type="TEXT" size="130"/>
+                                            <tableColumn name="limit" title="担保期限" type="TEXT" size="130"/>
+                                            <tableColumn name="lastYearIncome" title="上一年度主营业务收入（万元）" type="CURRENCY"
+                                                         size="150"/>
+                                            <tableColumn name="relationship" title="与借款人关系" type="TEXT" size="100"/>
+                                            <tableColumn name="guaranteeRightMan" title="担保权人" type="TEXT" size="100"/>
+                                            <tableColumn name="guaranteeRightManNo" title="担保权人统一社会信用代码" type="TEXT"
+                                                         size="100"/>
+                                            <tableColumn name="visible" title="协议可见" type="TEXT" size="80"
+                                                         optionsName="visible"/>
+                                        </table>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <button actionName="createBondsman" name="createBondsman"/>
+                                            <button actionName="deleteBondsman" name="deleteBondsman"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <gridLayout title="担保机构">
+                                <column/>
+                                <row stretch="100">
+                                    <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                        <table name="guaranteeOrg">
+                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                            <tableColumn name="pgoId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
+                                            <tableColumn name="name" title="名称" type="TEXT" size="100"/>
+                                            <tableColumn name="showName" title="展示名称" type="TEXT" size="100"/>
+                                            <tableColumn name="form" title="担保方式" type="TEXT" size="130"/>
+                                            <tableColumn name="range" title="担保范围" type="TEXT" size="130"/>
+                                            <tableColumn name="limit" title="担保期限" type="TEXT" size="130"/>
+                                            <tableColumn name="lastYearIncome" title="上一年度主营业务收入（万元）" type="CURRENCY"
+                                                         size="150"/>
+                                            <tableColumn name="relationship" title="与借款人关系" type="TEXT" size="100"/>
+                                            <tableColumn name="guaranteeRightMan" title="担保权人" type="TEXT" size="100"/>
+                                            <tableColumn name="guaranteeRightManNo" title="担保权人统一社会信用代码" type="TEXT"
+                                                         size="100"/>
+                                            <tableColumn name="visible" title="协议可见" type="NUMBER" size="80"
+                                                         optionsName="visible"/>
+                                        </table>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <button actionName="createGuaOrg" name="createGuaOrg"/>
+                                            <button actionName="deleteGuaOrg" name="deleteGuaOrg"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="借款信息" description="借款信息">
+                <gridLayout>
+                    <column/>
+                    <row stretch="100">
+                        <cell>
+                            <gridLayout title="借款人">
+                                <column/>
+                                <row stretch="100">
+                                    <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                        <table name="borPersons">
+                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                            <tableColumn name="bpmpId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
+                                            <tableColumn name="name" title="借款人" type="TEXT" size="100"/>
+                                            <tableColumn name="visible" title="协议可见" type="TEXT" size="100"
+                                                         optionsName="visible"/>
+                                        </table>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <button actionName="createBorPer" name="createBorPer"/>
+                                            <button actionName="deleteBorPer" name="deleteBorPer"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <gridLayout title="借款机构">
+                                <column/>
+                                <row stretch="100">
+                                    <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                        <table name="borOrgs">
+                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                            <tableColumn name="bpmoId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
+                                            <tableColumn name="orgName" title="借款机构" type="TEXT" size="100"/>
+                                            <tableColumn name="legalPersonName" title="法定代表人" type="TEXT" size="100"/>
+                                            <tableColumn name="address" title="注册地址" type="TEXT" size="100"/>
+                                            <tableColumn name="registeredFund" title="注册资金" type="CURRENCY" size="100"/>
+                                            <tableColumn name="visible" title="协议可见" type="TEXT" size="100"
+                                                         optionsName="visible"/>
+                                        </table>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <button actionName="createBorOrg" name="createBorOrg"/>
+                                            <button actionName="deleteBorOrg" name="deleteBorOrg"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout>
+        <ruler/>
+    </boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok" default="true" name="ok"/>
+        <button actionName="cancel" name="cancel"/>
+        <button actionName="close" name="close"/>
+    </boxLayout>
+</ui>

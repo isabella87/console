@@ -8,9 +8,9 @@
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
-        <column stretch="0" alignment="BOTH"/>
-        <column stretch="0" alignment="BOTH"/>
-        <column stretch="100" alignment="BOTH"/>
+        <column stretch="0" />
+        <column stretch="0" />
+        <column/>
         <row>
             <cell>
                 <label mnemonic="L" for="login-name">登录名(L)：</label>
@@ -39,8 +39,13 @@
             </cell>
         </row>
         <row>
+            <cell columnSpan="3" horizontalAlignment="BOTH">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
             <cell columnSpan="3">
-                <boxLayout border="LOWERED,,," horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>

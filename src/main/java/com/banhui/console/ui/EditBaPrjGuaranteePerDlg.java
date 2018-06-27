@@ -36,12 +36,6 @@ public class EditBaPrjGuaranteePerDlg
     }
 
     @Override
-    protected void initUi() {
-        super.initUi();
-
-    }
-
-    @Override
     public void done(
             int result
     ) {
@@ -89,9 +83,8 @@ public class EditBaPrjGuaranteePerDlg
                                      .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("name", stringValue(data, "name"));
         controller().setText("show-name", stringValue(data, "showName"));

@@ -8,16 +8,16 @@
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
-        <column stretch="0" alignment="FIRST"/> <!--两端拉升 -->
-        <row stretch="0">
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <column/>
+        <row>
             <cell>
                 <label for="name">企业名称：</label>
             </cell>
             <cell>
-                <text name="name"/>
+                <text name="name" required="true" pattern="\w{2,}"/>
             </cell>
             <cell>
                 <label for="show-name">展示名称：</label>
@@ -26,7 +26,7 @@
                 <text name="show-name"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="registered-date">注册时间：</label>
             </cell>
@@ -40,7 +40,7 @@
                 <text name="reg-years" size="10" suffix="年"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="reg-funds">注册资金：</label>
             </cell>
@@ -48,7 +48,7 @@
                 <text name="reg-funds" size="10" suffix="万元"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="reg-address">注册地址：</label>
             </cell>
@@ -62,7 +62,7 @@
                 <text name="show-reg-address"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="postcode">邮编：</label>
             </cell>
@@ -70,7 +70,7 @@
                 <text name="postcode" size="10"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="legal-id-card">法人身份证号：</label>
             </cell>
@@ -78,12 +78,12 @@
                 <text name="legal-id-card"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="legal-person-name">法人姓名：</label>
             </cell>
             <cell>
-                <text name="legal-person-name"/>
+                <text name="legal-person-name" pattern="\w{2,}"/>
             </cell>
             <cell>
                 <label for="legal-person-show-name">法人展示名：</label>
@@ -92,12 +92,12 @@
                 <text name="legal-person-show-name"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="linkman">联系人：</label>
             </cell>
             <cell>
-                <text name="linkman"/>
+                <text name="linkman" pattern="\w{2,}"/>
             </cell>
             <cell>
                 <label for="mobile">联系电话：</label>
@@ -106,7 +106,7 @@
                 <text name="mobile"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="ranking">行业地位：</label>
             </cell>
@@ -120,7 +120,7 @@
                 <text name="qualification"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="social-credit-code">社会信用代码：</label>
             </cell>
@@ -131,26 +131,26 @@
                 <label for="show-social-credit-code">展示社会信用代码：</label>
             </cell>
             <cell>
-                <text name="show-social-credit-code" />
+                <text name="show-social-credit-code"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell horizontalAlignment="FIRST">
                 <label for="get-prize">获得奖项：</label>
             </cell>
             <cell columnSpan="3" horizontalAlignment="BOTH">
-                <text name="get-prize" />
+                <text name="get-prize"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell verticalAlignment="FIRST">
                 <label for="org-web-site">公司官网：</label>
             </cell>
             <cell columnSpan="3" horizontalAlignment="BOTH">
-                <text name="org-web-site" />
+                <text name="org-web-site"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell verticalAlignment="FIRST">
                 <label for="intro">企业介绍：</label>
             </cell>
@@ -158,9 +158,14 @@
                 <text name="intro" type="TEXT_AREA" rowSize="6"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell columnSpan="4" horizontalAlignment="BOTH">
-                <boxLayout border="LOWERED,,," horizontalAlignment="CENTER">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>

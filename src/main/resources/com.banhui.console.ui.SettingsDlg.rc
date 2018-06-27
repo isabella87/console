@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="设置">
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <boxLayout>
+        <tabbedPane>
+            <tab title="服务器" description="服务器相关的设置">
+                <gridLayout>
+                    <column/>
+                    <column stretch="100"/>
+                    <row>
+                        <cell>
+                            <label>服务器地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="rpc-base-uri" size="24" pattern="(http://|https://)[\w.]+(:\d+)?(/[\w-]+)*/"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout border="EMPTY">
+        <ruler/>
+    </boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok"/>
+        <button actionName="cancel"/>
+    </boxLayout>
+</ui>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="还款-"
+        width="1200"
+        height="800"
+>
+    <message name="confirm-delete"><![CDATA[禁用还款明细 <b><u>{}</u></b>吗？禁用的还款明细不能再执行还款。]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="create" title="发起还款"/>
+    <action name="forbid" title="禁用"/>
+    <action name="search" title="查询还款记录"/>
+    <action name="refresh" title="刷新"/>
+    <action name="export" title="导出Excel"/>
+
+    <options name="status">
+        <option value="0">未还/未还清</option>
+        <option value="1">已还</option>
+    </options>
+    <options name="upload-status">
+        <option value="0">未上传</option>
+        <option value="1">已上传</option>
+        <option value="-1">禁用</option>
+    </options>
+
+    <options name="tran-type">
+        <option value="0">利息</option>
+        <option value="1">本金</option>
+    </options>
+
+    <options name="pay-type">
+        <option value="1">正常</option>
+        <option value="2">保证金</option>
+        <option value="3">名义借款人</option>
+        <option value="99">其他</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="forbid"/>
+                    <button actionName="search"/>
+                    <button actionName="refresh"/>
+                    <button actionName="export"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <splitPane axis="Y">
+                    <table name="list">
+                        <tableColumn name="tranNo" title="期数" type="NUMBER" size="60"/>
+                        <tableColumn name="tranType" title="类型" type="TEXT" size="60" optionsName="tran-type"/>
+                        <tableColumn name="dueTime" title="应还日期" type="DATE" size="100"/>
+                        <tableColumn name="amt" title="应还金额" type="FLOAT" size="100"/>
+                        <tableColumn name="paidAmt" title="已还金额" type="FLOAT" size="100"/>
+                        <tableColumn name="unpaidAmt" title="未还金额" type="FLOAT" size="100"/>
+                        <tableColumn name="delayAmt" title="应还逾期利息" type="FLOAT" size="100"/>
+                        <tableColumn name="delayPaidAmt" title="已还逾期利息" type="FLOAT" size="100"/>
+                        <tableColumn name="delayUnpaidAmt" title="未还逾期利息" type="FLOAT" size="100"/>
+                    </table>
+                    <table name="detail">
+                        <tableColumn name="pbdId" title="ID" type="NUMBER" size="60"/>
+                        <tableColumn name="tranType" title="类型" type="TEXT" size="60" optionsName="tran-type"/>
+                        <tableColumn name="paidTime" title="还款时间" type="DATE" size="100"/>
+                        <tableColumn name="tranNo" title="期数" type="NUMBER" size="100"/>
+                        <tableColumn name="tranType" title="类型" type="TEXT" size="100"/>
+                        <tableColumn name="payType" title="来源" type="TEXT" size="100" optionsName="pay-type"/>
+                        <tableColumn name="amt" title="还款金额" type="FLOAT" size="100"/>
+                        <tableColumn name="paidAmt" title="已还金额" type="FLOAT" size="100"/>
+                        <tableColumn name="creator" title="发起人" type="TEXT" size="100"/>
+                        <tableColumn name="createTime" title="发起时间" type="DATE" size="100"/>
+                        <tableColumn name="uploadStatus" title="上传状态" type="TEXT" size="100"
+                                     optionsName="upload-status"/>
+                    </table>
+                </splitPane>
+            </cell>
+        </row>
+
+    </gridLayout>
+
+</ui>

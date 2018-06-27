@@ -5,6 +5,7 @@
         title="后台帐户管理"
         width="800"
         height="600">
+    <message name="reset-password-execution">执行重置帐户密码</message>
     <message name="confirm-reset-password"><![CDATA[重置帐户 <b><u>{}</u></b> 的密码，此操作无法被撤销！确认吗？]]></message>
     <message name="confirm-delete"><![CDATA[删除帐户 <b><u>{}</u></b>，此操作无法被撤销！确认吗？]]></message>
     <message name="confirm-delete-expected">删除</message>
@@ -15,8 +16,8 @@
     <action name="reset-password" title="重置密码(R)" mnemonic="R" smallIcon="reset.png"/>
     <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row stretch="0">
+        <column alignment="FIRST"/>
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <label for="role-name" mnemonic="R">角色(R)：</label>
@@ -32,7 +33,7 @@
                 </boxLayout>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="create"/>
@@ -42,7 +43,7 @@
                 </boxLayout>
             </cell>
         </row>
-        <row>
+        <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>

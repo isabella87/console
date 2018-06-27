@@ -2,7 +2,7 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title="审批"
+        title="审批-"
         width="750"
         height="550">
     <message name="confirm-close"><![CDATA[尚有 <b><u>{}</u></b> 元未还款，确定结清此企业贷吗？]]></message>
@@ -10,19 +10,18 @@
     <message name="confirm-auctionsPass-text"><![CDATA[该项目将流标，此操作无法撤销！确认吗？]]></message>
     <message name="confirm-auctionsPass"><![CDATA[不通过]]></message>
     <message name="confirm-npass-blank"><![CDATA[审批不通过时必须输入备注]]></message>
-    <message name="audit">审批</message>
     <standardAction value="cancel"/>
     <action name="pass" title="通过(P)" mnemonic="P"/>
     <action name="npass" title="不通过(N)" mnemonic="N"/>
-    <action name="auctionsPass" title="不通过(流标)" />
-    <action name="investor" title="生成出借人信息表" />
-    <action name="loan" title="查看放款记录" />
+    <action name="auctionsPass" title="不通过(流标)"/>
+    <action name="investor" title="生成出借人信息表"/>
+    <action name="loan" title="查看放款记录"/>
     <action name="lock" title="锁定"/>
-    <action name="unlock" title="解锁" />
-    <action name="tender" title="查看投标" />
-    <action name="auctions" title="执行流标" />
-    <action name="investment" title="有效投资" />
-    <action name="completed" title="结清" />
+    <action name="unlock" title="解锁"/>
+    <action name="tender" title="查看投标"/>
+    <action name="auctions" title="执行流标"/>
+    <action name="investment" title="有效投资"/>
+    <action name="completed" title="结清"/>
     <options name="status">
         <!--<option value="0">未提交</option>-->
         <option value="1">提交</option>
@@ -43,11 +42,11 @@
         <option value="0">否</option>
     </options>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row>
+        <column />
+        <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="60" />
+                    <tableColumn name="_row" title="" type="TEXT" size="60"/>
                     <tableColumn name="opTime" title="时间" type="DATE_TIME" size="180"/>
                     <tableColumn name="opUser" title="操作人" type="TEXT" size="120"/>
                     <tableColumn name="aOrder" title="业务操作" type="TEXT" size="160" optionsName="status"/>
@@ -56,20 +55,20 @@
                 </table>
             </cell>
         </row>
-            <row stretch="0">
-            <cell  horizontalAlignment="BOTH">
+        <row>
+            <cell horizontalAlignment="BOTH">
                 <label name="role"></label>
             </cell>
         </row>
-        <row stretch="10">
+        <row>
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <boxLayout>
-                <label name="beizhu">备注：</label>
-                <text name="comments" type="TEXT_AREA" rowSize="3" size="55"/>
+                    <label name="beizhu">备注：</label>
+                    <text name="comments" type="TEXT_AREA" rowSize="3"/>
                 </boxLayout>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell horizontalAlignment="BOTH">
                 <boxLayout horizontalAlignment="CENTER">
                     <button actionName="pass" name="pass"/>
@@ -77,8 +76,8 @@
                     <button actionName="auctionsPass" name="auctionsPass"/>
                     <button actionName="investor" name="investor"/>
                     <button actionName="tender" name="tender"/>
-                    <button actionName="loan" name="loan" />
-                    <button actionName="investment" name="investment" />
+                    <button actionName="loan" name="loan"/>
+                    <button actionName="investment" name="investment"/>
                     <button actionName="auctions" name="auctions"/>
                     <button actionName="completed" name="completed"/>
                     <button actionName="lock" name="lock"/>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title=""
+>
+    <message name="person">创建担保人-</message>
+    <message name="org">创建担保机构-</message>
+    <message name="person-blank"><![CDATA[请选择一个担保人]]></message>
+    <message name="org-blank"><![CDATA[请选择一个担保机构]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="select" title="选择（S）"/>
+    <options name="visible-status">
+        <option value="1">可见</option>
+        <option value="2">不可见</option>
+    </options>
+    <options name="form-status">
+        <option>一般保证</option>
+        <option>最高额连带责任保证</option>
+        <option>连带责任担保</option>
+        <option>动产抵押</option>
+        <option>不动产抵押</option>
+        <option>浮动抵押</option>
+        <option>动产质押</option>
+        <option>权利质押</option>
+        <option>让与担保</option>
+        <option>买卖型担保</option>
+        <option>最高额抵押</option>
+        <option>最高额权利质押</option>
+        <option>工程履约保险</option>
+        <option>其他担保</option>
+    </options>
+    <options name="range-status">
+        <option>主债权及利息、违约金、损害赔偿金和实现债权的费用</option>
+        <option>主债权及利息、违约金、损害赔偿金、保管担保财产和实现担保物权的费用</option>
+    </options>
+    <options name="limit-status">
+        <option>同主债权诉讼时效</option>
+        <option>主债务履行期届满之日起二年</option>
+        <option>主债务履行期届满之日起二年</option>
+    </options>
+    <options name="relation-ship-status">
+        <option>亲戚</option>
+        <option>朋友</option>
+        <option>任职公司</option>
+        <option>项目业主</option>
+        <option>担保公司</option>
+        <option>股东或高管</option>
+        <option>第三方公司担保</option>
+        <option>保险公司</option>
+        <option>其他</option>
+    </options>
+    <options name="visible-status">
+        <option value="1">可见</option>
+        <option value="0">不可见</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column alignment="FIRST"/>
+        <row>
+            <cell>
+                <label name="thisName"/>
+            </cell>
+            <cell>
+                <boxLayout>
+                    <button actionName="select"/>
+                    <label name="name"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="show-name">展示名称：</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="show-name"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="guara-high-credit-amt">担保的最高债权额：</label>
+            </cell>
+            <cell>
+                <text name="guara-high-credit-amt" type="CURRENCY" suffix="元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="main-credit-amt">主债权余额：：</label>
+            </cell>
+            <cell>
+                <text name="main-credit-amt" type="CURRENCY" suffix="元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="form">担保方式：</label>
+            </cell>
+            <cell>
+                <text name="form" optionsName="form-status" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="range">担保范围：</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="range" optionsName="range-status" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="limit">担保期限：</label>
+            </cell>
+            <cell>
+                <text name="limit" optionsName="limit-status" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="last-year-income">上一年度主营业务收入：</label>
+            </cell>
+            <cell>
+                <text name="last-year-income" type="CURRENCY" suffix="万元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="relation-ship">与借款人关系：</label>
+            </cell>
+            <cell>
+                <text name="relation-ship" optionsName="relation-ship-status" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="guarantee-right-man">担保权人：</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="guarantee-right-man"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="guarantee-right-man-no">担保权人社会信用代码：</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="guarantee-right-man-no"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="order-no">排列顺序：</label>
+            </cell>
+            <cell>
+                <text name="order-no" type="NUMBER"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="visible">协议可见：</label>
+            </cell>
+            <cell>
+                <dropDown name="visible" optionsName="visible-status"/>
+            </cell>
+        </row>
+        <row>
+            <cell verticalAlignment="FIRST">
+                <label for="intro">担保介绍</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="intro" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

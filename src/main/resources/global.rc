@@ -3,10 +3,17 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="">
+    <message name="version">4.4.0.0</message>
+    <message name="error-input-required">必填项未填写。</message>
     <message name="error-input-format">输入数据格式不正确。</message>
+    <message name="error-input-too-small">输入数值太小。</message>
+    <message name="error-input-too-large">输入数值太大。</message>
     <message name="error-rpc-not-found">找不到服务。</message>
     <message name="error-rpc-access-denied">没有足够的权限，请重新登录或者请管理员分配更多的权限。。</message>
     <message name="error-rpc-server-internal">服务端内部错误。</message>
     <message name="error-rpc-detail"><![CDATA[方法：{}
 地址：{}]]></message>
+    <message name="application-title">班汇通后台管理系统</message>
+    <message name="application-product-name">后台管理系统，包含项目管理、帐户管理、基础数据管理、客户关系管理等功能。</message>
+    <message name="application-copyright">上海鲁班金融信息服务有限公司 &#169; 2014-2018</message>
 </ui>

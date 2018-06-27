@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title=""
+        height="400"
+        width="600"
+>
+    <message name="guaPer">选择担保人</message>
+    <message name="guaOrg">选择担保机构</message>
+    <message name="borPer">选择借款人</message>
+    <message name="borOrg">选择借款机构</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="search" title="搜索（S）" mnemonic="S" smallIcon="search.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="key">关键字（K）</label>
+                    <text name="key"/>
+                    <button actionName="search" name="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="listGuaPer">
+                    <tableColumn title="ID" size="80" type="TEXT" name="bgpId"/>
+                    <tableColumn title="担保人" size="160" type="TEXT" name="name"/>
+                    <tableColumn title="展示名称" size="160" type="TEXT" name="showName"/>
+                </table>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="listGuaOrg">
+                    <tableColumn title="ID" size="80" type="TEXT" name="bgoId"/>
+                    <tableColumn title="担保机构" size="160" type="TEXT" name="name"/>
+                    <tableColumn title="展示名称" size="160" type="TEXT" name="showName"/>
+                </table>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="listBorPer">
+                    <tableColumn title="ID" size="80" type="TEXT" name="bpmpId"/>
+                    <tableColumn title="姓名" size="120" type="TEXT" name="realName"/>
+                    <tableColumn title="从业资质" size="120" type="TEXT" name="workNature"/>
+                    <tableColumn title="手机" size="140" type="TEXT" name="mobile"/>
+                    <tableColumn title="工作单位" size="140" type="TEXT" name="company"/>
+                </table>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="listBorOrg">
+                    <tableColumn title="ID" size="80" type="TEXT" name="bpmoId"/>
+                    <tableColumn title="借款机构" size="140" type="TEXT" name="orgName"/>
+                    <tableColumn title="法定代表人" size="140" type="TEXT" name="legalPersonName"/>
+                    <tableColumn title="注册地址" size="140" type="TEXT" name="address"/>
+                    <tableColumn title="注册展示资金" size="100" type="TEXT" name="registeredShowFund"/>
+                </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

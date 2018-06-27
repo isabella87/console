@@ -103,9 +103,8 @@ public class EditBaPrjEngineerDlg
                                  .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("name", stringValue(data, "name"));
         controller().setText("address", stringValue(data, "address"));

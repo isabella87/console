@@ -5,7 +5,6 @@ import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.Application;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -28,15 +27,13 @@ import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseBaPrjBorOrgsFrame
         extends InternalFramePane {
+    @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(BrowseBaPrjBorOrgsFrame.class);
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected void initUi() {
-        super.initUi();
-
+    public BrowseBaPrjBorOrgsFrame() {
         controller().connect("search", this::search);
         controller().connect("create", this::create);
         controller().connect("edit", this::edit);
@@ -94,7 +91,7 @@ public class BrowseBaPrjBorOrgsFrame
 
         final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(0);
         dlg.setFixedSize(false);
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
             if (row != null && !row.isEmpty()) {
                 tableModel.insertRow(selectedRow, row);
@@ -111,7 +108,7 @@ public class BrowseBaPrjBorOrgsFrame
         final long id = tableModel.getNumberByName(selectedRow, "bpmoId");
         final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(id);
         dlg.setFixedSize(false);
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
@@ -124,7 +121,7 @@ public class BrowseBaPrjBorOrgsFrame
             ActionEvent event
     ) {
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
-        if (confirm(confirmDeleteText)) {
+        if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
 
             final JTable table = controller().get(JTable.class, "list");

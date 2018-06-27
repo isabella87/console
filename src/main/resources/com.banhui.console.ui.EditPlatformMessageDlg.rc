@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="查看消息-"
+>
+    <message name="createMsg">创建消息</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="match" title="匹配"/>
+    <gridLayout>
+        <column stretch="0"/>
+        <column stretch="0"/>
+        <column stretch="0"/>
+        <row>
+            <cell>
+                <label>收件人:</label>
+            </cell>
+            <cell>
+                <text name="loginName" type="TEXT"/>
+            </cell>
+            <cell>
+                <button actionName="match" name="match"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>标题:</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="title" type="TEXT"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>摘要:</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="brief" type="TEXT_AREA" rowSize="3"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>内容:</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="content" type="TEXT_AREA" rowSize="6"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="3">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

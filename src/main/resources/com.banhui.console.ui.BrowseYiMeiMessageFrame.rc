@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="账户管理-亿美短信通道发送记录"
+>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="status">
+        <option value="0">未发送</option>
+        <option value="1">失败</option>
+        <option value="2">成功</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label mnemonic="D" for="create-date">查询日期(D)：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label mnemonic="M" for="mobile">手机号(M）：</label>
+                    <text name="mobile" type="TEXT"/>
+                    <label mnemonic="K" for="search-key">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="msId" title="ID" type="NUMBER" size="60"/>
+                    <tableColumn name="mobile" title="手机号" type="TEXT" size="100"/>
+                    <tableColumn name="status" title="状态" type="TEXT" optionsName="status" size="100"/>
+                    <tableColumn name="datepoint" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="content" title="内容" type="TEXT" size="500"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

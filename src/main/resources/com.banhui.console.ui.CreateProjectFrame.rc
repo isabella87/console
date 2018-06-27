@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="创建"
+>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="project-type">
+        <option value="10">企业贷</option>
+        <option value="2">票据贷</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column stretch="0"/>
+        <row>
+            <cell>
+                <label for="type">项目类型：</label>
+            </cell>
+            <cell>
+                <dropDown name="type" optionsName="project-type"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="item-name">融资项目名称：</label>
+            </cell>
+            <cell>
+                <text name="item-name" pattern="\w{4,}"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout>
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

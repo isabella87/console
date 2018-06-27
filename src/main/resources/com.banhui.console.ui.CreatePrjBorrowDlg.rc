@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title=""
+>
+    <message name="person">创建借款人-</message>
+    <message name="org">创建借款机构-</message>
+    <message name="person-blank"><![CDATA[请选择一个借款人]]></message>
+    <message name="org-blank"><![CDATA[请选择一个借款机构]]></message>
+    <message name="repeatPer-text"><![CDATA[该借款人已存在！]]></message>
+    <message name="repeatOrg-text"><![CDATA[该借款机构已存在！]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="select" title="选择（S）"/>
+    <options name="visible-status">
+        <option value="1">可见</option>
+        <option value="0">不可见</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <column/>
+        <column/>
+        <column/>
+        <row>
+            <cell>
+                <label name="thisName">借款人:</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="name"/>
+            </cell>
+            <cell horizontalAlignment="FIRST">
+                <button actionName="select"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="loan-bal">本平台借款余额：</label>
+            </cell>
+            <cell>
+                <text name="loan-bal" type="CURRENCY" suffix="万元"/>
+            </cell>
+            <cell>
+                <label for="other-loan-bal">其他平台借款余额：</label>
+            </cell>
+            <cell>
+                <text name="other-loan-bal" type="CURRENCY" suffix="万元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="overdue-num">本平台逾期次数：</label>
+            </cell>
+            <cell>
+                <text name="overdue-num" type="NUMBER" suffix="次" required="true"/>
+            </cell>
+            <cell>
+                <label for="other-overdue-num">其他平台逾期次数：</label>
+            </cell>
+            <cell>
+                <text name="other-overdue-num" type="NUMBER" suffix="次" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="overdue-amt">本平台逾期金额：</label>
+            </cell>
+            <cell>
+                <text name="overdue-amt" type="CURRENCY" suffix="万元"/>
+            </cell>
+            <cell>
+                <label for="other-overdue-amt">其他平台逾期金额：</label>
+            </cell>
+            <cell>
+                <text name="other-overdue-amt" type="CURRENCY" suffix="万元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="order-no">排列顺序：</label>
+            </cell>
+            <cell>
+                <text name="order-no" type="NUMBER"/>
+            </cell>
+            <cell>
+                <label for="visible">协议可见：</label>
+            </cell>
+            <cell>
+                <dropDown name="visible" optionsName="visible-status"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

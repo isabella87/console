@@ -2,10 +2,9 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title="查看投标"
+        title="查看投标-"
         width="1000"
         height="600">
-    <message name="tender">查看投标</message>
     <message name="confirm-tender-text"><![CDATA[将“整个项目”中途流标，此操作无法撤销！确认吗？]]></message>
     <message name="confirm-complete"><![CDATA[流标]]></message>
     <message name="confirm-revoke-text"><![CDATA[确定要撤销投标吗？]]></message>
@@ -15,8 +14,8 @@
     <action name="refresh" title="刷新(U)" mnemonic="U"/>
     <action name="excel" title="导出Excel"/>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row stretch="0">
+        <column />
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="midway" name="midway"/>
@@ -27,7 +26,7 @@
                 </boxLayout>
             </cell>
         </row>
-        <row>
+        <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="60"/>

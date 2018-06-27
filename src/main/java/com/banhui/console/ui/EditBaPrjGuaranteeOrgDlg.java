@@ -38,12 +38,6 @@ public class EditBaPrjGuaranteeOrgDlg
     }
 
     @Override
-    protected void initUi() {
-        super.initUi();
-
-    }
-
-    @Override
     public void done(
             int result
     ) {
@@ -56,6 +50,7 @@ public class EditBaPrjGuaranteeOrgDlg
                 params.put("bgo-id", id);
             }
 
+            params.put("id", this.id);
             params.put("name", controller().getText("name").trim());
             params.put("show-name", controller().getText("show-name").trim());
             params.put("registered-date", controller().getDate("registered-date"));
@@ -77,7 +72,7 @@ public class EditBaPrjGuaranteeOrgDlg
             params.put("org-web-site", controller().getText("org-web-site").trim());
             params.put("intro", controller().getText("intro").trim());
 
-            (this.id == 0 ? new BaPrjGuaranteeOrgsProxy().add(params) : new BaPrjGuaranteeOrgsProxy().update(this.id, params))
+            (this.id == 0 ? new BaPrjGuaranteeOrgsProxy().add(params) : new BaPrjGuaranteeOrgsProxy().update(params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
                     .exceptionally(ErrorHandler::handle)
@@ -100,9 +95,8 @@ public class EditBaPrjGuaranteeOrgDlg
                                      .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("name", stringValue(data, "name"));
         controller().setText("show-name", stringValue(data, "showName"));

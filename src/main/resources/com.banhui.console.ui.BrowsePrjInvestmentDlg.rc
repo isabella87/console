@@ -2,34 +2,34 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title="有效投资"
+        title="有效投资-"
         width="1000"
         height="600">
-    <message name="title">有效投资</message>
-    <!--<action name="search" title="搜索(S)" mnemonic="S"/>-->
+    <action name="search" title="搜索(S)" mnemonic="S"/>
     <action name="excel" title="导出Excel"/>
     <options name="s-type">
         <option value="1">投标</option>
         <option value="2">买入债权</option>
     </options>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row stretch="0">
+        <column/>
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
+                    <text name="datepoint" type="DATE"/>
                     <button actionName="search" name="search"/>
                     <button actionName="excel" name="excel"/>
                 </boxLayout>
             </cell>
         </row>
-        <row>
-            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH" >
-                <table name="list" >
-                    <tableColumn name="_row" title="" type="TEXT" size="60" />
-                    <tableColumn name="tiId" title="ID" type="TEXT" size="100" />
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="60"/>
+                    <tableColumn name="tiId" title="ID" type="TEXT" size="100"/>
                     <tableColumn name="auId" title="投资人ID" type="TEXT" size="120"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
-                    <tableColumn name="mobile" title="手机号码" type="TEXT" size="120" />
+                    <tableColumn name="mobile" title="手机号码" type="TEXT" size="120"/>
                     <tableColumn name="amt" title="金额" type="CURRENCY" size="100"/>
                     <tableColumn name="datepoint" title="起始时间" type="DATE_TIME" size="180"/>
                     <tableColumn name="sType" title="投资来源" type="TEXT" size="100" optionsName="s-type"/>

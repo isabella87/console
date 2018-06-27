@@ -1,6 +1,6 @@
 package com.banhui.console.ui;
 
-import com.banhui.console.rpc.ProjectProxy;
+import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
+import static org.xx.armory.swing.DialogUtils.prompt;
 
 
 public class BrowsePrjTenderDlg extends DialogPane {
@@ -26,13 +27,21 @@ public class BrowsePrjTenderDlg extends DialogPane {
             long id,
             int role
     ) {
+        controller().disable("revoke");
+        controller().connect("list", "change", this::listChanged);
+
+        controller().connect("revoke", this::revoke);//撤销投标
+        controller().connect("refresh", this::refresh);//刷新
+        controller().connect("midway", this::midway);//中途流标
+        controller().connect("excel", this::excel);
+
         this.id = id;
         this.role = role;
-        setTitle(controller().getMessage("tender") + "-" + id);
-        new ProjectProxy().queryTenders(id)
-                          .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+        setTitle(getTitle() + id);
+        new AuditProxy().queryTenders(id)
+                        .thenApplyAsync(Result::list)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
 
 
         if (role == 60 || role == 70 || role == 80 || role == 90 || role == 999) {
@@ -42,18 +51,15 @@ public class BrowsePrjTenderDlg extends DialogPane {
             controller().hide("midway");
             controller().hide("check");
         }
+
     }
 
-    @Override
-    protected void initUi() {
-        super.initUi();
-        controller().disable("revoke");
-        controller().connect("list", "change", this::listChanged);
-
-        controller().connect("revoke", this::revoke);//撤销投标
-        controller().connect("refresh", this::refresh);//刷新
-        controller().connect("midway", this::midway);//中途流标
-
+    private void excel(
+            ActionEvent actionEvent
+    ) {
+        JTable table = controller().get(JTable.class, "list");
+        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
     }
 
     //中途流标
@@ -62,17 +68,17 @@ public class BrowsePrjTenderDlg extends DialogPane {
     ) {
         String confirmTenderText = controller().formatMessage("confirm-tender-text");
         String confirmComplete = controller().formatMessage("confirm-complete");
-        if (confirm(confirmTenderText, confirmComplete)) {
+        if (confirm(this.getOwner(), confirmTenderText, confirmComplete)) {
             final Map<String, Object> params = new HashMap<>();
             if (this.id != 0) {
                 params.put("p-id", id);
             }
             params.put("comments", null);
-            new ProjectProxy().busVpStopRaising(params, this.id)
-                              .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle)
-                              .thenAcceptAsync(v -> controller().enable("auctions"), UPDATE_UI);
+            new AuditProxy().busVpStopRaising(params)
+                            .thenApplyAsync(Result::map)
+                            .thenAcceptAsync(this::saveCallback, UPDATE_UI)
+                            .exceptionally(ErrorHandler::handle)
+                            .thenAcceptAsync(v -> controller().enable("auctions"), UPDATE_UI);
         }
     }
 
@@ -83,15 +89,16 @@ public class BrowsePrjTenderDlg extends DialogPane {
     ) {
         controller().disable("revoke");
         String confirmRevokeText = controller().formatMessage("confirm-revoke-text");
-        if (confirm(confirmRevokeText)) {
+        if (confirm(this.getOwner(), confirmRevokeText)) {
             final Map<String, Object> params = new HashMap<>();
             params.put("remark", null);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final long ttId = tableModel.getNumberByName(table.getSelectedRow(), "ttId");
-            new ProjectProxy().createTsCancelTender(ttId, params)
-                              .thenApplyAsync(Result::map)
-                              .whenCompleteAsync(this::delCallback, UPDATE_UI);
+            params.put("tt-id", ttId);
+            new AuditProxy().createTsCancelTender(params)
+                            .thenApplyAsync(Result::map)
+                            .whenCompleteAsync(this::delCallback, UPDATE_UI);
         }
     }
 
@@ -100,10 +107,10 @@ public class BrowsePrjTenderDlg extends DialogPane {
     private void refresh(
             ActionEvent actionEvent
     ) {
-        new ProjectProxy().queryTenders(id)
-                          .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+        new AuditProxy().queryTenders(id)
+                        .thenApplyAsync(Result::list)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
         controller().disable("revoke");
     }
 

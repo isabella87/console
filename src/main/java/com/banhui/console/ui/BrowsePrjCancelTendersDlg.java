@@ -1,17 +1,20 @@
 package com.banhui.console.ui;
 
+import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
+import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 
@@ -25,20 +28,28 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
             long id
     ) {
         this.id = id;
-        setTitle(controller().getMessage("cancelTenders") + "-" + id);
-        new ProjectProxy().queryCancelTenders(id)
-                          .thenApplyAsync(Result::map)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
-    }
+        setTitle(getTitle() + id);
+        new AuditProxy().queryCancelTenders(id)
+                        .thenApplyAsync(Result::map)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
+        JLabel perAmtLable = controller().get(JLabel.class, "progress");
+        perAmtLable.setForeground(Color.red);
 
-    @Override
-    protected void initUi() {
-        super.initUi();
         controller().connect("list", "change", this::listChanged);
-        controller().disable("execute");
         controller().connect("execute", this::execute);
         controller().connect("refresh", this::refresh);
+        controller().connect("excel", this::excel);
+
+        controller().disable("execute");
+    }
+
+    private void excel(
+            ActionEvent actionEvent
+    ) {
+        JTable table = controller().get(JTable.class, "list");
+        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
     }
 
     //执行流标
@@ -47,18 +58,15 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
     ) {
         String confirmCancelTenderText = controller().formatMessage("confirm-cancel-tender");
         String confirmText = controller().formatMessage("confirm-text");
-        if (confirm(confirmCancelTenderText, confirmText)) {
+        if (confirm(this.getOwner(), confirmCancelTenderText, confirmText)) {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final int selectedRow = table.getSelectedRow();
             final long tctId = tableModel.getNumberByName(selectedRow, "tctId");
-            new ProjectProxy().execute(tctId)
-                              .thenApplyAsync(Result::map);
-            new ProjectProxy().queryCancelTenders(id)
-                              .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle)
-                              .thenAcceptAsync(v -> controller().enable("execute"), UPDATE_UI);
+            new AuditProxy().execute(tctId)
+                            .thenApplyAsync(Result::map)
+                            .thenAcceptAsync(v -> controller().enable("execute"), UPDATE_UI);
+
         }
     }
 
@@ -66,10 +74,10 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
     private void refresh(
             ActionEvent actionEvent
     ) {
-        new ProjectProxy().queryCancelTenders(id)
-                          .thenApplyAsync(Result::map)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+        new AuditProxy().queryCancelTenders(id)
+                        .thenApplyAsync(Result::map)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
         controller().disable("execute");
     }
 
@@ -94,7 +102,7 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
                 sum2 = sum2 + execute;
             }
         }
-        controller().setText("progress", "已执行金额:" + sum2 + "元  " + "总共金额:" + (sum1 + sum2) + "元");
+        controller().setText("progress", controller().formatMessage("progress-text", sum2, (sum1 + sum2)));
     }
 
     private void listChanged(
@@ -107,14 +115,16 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
         }
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectedRow = table.getSelectedRow();
-        long tctId = tableModel.getNumberByName(selectedRow, "tctId");
-
         final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
         Collection<Map<String, Object>> child = new ArrayList<>();
-        for (Map<String, Object> item : children) {
-            if (Long.valueOf(item.get("tsId").toString()) == tctId) {
-                child.add(item);
+
+        int selectedRow = table.getSelectedRow();
+        if (table.getSelectedRow() > -1) {
+            long tctId = tableModel.getNumberByName(selectedRow, "tctId");
+            for (Map<String, Object> item : children) {
+                if (Long.valueOf(item.get("tsId").toString()) == tctId) {
+                    child.add(item);
+                }
             }
         }
         detailTableModel.setAllRows(child);

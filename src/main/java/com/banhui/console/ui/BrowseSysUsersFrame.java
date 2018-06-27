@@ -2,11 +2,11 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.Result;
 import com.banhui.console.rpc.SysProxy;
-import org.xx.armory.swing.Application;
 import org.xx.armory.swing.UIUtils;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.ListItem;
+import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
@@ -15,10 +15,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static org.xx.armory.swing.DialogUtils.confirm;
+import static java.util.Arrays.stream;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.ComponentUtils.updateDropDown;
+import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 
@@ -31,7 +33,7 @@ public class BrowseSysUsersFrame
         controller().connect("search", this::search);
         controller().connect("create", this::create);
         controller().connect("edit", this::edit);
-        controller().connect("reset-password", this::resetPassword);
+        controller().connect("reset-password", this::resetPassword2);
         controller().connect("delete", this::delete);
         controller().connect("list", "change", this::listChanged);
 
@@ -103,7 +105,7 @@ public class BrowseSysUsersFrame
         final EditSysUserDlg dlg = new EditSysUserDlg("");
         dlg.setFixedSize(false);
 
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             final Map<String, Object> row = dlg.getResultObj();
 
             if (row != null && !row.isEmpty()) {
@@ -126,7 +128,7 @@ public class BrowseSysUsersFrame
         final EditSysUserDlg dlg = new EditSysUserDlg(userName);
         dlg.setFixedSize(false);
 
-        if (showModel(Application.mainFrame(), dlg) == DialogPane.OK) {
+        if (showModel(null, dlg) == DialogPane.OK) {
             final Map<String, Object> row = dlg.getResultObj();
 
             if (row != null && !row.isEmpty()) {
@@ -147,13 +149,59 @@ public class BrowseSysUsersFrame
         final String userName = tableModel.getStringByName(selectedRow, "userName");
 
         final String message = controller().formatMessage("confirm-reset-password", userName);
-        if (confirm(message)) {
+        if (confirm(null, message)) {
             controller().disable("reset-password");
 
             new SysProxy().resetPassword(userName)
                           .thenAcceptAsync(Result::none)
                           .whenCompleteAsync(this::resetPasswordCallback, UPDATE_UI);
         }
+    }
+
+    private void resetPassword2(
+            ActionEvent event
+    ) {
+        final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<String>() {
+            @Override
+            public String getTitle() {
+                return controller().getMessage("reset-password-execution");
+            }
+
+            @Override
+            protected Collection<String> load() {
+                final JTable table = controller().get(JTable.class, "list");
+                final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+                final int[] selectedRows = table.getSelectedRows();
+                return stream(selectedRows)
+                        .mapToObj(row -> tableModel.getStringByName(row, "userName"))
+                        .collect(Collectors.toList());
+            }
+
+            @Override
+            protected String getCurrent(
+                    int i,
+                    String s
+            ) {
+                return "正在执行: " + s;
+            }
+
+            @Override
+            protected void execute(
+                    int i,
+                    String id
+            ) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    return;
+                }
+
+                System.out.println("running: " + id);
+            }
+        });
+
+        final int result = showModel(null, dlg);
+        System.out.println("##" + result);
     }
 
     private void delete(
@@ -169,7 +217,7 @@ public class BrowseSysUsersFrame
 
         final String message = controller().formatMessage("confirm-delete", userName);
         final String expectedValue = controller().getMessage("confirm-delete-expected");
-        if (confirm(message, expectedValue)) {
+        if (confirm(null, message, expectedValue)) {
             controller().disable("delete");
 
             new SysProxy().delete(userName)
@@ -189,7 +237,7 @@ public class BrowseSysUsersFrame
             controller().enable("delete");
         } else if (selectedRows.length > 1) {
             controller().disable("edit");
-            controller().disable("reset-password");
+            controller().enable("reset-password");
             controller().disable("delete");
         }
     }

@@ -4,13 +4,16 @@ import org.xx.armory.swing.Application;
 import org.xx.armory.swing.MDIFrameUIController;
 import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.AboutDialog;
+import org.xx.armory.swing.components.DialogPane;
+import org.xx.armory.swing.components.StatusBar;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static javax.swing.BorderFactory.createMatteBorder;
+import static org.xx.armory.swing.ComponentUtils.combineBorders;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 
 public final class MainFrame
@@ -21,7 +24,7 @@ public final class MainFrame
         initUi();
 
         // 设置标题。
-        setTitle(getTitle() + " " + Application.version());
+        setTitle(getTitle() + " " + this.uiController.formatMessage("title-version", Application.version()));
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -33,6 +36,9 @@ public final class MainFrame
                 MainFrame.this.toFront();
 
                 final int result = showModel(MainFrame.this, new SignInDlg());
+                if (result == DialogPane.OK) {
+                    // 更新当前用户。
+                }
             }
         });
     }
@@ -45,6 +51,11 @@ public final class MainFrame
         this.uiController.load();
 
         this.uiController.connect("browseProjects", this::browseProjects);
+        this.uiController.connect("browseCreditAssignments", this::browseCreditAssignments);
+        this.uiController.connect("dailyStatistic", this::dailyStatistic);
+        this.uiController.connect("monthStatistic", this::monthStatistic);
+        this.uiController.connect("firstInvestor", this::firstInvestor);
+        this.uiController.connect("vipInvestor", this::vipInvestor);
 
         this.uiController.connect("browseBaPrjEngineers", this::browseBaPrjEngineers);
         this.uiController.connect("browseBaPrjCtors", this::browseBaPrjCtors);
@@ -54,7 +65,16 @@ public final class MainFrame
         this.uiController.connect("browseBaPrjBorPers", this::browseBaPrjBorPers);
         this.uiController.connect("browseBaPrjBorOrgs", this::browseBaPrjBorOrgs);
 
+        this.uiController.connect("browsePerson", this::browsePerson);
+        this.uiController.connect("browseCorp", this::browseCorp);
+        this.uiController.connect("browseCommerceTrade", this::browseCommerceTrade);
+        this.uiController.connect("browseYiMeiMessage", this::browseYiMeiMessage);
+        this.uiController.connect("browsePlatformMessage", this::browsePlatformMessage);
+
         this.uiController.connect("browseSysUsers", this::browseSysUsers);
+        this.uiController.connect("changePassword", this::changePassword);
+
+        this.uiController.connect("editSettings", this::editSettings);
         this.uiController.connect("exit", this::exit);
         this.uiController.connect("about", this::about);
 
@@ -62,20 +82,59 @@ public final class MainFrame
         initStatusBar();
     }
 
+    private void browseCreditAssignments(ActionEvent actionEvent) {
+
+    }
+
+    private void dailyStatistic(ActionEvent actionEvent) {
+
+    }
+
+    private void monthStatistic(ActionEvent actionEvent) {
+
+    }
+
+    private void firstInvestor(ActionEvent actionEvent) {
+    }
+
+    private void vipInvestor(ActionEvent actionEvent) {
+
+    }
+
+    private void browsePerson(ActionEvent actionEvent) {
+    }
+
+    private void browseCorp(ActionEvent actionEvent) {
+    }
+
+    private void browseCommerceTrade(ActionEvent actionEvent) {
+    }
+
+    private void browsePlatformMessage(ActionEvent actionEvent) {
+        this.uiController.openChild("browsePlatformMessage",BrowsePlatformMessageFrame::new);
+    }
+
+    private void browseYiMeiMessage(ActionEvent actionEvent) {
+        this.uiController.openChild("browseYiMeiMessage",BrowseYiMeiMessageFrame::new);
+    }
+
     private void initStatusBar() {
-        final JPanel statusBar = new JPanel();
-        statusBar.setLayout(new FlowLayout(FlowLayout.LEADING, 2, 2));
+        final StatusBar statusBar = this.uiController.getStatusBar();
+        statusBar.setBorder(combineBorders(createMatteBorder(2, 0, 0, 0, getBackground().brighter()), statusBar.getBorder()));
 
         final JLabel toolTipLabel = new JLabel();
         toolTipLabel.setText("aaaaa");
-        statusBar.add(toolTipLabel);
 
         final JProgressBar progressBar = new JProgressBar();
         progressBar.setBorderPainted(true);
         progressBar.setOrientation(JProgressBar.HORIZONTAL);
-        statusBar.add(progressBar);
 
-        this.add(statusBar, BorderLayout.SOUTH);
+        final JButton showRpcHistory = new JButton();
+        showRpcHistory.setText("History");
+
+        statusBar.add(toolTipLabel);
+        statusBar.add(progressBar);
+        statusBar.add(showRpcHistory);
     }
 
     private void browseProjects(
@@ -132,10 +191,22 @@ public final class MainFrame
         this.uiController.openChild("browseSysUsers", BrowseSysUsersFrame::new);
     }
 
+    private void changePassword(
+            ActionEvent event
+    ) {
+        showModel(this, new ChangePasswordDlg());
+    }
+
+    private void editSettings(
+            ActionEvent event
+    ) {
+        showModel(this, new SettingsDlg());
+    }
+
     private void about(
             ActionEvent event
     ) {
-        AboutDialog dlg = new AboutDialog();
+        final AboutDialog dlg = new AboutDialog();
         dlg.setFixedSize(false);
 
         showModel(this, dlg);

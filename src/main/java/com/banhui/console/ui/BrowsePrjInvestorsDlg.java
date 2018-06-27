@@ -1,5 +1,7 @@
 package com.banhui.console.ui;
 
+
+import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
@@ -20,26 +22,20 @@ public class BrowsePrjInvestorsDlg extends DialogPane {
             long id
     ) {
         this.id = id;
-        setTitle(controller().getMessage("investor") + "-" + id);
-        new ProjectProxy().queryInvestorInfosByPId(id)
-                          .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
-    }
-
-    @Override
-    protected void initUi() {
-        super.initUi();
+        setTitle(getTitle() + id);
+        new AuditProxy().queryInvestorInfosByPId(id)
+                        .thenApplyAsync(Result::list)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
         controller().connect("refresh", this::refresh);
     }
-
 
     private void refresh(
             ActionEvent actionEvent
     ) {
-        new ProjectProxy().queryInvestorInfosByPId(id)
-                          .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI);
+        new AuditProxy().queryInvestorInfosByPId(id)
+                        .thenApplyAsync(Result::list)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(

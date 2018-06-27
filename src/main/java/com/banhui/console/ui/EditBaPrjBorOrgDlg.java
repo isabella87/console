@@ -38,12 +38,6 @@ public class EditBaPrjBorOrgDlg
     }
 
     @Override
-    protected void initUi() {
-        super.initUi();
-
-    }
-
-    @Override
     public void done(
             int result
     ) {
@@ -113,9 +107,8 @@ public class EditBaPrjBorOrgDlg
                                .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("org-name", stringValue(data, "orgName"));
         controller().setText("show-org-name", stringValue(data, "showOrgName"));

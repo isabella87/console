@@ -13,7 +13,7 @@ import org.xx.armory.swing.ApplicationAdapter;
 import org.xx.armory.swing.ApplicationEvent;
 
 import javax.swing.plaf.FontUIResource;
-import java.awt.*;
+import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -54,8 +54,9 @@ public class MainEntry {
             @Override
             public void startUp(ApplicationEvent event) {
                 super.startUp(event);
+
                 ConfigurationManager.register(new XmlFileConfigurationProvider("classpath://armory.xml"));
-                HttpManager.setBaseUri(URI.create("http://192.168.11.30/p2psrv/"));
+                HttpManager.setBaseUri(URI.create(Application.settings().getProperty("rpc-base-uri")));
             }
         });
 

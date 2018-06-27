@@ -44,7 +44,7 @@ public final class ErrorHandler {
                 dlg = new ErrorDialog<>(cause);
             }
 
-            showModel(Application.mainFrame(), dlg);
+            showModel(null, dlg);
         } else {
             UIUtils.defaultDumpThrowable(cause);
         }

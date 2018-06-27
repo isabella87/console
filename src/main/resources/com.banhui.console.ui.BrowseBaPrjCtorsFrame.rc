@@ -19,8 +19,8 @@
         <option value="0">今年</option>
     </options>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row stretch="0">
+        <column />
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <label mnemonic="D" for="create-date">创建时间(D)：</label>
@@ -34,7 +34,7 @@
                 </boxLayout>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="create"/>
@@ -44,7 +44,7 @@
                 </boxLayout>
             </cell>
         </row>
-        <row>
+        <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>

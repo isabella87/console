@@ -38,12 +38,6 @@ public class EditBaPrjOwnerDlg
     }
 
     @Override
-    protected void initUi() {
-        super.initUi();
-
-    }
-
-    @Override
     public void done(
             int result
     ) {
@@ -91,9 +85,8 @@ public class EditBaPrjOwnerDlg
                               .exceptionally(ErrorHandler::handle);
     }
 
-    @SuppressWarnings("unchecked")
     private void updateDataCallback(
-            Map data
+            Map<String, Object> data
     ) {
         controller().setText("owner-name", stringValue(data, "ownerName"));
         controller().setText("show-owner-name", stringValue(data, "ownerShowName"));

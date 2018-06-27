@@ -5,19 +5,16 @@
         title="贷款项目"
         width="800"
         height="600">
+    <message name="confirm-delete-text"><![CDATA[确定以下项目 <b>{}</b> : 此操作不可恢复!确认吗？]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
-    <action name="create" title="创建(C)" mnemonic="C" smallIcon="create.png"/>
-    <action name="audit" title="审批(A)" mnemonic="A"/>
-    <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
+    <action name="create" title="发起项目(C)" mnemonic="C"/>
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
+    <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
     <action name="delete" title="删除(X)" mnemonic="X"/>
-    <action name="prj-sign" title="项目签章"/>
-    <action name="credit-sign" title="债权签章"/>
-    <action name="repay" title="还款"/>
-    <action name="hide" title="隐藏"/>
-    <action name="top" title="置顶"/>
-    <action name="repayed-upload-record" title="查看还款文件上传记录(A)" mnemonic="A"/>
-    <action name="loaded-upload-record" title="查看放款文件上传记录(B)" mnemonic="B"/>
+    <action name="audit" title="审批(A)" mnemonic="A"/>
+    <action name="repay" title="还款(R)" mnemonic="R"/>
+    <action name="repay-history" title="查询还款文件上传记录"/>
+    <action name="loan-history" title="查询放款文件上传记录"/>
     <options name="status">
         <option value="0">未提交</option>
         <option value="1">待项目经理审批</option>
@@ -38,8 +35,8 @@
         <option value="1">已签章</option>
     </options>
     <gridLayout>
-        <column stretch="1" alignment="FIRST"/>
-        <row stretch="0">
+        <column/>
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <dropDown name="date-type">
@@ -64,18 +61,21 @@
                 </boxLayout>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="create"/>
-                    <button actionName="audit"/>
-                    <button actionName="view"/>
-                    <button actionName="edit"/>
+                    <button actionName="edit" name="edit"/>
+                    <button actionName="view" name="view"/>
                     <button actionName="delete"/>
+                    <button actionName="audit"/>
+                    <button actionName="repay"/>
+                    <button actionName="repay-history"/>
+                    <button actionName="loan-history"/>
                 </boxLayout>
             </cell>
         </row>
-        <row>
+        <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>

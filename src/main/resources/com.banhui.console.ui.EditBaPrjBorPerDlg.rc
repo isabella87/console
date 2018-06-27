@@ -23,235 +23,240 @@
         <option>不便分类的其他从业人员</option>
     </options>
 
-    <tabLayout>
-        <tab title="基础" description="基础数据">
-            <gridLayout>
-                <column stretch="0" alignment="FIRST"/>
-                <column stretch="100" alignment="BOTH"/>
-                <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
-                <column stretch="100" alignment="BOTH"/> <!--两端拉升 -->
-                <row stretch="0">
-                    <cell>
-                        <label for="real-name">姓名：</label>
-                    </cell>
-                    <cell>
-                        <text name="real-name" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="show-name">展示名称：</label>
-                    </cell>
-                    <cell>
-                        <text name="show-name" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="age">年龄：</label>
-                    </cell>
-                    <cell>
-                        <text name="age" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="show-age">展示年龄：</label>
-                    </cell>
-                    <cell>
-                        <text name="show-age" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="mobile">手机号码：</label>
-                    </cell>
-                    <cell>
-                        <text name="mobile" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="email">E-Mail：</label>
-                    </cell>
-                    <cell>
-                        <text name="email" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="wchat">微信：</label>
-                    </cell>
-                    <cell>
-                        <text name="wchat" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="fax">传真：</label>
-                    </cell>
-                    <cell>
-                        <text name="fax" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="gender">性别：</label>
-                    </cell>
-                    <cell>
-                        <dropDown name="gender" optionsName="genders" size="8"/>
-                    </cell>
-                    <cell>
-                        <label for="work-years">从业经历：</label>
-                    </cell>
-                    <cell>
-                        <text name="work-years" size="8" suffix="年"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="id-card">身份证：</label>
-                    </cell>
-                    <cell>
-                        <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="18" />
-                    </cell>
-                    <cell>
-                        <label for="id-card-address">地址：</label>
-                    </cell>
-                    <cell>
-                        <boxLayout>
-                            <text name="id-card-address-prov" size="6" suffix="省"/>
-                            <text name="id-card-address-city" size="4" suffix="市"/>
-                        </boxLayout>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="address">现住址：</label>
-                    </cell>
-                    <cell>
-                        <text name="address" size="24"/>
+    <boxLayout >
+        <tabbedPane>
+            <tab title="基础" description="基础数据">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="real-name">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="real-name" required="true" pattern="\w{2,}" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="show-name">展示名称：</label>
+                        </cell>
+                        <cell>
+                            <text name="show-name" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="age">年龄：</label>
+                        </cell>
+                        <cell>
+                            <text name="age" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="show-age">展示年龄：</label>
+                        </cell>
+                        <cell>
+                            <text name="show-age" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="mobile">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="mobile" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="email">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="email" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="wchat">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="wchat" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="fax">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="fax" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="gender">性别：</label>
+                        </cell>
+                        <cell>
+                            <dropDown name="gender" optionsName="genders" size="8"/>
+                        </cell>
+                        <cell>
+                            <label for="work-years">从业经历：</label>
+                        </cell>
+                        <cell>
+                            <text name="work-years" size="8" suffix="年"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="id-card">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="18"/>
+                        </cell>
+                        <cell>
+                            <label for="id-card-address">地址：</label>
+                        </cell>
+                        <cell>
+                            <boxLayout>
+                                <text name="id-card-address-prov" size="6" suffix="省"/>
+                                <text name="id-card-address-city" size="4" suffix="市"/>
+                            </boxLayout>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="address">现住址：</label>
+                        </cell>
+                        <cell>
+                            <text name="address" size="24"/>
 
-                    </cell>
-                    <cell>
-                        <label for="show-address">展示地址：</label>
-                    </cell>
-                    <cell>
-                        <text name="show-address" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="company">工作单位：</label>
-                    </cell>
-                    <cell>
-                        <text name="company" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="position">现任职务：</label>
-                    </cell>
-                    <cell>
-                        <text name="position" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="industry">所属行业：</label>
-                    </cell>
-                    <cell>
-                        <text name="industry" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="work-nature">工作性质：</label>
-                    </cell>
-                    <cell>
-                        <text name="work-nature" optionsName="works" size="20"/>
-                    </cell>
-                </row>
-                <row stretch="100">
-                    <cell verticalAlignment="FIRST">
-                        <label for="other-info">其他信息：</label>
-                    </cell>
-                    <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
-                        <text name="other-info" type="TEXT_AREA" rowSize="3"/>
-                    </cell>
-                </row>
-            </gridLayout>
-        </tab>
-        <tab title="联系人" description="联系人数据">
-            <gridLayout>
-                <column stretch="0" alignment="FIRST"/>
-                <column stretch="100" alignment="BOTH"/>
-                <column stretch="0" alignment="FIRST"/>  <!--左对齐 -->
-                <column stretch="100" alignment="BOTH"/> <!--两端拉升 -->
-                <row stretch="0">
-                    <cell>
-                        <label for="linkman-name">姓名：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-name" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="linkman-show-name">展示姓名：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-show-name" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="linkman-mobile">手机号码：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-mobile" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="linkman-email">E-Mail：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-email" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="linkman-wchat">微信：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-wchat" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="linkman-fax">传真：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-fax" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="linkman-address">送达地址：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-address" size="24"/>
-                    </cell>
-                    <cell>
-                        <label for="linkman-show-address">展示地址：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-show-address" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="0">
-                    <cell>
-                        <label for="linkman-id-card">身份证：</label>
-                    </cell>
-                    <cell>
-                        <text name="linkman-id-card" size="24"/>
-                    </cell>
-                </row>
-                <row stretch="100">
-                    <cell verticalAlignment="FIRST">
-                        <label for="intro">介绍：</label>
-                    </cell>
-                    <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
-                        <text name="intro" type="TEXT_AREA" rowSize="6"/>
-                    </cell>
-                </row>
-            </gridLayout>
-        </tab>
-    </tabLayout>
-    <boxLayout horizontalAlignment="CENTER">
+                        </cell>
+                        <cell>
+                            <label for="show-address">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="show-address" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="company">工作单位：</label>
+                        </cell>
+                        <cell>
+                            <text name="company" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="position">现任职务：</label>
+                        </cell>
+                        <cell>
+                            <text name="position" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="industry">所属行业：</label>
+                        </cell>
+                        <cell>
+                            <text name="industry" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="work-nature">工作性质：</label>
+                        </cell>
+                        <cell>
+                            <text name="work-nature" optionsName="works" size="20"/>
+                        </cell>
+                    </row>
+                    <row stretch="100">
+                        <cell verticalAlignment="FIRST">
+                            <label for="other-info">其他信息：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                            <text name="other-info" type="TEXT_AREA" rowSize="3"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="联系人" description="联系人数据">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name" pattern="\w{2,}" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address" size="24"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card" size="24"/>
+                        </cell>
+                    </row>
+                    <row stretch="100">
+                        <cell verticalAlignment="FIRST">
+                            <label for="intro">介绍：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                            <text name="intro" type="TEXT_AREA" rowSize="6"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout>
+        <ruler/>
+    </boxLayout>
+    <boxLayout  horizontalAlignment="CENTER">
         <button actionName="ok" default="true"/>
         <button actionName="cancel"/>
     </boxLayout>

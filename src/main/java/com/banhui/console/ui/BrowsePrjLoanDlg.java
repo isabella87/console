@@ -1,39 +1,51 @@
 package com.banhui.console.ui;
 
+import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
+import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 public class BrowsePrjLoanDlg extends DialogPane {
 
     private volatile long id;
-    private Map<String, Object> row;
+    private Collection<Map<String, Object>> children;
 
     public BrowsePrjLoanDlg(
             long id
     ) {
         this.id = id;
-        setTitle(controller().getMessage("title") + "-" + id);
-        new ProjectProxy().queryLoans(id)
-                          .thenApplyAsync(Result::map)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
-    }
+        setTitle(getTitle() + id);
+        new AuditProxy().queryLoans(id)
+                        .thenApplyAsync(Result::map)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
+        JLabel perAmtLable = controller().get(JLabel.class, "progress");
+        perAmtLable.setForeground(Color.red);
 
-    @Override
-    protected void initUi() {
-        super.initUi();
+        controller().connect("list", "change", this::listChanged);
         controller().connect("loan", this::loan);
         controller().connect("refresh", this::refresh);
+        controller().connect("excel", this::excel);
+    }
+
+    private void excel(
+            ActionEvent actionEvent
+    ) {
+        JTable table = controller().get(JTable.class, "list");
+        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
     }
 
     //执行放款
@@ -42,13 +54,13 @@ public class BrowsePrjLoanDlg extends DialogPane {
     ) {
         String confirmLoanText = controller().formatMessage("confirm-loan-text");
         String confirmText = controller().formatMessage("confirm-text");
-        if (confirm(confirmLoanText, confirmText)) {
-            new ProjectProxy().executeLoan(id)
-                              .thenApplyAsync(Result::map);
-            new ProjectProxy().queryLoans(id)
-                              .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle);
+        if (confirm(this.getOwner(), confirmLoanText, confirmText)) {
+            new AuditProxy().executeLoan(id)
+                            .thenApplyAsync(Result::map);
+            new AuditProxy().queryLoans(id)
+                            .thenApplyAsync(Result::map)
+                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                            .exceptionally(ErrorHandler::handle);
         }
     }
 
@@ -56,10 +68,10 @@ public class BrowsePrjLoanDlg extends DialogPane {
     private void refresh(
             ActionEvent actionEvent
     ) {
-        new ProjectProxy().queryLoans(id)
-                          .thenApplyAsync(Result::map)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+        new AuditProxy().queryLoans(id)
+                        .thenApplyAsync(Result::map)
+                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                        .exceptionally(ErrorHandler::handle);
     }
 
     @SuppressWarnings("unchecked")
@@ -67,11 +79,10 @@ public class BrowsePrjLoanDlg extends DialogPane {
             Map<String, Object> map
     ) {
         Collection<Map<String, Object>> items = (Collection<Map<String, Object>>) map.get("items");
+        children = (Collection<Map<String, Object>>) map.get("children");
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        Collection<Map<String, Object>> children = (Collection<Map<String, Object>>) map.get("children");
-        final TypedTableModel tableModel2 = (TypedTableModel) controller().get(JTable.class, "list2").getModel();
         tableModel.setAllRows(items);
-        tableModel2.setAllRows(children);
+
         double sum1 = 0L;
         double sum2 = 0L;
         for (int i = 0; i < items.size(); i++) {
@@ -84,13 +95,28 @@ public class BrowsePrjLoanDlg extends DialogPane {
                 sum2 = sum2 + execute;
             }
         }
-        controller().setText("progress", "已执行金额" + sum2 + "元  " + "总共金额:" + (sum1 + sum2) + "元");
+        controller().setText("progress", controller().formatMessage("progress-text", sum2, (sum1 + sum2)));
     }
 
-    private void saveCallback(
-            Map<String, Object> row
+    private void listChanged(
+            Object event
     ) {
-        this.row = row;
-        super.done(OK);
+        JTable table = controller().get(JTable.class, "list");
+        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+
+        final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
+        Collection<Map<String, Object>> child = new ArrayList<>();
+
+        if (table.getSelectedRow() > -1) {
+            long tlId = tableModel.getNumberByName(selectRow, "tlId");
+            for (Map<String, Object> item : children) {
+                if (Long.valueOf(item.get("tsId").toString()) == tlId) {
+                    child.add(item);
+                }
+            }
+        }
+        detailTableModel.setAllRows(child);
     }
+
 }

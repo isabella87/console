@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="文件-"
+        height="500"
+        width="650"
+>
+    <action name="refresh" title="刷新" smallIcon="search.png"/>
+    <action name="upload" title="上传"/>
+    <action name="download" title="下载"/>
+    <action name="delete" title="删除" smallIcon="delete.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="refresh" name="refresh"/>
+                    <button actionName="upload" name="upload"/>
+                    <button actionName="download" name="download"/>
+                    <button actionName="delete" name="delete"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="loginName" title="文件" type="TEXT" size="200"/>
+                    <tableColumn name="mobile" title="大小" type="TEXT" size="160"/>
+                    <tableColumn name="_row" title="最新修改时间" type="DATE_TIME" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

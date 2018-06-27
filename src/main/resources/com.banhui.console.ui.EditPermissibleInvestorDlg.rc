@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="白名单-"
+        width="600"
+        height="450">
+    <message name="confirm-delete-text"><![CDATA[确定删除吗？]]></message>
+    <action name="leadIn" title="手工录入(W)" mnemonic="U"/>
+    <action name="batchIn" title="批量导入(X)" mnemonic="X"/>
+    <action name="delete" title="删除(D)" mnemonic="D" smallIcon="delete.png"/>
+    <action name="search" title="搜索（S）" mnemonic="S" smallIcon="search.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="leadIn" name="leadIn"/>
+                    <button actionName="batchIn" name="batchIn"/>
+                    <button actionName="delete"/>
+                    <label for="key">关键字（K）</label>
+                    <text name="key"/>
+                    <button actionName="search" name="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn title="ID" size="80" type="TEXT" name="auId"/>
+                    <tableColumn title="登录名" size="140" type="TEXT" name="loginName"/>
+                    <tableColumn title="手机号" size="140" type="TEXT" name="mobile"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

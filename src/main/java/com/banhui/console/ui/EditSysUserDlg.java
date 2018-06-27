@@ -46,6 +46,8 @@ public class EditSysUserDlg
             setTitle(controller().getMessage("edit") + getTitle());
         }
 
+        controller().connect("", "verify-error", MsgUtils::verifyError);
+
         updateData();
     }
 

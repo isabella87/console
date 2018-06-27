@@ -12,181 +12,155 @@ public class ProjectProxy
      *         查询条件。
      * @return 符合条件的贷款项目列表。
      */
-    public CompletableFuture<Result> allProjects(
-            Map<String, Object> params
-    ) {
+    public CompletableFuture<Result> allProjects(Map<String, Object> params) {
         return super.http().get("mgr/prj/loan-projs", params);
     }
 
-    //查询投标信息
-    public CompletableFuture<Result> queryTenders(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/tenders", null);
+    public CompletableFuture<Result> queryPrjLoanById(long id) {
+        return super.http().get("mgr/prj/loan-projs/" + id, null);
     }
 
-    //撤销投标
-    public CompletableFuture<Result> createTsCancelTender(
-            long tt_id,
-            Map<String, Object> params
-    ) {
-        return super.http().put("mgr/trans/tenders/" + tt_id + "/cancellation", params);
+    public CompletableFuture<Result> deletePrjLoan(long id) {
+        return super.http().delete("mgr/prj/loan-projs/" + id, null);
     }
 
-    //执行流标（查询）
-    public CompletableFuture<Result> queryCancelTenders(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/cancel-tenders", null);
+    public CompletableFuture<Result> createPrjLoan(Map<String, Object> params) {
+        return super.http().put("mgr/prj/loan-projs", params);
     }
 
-    //执行流标
-    public CompletableFuture<Result> execute(
-            long tct_id
-    ) {
-        return super.http().post("mgr/trans/cancel-tender/" + tct_id + "/execution", null);
+    public CompletableFuture<Result> updatePrjLoan(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid, params);
     }
 
-    //输入服务费
-    public CompletableFuture<Result> updatePrjBond(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/" + id + "/bond", params);
+    public CompletableFuture<Result> queryFinancierById(long id) {
+        return super.http().get("mgr/prj/loan-projs/" + id + "/financier", null);
     }
 
-    //查看放款记录
-    public CompletableFuture<Result> queryLoans(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/loans", null);
+    public CompletableFuture<Result> queryPrjGuaranteePersons(long id) {
+        return super.http().get("mgr/prj/" + id + "/guarantee-person", null);
     }
 
-    //执行放款
-    public CompletableFuture<Result> executeLoan(
-            long id
-    ) {
-        return super.http().post("mgr/prj/" + id + "/batch-loan", null);
+    public CompletableFuture<Result> createPrjGuaranteePerson(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/guarantee-person", params);
     }
 
-    //出借人信息表
-    public CompletableFuture<Result> queryInvestorInfosByPId(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/investors", null);
+    public CompletableFuture<Result> deletePrjGuaranteePerson(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long pgpId = takeLong(params, "pgp-id");
+        return super.http().delete("mgr/prj/" + pid + "/guarantee-person/" + pgpId, params);
     }
 
-    //有效投资
-    public CompletableFuture<Result> queryInvests(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/invests", params);
+    public CompletableFuture<Result> queryPrjGuaranteeOrg(long id) {
+        return super.http().get("mgr/prj/" + id + "/guarantee-org", null);
     }
 
-    //中途流标
-    public CompletableFuture<Result> busVpStopRaising(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/bus-vp-stop-raising", params);
+    public CompletableFuture<Result> createPrjGuaranteeOrg(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/guarantee-org", params);
     }
 
-    public CompletableFuture<Result> prjBonus(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/bonus", null);
+    public CompletableFuture<Result> deletePrjGuaranteeOrg(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long pgoId = takeLong(params, "pgo-id");
+        return super.http().delete("mgr/prj/" + pid + "/guarantee-org/" + pgoId, params);
     }
 
-    //结清
-    public CompletableFuture<Result> completedPrj(
-            long id
-    ) {
-        return super.http().post("mgr/prj/" + id + "/completed", null);
+    public CompletableFuture<Result> queryBorPersons(long id) {
+        return super.http().get("mgr/prj/" + id + "/mgr-person", null);
     }
 
-    //锁定
-    public CompletableFuture<Result> lockPrj(
-            long id
-    ) {
-        return super.http().post("mgr/prj/" + id + "/prj-lock", null);
+    public CompletableFuture<Result> createBorPerson(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/mgr-person", params);
     }
 
-    //解锁
-    public CompletableFuture<Result> unlockPrj(
-            long id
-    ) {
-        return super.http().post("mgr/prj/" + id + "/prj-unlock", null);
+    public CompletableFuture<Result> deleteBorPerson(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long bpmpId = takeLong(params, "bpmp-id");
+        return super.http().delete("mgr/prj/" + pid + "/mgr-person/" + bpmpId, params);
     }
 
-    //锁定状态
-    public CompletableFuture<Result> prjLockStatus(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/prj-lock-status", null);
+    public CompletableFuture<Result> queryBorOrgs(long id) {
+        return super.http().get("mgr/prj/" + id + "/mgr-org", null);
     }
 
-    //查询审批列表
-    public CompletableFuture<Result> queryAudit(
-            long id
-    ) {
-        return super.http().get("mgr/prj/" + id + "/actions", null);
+    public CompletableFuture<Result> createBorOrg(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/mgr-org", params);
     }
 
-    //执行各个审批步骤
-    public CompletableFuture<Result> prjSubmit(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/submittal", params);
+    public CompletableFuture<Result> deleteBorOrg(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long bpmoId = takeLong(params, "bpmo-id");
+        return super.http().delete("mgr/prj/" + pid + "/mgr-org/" + bpmoId, params);
     }
 
-    public CompletableFuture<Result> prjMgrAudit(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/prj-mgr-audit", params);
+    public CompletableFuture<Result> prjMgrPersonsByPrjId(long id) {
+        return super.http().get("mgr/prj/" + id + "/mgr-person", null);
     }
 
-    public CompletableFuture<Result> riskCtrlAudit(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/risk-ctrl-audit", params);
+    public CompletableFuture<Result> prjMgrOrgsByPrjId(long id) {
+        return super.http().get("mgr/prj/" + id + "/mgr-org", null);
     }
 
-    public CompletableFuture<Result> busSecAudit(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/bus-sec-audit", params);
+    public CompletableFuture<Result> prjRating(long id) {
+        return super.http().get("mgr/prj/" + id + "/rating", null);
     }
 
-    public CompletableFuture<Result> busVpAprOnLine(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/bus-vp-apr-online", params);
+    public CompletableFuture<Result> createPrjRating(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/" + pid + "/rating", params);
     }
 
-    public CompletableFuture<Result> busVpConfirmFull(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/bus-vp-confirm-full", params);
+    public CompletableFuture<Result> queryAll(Map<String, Object> params) {
+        return super.http().get("mgr/accounts", params);
     }
 
-    public CompletableFuture<Result> checkFee(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/check-fee", params);
+    public CompletableFuture<Result> previewLoanPrjBonus(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().get("mgr/prj/loan-projs/" + pid + "/preview-bonus", params);
     }
 
-    public CompletableFuture<Result> busVpConfirmLoan(
-            Map<String, Object> params,
-            long id
-    ) {
-        return super.http().post("mgr/prj/loan-projs/" + id + "/bus-vp-confirm-loan", params);
+    public CompletableFuture<Result> updateBonusPeriod(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid + "/bonus-period", params);
+    }
+
+    public CompletableFuture<Result> updateFinancier(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid + "/related-financier", params);
+    }
+
+    public CompletableFuture<Result> updateLoanFinancier(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid + "/financier", params);
+    }
+
+    public CompletableFuture<Result> queryPermissible(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().get("mgr/prj/" + pid + "/permissible-investor", params);
+    }
+
+    public CompletableFuture<Result> deletePermissible(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long auId = takeLong(params, "au-id");
+        return super.http().delete("mgr/prj/" + pid + "/permissible-investor/" + auId, params);
+    }
+
+    public CompletableFuture<Result> delayFinancingDate(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid + "/financing-period-delay", params);
+    }
+
+    public CompletableFuture<Result> createPermission(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/permissible-investor", params);
+    }
+
+    //查询还款文件上传记录
+    public CompletableFuture<Result> queryRepayHistory() {
+        return super.http().get("mgr/prj/ts-repay-history", null);
     }
 }

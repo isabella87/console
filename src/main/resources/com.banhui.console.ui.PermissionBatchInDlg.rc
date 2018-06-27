@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="导入Excel"
+        height="500"
+        width="650"
+>
+    <action name="load" title="载入文件"/>
+    <action name="delete" title="删除"/>
+    <action name="begin" title="开始"/>
+    <action name="stop" title="停止"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="load" name="load"/>
+                    <button actionName="delete" name="delete"/>
+                    <button actionName="begin" name="begin"/>
+                    <button actionName="stop" name="stop"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="loginName" title="登录名" type="TEXT" size="140"/>
+                    <tableColumn name="mobile" title="手机号码" type="TEXT" size="140"/>
+                    <tableColumn name="_row" title="状态" type="TEXT" size="100"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

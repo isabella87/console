@@ -2,7 +2,7 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
-import org.xx.armory.swing.Application;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -12,8 +12,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -24,20 +26,53 @@ public class BrowseProjectsFrame
     /**
      * {@inheritDoc}
      */
-    @Override
-    protected void initUi() {
-        super.initUi();
-
+    public BrowseProjectsFrame() {
         controller().connect("search", this::search);
-        controller().connect("audit",this::audit);
+        controller().connect("audit", this::audit);
+        controller().connect("repay", this::repay);
         controller().connect("view", this::view);
         controller().connect("edit", this::edit);
+        controller().connect("create", this::create);
+        controller().connect("delete", this::delete);
+        controller().connect("repay-history", this::repayHistory);
         controller().connect("list", "change", this::listChanged);
 
         controller().disable("audit");
         controller().disable("view");
         controller().disable("edit");
+        controller().disable("repay");
         controller().disable("delete");
+
+        controller().setNumber("status", 40L);
+    }
+
+    private void repayHistory(
+            ActionEvent actionEvent
+    ) {
+        assertUIThread();
+        final BrowseRepayHistoryDlg dlg = new BrowseRepayHistoryDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
+    private void repay(ActionEvent actionEvent) {
+
+        assertUIThread();
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+
+        final int selectedRow = table.getSelectedRow();
+
+        if (selectedRow < 0) {
+            return;
+        }
+        final long pId = tableModel.getNumberByName(selectedRow, "pId");
+        final long status = tableModel.getNumberByName(selectedRow, "status");
+
+        EditPrjRepayDlg dlg = new EditPrjRepayDlg(pId, status);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void search(
@@ -114,27 +149,108 @@ public class BrowseProjectsFrame
     private void view(
             ActionEvent event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = table.getSelectedRow();
+        if (selectedRow < 0) {
+            return;
+        }
+        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final EditProjectsDlg dlg = new EditProjectsDlg(pId, 0);
+        final long type = tableModel.getNumberByName(selectedRow, "status");
+        if (type == 40) {
+            dlg.controller().enable("delay");
+        }
+        dlg.setFixedSize(false);
+        if (showModel(null, dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            tableModel.setRow(selectedRow, row);
+        }
+    }
 
+    private void create(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = 0;
+
+        final CreateProjectFrame dlg = new CreateProjectFrame();
+        dlg.setFixedSize(false);
+        if (showModel(null, dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, row);
+            }
+        }
+        long pId = dlg.getId();
+        if (pId != 0) {
+            final EditProjectsDlg dlg2 = new EditProjectsDlg(pId, 1);
+            dlg2.setFixedSize(false);
+            showModel(null, dlg2);
+        }
     }
 
     private void edit(
             ActionEvent event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = table.getSelectedRow();
+        if (selectedRow < 0) {
+            return;
+        }
 
+        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final EditProjectsDlg dlg = new EditProjectsDlg(pId, 1);
+        dlg.setFixedSize(false);
+        if (showModel(null, dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            tableModel.setRow(selectedRow, row);
+        }
     }
 
-    //审批
+    private void delete(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+
+        String confirmDeleteText = controller().formatMessage("confirm-delete-text", pId);
+        if (confirm(null, confirmDeleteText)) {
+            controller().disable("delete");
+
+            new ProjectProxy().deletePrjLoan(pId)
+                              .thenApplyAsync(Result::map)
+                              .whenCompleteAsync(this::delCallback, UPDATE_UI);
+        }
+    }
+
+    private void delCallback(
+            Map<String, Object> deletedRow,
+            Throwable t
+    ) {
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("pId"), row.get("pId")));
+        }
+        controller().enable("delete");
+    }
+
     private void audit(
             ActionEvent event
     ) {
         final JTable table = controller().get(JTable.class, "list");
-
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final long id = tableModel.getNumberByName(table.getSelectedRow(), "pId");
         final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
-        final AuditProjectsDlg dlg = new AuditProjectsDlg(id,status);
+        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status);
         dlg.setFixedSize(false);
-        showModel(Application.mainFrame(), dlg);
+        showModel(null, dlg);
     }
 
 
@@ -142,22 +258,43 @@ public class BrowseProjectsFrame
             Object event
     ) {
         int[] selectedRows = controller().get(JTable.class, "list").getSelectedRows();
-        if (selectedRows.length == 1) {
-            // 选中了行，并且仅选中一行。
-            controller().enable("view");
-            controller().enable("edit");
-            controller().enable("delete");
-            controller().enable("audit");
-        } else if (selectedRows.length > 1) {
-            controller().disable("view");
-            controller().disable("edit");
-            controller().enable("delete");
-            controller().disable("audit");
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (table.getSelectedRow() > -1) {
+            final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
+            if (selectedRows.length == 1) {
+                // 选中了行，并且仅选中一行。
+                if (status == 0) {
+                    controller().enable("delete");
+                    controller().show("edit");
+                    controller().enable("edit");
+                    controller().hide("view");
+                    controller().enable("audit");
+
+                } else {
+                    controller().disable("delete");
+                    controller().hide("edit");
+                    controller().show("view");
+                    controller().enable("view");
+                    controller().enable("audit");
+                    if (status >= 90) {
+                        controller().enable("repay");
+                    } else {
+                        controller().disable("repay");
+                    }
+                }
+            } else if (selectedRows.length > 1) {
+                controller().disable("view");
+                controller().disable("edit");
+                controller().disable("audit");
+                controller().disable("repay");
+            }
         } else {
             controller().disable("view");
             controller().disable("edit");
             controller().disable("delete");
             controller().disable("audit");
+            controller().disable("repay");
         }
     }
 }

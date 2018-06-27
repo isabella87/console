@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="延期募集"
+>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <label>新的截止时间：</label>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <text name="datepoint" type="DATE"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

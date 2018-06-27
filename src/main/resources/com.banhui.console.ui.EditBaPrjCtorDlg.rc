@@ -36,16 +36,16 @@
         <option>专业承包贰级及以下</option>
     </options>
     <gridLayout>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
-        <column stretch="0" alignment="FIRST"/>
-        <row stretch="0">
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <column/>
+        <row>
             <cell>
                 <label for="name">企业名称：</label>
             </cell>
             <cell>
-                <text name="name"/>
+                <text name="name" required="true" pattern="\w{2,}"/>
             </cell>
             <cell>
                 <label for="show-name">展示名称：</label>
@@ -54,7 +54,7 @@
                 <text name="show-name"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="ent-nature">企业性质：</label>
             </cell>
@@ -69,7 +69,7 @@
             </cell>
         </row>
 
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="ent-strength">企业实力：</label>
             </cell>
@@ -83,7 +83,7 @@
                 <text name="registered-date" type="DATE"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="reg-years">注册年限：</label>
             </cell>
@@ -97,7 +97,7 @@
                 <text name="show-reg-years" size="10"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="reg-funds">注册资金：</label>
             </cell>
@@ -111,7 +111,7 @@
                 <text name="show-reg-funds" prefix="大于等于>=" suffix="万元" size="8"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="lasted-area">上一年度施工面积：</label>
             </cell>
@@ -125,7 +125,7 @@
                 <text name="lasted-output" suffix="亿" size="10"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="qualification">行业资质：</label>
             </cell>
@@ -133,7 +133,7 @@
                 <text name="qualification" optionsName="qualification" size="10"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
             <cell>
                 <label for="nation-prize-count">全国性工程奖：</label>
             </cell>
@@ -147,17 +147,22 @@
                 <text name="provin-prize-count" size="10" suffix="次"/>
             </cell>
         </row>
-        <row stretch="0">
-            <cell>
+        <row>
+            <cell verticalAlignment="FIRST">
                 <label for="intro">施工单位介绍：</label>
             </cell>
             <cell columnSpan="7" horizontalAlignment="BOTH">
                 <text name="intro" type="TEXT_AREA" rowSize="6"/>
             </cell>
         </row>
-        <row stretch="0">
+        <row>
+            <cell columnSpan="8" horizontalAlignment="BOTH">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
             <cell columnSpan="4" horizontalAlignment="BOTH">
-                <boxLayout border="LOWERED,,," horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="CENTER">
                     <button actionName="ok" default="true"/>
                     <button actionName="cancel"/>
                 </boxLayout>
