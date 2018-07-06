@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="还款计划"
+>
+
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+
+    <options name="tran-type">
+        <option value="0">利息</option>
+        <option value="1">本金</option>
+        <option value="2">罚息</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column stretch="0"/>
+        <column/>
+        <row>
+            <cell>
+                <label>期数</label>
+            </cell>
+            <cell>
+                <text name="tran-no" size="14" type="NUMBER" minValue="1" required="true" maxValue="100"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>类型</label>
+            </cell>
+            <cell>
+                <dropDown name="tran-type" optionsName="tran-type" size="4" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>计划还款日期</label>
+            </cell>
+            <cell>
+                <text name="due-time" type="DATE" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label>应还金额</label>
+            </cell>
+            <cell>
+                <text name="amt" type="CURRENCY" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="LAST" verticalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

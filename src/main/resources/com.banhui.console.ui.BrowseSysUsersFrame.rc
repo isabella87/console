@@ -49,9 +49,9 @@
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="userName" title="登录名" type="TEXT" size="100"/>
                     <tableColumn name="roles" title="角色" type="TEXT" size="320"/>
-                    <tableColumn name="mobile" title="手机号码" type="TEXT" size="100"/>
                     <tableColumn name="enabled" title="是否启用" type="YES_OR_NO" size="30"/>
-                    <tableColumn name="createDate" title="最后修改时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="createDate" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="lastModifiedDate" title="最后修改时间" type="DATE_TIME" size="160"/>
                 </table>
             </cell>
         </row>

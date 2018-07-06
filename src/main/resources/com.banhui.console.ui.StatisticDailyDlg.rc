@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="日数据统计"
+        height="800"
+        width="700"
+>
+    <message name="css"><![CDATA[
+          <html>
+            <head>
+                <meta charset="utf-8" />
+                <title></title>
+                <style type="text/css">
+                    table{
+                        border-collapse:collapse;
+                    }
+                    td{
+                        border: 1px solid black;
+                        text-align: center;
+                        font-weight: bold;
+                    }
+                    div p:nth-child(even){
+                        text-indent: 2em;
+                    }
+                </style>
+            </head>]]>
+    </message>
+    <message name="unit"><![CDATA[<body><p>人数单位：个，金额单位：元<p>]]></message>
+    <message name="explain">
+        <![CDATA[
+                <div>
+                    <p>投资注册人数: </p>
+                    <p>第一次投资时间在指定日的00:00:00到指定日的23:59:59之间的人数</p>
+                    <p>新增注册人数: </p>
+                    <p>注册时间在指定日的00:00:00到指定日的23:59:59之间的人数</p>
+                    <p>提现人数: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功提现的人数(分为投资人和其他两类)</p>
+                    <p>充值人数:</p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功充值的人数(分为投资人和其他两类)</p>
+                    <p>投资人数: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功投资的人数</p>
+                    <p>提现金额: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功提现的总金额(分为投资人和其他两类)</p>
+                    <p>充值金额: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功充值的总金额(分为投资人和其他两类)</p>
+                    <p>投资金额: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功提现的总金额(分为投资人和其他两类)</p>
+                    <p>债权转让成交金额: </p>
+                    <p>在指定日的00:00:00到指定日的23:59:59之间曾经成功转让的标价总额</p>
+                    <p>借款余额: </p>
+                    <p>新系统截止到统计日期结束的总放款-总还本</p>
+                </div>
+            </body>
+        </html>]]>
+    </message>
+    <action name="search" title="查询" smallIcon="search.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="datepoint">查询时间：</label>
+                    <text name="datepoint" type="DATE"/>
+                    <button actionName="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <component className="JTextPane" name="list" scrollable="true"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

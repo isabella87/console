@@ -138,6 +138,11 @@ public class ProjectProxy
         return super.http().post("mgr/prj/loan-projs/" + pid + "/financier", params);
     }
 
+    public CompletableFuture<Result> delayFinancingDate(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/loan-projs/" + pid + "/financing-period-delay", params);
+    }
+
     public CompletableFuture<Result> queryPermissible(Map<String, Object> params) {
         long pid = takeLong(params, "p-id");
         return super.http().get("mgr/prj/" + pid + "/permissible-investor", params);
@@ -149,11 +154,6 @@ public class ProjectProxy
         return super.http().delete("mgr/prj/" + pid + "/permissible-investor/" + auId, params);
     }
 
-    public CompletableFuture<Result> delayFinancingDate(Map<String, Object> params) {
-        long pid = takeLong(params, "p-id");
-        return super.http().post("mgr/prj/loan-projs/" + pid + "/financing-period-delay", params);
-    }
-
     public CompletableFuture<Result> createPermission(Map<String, Object> params) {
         long pid = takeLong(params, "p-id");
         return super.http().put("mgr/prj/" + pid + "/permissible-investor", params);
@@ -162,5 +162,35 @@ public class ProjectProxy
     //查询还款文件上传记录
     public CompletableFuture<Result> queryRepayHistory() {
         return super.http().get("mgr/prj/ts-repay-history", null);
+    }
+
+    public CompletableFuture<Result> deleteRepayHistory(Map<String, Object> params) {
+        long trhId = takeLong(params, "trh-id");
+        long batch = takeLong(params, "batch");
+        return super.http().delete("mgr/prj/ts-repay-history/" + trhId + "/" + batch, null);
+    }
+
+    public CompletableFuture<Result> queryLoanHistory() {
+        return super.http().get("mgr/prj/ts-loan-history", null);
+    }
+
+    public CompletableFuture<Result> deleteLoanHistory(Map<String, Object> params) {
+        long tlhId = takeLong(params, "tlh-id");
+        long batch = takeLong(params, "batch");
+        return super.http().delete("mgr/prj/ts-loan-history/" + tlhId + "/" + batch, null);
+    }
+
+    //项目可见状态
+    public CompletableFuture<Result> updatePrjVisible(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/" + pid + "/visibility", params);
+    }
+
+    public CompletableFuture<Result> goTop(long pid) {
+        return super.http().post("mgr/prj/" + pid + "/top-time", null);
+    }
+
+    public CompletableFuture<Result> revokeTop(long pid) {
+        return super.http().post("mgr/prj/" + pid + "/revoke/top-time", null);
     }
 }

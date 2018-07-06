@@ -25,9 +25,9 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="loginName" title="文件" type="TEXT" size="200"/>
-                    <tableColumn name="mobile" title="大小" type="TEXT" size="160"/>
-                    <tableColumn name="_row" title="最新修改时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="loginName" title="文件" type="TEXT" size="240"/>
+                    <tableColumn name="mobile" title="大小" type="TEXT" size="180"/>
+                    <tableColumn name="_row" title="最新修改时间" type="DATE_TIME" size="180"/>
                 </table>
             </cell>
         </row>

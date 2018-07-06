@@ -14,7 +14,6 @@ import java.util.Objects;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
-import static org.xx.armory.swing.DialogUtils.prompt;
 
 
 public class BrowsePrjTenderDlg extends DialogPane {
@@ -38,11 +37,8 @@ public class BrowsePrjTenderDlg extends DialogPane {
         this.id = id;
         this.role = role;
         setTitle(getTitle() + id);
-        new AuditProxy().queryTenders(id)
-                        .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
 
+        controller().call("refresh");
 
         if (role == 60 || role == 70 || role == 80 || role == 90 || role == 999) {
             controller().hide("midway");
@@ -59,7 +55,7 @@ public class BrowsePrjTenderDlg extends DialogPane {
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
     }
 
     //中途流标

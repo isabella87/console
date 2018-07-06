@@ -8,6 +8,7 @@
     <message name="delete-guaOrg"><![CDATA[删除以下担保机构：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-borPer"><![CDATA[删除以下借款人：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-borOrg"><![CDATA[删除以下借款机构：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="null-borPer"><![CDATA[必须选择一个借款人!]]></message>
     <message name="create">创建-</message>
     <message name="edit">编辑-</message>
     <message name="view">查看-</message>
@@ -433,7 +434,7 @@
                                     <cell>
                                         <boxLayout horizontalAlignment="FIRST">
                                             <label for="prj-rating">项目评级：</label>
-                                            <text name="prj-rating" optionsName="rating" size="6"/>
+                                            <text name="prj-rating" optionsName="rating" size="6" required="true"/>
                                             <label for="s-all">项目总评分：</label>
                                             <text name="s-all" type="NUMBER" size="6"/>
                                         </boxLayout>
@@ -443,7 +444,7 @@
                                     <cell>
                                         <boxLayout horizontalAlignment="BOTH">
                                             <label for="prj-risk-assess">项目风险评估：</label>
-                                            <text name="prj-risk-assess" pattern="\w{2,}"/>
+                                            <text name="prj-risk-assess" pattern="\w{2,}" required="true"/>
                                         </boxLayout>
                                     </cell>
                                 </row>
@@ -460,7 +461,9 @@
                                     </cell>
                                 </row>
                                 <row stretch="100" alignment="BOTH">
-                                    <cell><literal/></cell>
+                                    <cell>
+                                        <literal/>
+                                    </cell>
                                 </row>
                             </gridLayout>
                         </cell>

@@ -2,7 +2,6 @@ package com.banhui.console.ui;
 
 
 import com.banhui.console.rpc.AuditProxy;
-import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -23,11 +22,8 @@ public class BrowsePrjInvestorsDlg extends DialogPane {
     ) {
         this.id = id;
         setTitle(getTitle() + id);
-        new AuditProxy().queryInvestorInfosByPId(id)
-                        .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
         controller().connect("refresh", this::refresh);
+        controller().call("refresh");
     }
 
     private void refresh(

@@ -1,7 +1,6 @@
 package com.banhui.console.ui;
 
 import com.banhui.console.rpc.AuditProxy;
-import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -14,7 +13,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
-import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 
@@ -29,10 +27,6 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
     ) {
         this.id = id;
         setTitle(getTitle() + id);
-        new AuditProxy().queryCancelTenders(id)
-                        .thenApplyAsync(Result::map)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
         JLabel perAmtLable = controller().get(JLabel.class, "progress");
         perAmtLable.setForeground(Color.red);
 
@@ -40,8 +34,7 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
         controller().connect("execute", this::execute);
         controller().connect("refresh", this::refresh);
         controller().connect("excel", this::excel);
-
-        controller().disable("execute");
+        controller().call("refresh");
     }
 
     private void excel(
@@ -49,7 +42,7 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
     }
 
     //执行流标
@@ -90,8 +83,8 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
         tableModel.setAllRows(items);
 
-        double sum1 = 0L;
-        double sum2 = 0L;
+        double sum1 = 0D;
+        double sum2 = 0D;
         for (int i = 0; i < items.size(); i++) {
             double status = tableModel.getNumberByName(i, "status");
             if (status == 0) {

@@ -7,6 +7,7 @@
         height="800"
 >
     <message name="confirm-delete"><![CDATA[禁用还款明细 <b><u>{}</u></b>吗？禁用的还款明细不能再执行还款。]]></message>
+    <message name="delete-bonus-execution"><![CDATA[删除还款计划]]></message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <action name="create" title="发起还款"/>
@@ -14,6 +15,9 @@
     <action name="search" title="查询还款记录"/>
     <action name="refresh" title="刷新"/>
     <action name="export" title="导出Excel"/>
+    <action name="create-bonus" title="创建还款计划"/>
+    <action name="edit-bonus" title="编辑还款计划"/>
+    <action name="delete-bonus" title="删除还款计划"/>
 
     <options name="status">
         <option value="0">未还/未还清</option>
@@ -28,6 +32,7 @@
     <options name="tran-type">
         <option value="0">利息</option>
         <option value="1">本金</option>
+        <option value="2">罚息</option>
     </options>
 
     <options name="pay-type">
@@ -46,6 +51,9 @@
                     <button actionName="search"/>
                     <button actionName="refresh"/>
                     <button actionName="export"/>
+                    <button actionName="create-bonus"/>
+                    <button actionName="edit-bonus"/>
+                    <button actionName="delete-bonus"/>
                 </boxLayout>
             </cell>
         </row>

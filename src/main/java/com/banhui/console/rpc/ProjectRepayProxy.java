@@ -6,6 +6,27 @@ import java.util.concurrent.CompletableFuture;
 public class ProjectRepayProxy
         extends AbstractProxy {
 
+    public CompletableFuture<Result> createPrjBonus(Map<String,Object> params){
+        long pId = takeLong(params,"pId");
+        long tranNo = takeLong(params,"tran-no");
+        long tranType = takeLong(params,"tran-type");
+        return super.http().post("mgr/prj/"+pId+ "/bonus/" + tranNo + "-" + tranType,params);
+    }
+
+    public CompletableFuture<Result> editPrjBonus(Map<String,Object> params){
+        long pId = takeLong(params,"pId");
+        long tranNo = takeLong(params,"tran-no");
+        long tranType = takeLong(params,"tran-type");
+        return super.http().put("mgr/prj/"+pId+ "/bonus/" + tranNo + "-" + tranType,params);
+    }
+
+    public CompletableFuture<Result> deletePrjBonus(Map<String,Object> params){
+        long pId = takeLong(params,"pId");
+        long tranNo = takeLong(params,"tran-no");
+        long tranType = takeLong(params,"tran-type");
+        return super.http().delete("mgr/prj/"+pId+ "/bonus/" + tranNo + "-" + tranType,params);
+    }
+
     public CompletableFuture<Result> queryPrjBonus(long pId) {
         return super.http().get("mgr/prj/" + pId + "/bonus", null);
     }

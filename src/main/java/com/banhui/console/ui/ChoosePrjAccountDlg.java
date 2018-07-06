@@ -2,7 +2,6 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
-import org.xx.armory.swing.Application;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -12,7 +11,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 public class ChoosePrjAccountDlg extends DialogPane {

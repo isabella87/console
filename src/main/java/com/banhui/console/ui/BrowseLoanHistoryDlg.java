@@ -16,15 +16,24 @@ import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
-public class BrowseRepayHistoryDlg
+public class BrowseLoanHistoryDlg
         extends DialogPane {
-    public BrowseRepayHistoryDlg() {
+    public BrowseLoanHistoryDlg() {
 
         controller().connect("refresh", this::refresh);
         controller().connect("delete", this::delete);
         controller().connect("list", "change", this::listChanged);
 
         controller().call("refresh");
+    }
+
+    private void refresh(
+            ActionEvent actionEvent
+    ) {
+        new ProjectProxy().queryLoanHistory()
+                          .thenApplyAsync(Result::list)
+                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
+        controller().disable("delete");
     }
 
     private void delete(
@@ -38,12 +47,13 @@ public class BrowseRepayHistoryDlg
 
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long trhId = tableModel.getNumberByName(table.getSelectedRow(), "trhId");
+            final long tlhId = tableModel.getNumberByName(table.getSelectedRow(), "tlhId");
             final long batch = tableModel.getNumberByName(table.getSelectedRow(), "batch");
             final Map<String, Object> params = new HashMap<>();
-            params.put("trh-id", trhId);
+            params.put("tlh-id", tlhId);
             params.put("batch", batch);
-            new ProjectProxy().deleteRepayHistory(params)
+
+            new ProjectProxy().deleteLoanHistory(params)
                               .thenApplyAsync(Result::longValue)
                               .whenCompleteAsync(this::delCallback, UPDATE_UI);
         }
@@ -63,15 +73,6 @@ public class BrowseRepayHistoryDlg
             prompt(null, controller().getMessage("delete-success"));
         }
         controller().enable("delete");
-    }
-
-    private void refresh(
-            ActionEvent actionEvent
-    ) {
-        new ProjectProxy().queryRepayHistory()
-                          .thenApplyAsync(Result::list)
-                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
-        controller().disable("delete");
     }
 
     private void searchCallback(

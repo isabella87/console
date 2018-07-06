@@ -27,7 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * EXCEL报表工具类.
  */
-public class ExcelUtil {
+public class ExcelExportUtil {
 
     private HSSFWorkbook wb;
     private HSSFSheet sheet;
@@ -43,6 +43,7 @@ public class ExcelUtil {
 
     HSSFCellStyle textCellStyle;
     HSSFCellStyle dateTimeCellStyle;
+    HSSFCellStyle dateCellStyle;
     HSSFCellStyle numberCellStyle;
     HSSFCellStyle floatCellStyle;
 
@@ -50,7 +51,7 @@ public class ExcelUtil {
      * @param sheetName
      * @param tableModel
      */
-    public ExcelUtil(
+    public ExcelExportUtil(
             String sheetName,
             TypedTableModel tableModel
     ) {
@@ -116,8 +117,8 @@ public class ExcelUtil {
 
             switch (column.getType()) {
                 case DATE:
-                   /* cellStyleMap.put(columnName, ExcelColumnStyle.dateStyle(wb));
-                    break;*/
+                    cellStyleMap.put(columnName, ExcelColumnStyle.dateStyle(wb, dateCellStyle));
+                    break;
                 case DATE_TIME:
                     dateTimeCellStyle = ExcelColumnStyle.dateTimeStyle(wb, dateTimeCellStyle);
                     cellStyleMap.put(columnName, dateTimeCellStyle);
@@ -156,7 +157,7 @@ public class ExcelUtil {
 
             cell.getSheet().setColumnWidth(i, column.getSize() * 50);
 
-            cell.setCellValue(new HSSFRichTextString(column.getTitle()));
+            cell.setCellValue(column.getTitle());
 
         }
     }
@@ -164,7 +165,6 @@ public class ExcelUtil {
     /**
      * 此处数据行从excel的第二行开始，rowNo值从1开始
      *
-     * @param rowNo
      * @param rowNo
      */
     public void createDataRow(
@@ -199,9 +199,13 @@ public class ExcelUtil {
                         cell.setCellValue(((Number) value).doubleValue());
                         break;
                     case TEXT:
+                        cell.setCellValue(value.toString());
+                        break;
                     case CHECK_BOX:
+                        cell.setCellValue((Boolean) value);
+                        break;
                     case YES_OR_NO:
-                        cell.setCellValue(new HSSFRichTextString(value.toString()));
+                        cell.setCellValue((Boolean) value);
                         break;
                     case IMAGE:
                         cell.setCellValue(new HSSFRichTextString(""));
@@ -248,6 +252,7 @@ public class ExcelUtil {
 
 
             outputExcel(file.getAbsolutePath() + ".xls");
+
         }
     }
 }

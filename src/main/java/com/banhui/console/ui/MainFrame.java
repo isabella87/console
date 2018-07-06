@@ -82,29 +82,40 @@ public final class MainFrame
         initStatusBar();
     }
 
-    private void browseCreditAssignments(ActionEvent actionEvent) {
-
-    }
-
-    private void dailyStatistic(ActionEvent actionEvent) {
-
+    private void dailyStatistic(
+            ActionEvent actionEvent
+    ) {
+        StatisticDailyDlg dlg = new StatisticDailyDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void monthStatistic(ActionEvent actionEvent) {
-
+        StatisticMonthDlg dlg = new StatisticMonthDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void firstInvestor(ActionEvent actionEvent) {
+        StatisticNewInvestorsDlg dlg = new StatisticNewInvestorsDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void vipInvestor(ActionEvent actionEvent) {
+        StatisticVipDlg dlg = new StatisticVipDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
 
     }
 
     private void browsePerson(ActionEvent actionEvent) {
     }
 
-    private void browseCorp(ActionEvent actionEvent) {
+    private void browseCorp(
+            ActionEvent actionEvent
+    ) {
+        this.uiController.openChild("browseCorp", BrowseOrgAccountFrame::new);
     }
 
     private void browseCommerceTrade(ActionEvent actionEvent) {
@@ -141,6 +152,12 @@ public final class MainFrame
             ActionEvent event
     ) {
         this.uiController.openChild("browseProjects", BrowseProjectsFrame::new);
+    }
+
+    private void browseCreditAssignments(
+            ActionEvent actionEvent
+    ) {
+        this.uiController.openChild("browseCreditAssignments", BrowseCreditAssignmentsFrame::new);
     }
 
     private void browseBaPrjEngineers(

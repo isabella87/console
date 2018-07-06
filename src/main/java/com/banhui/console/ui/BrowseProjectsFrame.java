@@ -7,6 +7,8 @@ import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Date;
@@ -35,15 +37,99 @@ public class BrowseProjectsFrame
         controller().connect("create", this::create);
         controller().connect("delete", this::delete);
         controller().connect("repay-history", this::repayHistory);
+        controller().connect("loan-history", this::loanHistory);
         controller().connect("list", "change", this::listChanged);
+        controller().connect("hide", this::hidePrj);
+        controller().connect("cancel-hide", this::cancelHide);
+        controller().connect("top", this::top);
+        controller().connect("cancel-top", this::cancelTop);
 
         controller().disable("audit");
         controller().disable("view");
         controller().disable("edit");
         controller().disable("repay");
         controller().disable("delete");
+        controller().disable("hide");
+        controller().disable("top");
+
+        controller().hide("cancel-hide");
+        controller().hide("cancel-top");
 
         controller().setNumber("status", 40L);
+
+        TableColumnModel tcm = controller().get(JTable.class, "list").getColumnModel();
+        TableColumn visibleColumn = tcm.getColumn(18);
+        TableColumn topTimeColumn = tcm.getColumn(19);
+        tcm.removeColumn(visibleColumn);
+        tcm.removeColumn(topTimeColumn);
+
+    }
+
+    private void top(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (table.getSelectedRow() < 0) {
+            return;
+        }
+        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        new ProjectProxy().goTop(pid);
+        controller().call("search");
+    }
+
+    private void cancelTop(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (table.getSelectedRow() < 0) {
+            return;
+        }
+        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        new ProjectProxy().revokeTop(pid);
+        controller().call("search");
+    }
+
+    private void hidePrj(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (table.getSelectedRow() < 0) {
+            return;
+        }
+        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final Map<String, Object> params = new HashMap<>();
+        params.put("p-id", pid);
+        params.put("visible", false);
+        new ProjectProxy().updatePrjVisible(params);
+        controller().call("search");
+    }
+
+    private void cancelHide(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        if (table.getSelectedRow() < 0) {
+            return;
+        }
+        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final Map<String, Object> params = new HashMap<>();
+        params.put("p-id", pid);
+        params.put("visible", true);
+        new ProjectProxy().updatePrjVisible(params);
+        controller().call("search");
+    }
+
+    private void loanHistory(
+            ActionEvent actionEvent
+    ) {
+        assertUIThread();
+        final BrowseLoanHistoryDlg dlg = new BrowseLoanHistoryDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void repayHistory(
@@ -144,11 +230,23 @@ public class BrowseProjectsFrame
     ) {
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
         tableModel.setAllRows(c);
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if (tableModel.getNumberByName(i, "visible") == 0) {
+                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已隐藏）", i, 3);
+            }
+        }
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            if (tableModel.getDateByName(i, "topTime") != null) {
+                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 3);
+            }
+        }
     }
+
 
     private void view(
             ActionEvent event
     ) {
+        assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
@@ -177,30 +275,30 @@ public class BrowseProjectsFrame
 
         final CreateProjectFrame dlg = new CreateProjectFrame();
         dlg.setFixedSize(false);
-        if (showModel(null, dlg) == DialogPane.OK) {
-            Map<String, Object> row = dlg.getResultRow();
-            if (row != null && !row.isEmpty()) {
-                tableModel.insertRow(selectedRow, row);
-            }
-        }
+        showModel(null, dlg);
         long pId = dlg.getId();
         if (pId != 0) {
             final EditProjectsDlg dlg2 = new EditProjectsDlg(pId, 1);
             dlg2.setFixedSize(false);
-            showModel(null, dlg2);
+            if (showModel(null, dlg2) == DialogPane.OK) {
+                Map<String, Object> row = dlg2.getResultRow();
+                if (row != null && !row.isEmpty()) {
+                    tableModel.insertRow(selectedRow, row);
+                }
+            }
         }
     }
 
     private void edit(
             ActionEvent event
     ) {
+        assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
         if (selectedRow < 0) {
             return;
         }
-
         final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
         final EditProjectsDlg dlg = new EditProjectsDlg(pId, 1);
         dlg.setFixedSize(false);
@@ -244,6 +342,7 @@ public class BrowseProjectsFrame
     private void audit(
             ActionEvent event
     ) {
+        assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final long id = tableModel.getNumberByName(table.getSelectedRow(), "pId");
@@ -257,12 +356,33 @@ public class BrowseProjectsFrame
     private void listChanged(
             Object event
     ) {
-        int[] selectedRows = controller().get(JTable.class, "list").getSelectedRows();
         final JTable table = controller().get(JTable.class, "list");
+        int[] selectedRows = table.getSelectedRows();
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         if (table.getSelectedRow() > -1) {
-            final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
+            int selectRow = table.getSelectedRow();
+            final long status = tableModel.getNumberByName(selectRow, "status");
+            final long visible = tableModel.getNumberByName(selectRow, "visible");
+            final Date topTime = tableModel.getDateByName(selectRow, "topTime");
+            if (visible == 1) {
+                controller().hide("cancel-hide");
+                controller().show("hide");
+            } else {
+                controller().hide("hide");
+                controller().show("cancel-hide");
+            }
+            if (topTime != null) {
+                controller().show("cancel-top");
+                controller().hide("top");
+            } else {
+                controller().hide("cancel-top");
+                controller().show("top");
+            }
             if (selectedRows.length == 1) {
+                controller().enable("hide");
+                controller().enable("top");
+                controller().enable("cancel-hide");
+                controller().enable("cancel-top");
                 // 选中了行，并且仅选中一行。
                 if (status == 0) {
                     controller().enable("delete");
@@ -270,7 +390,6 @@ public class BrowseProjectsFrame
                     controller().enable("edit");
                     controller().hide("view");
                     controller().enable("audit");
-
                 } else {
                     controller().disable("delete");
                     controller().hide("edit");
@@ -288,6 +407,10 @@ public class BrowseProjectsFrame
                 controller().disable("edit");
                 controller().disable("audit");
                 controller().disable("repay");
+                controller().disable("hide");
+                controller().disable("top");
+                controller().disable("cancel-hide");
+                controller().disable("cancel-top");
             }
         } else {
             controller().disable("view");
@@ -295,6 +418,10 @@ public class BrowseProjectsFrame
             controller().disable("delete");
             controller().disable("audit");
             controller().disable("repay");
+            controller().disable("hide");
+            controller().disable("top");
+            controller().disable("cancel-hide");
+            controller().disable("cancel-top");
         }
     }
 }

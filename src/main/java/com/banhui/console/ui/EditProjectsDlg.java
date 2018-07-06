@@ -26,17 +26,26 @@ import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
+import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 
 public class EditProjectsDlg
         extends DialogPane {
-
+    /**
+     * 查看/编辑项目
+     * id 项目ID
+     * nominalAuId 名义借款人id
+     * financierId 借款人id
+     * bondsmanAuId 代偿账户id
+     * listName 表名
+     * idName 表名中对应id名
+     */
     private volatile long id;
     private Map<String, Object> row;
-    private volatile long nominalAuId;
-    private volatile long bondsmanAuId;
-    private volatile long financierId;
+    private volatile Long nominalAuId;
+    private volatile Long bondsmanAuId;
+    private volatile Long financierId;
     private String listName;
     private String idName;
 
@@ -116,6 +125,28 @@ public class EditProjectsDlg
         }
         JLabel perAmtLable = controller().get(JLabel.class, "per-amt");
         perAmtLable.setForeground(Color.red);
+    }
+
+    private void updateData() {
+        assertUIThread();
+
+        allDone(new ProjectProxy().queryPrjLoanById(this.id),
+                new ProjectProxy().queryFinancierById(this.id),
+                new ProjectProxy().prjRating(this.id),
+                new ProjectProxy().queryPrjGuaranteePersons(id),
+                new ProjectProxy().queryPrjGuaranteeOrg(id),
+                new ProjectProxy().queryBorPersons(id),
+                new ProjectProxy().queryBorOrgs(id)
+        ).thenApply(results -> new Object[]{
+                results[0].map(),
+                results[1].list(),
+                results[2].map(),
+                results[3].list(),
+                results[4].list(),
+                results[5].list(),
+                results[6].list()
+        }).whenCompleteAsync(this::searchCallback, UPDATE_UI);
+
     }
 
     private void delay(
@@ -290,7 +321,7 @@ public class EditProjectsDlg
 
             final Map<String, Object> params = new HashMap<>();
             params.put("p-id", id);
-            params.put("bpmo-Id", bpmoId);
+            params.put("bpmo-id", bpmoId);
             new ProjectProxy().deleteBorOrg(params)
                               .thenApplyAsync(Result::longValue)
                               .whenCompleteAsync(this::delCallback, UPDATE_UI);
@@ -348,7 +379,7 @@ public class EditProjectsDlg
 
     private void cancelBondsMan(ActionEvent actionEvent) {
         controller().setText("bondsman_au", "");
-        this.setBondsmanAuId(0);
+        this.setBondsmanAuId(null);
     }
 
 
@@ -381,28 +412,6 @@ public class EditProjectsDlg
         }
     }
 
-
-    private void updateData() {
-        assertUIThread();
-
-        allDone(new ProjectProxy().queryPrjLoanById(this.id),
-                new ProjectProxy().queryFinancierById(this.id),
-                new ProjectProxy().prjRating(this.id),
-                new ProjectProxy().queryPrjGuaranteePersons(id),
-                new ProjectProxy().queryPrjGuaranteeOrg(id),
-                new ProjectProxy().queryBorPersons(id),
-                new ProjectProxy().queryBorOrgs(id)
-        ).thenApply(results -> new Object[]{
-                results[0].map(),
-                results[1].list(),
-                results[2].map(),
-                results[3].list(),
-                results[4].list(),
-                results[5].list(),
-                results[6].list()
-        }).whenCompleteAsync(this::searchCallback, UPDATE_UI);
-
-    }
 
     @SuppressWarnings("unchecked")
     private void searchCallback(
@@ -470,6 +479,12 @@ public class EditProjectsDlg
 
             if (this.id != 0) {
                 params.put("p-id", id);
+            }
+            if (this.financierId == null || this.financierId == 0) {
+                String nullBorPer = controller().formatMessage("null-borPer");
+                warn(null, nullBorPer);
+                controller().enable("ok");
+                return;
             }
             params.put("item-name", controller().getText("item-name").trim());
             params.put("item-show-name", controller().getText("item-show-name").trim());
@@ -847,28 +862,27 @@ public class EditProjectsDlg
         return this.row;
     }
 
-    public long getNominalAuId() {
+    public Long getNominalAuId() {
         return nominalAuId;
     }
 
-    public void setNominalAuId(long nominalAuId) {
+    public void setNominalAuId(Long nominalAuId) {
         this.nominalAuId = nominalAuId;
     }
 
-    public long getBondsmanAuId() {
+    public Long getBondsmanAuId() {
         return bondsmanAuId;
     }
 
-    public void setBondsmanAuId(long bondsmanAuId) {
+    public void setBondsmanAuId(Long bondsmanAuId) {
         this.bondsmanAuId = bondsmanAuId;
     }
 
-    public long getFinancierId() {
+    public Long getFinancierId() {
         return financierId;
     }
 
-    public void setFinancierId(long financierId) {
+    public void setFinancierId(Long financierId) {
         this.financierId = financierId;
     }
-
 }

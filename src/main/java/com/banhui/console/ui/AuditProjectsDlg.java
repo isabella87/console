@@ -252,8 +252,6 @@ public class AuditProjectsDlg extends DialogPane {
             ActionEvent actionEvent
     ) {
         final Map<String, Object> params = new HashMap<>();
-//        controller().disable("pass");
-//        controller().disable("npass");
         if (this.id != 0) {
             params.put("p-id", id);
         }

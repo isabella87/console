@@ -29,6 +29,8 @@ import static org.xx.armory.commons.SysUtils.openInputStream;
 public class MainEntry {
     private static final Logger LOGGER = LoggerFactory.getLogger(MainEntry.class);
     private static final String FONT_FILE_NAME = "classpath://msyh.ttc";
+    // private static final String FONT_FILE_NAME = "classpath://Ping Hei Semibold.ttf";
+    // private static final String FONT_FILE_NAME = "classpath://SourceHanSansK-Medium.ttf";
 
     public static void main(
             String[] args
@@ -41,6 +43,7 @@ public class MainEntry {
             fontAttributes.put(TextAttribute.SIZE, 12.5f);
 
             font1 = Font.createFont(Font.TRUETYPE_FONT, fontStream1).deriveFont(fontAttributes);
+            System.out.println(font1);
         } catch (Exception ex) {
             LOGGER.error("cannot load font file", ex);
             return;
@@ -52,7 +55,9 @@ public class MainEntry {
 
         application.setListener(new ApplicationAdapter() {
             @Override
-            public void startUp(ApplicationEvent event) {
+            public void startUp(
+                    ApplicationEvent event
+            ) {
                 super.startUp(event);
 
                 ConfigurationManager.register(new XmlFileConfigurationProvider("classpath://armory.xml"));

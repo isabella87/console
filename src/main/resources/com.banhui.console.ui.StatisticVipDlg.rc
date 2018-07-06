@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="VIP客户名单"
+        height="500"
+        width="900"
+>
+    <message name="null-text"><![CDATA[未查询到数据!]]></message>
+    <message name="css"><![CDATA[
+          <html>
+            <head>
+                <meta charset="utf-8" />
+                <title></title>
+                <style type="text/css">
+                  td{
+                        border: 1px solid black;
+                        text-align: center;
+                    }
+                  table{
+                        border-collapse:collapse;
+                    }
+                  table tr{
+                        font-weight: bold;
+                    }
+                </style>
+            </head>]]>
+    </message>
+    <message name="title"><![CDATA[
+         <body>
+            <table style='border-collapse: collapse;'>
+                <tr style='background: gray;'>
+                    <td width="80">ID</td>
+                    <td width="100">账户名</td>
+                    <td width="100">真实姓名</td>
+                    <td width="140">当前客户经理</td>
+                    <td width="120">手机</td>
+                    <td width="100">当月投资额</td>
+                    <td width="100">投资余额</td>
+                    <td width="140">当月买入债权额</td>
+                </tr>
+            ]]>
+    </message>
+    <action name="search" title="查询" smallIcon="search.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="datepoint">查询截止日期：</label>
+                    <text name="datepoint" type="DATE"/>
+                    <label for="limit-amt">最低投资余额：</label>
+                    <text name="limit-amt" type="NUMBER" size="6"/>
+                    <button actionName="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <component className="JTextPane" name="list" scrollable="true"/>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

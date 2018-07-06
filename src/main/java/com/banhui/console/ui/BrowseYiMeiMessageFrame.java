@@ -4,6 +4,7 @@ import com.banhui.console.rpc.MessageProxy;
 import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.longValue;
+import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -30,6 +32,7 @@ public class BrowseYiMeiMessageFrame
      */
     public BrowseYiMeiMessageFrame() {
         controller().connect("search", this::search);
+        controller().connect("accelerate-date","change",this::accelerateDate);
     }
 
     private void search(
@@ -57,6 +60,16 @@ public class BrowseYiMeiMessageFrame
                           .whenCompleteAsync(this::searchCallback,UPDATE_UI);
     }
 
+    private void accelerateDate(
+            Object event
+    ) {
+        final int years = controller().getInteger("accelerate-date");
+        DateRange dateRange = latestSomeYears(new Date(), years);
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
+        }
+    }
     private void searchCallback(
             List<Map<String,Object>> maps,
             Throwable t

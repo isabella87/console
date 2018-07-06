@@ -7,11 +7,11 @@
         icon="app-icon.png">
     <message name="title-version">【{}】</message>
     <action name="browseProjects" title="贷款项目(P)..." mnemonic="P" accelerator="ctrl P" description="管理贷款项目"/>
-    <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" description="管理债权转让"/>
+    <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" accelerator="ctrl C" description="管理债权转让"/>
     <action name="dailyStatistic" title="日数据统计(D)" mnemonic="D" description="日数据统计"/>
     <action name="monthStatistic" title="月数据统计(M)" mnemonic="M" description="月数据统计"/>
     <action name="firstInvestor" title="首次投资客户(F)" mnemonic="F" description="第一次投资客户"/>
-    <action name="vipInvestor"   title="VIP投资客户(V)" mnemonic="V" description="VIP投资客户"/>
+    <action name="vipInvestor" title="VIP投资客户(V)" mnemonic="V" description="VIP投资客户"/>
 
     <action name="browseBaPrjEngineers" title="工程项目(N)" mnemonic="N" description="工程项目"/>
     <action name="browseBaPrjCtors" title="施工单位(C)" mnemonic="C" description="施工单位"/>
@@ -21,16 +21,16 @@
     <action name="browseBaPrjBorPers" title="借款个人(P)" mnemonic="P" description="借款个人"/>
     <action name="browseBaPrjBorOrgs" title="借款机构(O)" mnemonic="O" description="借款机构"/>
 
-    <action name="browsePerson" title="个人账户(P)" mnemonic="P" description="个人帐户" />
-    <action name="browseCorp" title="机构账户(O)" mnemonic="O" description="机构帐户" />
-    <action name="browseCommerceTrade" title="商户转账(T)" mnemonic="T" description="商户转账" />
-    <action name="browseYiMeiMessage" title="伊美短信(Y)" mnemonic="Y" description="已发送的伊美短信" />
-    <action name="browsePlatformMessage" title="发送消息(S)" mnemonic="S" description="发送平台消息" />
+    <action name="browsePerson" title="个人账户(P)" mnemonic="P" description="个人帐户"/>
+    <action name="browseCorp" title="机构账户(O)" mnemonic="O" description="机构帐户"/>
+    <action name="browseCommerceTrade" title="商户转账(T)" mnemonic="T" description="商户转账"/>
+    <action name="browseYiMeiMessage" title="伊美短信(Y)" mnemonic="Y" description="已发送的伊美短信"/>
+    <action name="browsePlatformMessage" title="发送消息(S)" mnemonic="S" description="发送平台消息"/>
 
-    <action name="browseSysUsers" title="帐户管理" mnemonic="U" description="管理后台帐户" />
-    <action name="changePassword" title="修改密码" description="修改当前登录帐户的密码" />
+    <action name="browseSysUsers" title="帐户管理" mnemonic="U" description="管理后台帐户"/>
+    <action name="changePassword" title="修改密码" description="修改当前登录帐户的密码"/>
 
-    <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置" />
+    <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置"/>
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
     <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
     <menuBar>
@@ -47,32 +47,32 @@
             <menuItem value="exit"/>
         </menu>
         <menu title="基础数据(D)" mnemonic="D">
-            <menuItem value="browseBaPrjEngineers" />
-            <menuItem value="browseBaPrjCtors" />
-            <menuItem value="browseBaPrjOwners" />
+            <menuItem value="browseBaPrjEngineers"/>
+            <menuItem value="browseBaPrjCtors"/>
+            <menuItem value="browseBaPrjOwners"/>
             <menuItem value="-"/>
-            <menuItem value="browseBaPrjGuaranteePers" />
-            <menuItem value="browseBaPrjGuaranteeOrgs" />
+            <menuItem value="browseBaPrjGuaranteePers"/>
+            <menuItem value="browseBaPrjGuaranteeOrgs"/>
             <menuItem value="-"/>
-            <menuItem value="browseBaPrjBorPers" />
-            <menuItem value="browseBaPrjBorOrgs" />
+            <menuItem value="browseBaPrjBorPers"/>
+            <menuItem value="browseBaPrjBorOrgs"/>
         </menu>
         <menu title="账户管理(A)" mnemonic="A">
-            <menuItem value="browsePerson" />
-            <menuItem value="browseCorp" />
+            <menuItem value="browsePerson"/>
+            <menuItem value="browseCorp"/>
             <menuItem value="-"/>
             <menuItem value="browseCommerceTrade"/>
             <menuItem value="-"/>
             <menuItem value="browseYiMeiMessage"/>
-            <menuItem value="browsePlatformMessage" />
+            <menuItem value="browsePlatformMessage"/>
         </menu>
         <menu title="后台管理(M)" mnemonic="M">
-            <menuItem value="browseSysUsers" />
-            <menuItem value="-" />
-            <menuItem value="changePassword" />
+            <menuItem value="browseSysUsers"/>
+            <menuItem value="-"/>
+            <menuItem value="changePassword"/>
         </menu>
         <menu title="工具(T)" mnemonic="S">
-            <menuItem value="editSettings" />
+            <menuItem value="editSettings"/>
         </menu>
         <menu title="->"/>
         <menu title="帮助(H)" mnemonic="H">

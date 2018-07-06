@@ -64,7 +64,7 @@ public class EditBonusDetailRepaysDlg extends DialogPane {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
-        new ExcelUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
 
         controller().enable("export");
 
