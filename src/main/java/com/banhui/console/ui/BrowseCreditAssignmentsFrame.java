@@ -57,6 +57,37 @@ public class BrowseCreditAssignmentsFrame
         tcm.removeColumn(topTimeColumn);
     }
 
+    private void search(
+            ActionEvent event
+    ) {
+        assertUIThread();
+
+        final int dateType = controller().getInteger("date-type");
+        final int transferStatus = Integer.valueOf(controller().getText("transfer-status"));
+        final int keyType = controller().getInteger("key-type");
+        final String key = controller().getText("search-key");
+        final Date startDate = floorOfDay(controller().getDate("start-date"));
+        final Date endDate = ceilingOfDay(controller().getDate("end-date"));
+
+        final Map<String, Object> params = new HashMap<>();
+        params.put("start-time", startDate);
+        params.put("end-time", endDate);
+        params.put("date-type", dateType);
+
+        if (transferStatus != Integer.MAX_VALUE) {
+            params.put("status", transferStatus);
+        }
+        params.put("key", key);
+        params.put("key-type", keyType);
+        controller().disable("search");
+
+        new CreditAssignmentsProxy().queryAll(params)
+                                    .thenApplyAsync(Result::list)
+                                    .thenAcceptAsync(this::searchCallback, UPDATE_UI)
+                                    .exceptionally(ErrorHandler::handle)
+                                    .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
+    }
+
     private void advanceRevoke(
             ActionEvent actionEvent
     ) {
@@ -130,37 +161,6 @@ public class BrowseCreditAssignmentsFrame
         controller().call("search");
     }
 
-    private void search(
-            ActionEvent event
-    ) {
-        assertUIThread();
-
-        final int dateType = controller().getInteger("date-type");
-        final int transferStatus = Integer.valueOf(controller().getText("transfer-status"));
-        final int keyType = controller().getInteger("key-type");
-        final String key = controller().getText("search-key");
-        final Date startDate = floorOfDay(controller().getDate("start-date"));
-        final Date endDate = ceilingOfDay(controller().getDate("end-date"));
-
-        final Map<String, Object> params = new HashMap<>();
-        params.put("start-time", startDate);
-        params.put("end-time", endDate);
-        params.put("date-type", dateType);
-
-        if (transferStatus != Integer.MAX_VALUE) {
-            params.put("status", transferStatus);
-        }
-        params.put("key", key);
-        params.put("key-type", keyType);
-        controller().disable("search");
-
-        new CreditAssignmentsProxy().queryAll(params)
-                                    .thenApplyAsync(Result::list)
-                                    .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                    .exceptionally(ErrorHandler::handle)
-                                    .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
-    }
-
     private void searchCallback(
             Collection<Map<String, Object>> c
     ) {
@@ -181,10 +181,12 @@ public class BrowseCreditAssignmentsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(new Date(), years);
-        if (dateRange != null) {
-            controller().setDate("start-date", dateRange.getStart());
-            controller().setDate("end-date", dateRange.getEnd());
+        if (years != -1) {
+            DateRange dateRange = latestSomeYears(new Date(), years);
+            if (dateRange != null) {
+                controller().setDate("start-date", dateRange.getStart());
+                controller().setDate("end-date", dateRange.getEnd());
+            }
         }
     }
 

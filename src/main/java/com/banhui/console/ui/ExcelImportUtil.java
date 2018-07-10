@@ -132,7 +132,7 @@ public class ExcelImportUtil {
         Object strCell = null;
         String cellStr = cell.toString();
         if (cellStr != null && !cellStr.isEmpty()) {
-            String cellTitle = firstRowCelLValues.get(column);
+            String cellTitle = firstRowCelLValues.get(column).trim();
             switch (columnTitleAndType.get(cellTitle.split("-")[0])) {
                 case TEXT:
                     if(cellTitle.contains("-")){
@@ -207,6 +207,10 @@ public class ExcelImportUtil {
         List<TypedTableColumn> columns = tableModel.getAllColumns();
         for (int i = 0; i < columns.size(); i++) {
             TypedTableColumn column = columns.get(i);
+            String columnTitle = column.getTitle().trim();
+            if(columnTitle == null ||columnTitle.isEmpty()){
+                continue;
+            }
             columnTitleAndName.put(column.getTitle(), columns.get(i).getName());
             columnTitleAndType.put(column.getTitle(), columns.get(i).getType());
         }
