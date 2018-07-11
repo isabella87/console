@@ -4,6 +4,7 @@ import com.banhui.console.rpc.AccountsProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 
+import java.awt.event.ActionEvent;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.intValue;
@@ -27,12 +28,20 @@ public class EditOrgAccountInfoDlg
         }
         updateData();
 
-        controller().readOnly("login-name",true);
-        controller().readOnly("mobile",true);
-        controller().readOnly("create-time",true);
-        controller().readOnly("update-time",true);
-        controller().readOnly("update-time",true);
-        controller().readOnly("lvl",true);
+        controller().readOnly("login-name", true);
+        controller().readOnly("mobile", true);
+        controller().readOnly("create-time", true);
+        controller().readOnly("update-time", true);
+        controller().readOnly("update-time", true);
+        controller().readOnly("lvl", true);
+
+        controller().connect("commit-info", this::commitInfo);
+    }
+
+    private void commitInfo(
+            ActionEvent actionEvent
+    ) {
+
     }
 
     private void updateData() {

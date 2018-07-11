@@ -4,7 +4,10 @@ import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 
+import static org.xx.armory.swing.DialogUtils.fail;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -36,8 +39,7 @@ public class PermissionLeadInDlg
             params.put("mobile", controller().getText("mobile"));
             new ProjectProxy().createPermission(params)
                               .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle);
+                              .whenCompleteAsync(this::saveCallback, UPDATE_UI);
 
         } else {
             super.done(result);
@@ -45,10 +47,16 @@ public class PermissionLeadInDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            controller().enable("ok");
+            fail(this.getOwner(), t.getCause().getMessage());
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

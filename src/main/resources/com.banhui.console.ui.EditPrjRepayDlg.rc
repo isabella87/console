@@ -8,6 +8,7 @@
 >
     <message name="confirm-delete"><![CDATA[禁用还款明细 <b><u>{}</u></b>吗？禁用的还款明细不能再执行还款。]]></message>
     <message name="delete-bonus-execution"><![CDATA[删除还款计划]]></message>
+    <message name="confirm-delete-text"><![CDATA[确定删除吗？]]></message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <action name="create" title="发起还款"/>

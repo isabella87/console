@@ -6,10 +6,13 @@
         height="500"
         width="650"
 >
+    <message name="load-success"><![CDATA[已成功导入{}条数据]]></message>
+    <message name="load-fail"><![CDATA[导入数据失败]]></message>
+    <message name="batchIn-title"><![CDATA[添加白名单]]></message>
+    <message name="success">已成功</message>
     <action name="load" title="载入文件"/>
     <action name="delete" title="删除"/>
     <action name="begin" title="开始"/>
-    <action name="stop" title="停止"/>
     <gridLayout>
         <column/>
         <row>
@@ -18,7 +21,6 @@
                     <button actionName="load" name="load"/>
                     <button actionName="delete" name="delete"/>
                     <button actionName="begin" name="begin"/>
-                    <button actionName="stop" name="stop"/>
                 </boxLayout>
             </cell>
         </row>
@@ -28,7 +30,7 @@
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="loginName" title="登录名" type="TEXT" size="140"/>
                     <tableColumn name="mobile" title="手机号码" type="TEXT" size="140"/>
-                    <tableColumn name="_row" title="状态" type="TEXT" size="100"/>
+                    <tableColumn name="status" title="状态" type="TEXT" size="100"/>
                 </table>
             </cell>
         </row>

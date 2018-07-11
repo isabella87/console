@@ -20,4 +20,9 @@ public class AccountsProxy
     public CompletableFuture<Result> queryAccOrgInfoById(long id) {
         return super.http().get("mgr/accounts/orgs/" + id, null);
     }
+
+    public CompletableFuture<Result> updateOrgInfo(Map<String, Object> params) {
+        long auId = takeLong(params, "au-id");
+        return super.http().post("mgr/accounts/orgs" + auId + "/user-info", params);
+    }
 }

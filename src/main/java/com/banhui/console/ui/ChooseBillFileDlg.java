@@ -1,8 +1,10 @@
 package com.banhui.console.ui;
 
 import org.xx.armory.swing.components.DialogPane;
+import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 public class ChooseBillFileDlg
         extends DialogPane {
@@ -18,6 +20,13 @@ public class ChooseBillFileDlg
         controller().disable("delete");
         controller().disable("download");
         controller().connect("list", "change", this::listChanged);
+        controller().connect("upload", this::upload);
+    }
+
+    private void upload(
+            ActionEvent actionEvent
+    ) {
+
     }
 
     private void listChanged(

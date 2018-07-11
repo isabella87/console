@@ -41,7 +41,6 @@ public class EditPermissibleInvestorDlg
         new ProjectProxy().queryPermissible(params)
                           .thenApplyAsync(Result::list)
                           .whenCompleteAsync(this::searchCallback, UPDATE_UI);
-
     }
 
     private void batchIn(
@@ -49,7 +48,8 @@ public class EditPermissibleInvestorDlg
     ) {
         final PermissionBatchInDlg dlg = new PermissionBatchInDlg(id);
         dlg.setFixedSize(false);
-        showModel(null,dlg);
+        showModel(null, dlg);
+        controller().call("search");
     }
 
     private void leadIn(

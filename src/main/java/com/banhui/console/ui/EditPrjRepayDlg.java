@@ -70,65 +70,69 @@ public class EditPrjRepayDlg
     }
 
     private void deleteBonus(ActionEvent actionEvent) {
-        final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Map<String, Object>>() {
-            @Override
-            public String getTitle() {
-                return controller().getMessage("delete-bonus-execution");
-            }
+        String confirmDeleteText = controller().formatMessage("confirm-delete-text");
+        if (confirm(null, confirmDeleteText)) {
 
-            @Override
-            protected Collection<Map<String, Object>> load() {
-                final JTable table = controller().get(JTable.class, "list");
-                final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-                final int[] selectedRows = table.getSelectedRows();
-                List<Map<String, Object>> retList = new ArrayList<>();
-                for (int selectedRow : selectedRows) {
-                    Map<String, Object> params = new HashMap<>();
-                    params.put("pId", pId);
-                    params.put("tran-no", tableModel.getNumberByName(selectedRow, "tranNo"));
-                    params.put("tran-type", tableModel.getNumberByName(selectedRow, "tranType"));
-                    retList.add(params);
+
+            final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Map<String, Object>>() {
+                @Override
+                public String getTitle() {
+                    return controller().getMessage("delete-bonus-execution");
                 }
 
-                return retList;
-            }
+                @Override
+                protected Collection<Map<String, Object>> load() {
+                    final JTable table = controller().get(JTable.class, "list");
+                    final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+                    final int[] selectedRows = table.getSelectedRows();
+                    List<Map<String, Object>> retList = new ArrayList<>();
+                    for (int selectedRow : selectedRows) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("pId", pId);
+                        params.put("tran-no", tableModel.getNumberByName(selectedRow, "tranNo"));
+                        params.put("tran-type", tableModel.getNumberByName(selectedRow, "tranType"));
+                        retList.add(params);
+                    }
 
-            @Override
-            protected String getCurrent(
-                    int i,
-                    Map<String, Object> params
-            ) {
-                return "正在执行:(期数- " + params.get("tran-no") + ",类型-" + tranTypes.get(params.get("tran-type").toString());
-            }
-
-            @Override
-            protected void execute(
-                    int i,
-                    Map<String, Object> params
-            ) {
-                new ProjectRepayProxy().deletePrjBonus(params)
-                                       .thenApplyAsync(Result::map)
-                                       .whenCompleteAsync(this::deleteCallback, UPDATE_UI);
-            }
-
-            private void deleteCallback(
-                    Map<String, Object> deletedRow,
-                    Throwable t
-            ) {
-                if (t != null) {
-                    ErrorHandler.handle(t);
-                } else {
-                    JTable table = controller().get(JTable.class, "list");
-                    TypedTableModel tableModel = (TypedTableModel) table.getModel();
-                    tableModel.removeFirstRow(row -> (Objects.equals(deletedRow.get("tranType"), row.get("tranType")) &&
-                            Objects.equals(deletedRow.get("tranNo"), row.get("tranNo")))
-                    );
+                    return retList;
                 }
-            }
-        });
 
-        showModel(null, dlg);
+                @Override
+                protected String getCurrent(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    return "正在执行:(期数- " + params.get("tran-no") + ",类型-" + tranTypes.get(params.get("tran-type").toString());
+                }
 
+                @Override
+                protected void execute(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    new ProjectRepayProxy().deletePrjBonus(params)
+                                           .thenApplyAsync(Result::map)
+                                           .whenCompleteAsync(this::deleteCallback, UPDATE_UI);
+                }
+
+                private void deleteCallback(
+                        Map<String, Object> deletedRow,
+                        Throwable t
+                ) {
+                    if (t != null) {
+                        ErrorHandler.handle(t);
+                    } else {
+                        JTable table = controller().get(JTable.class, "list");
+                        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+                        tableModel.removeFirstRow(row -> (Objects.equals(deletedRow.get("tranType"), row.get("tranType")) &&
+                                Objects.equals(deletedRow.get("tranNo"), row.get("tranNo")))
+                        );
+                    }
+                }
+            });
+
+            showModel(null, dlg);
+        }
     }
 
     private void editBonus(ActionEvent actionEvent) {
@@ -343,7 +347,6 @@ public class EditPrjRepayDlg
                 TypedTableModel detailTableModel = (TypedTableModel) detailTable.getModel();
                 detailTableModel.insertRow(0, dlg.getResultRow());
             }
-
         }
     }
 
