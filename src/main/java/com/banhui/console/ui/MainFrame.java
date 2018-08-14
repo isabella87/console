@@ -71,7 +71,16 @@ public final class MainFrame
         this.uiController.connect("browseYiMeiMessage", this::browseYiMeiMessage);
         this.uiController.connect("browsePlatformMessage", this::browsePlatformMessage);
 
+        this.uiController.connect("browseAssignRegClient", this::browseAssignRegClient);
+        this.uiController.connect("browseMyClient", this::browseMyClient);
+        this.uiController.connect("browseClientMgrManagement", this::browseClientMgrManagement);
+        this.uiController.connect("browseQueryNewRegClient", this::browseQueryNewRegClient);
+        this.uiController.connect("dailyPerfStatistics", this::dailyPerfStatistics);
+        this.uiController.connect("monthPerfStatistics", this::monthPerfStatistics);
+        this.uiController.connect("createQrCode", this::createQrCode);
+
         this.uiController.connect("browseSysUsers", this::browseSysUsers);
+        this.uiController.connect("browseSysRoles", this::browseSysRoles);
         this.uiController.connect("changePassword", this::changePassword);
 
         this.uiController.connect("editSettings", this::editSettings);
@@ -80,6 +89,34 @@ public final class MainFrame
 
         // 设置状态栏。
         initStatusBar();
+    }
+
+    private void createQrCode(ActionEvent actionEvent) {
+
+    }
+
+    private void monthPerfStatistics(ActionEvent actionEvent) {
+
+    }
+
+    private void dailyPerfStatistics(ActionEvent actionEvent) {
+
+    }
+
+    private void browseQueryNewRegClient(ActionEvent actionEvent) {
+        this.uiController.openChild("browseQueryNewRegClient",BrowseQueryNewRegClientFrame::new);
+    }
+
+    private void browseClientMgrManagement(ActionEvent actionEvent) {
+        this.uiController.openChild("browseClientMgrManagement",BrowseClientMgrManagementFrame::new);
+    }
+
+    private void browseMyClient(ActionEvent actionEvent) {
+        this.uiController.openChild("browseMyClient", BrowseMyClientFrame::new);
+    }
+
+    private void browseSysRoles(ActionEvent actionEvent) {
+        this.uiController.openChild("browseSysRoles", BrowseSysRolesFrame::new);
     }
 
     private void dailyStatistic(
@@ -110,6 +147,7 @@ public final class MainFrame
     }
 
     private void browsePerson(ActionEvent actionEvent) {
+        this.uiController.openChild("browsePerson", BrowsePerAccountFrame::new);
     }
 
     private void browseCorp(
@@ -118,15 +156,20 @@ public final class MainFrame
         this.uiController.openChild("browseCorp", BrowseOrgAccountFrame::new);
     }
 
+    private void browseAssignRegClient(ActionEvent actionEvent) {
+        this.uiController.openChild("browseAssignRegClient", BrowseAssignRegClientFrame::new);
+    }
+
     private void browseCommerceTrade(ActionEvent actionEvent) {
+        this.uiController.openChild("browseCommerceTrade", BrowseB2cDetailFrame::new);
     }
 
     private void browsePlatformMessage(ActionEvent actionEvent) {
-        this.uiController.openChild("browsePlatformMessage",BrowsePlatformMessageFrame::new);
+        this.uiController.openChild("browsePlatformMessage", BrowsePlatformMessageFrame::new);
     }
 
     private void browseYiMeiMessage(ActionEvent actionEvent) {
-        this.uiController.openChild("browseYiMeiMessage",BrowseYiMeiMessageFrame::new);
+        this.uiController.openChild("browseYiMeiMessage", BrowseYiMeiMessageFrame::new);
     }
 
     private void initStatusBar() {

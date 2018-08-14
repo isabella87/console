@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="分配历史-"
+        width="600"
+        height="250"
+>
+    <gridLayout>
+        <column/>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="opUser" title="分配人" type="TEXT" size="120"/>
+                    <tableColumn name="datepoint" title="分配时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="A" title="终止时间" type="DATE_TIME" size="120"/>
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="120"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

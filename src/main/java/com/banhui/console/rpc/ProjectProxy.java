@@ -193,4 +193,25 @@ public class ProjectProxy
     public CompletableFuture<Result> revokeTop(long pid) {
         return super.http().post("mgr/prj/" + pid + "/revoke/top-time", null);
     }
+
+    //票据贷
+    public CompletableFuture<Result> uploadBill(Map<String, Object> params) {
+        long objectId = takeLong(params, "object-id");
+        return super.http().post("mgr/files/" + objectId + "/protocol", params);
+    }
+
+    public CompletableFuture<Result> protocolList(Map<String, Object> params) {
+        long objectId = takeLong(params, "object-id");
+        return super.http().get("mgr/files/" + objectId + "/protocol", params);
+    }
+
+    public CompletableFuture<Result> delProtocol(Map<String, Object> params) {
+        long objectId = takeLong(params, "object-id");
+        return super.http().delete("mgr/files/" + objectId + "/protocol", params);
+    }
+
+    public CompletableFuture<Result> downloadProtocol(Map<String, Object> params) {
+        return super.http().get("mgr/files/download-protocol", params);
+    }
+
 }

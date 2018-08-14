@@ -31,7 +31,6 @@ public class BrowsePrjInvestmentDlg extends DialogPane {
 
         controller().connect("excel", this::excel);
         controller().connect("search", this::search);
-
         controller().call("search");
     }
 

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="我的注册客户">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="choose-manager" title="选择客户经理"/>
+    <action name="acc-info" title="帐户信息(I)" mnemonic="I"/>
+    <options name="jx-status-option">
+        <option>全部</option>
+        <option value="2">未开户</option>
+        <option value="3">未绑卡</option>
+        <option value="4">已绑卡</option>
+        <option value="5">已投资</option>
+    </options>
+    <options name="type-status">
+        <option>(全部)</option>
+        <option value="1">个人</option>
+        <option value="2">机构</option>
+    </options>
+    <options name="age-status">
+        <option>(全部)</option>
+        <option value="1">20-24岁</option>
+        <option value="2">25-29岁</option>
+        <option value="3">30-39岁</option>
+        <option value="4">40-49岁</option>
+        <option value="5">50-59岁</option>
+        <option value="6">60岁以上</option>
+    </options>
+    <options name="gender-status">
+        <option value="">(全部)</option>
+        <option value="1">男</option>
+        <option value="2">女</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="u-name">客户经理：</label>
+                    <text name="u-name" size="8"/>
+                    <button actionName="choose-manager"/>
+                    <label for="datepoint">查询日期：</label>
+                    <text name="datepoint" type="DATE"/>
+                    <label name="age">年龄：</label>
+                    <dropDown name="age" optionsName="age-status"/>
+                    <label name="gender">性别：</label>
+                    <dropDown name="gender" optionsName="gender-status"/>
+                    <label name="user-type">帐户类型：</label>
+                    <dropDown name="user-type" optionsName="type-status"/>
+                    <label for="jx-status">客户状态：</label>
+                    <dropDown name="jx-status" optionsName="jx-status-option"/>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell horizontalAlignment="FIRST">
+                <button actionName="acc-info" name="acc-info"/>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="auId" title="ID" type="TEXT" size="100"/>
+                    <tableColumn name="loginName" title="登录名" type="TEXT" size="120"/>
+                    <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
+                    <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status"/>
+                    <tableColumn name="age" title="年龄" type="TEXT" size="120"/>
+                    <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
+                    <tableColumn name="regTime" title="注册时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="userType" title="帐户类型" type="TEXT" size="100" optionsName="type-status"/>
+                    <tableColumn name="jxStatus" title="状态" type="TEXT" size="120" optionsName="jx-status-option"/>
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="120"/>
+                    <tableColumn name="assignTime" title="分配时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="todayInvestAmt" title="投资" type="CURRENCY" size="120"/>
+                    <tableColumn name="todayWithdrawAmt" title="还本" type="CURRENCY" size="120"/>
+                    <tableColumn name="todayRechargeAmt" title="充值" type="CURRENCY" size="120"/>
+                    <tableColumn name="todayRepayCapitalAmt" title="提现" type="CURRENCY" size="120"/>
+                    <tableColumn name="investRemainAmt" title="投资余额" type="CURRENCY" size="120"/>
+                    <tableColumn name="investCount" title="当月投资次数" type="TEXT" size="100"/>
+                    <tableColumn name="sumInvestAmt" title="累计投资额" type="CURRENCY" size="120"/>
+                    <tableColumn name="tieCardTime" title="绑卡时间" type="DATE_TIME" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

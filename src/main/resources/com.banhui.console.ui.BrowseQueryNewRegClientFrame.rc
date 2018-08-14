@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="新增注册客户"
+        width="800"
+        height="600">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <gridLayout>
+        <column />
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label mnemonic="D" for="create-date">查询时间(D)：</label>
+                    <text name="start-date" type="DATE"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="auId" title="客户ID" type="TEXT" size="80"/>
+                    <tableColumn name="realName" title="姓名" type="TEXT" size="100"/>
+                    <tableColumn name="mobile" title="手机号码" type="TEXT" size="160"/>
+                    <tableColumn name="company" title="工作单位" type="TEXT" size="100"/>
+                    <tableColumn name="position" title="职务" type="TEXT" size="100"/>
+                    <tableColumn name="city" title="城市" type="TEXT" size="60"/>
+                    <tableColumn name="age" title="年龄" type="TEXT" size="60"/>
+                    <tableColumn name="gender" title="性别" type="TEXT" size="60"/>
+                    <tableColumn name="remark" title="备注" type="TEXT" size="160"/>
+                    <tableColumn name="recommendMobile" title="推荐码" type="TEXT" size="160"/>
+                    <tableColumn name="originType" title="客户来源" type="TEXT" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

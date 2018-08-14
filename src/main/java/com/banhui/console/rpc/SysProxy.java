@@ -94,4 +94,47 @@ public class SysProxy
     ) {
         return http().post("mgr/sys-users/" + userName + "/reset-pwd", null);
     }
+
+    public CompletableFuture<Result> findAllRoles(
+            Map<String, Object> params
+    ) {
+        return http().get("mgr/sys-roles", params);
+    }
+
+    public CompletableFuture<Result> role(String roleName
+    ) {
+        return http().get("mgr/sys-roles/" + roleName, null);
+    }
+
+    public CompletableFuture<Result> addRole(
+            Map<String, Object> params
+    ) {
+        return http().put("mgr/sys-roles", params);
+    }
+
+    public CompletableFuture<Result> updateRole(
+            Map<String, Object> params
+    ) {
+        final Object roleName = params.remove("role-name");
+        return http().post("mgr/sys-roles/" + roleName, params);
+    }
+
+    public CompletableFuture<Result> deleteRole(
+            String roleName
+    ) {
+        return http().delete("mgr/sys-roles/" + roleName, null);
+    }
+
+    public CompletableFuture<Result> findPermsByRole(
+            String roleName
+    ) {
+        return http().get("mgr/sys-roles/" + roleName + "/perms", null);
+    }
+
+    public CompletableFuture<Result> assignPerms(
+            Map<String, Object> params
+    ) {
+        final Object roleName = params.remove("role-name");
+        return http().post("mgr/sys-roles/" + roleName + "/perms", params);
+    }
 }

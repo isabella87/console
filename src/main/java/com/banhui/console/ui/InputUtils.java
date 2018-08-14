@@ -234,6 +234,28 @@ public final class InputUtils {
     }
 
     /**
+     * 输入时间的上个月第一天
+     *
+     * @param day
+     * @return
+     */
+    public static Date lastMonth(Date day) {
+        notNull(day, "day");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(day);
+
+        int month = calendar.get(Calendar.MONTH);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        if (month == 0) {
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
+            calendar.set(Calendar.MONTH, 11);
+        } else {
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+        }
+        return calendar.getTime();
+    }
+
+    /**
      * 获取从指定日当天的日期范围。
      *
      * @param day

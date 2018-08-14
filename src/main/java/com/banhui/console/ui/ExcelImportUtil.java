@@ -49,6 +49,9 @@ public class ExcelImportUtil {
 
     public List<Map<String, Object>> readExcel() {
         String path = choiceFile();
+        if(path == null){
+            return new ArrayList<>();
+        }
         InputStream is;
         try {
             is = new FileInputStream(path);
@@ -151,6 +154,7 @@ public class ExcelImportUtil {
                 case DATE:
                     strCell = cell.getDateCellValue();
                     break;
+                case CURRENCY:
                 case FLOAT:
                     strCell = cell.getNumericCellValue();
                     break;

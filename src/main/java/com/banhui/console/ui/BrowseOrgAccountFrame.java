@@ -39,19 +39,11 @@ public class BrowseOrgAccountFrame
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
-            return;
-        }
         final long id = tableModel.getNumberByName(selectedRow, "auId");
 
-        EditOrgAccountInfoDlg dlg = new EditOrgAccountInfoDlg(id);
+        final EditOrgAccountInfoDlg dlg = new EditOrgAccountInfoDlg(id);
         dlg.setFixedSize(false);
-        if (showModel(null, dlg) == DialogPane.OK) {
-            Map<String, Object> row = dlg.getResultRow();
-            if (row != null && !row.isEmpty()) {
-                tableModel.insertRow(selectedRow, row);
-            }
-        }
+        showModel(null, dlg);
     }
 
     private void search(

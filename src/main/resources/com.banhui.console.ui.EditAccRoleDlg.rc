@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="账户角色"
+>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <boxLayout>
+        <gridLayout>
+            <column alignment="FIRST"/>
+            <column/>
+            <row>
+                <cell>
+                    <checkBox name="invest"/>
+                </cell>
+                <cell>
+                    <label for="invest">投资人</label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <checkBox name="borrow"/>
+                </cell>
+                <cell>
+                    <label for="borrow">借款人</label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <checkBox name="commutate"/>
+                </cell>
+                <cell>
+                    <label for="commutate">代偿人</label>
+                </cell>
+            </row>
+        </gridLayout>
+    </boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok" default="true"/>
+        <button actionName="cancel"/>
+    </boxLayout>
+</ui>

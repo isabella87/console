@@ -42,7 +42,7 @@
                     <tableColumn name="status" title="状态" type="TEXT" size="100" optionsName="status1"/>
                     <tableColumn name="amt" title="金额" type="CURRENCY" size="120"/>
                     <tableColumn name="datepoint" title="投资时间" type="DATE_TIME" size="200"/>
-                    <tableColumn name="orderNo" title="流水号" type="TEXT" size="150"/>
+                    <tableColumn name="orderNo" title="流水号" type="TEXT" size="180"/>
                 </table>
             </cell>
         </row>

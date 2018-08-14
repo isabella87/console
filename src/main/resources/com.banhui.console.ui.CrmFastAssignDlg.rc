@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="快速重新分配客户经理"
+        width="250"
+        height="300"
+>
+    <message name="reset-title"><![CDATA[重新分配客户经理]]></message>
+    <standardAction value="close"/>
+    <action name="do-reset" title="批量分配客户经理"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <label>请选择新客户经理：</label>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="100"/>
+                    <tableColumn name="pName" title="客户经理上级" type="TEXT" size="100"/>
+                </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="do-reset"/>
+                    <button actionName="close"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

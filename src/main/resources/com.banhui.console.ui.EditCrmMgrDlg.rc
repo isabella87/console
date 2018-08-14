@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="客户经理-"
+>
+    <standardAction value="ok" />
+    <standardAction value="cancel"/>
+
+    <options name="department">
+    <option value="销售一部">销售一部</option>
+    <option value="销售二部">销售二部</option>
+    <option value="销售三部">销售三部</option>
+    <option value="销售四部">销售四部</option>
+    <option value="销售五部">销售五部</option>
+    </options>
+
+    <options name="position">
+        <option value="高级副总裁">高级副总裁</option>
+        <option value="副总裁">副总裁</option>
+        <option value="代副总裁">代副总裁</option>
+        <option value="总监一级">总监一级</option>
+        <option value="总监二级">总监二级</option>
+        <option value="总监三级">总监三级</option>
+        <option value="代总监">代总监</option>
+        <option value="客代">客代</option>
+        <option value="经理一级">经理一级</option>
+        <option value="经理二级">经理二级</option>
+        <option value="经理三级">经理三级</option>
+        <option value="代经理">代经理</option>
+        <option value="高级客代">高级客代</option>
+        <option value="客户代表">客户代表</option>
+        <option value="实习客代">实习客代</option>
+    </options>
+
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="100" alignment="BOTH"/>
+
+        <row stretch="100">
+            <cell>
+                <label name="department">所属部门：</label>
+            </cell>
+            <cell>
+                <dropDown name="department" optionsName="department"/>
+            </cell>
+        </row>
+
+        <row stretch="100">
+            <cell>
+                <label name="position">职务：</label>
+            </cell>
+            <cell>
+                <dropDown name="position" optionsName="position"/>
+            </cell>
+        </row>
+
+        <row stretch="100">
+            <cell>
+                <label name="recursive">同步下属部门：</label>
+            </cell>
+            <cell>
+                <checkBox name="recursive" />
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="LAST" verticalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

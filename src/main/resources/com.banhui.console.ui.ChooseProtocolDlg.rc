@@ -6,6 +6,10 @@
         height="500"
         width="650"
 >
+    <message name="upload-success"><![CDATA[上传成功!]]></message>
+    <message name="delete-success"><![CDATA[文件删除成功!]]></message>
+    <message name="download-success"><![CDATA[下载成功!]]></message>
+    <message name="confirm-delete"><![CDATA[确定删除以下文件 <b>{}</b> : 此操作不可恢复!确认吗？]]></message>
     <action name="refresh" title="刷新" smallIcon="search.png"/>
     <action name="upload" title="上传"/>
     <action name="download" title="下载"/>
@@ -25,9 +29,11 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="loginName" title="文件" type="TEXT" size="240"/>
-                    <tableColumn name="mobile" title="大小" type="TEXT" size="180"/>
-                    <tableColumn name="_row" title="最新修改时间" type="DATE_TIME" size="180"/>
+                    <tableColumn name="name" title="文件" type="TEXT" size="220"/>
+                    <tableColumn name="size" title="大小" type="TEXT" size="180"/>
+                    <tableColumn name="lastModifiedTime" title="最新修改时间" type="DATE_TIME" size="220"/>
+                    <tableColumn name="hash" title="文件Hash" type="TEXT" size="10"/>
+                    <tableColumn name="id" title="文件id" type="TEXT" size="10"/>
                 </table>
             </cell>
         </row>

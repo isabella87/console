@@ -103,10 +103,10 @@ public class BrowseBaPrjOwnersFrame
         final int selectedRow = table.getSelectedRow();
         final long id = tableModel.getNumberByName(selectedRow, "boId");
         final EditBaPrjOwnerDlg dlg = new EditBaPrjOwnerDlg(id);
+
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
-
             if (row != null && !row.isEmpty()) {
                 tableModel.setRow(selectedRow, row);
             }

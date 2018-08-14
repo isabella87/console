@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="选择客户经理"
+        width="220"
+        height="300"
+>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column/>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="100"/>
+                    <tableColumn name="pName" title="客户经理上级" type="TEXT" size="100"/>
+                </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

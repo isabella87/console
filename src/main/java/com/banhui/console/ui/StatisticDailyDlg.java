@@ -16,6 +16,7 @@ import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.intValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
+import static com.banhui.console.ui.InputUtils.tomorrow;
 
 public class StatisticDailyDlg
         extends DialogPane {
@@ -71,9 +72,9 @@ public class StatisticDailyDlg
         html.append("</td><td>总提现人数(其它)</td><td>");
         html.append(statistic4.get("totalWithdrawCountOther"));
         html.append("</td></tr><tr><td>当日投资人数</td><td>");
-        html.append(statistic2.get("newInvestCount"));
-        html.append("</td><td>总投资人数</td><td>");
         html.append(statistic2.get("investCount"));
+        html.append("</td><td>总投资人数</td><td>");
+        html.append(statistic2.get("totalInvestCount"));
         html.append("</td></tr><tr><td>当日充值金额(仅投资人)</td><td>");
         html.append(statistic1.get("rechargeAmtInvestor"));
         html.append("</td><td>总充值金额(仅投资人)</td><td>");
@@ -100,6 +101,10 @@ public class StatisticDailyDlg
         html.append(statistic3.get("totalCreditAmt"));
         html.append("<tr><td></td><td></td><td>借款余额</td><td>");
         html.append(statistic5.get("loanBalanceAmt"));
+        html.append("</td></tr><tr><td>当日还本金额</td><td>");
+        html.append(statistic5.get("repayCapitalAmt"));
+        html.append("</td><td>总还本金额</td><td>");
+        html.append(statistic5.get("totalRepayCapitalAmt"));
         html.append("</td></tr><tr><td>当日还款服务费</td><td>");
         html.append(statistic5.get("repayFeeAmt"));
         html.append("</td><td>总还款服务费</td><td>");
@@ -127,7 +132,8 @@ public class StatisticDailyDlg
         assertUIThread();
         final Map<String, Object> params = new HashMap<>();
         Date datepoint = controller().getDate("datepoint");
-        params.put("datepoint", datepoint);
+        Date date = tomorrow(datepoint).getStart();
+        params.put("datepoint", date);
         allDone(new StatisticProxy().dailyStatistic1(params),
                 new StatisticProxy().dailyStatistic2(params),
                 new StatisticProxy().dailyStatistic3(params),
@@ -193,12 +199,14 @@ public class StatisticDailyDlg
             statistic5.put("totalCreditFeeAmt", decimalValue(result4, "totalCreditFeeAmt"));
             statistic5.put("averageBorrowDays", decimalValue(result4, "averageBorrowDays"));
             statistic5.put("totalAverageBorrowDays", decimalValue(result4, "totalAverageBorrowDays"));
-            statistic5.put("averageBorrowRate",decimalValue(result4, "averageBorrowRate") + "%");
+            statistic5.put("averageBorrowRate", decimalValue(result4, "averageBorrowRate") + "%");
             statistic5.put("totalAverageBorrowRate", decimalValue(result4, "totalAverageBorrowRate") + "%");
             statistic5.put("personAverageBorrowAmt", decimalValue(result4, "personAverageBorrowAmt"));
             statistic5.put("totalPersonAverageBorrowAmt", decimalValue(result4, "totalPersonAverageBorrowAmt"));
             statistic5.put("orgAverageBorrowAmt", decimalValue(result4, "orgAverageBorrowAmt"));
             statistic5.put("totalOrgAverageBorrowAmt", decimalValue(result4, "totalOrgAverageBorrowAmt"));
+            statistic5.put("repayCapitalAmt", decimalValue(result4, "repayCapitalAmt"));
+            statistic5.put("totalRepayCapitalAmt", decimalValue(result4, "totalRepayCapitalAmt"));
 
             doHtml();
         }
@@ -254,5 +262,7 @@ public class StatisticDailyDlg
         statistic5.put("totalPersonAverageBorrowAmt", "");
         statistic5.put("orgAverageBorrowAmt", "");
         statistic5.put("totalOrgAverageBorrowAmt", "");
+        statistic5.put("repayCapitalAmt", "");
+        statistic5.put("totalRepayCapitalAmt", "");
     }
 }

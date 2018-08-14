@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="分配注册客户"
+>
+    <message name="create-success"><![CDATA[分配成功！]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="close"/>
+    <options name="department-status">
+        <option>销售一部</option>
+        <option>销售二部</option>
+        <option>销售三部</option>
+        <option>销售四部</option>
+        <option>销售五部</option>
+    </options>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column/>
+        <row>
+            <cell>
+                <label for="real-name">注册客户姓名：</label>
+            </cell>
+            <cell>
+                <text name="real-name"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="mobile">注册客户手机号：</label>
+            </cell>
+            <cell>
+                <text name="mobile" pattern="1[0-9]{10}"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="u-name">客户经理登录名：</label>
+            </cell>
+            <cell>
+                <text name="u-name"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="department">客户经理部门：</label>
+            </cell>
+            <cell>
+                <text name="department" optionsName="department-status"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+                <boxLayout>
+                    <button actionName="ok" default="true"/>
+                    <button actionName="close"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="个人账户信息-">
+    <message name="commit-success"><![CDATA[资料提交成功]]></message>
+    <message name="commit-fail"><![CDATA[资料提交失败]]></message>
+    <message name="allow-invest">允许投资，</message>
+    <message name="allow-borrow">允许借款，</message>
+    <message name="allow-commutate">允许代偿，</message>
+    <action name="bank-acc-info" title="查看银行账户信息"/>
+    <action name="edit-acc-role" title="修改账户角色"/>
+    <action name="edit-acc-lvl" title="修改账户级别"/>
+    <action name="recharge-list" title="查询充值指令"/>
+    <action name="withdraw-list" title="查看提现指令"/>
+    <action name="tender-list" title="查看投标指令"/>
+    <action name="credit-assign-list" title="查看买入债权指令"/>
+    <action name="payment-detail-deposit" title="收支明细（存管）"/>
+    <action name="payment-detail-platform" title="收支明细（平台）"/>
+    <action name="history-invests" title="历史投资明细"/>
+    <action name="bank-funds" title="银行流水"/>
+    <action name="lock-account" title="锁定账户"/>
+    <action name="browse-protocol" title="查看注册协议"/>
+    <action name="unlock-account" title="解锁账户"/>
+    <action name="month-reports" title="投资月报"/>
+    <action name="frozen-fund" title="冻结资金"/>
+    <action name="ts-tender-deposit" title="投标记录（存管）"/>
+    <action name="ts-tender-platform" title="投标记录（平台）"/>
+    <action name="borrow-record" title="借款记录"/>
+    <action name="check-registry" title="检查银行开户"/>
+    <options name="lvl-status">
+        <option value="1">保守型</option>
+        <option value="2">稳健型</option>
+        <option value="3">平衡型</option>
+        <option value="4">成长型</option>
+        <option value="5">积极型</option>
+    </options>
+    <boxLayout>
+        <tabbedPane>
+            <tab title="账户信息" description="账户信息">
+                <gridLayout>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="login-name">用户名：</label>
+                        </cell>
+                        <cell>
+                            <text name="login-name"/>
+                        </cell>
+                        <cell horizontalAlignment="CENTER" columnSpan="2">
+                            <button actionName="bank-acc-info" name="bank-acc-info"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="mobile">手机：</label>
+                        </cell>
+                        <cell>
+                            <text name="mobile"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="lvl">级别：</label>
+                        </cell>
+                        <cell>
+                            <dropDown name="lvl" optionsName="lvl-status"/>
+                        </cell>
+                        <cell horizontalAlignment="CENTER" columnSpan="2">
+                            <button actionName="edit-acc-lvl" name="edit-acc-lvl"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="email">邮箱：</label>
+                        </cell>
+                        <cell>
+                            <text name="email"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="reg-time">注册时间：</label>
+                        </cell>
+                        <cell>
+                            <text name="reg-time" type="DATE_TIME"/>
+                        </cell>
+                        <cell horizontalAlignment="CENTER" columnSpan="2">
+                            <button actionName="edit-acc-role" name="edit-acc-role"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="recommend-mobile">推荐人手机号：</label>
+                        </cell>
+                        <cell>
+                            <text name="recommend-mobile"/>
+                        </cell>
+                        <cell/>
+                        <cell>
+                            <label name="accAllow"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="个人信息" description="个人信息">
+                <gridLayout>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="real-name">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="real-name"/>
+                        </cell>
+                        <cell>
+                            <label for="position">职务：</label>
+                        </cell>
+                        <cell>
+                            <text name="position"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="company">工作单位：</label>
+                        </cell>
+                        <cell>
+                            <text name="company"/>
+                        </cell>
+                        <cell>
+                            <label for="company-type">单位类型：</label>
+                        </cell>
+                        <cell>
+                            <text name="company-type"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="address">通信地址：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <text name="address"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="postal-code">邮政编码：</label>
+                        </cell>
+                        <cell>
+                            <text name="postal-code"/>
+                        </cell>
+                        <cell>
+                            <label for="id-card">身份证号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="id-card"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="home-phone">电话：</label>
+                        </cell>
+                        <cell>
+                            <text name="home-phone"/>
+                        </cell>
+                        <cell>
+                            <label for="qq-number">QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="qq-number"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="org-code">所属企业编号：</label>
+                        </cell>
+                        <cell>
+                            <text name="org-code"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout>
+        <ruler/>
+    </boxLayout>
+    <boxLayout horizontalAlignment="LAST">
+        <gridLayout>
+            <column alignment="LAST"/>
+            <row>
+                <cell>
+                    <boxLayout>
+                        <button actionName="recharge-list" name="recharge-list"/>
+                        <button actionName="withdraw-list" name="withdraw-list"/>
+                        <button actionName="tender-list" name="tender-list"/>
+                        <button actionName="credit-assign-list" name="credit-assign-list"/>
+                    </boxLayout>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <boxLayout>
+                        <button actionName="payment-detail-deposit" name="payment-detail-deposit"/>
+                        <button actionName="payment-detail-platform" name="payment-detail-platform"/>
+                        <button actionName="history-invests" name="history-invests"/>
+                        <button actionName="bank-funds" name="bank-funds"/>
+                        <button actionName="lock-account" name="lock-account"/>
+                        <button actionName="unlock-account" name="unlock-account"/>
+                        <button actionName="browse-protocol" name="browse-protocol"/>
+                    </boxLayout>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <boxLayout>
+                        <button actionName="month-reports" name="month-reports"/>
+                        <button actionName="frozen-fund" name="frozen-fund"/>
+                        <button actionName="ts-tender-deposit" name="ts-tender-deposit"/>
+                        <button actionName="ts-tender-platform" name="ts-tender-platform"/>
+                        <button actionName="borrow-record" name="borrow-record"/>
+                        <button actionName="check-registry" name="check-registry"/>
+                    </boxLayout>
+                </cell>
+            </row>
+        </gridLayout>
+    </boxLayout>
+</ui>

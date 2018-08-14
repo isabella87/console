@@ -3,10 +3,31 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="机构账户信息-">
-    <action name="bank-account-info" title="查看银行账户信息"/>
-    <action name="edit-account-role" title="修改账户角色"/>
-    <action name="edit-account-lvl" title="修改账户级别"/>
+    <message name="commit-success"><![CDATA[资料提交成功]]></message>
+    <message name="commit-fail"><![CDATA[资料提交失败]]></message>
+    <message name="allow-invest">允许投资，</message>
+    <message name="allow-borrow">允许借款，</message>
+    <message name="allow-commutate">允许代偿，</message>
+    <action name="bank-acc-info" title="查看银行账户信息"/>
+    <action name="edit-acc-role" title="修改账户角色"/>
+    <action name="edit-acc-lvl" title="修改账户级别"/>
+    <action name="withdraw-list" title="查看提现指令"/>
+    <action name="tender-list" title="查看投标指令"/>
+    <action name="credit-assign-list" title="查看买入债权指令"/>
+    <action name="payment-detail-deposit" title="收支明细（存管）"/>
+    <action name="payment-detail-platform" title="收支明细（平台）"/>
+    <action name="history-invests" title="历史投资明细"/>
+    <action name="bank-funds" title="银行流水"/>
+    <action name="lock-account" title="锁定账户"/>
+    <action name="browse-protocol" title="查看注册协议"/>
+    <action name="unlock-account" title="解锁账户"/>
+    <action name="ts-tender-deposit" title="投标记录（存管）"/>
+    <action name="ts-tender-platform" title="投标记录（平台）"/>
+    <action name="frozen-fund" title="冻结资金"/>
+    <action name="borrow-record" title="借款记录"/>
+    <action name="month-reports" title="投资月报"/>
     <action name="commit-info" title="提交信息"/>
+    <action name="confirm-registry" title="确认开户"/>
     <options name="lvl-status">
         <option value="1">保守型</option>
         <option value="2">稳健型</option>
@@ -15,227 +36,265 @@
         <option value="5">积极型</option>
     </options>
     <boxLayout>
+        <tabbedPane>
+            <tab title="账户信息" description="账户信息">
+                <gridLayout>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="login-name">用户名：</label>
+                        </cell>
+                        <cell>
+                            <text name="login-name"/>
+                        </cell>
+                        <cell/>
+                        <cell horizontalAlignment="CENTER">
+                            <button actionName="bank-acc-info" name="bank-acc-info"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="real-name">联系人姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="real-name" pattern="\w{2,}"/>
+                        </cell>
+                        <cell>
+                            <label for="position">职务：</label>
+                        </cell>
+                        <cell>
+                            <text name="position"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="id-card">联系人身份证号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
+                        </cell>
+                        <cell/>
+                        <cell horizontalAlignment="CENTER">
+                            <button name="edit-acc-role" actionName="edit-acc-role"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="mobile">联系人手机：</label>
+                        </cell>
+                        <cell>
+                            <text name="mobile"/>
+                        </cell>
+                        <cell/>
+                        <cell>
+                            <label name="accAllow"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="email">联系人邮箱：</label>
+                        </cell>
+                        <cell>
+                            <text name="email"/>
+                        </cell>
+                        <cell>
+                            <label for="qq-number">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="qq-number"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="company">联系人工作单位：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <text name="company"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="create-time">创建时间：</label>
+                        </cell>
+                        <cell>
+                            <text name="create-time" type="DATE"/>
+                        </cell>
+                        <cell>
+                            <label for="update-time">更新时间：</label>
+                        </cell>
+                        <cell>
+                            <text name="update-time" type="DATE"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="lvl">账户级别：</label>
+                        </cell>
+                        <cell>
+                            <dropDown name="lvl" optionsName="lvl-status"/>
+                        </cell>
+                        <cell/>
+                        <cell horizontalAlignment="CENTER">
+                            <button name="edit-acc-lvl" actionName="edit-acc-lvl"/>
+                        </cell>
+                    </row>
+
+                </gridLayout>
+            </tab>
+            <tab title="机构信息" description="机构信息">
+                <gridLayout>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="org-name">机构名称：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <text name="org-name"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="company-type">公司类型:</label>
+                        </cell>
+                        <cell>
+                            <text name="company-type"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="address">公司地址：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <text name="address"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="postal-code">邮政编码:</label>
+                        </cell>
+                        <cell>
+                            <text name="postal-code"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="buss-lic">营业执照号:</label>
+                        </cell>
+                        <cell>
+                            <text name="buss-lic"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="org-code-no">组织机构代码证号:</label>
+                        </cell>
+                        <cell>
+                            <text name="org-code-no"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="law-name">法人姓名:</label>
+                        </cell>
+                        <cell>
+                            <text name="law-name"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="law-id-card">法人身份证号:</label>
+                        </cell>
+                        <cell>
+                            <text name="law-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
+                        </cell>
+                        <cell>
+                            <label for="home-phone">家庭号码:</label>
+                        </cell>
+                        <cell>
+                            <text name="home-phone"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="银行账户" description="银行账户">
+                <gridLayout>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <column alignment="FIRST"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="acc-bank">银行账户开户行：</label>
+                        </cell>
+                        <cell columnSpan="3">
+                            <text name="acc-bank"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="account">银行账户:</label>
+                        </cell>
+                        <cell>
+                            <text name="account"/>
+                        </cell>
+                        <cell>
+                            <label for="acc-user-name">银行账户户名:</label>
+                        </cell>
+                        <cell>
+                            <text name="acc-user-name"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout>
+        <ruler/>
+    </boxLayout>
+    <boxLayout horizontalAlignment="LAST">
         <gridLayout>
-            <column/>
+            <column alignment="LAST"/>
             <row>
                 <cell>
-                    <gridLayout title="账户信息">
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <row>
-                            <cell>
-                                <label for="login-name">用户名：</label>
-                            </cell>
-                            <cell>
-                                <text name="login-name"/>
-                            </cell>
-                            <cell/>
-                            <cell horizontalAlignment="CENTER">
-                                <button actionName="bank-account-info" name="bank-account-info"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="real-name">联系人姓名：</label>
-                            </cell>
-                            <cell>
-                                <text name="real-name"/>
-                            </cell>
-                            <cell>
-                                <label for="position">职务：</label>
-                            </cell>
-                            <cell>
-                                <text name="position"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="id-card">联系人身份证号码：</label>
-                            </cell>
-                            <cell>
-                                <text name="id-card"/>
-                            </cell>
-                            <cell/>
-                            <cell horizontalAlignment="CENTER">
-                                <button name="edit-account-role" actionName="edit-account-role"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="mobile">联系人手机：</label>
-                            </cell>
-                            <cell>
-                                <text name="mobile"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="email">联系人邮箱：</label>
-                            </cell>
-                            <cell>
-                                <text name="email"/>
-                            </cell>
-                            <cell>
-                                <label for="qq-number">联系人QQ：</label>
-                            </cell>
-                            <cell>
-                                <text name="qq-number"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="company">联系人工作单位：</label>
-                            </cell>
-                            <cell columnSpan="3">
-                                <text name="company"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="create-time">创建时间：</label>
-                            </cell>
-                            <cell>
-                                <text name="create-time" type="DATE"/>
-                            </cell>
-                            <cell>
-                                <label for="update-time">更新时间：</label>
-                            </cell>
-                            <cell>
-                                <text name="update-time" type="DATE"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="lvl">账户级别：</label>
-                            </cell>
-                            <cell>
-                                <dropDown name="lvl" optionsName="lvl-status"/>
-                            </cell>
-                            <cell/>
-                            <cell horizontalAlignment="CENTER">
-                                <button name="edit-account-lvl" actionName="edit-account-lvl"/>
-                            </cell>
-                        </row>
-                    </gridLayout>
+                    <boxLayout>
+                        <button actionName="withdraw-list"/>
+                        <button actionName="tender-list"/>
+                        <button actionName="credit-assign-list"/>
+                    </boxLayout>
                 </cell>
             </row>
             <row>
                 <cell>
-                    <gridLayout title="机构资料">
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <row>
-                            <cell>
-                                <label for="org-name">机构名称：</label>
-                            </cell>
-                            <cell columnSpan="3">
-                                <text name="org-name"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="company-type">公司类型:</label>
-                            </cell>
-                            <cell>
-                                <text name="company-type"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="address">公司地址：</label>
-                            </cell>
-                            <cell columnSpan="3">
-                                <text name="address"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="postal-code">邮政编码:</label>
-                            </cell>
-                            <cell>
-                                <text name="postal-code"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="buss-lic">营业执照号:</label>
-                            </cell>
-                            <cell>
-                                <text name="buss-lic"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="org-code-no">组织机构代码证号:</label>
-                            </cell>
-                            <cell>
-                                <text name="org-code-no"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="law-name">法人姓名:</label>
-                            </cell>
-                            <cell>
-                                <text name="law-name"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="law-id-card">法人身份证号:</label>
-                            </cell>
-                            <cell>
-                                <text name="law-id-card"/>
-                            </cell>
-                            <cell>
-                                <label for="home-phone">家庭号码:</label>
-                            </cell>
-                            <cell>
-                                <text name="home-phone"/>
-                            </cell>
-                        </row>
-                    </gridLayout>
+                    <boxLayout>
+                        <button actionName="payment-detail-deposit"/>
+                        <button actionName="payment-detail-platform"/>
+                        <button actionName="history-invests"/>
+                        <button actionName="bank-funds"/>
+                        <button actionName="lock-account" name="lock-account"/>
+                        <button actionName="unlock-account" name="unlock-account"/>
+                        <button actionName="browse-protocol"/>
+                    </boxLayout>
                 </cell>
             </row>
             <row>
                 <cell>
-                    <gridLayout title="银行账户">
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <column alignment="FIRST"/>
-                        <column/>
-                        <row>
-                            <cell>
-                                <label for="acc-bank">银行账户开户行：</label>
-                            </cell>
-                            <cell columnSpan="3">
-                                <text name="acc-bank"/>
-                            </cell>
-                        </row>
-                        <row>
-                            <cell>
-                                <label for="account">银行账户:</label>
-                            </cell>
-                            <cell>
-                                <text name="account"/>
-                            </cell>
-                            <cell>
-                                <label for="acc-user-name">银行账户户名:</label>
-                            </cell>
-                            <cell>
-                                <text name="acc-user-name"/>
-                            </cell>
-                        </row>
-                    </gridLayout>
+                    <boxLayout>
+                        <button actionName="confirm-registry"/>
+                        <button actionName="month-reports"/>
+                        <button actionName="frozen-fund"/>
+                        <button actionName="ts-tender-deposit"/>
+                        <button actionName="ts-tender-platform"/>
+                        <button actionName="borrow-record"/>
+                        <button actionName="commit-info" name="commit-info"/>
+                    </boxLayout>
                 </cell>
             </row>
         </gridLayout>
-    </boxLayout>
-    <boxLayout horizontalAlignment="LAST">
-        <button actionName="commit-info" name="commit-info"/>
     </boxLayout>
 </ui>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="手工录入-"
+>
+    <standardAction value="ok" />
+    <standardAction value="cancel"/>
+
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column stretch="0" alignment="FIRST"/>
+
+        <row stretch="100">
+           <cell>
+               <label name="loginName">登录名：</label>
+           </cell>
+            <cell>
+                <text name="loginName" type="TEXT"/>
+            </cell>
+        </row>
+
+        <row stretch="100">
+            <cell>
+                <label name="name">姓名或者机构名称：</label>
+            </cell>
+            <cell>
+                <text name="name" type="TEXT"/>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell>
+                <label name="amt">金额：</label>
+            </cell>
+            <cell>
+                <text name="amt" type="CURRENCY" suffix="元"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="LAST" verticalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

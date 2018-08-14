@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="分配注册客户">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="choose-manager" title="选择客户经理"/>
+    <action name="acc-info" title="帐户信息(I)" mnemonic="I"/>
+    <action name="reset-manager" title="重新分配(E)" mnemonic="E"/>
+    <action name="create-assign" title="分配注册客户(A)" mnemonic="A"/>
+    <action name="batch-assign" title="批量分配客户经理(B)" mnemonic="B"/>
+    <action name="fast-assign" title="快速重新分配客户经理(R)" mnemonic="R"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="department-status">
+        <option value="*">全部</option>
+        <option>无</option>
+        <option value="销售一部">销售一部</option>
+        <option value="销售二部">销售二部</option>
+        <option value="销售三部">销售三部</option>
+        <option value="销售四部">销售四部</option>
+        <option value="销售五部">销售五部</option>
+    </options>
+    <options name="jx-status-option">
+        <option>全部</option>
+        <option value="2">未开户</option>
+        <option value="3">未绑卡</option>
+        <option value="4">已绑卡</option>
+        <option value="5">已投资</option>
+    </options>
+    <options name="user-type">
+        <option value="1">个人</option>
+        <option value="2">机构</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="department">部门：</label>
+                    <dropDown name="department" optionsName="department-status"/>
+                    <label for="u-name">客户经理：</label>
+                    <text name="u-name" size="8"/>
+                    <button actionName="choose-manager"/>
+                    <label for="create-date">查询时间：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label for="jx-status">客户状态：</label>
+                    <dropDown name="jx-status" optionsName="jx-status-option"/>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="acc-info" name="acc-info"/>
+                    <button actionName="reset-manager" name="reset-manager"/>
+                    <button actionName="create-assign"/>
+                    <button actionName="batch-assign"/>
+                    <button actionName="fast-assign"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="auId" title="ID" type="TEXT" size="100"/>
+                    <tableColumn name="loginName" title="登录名" type="TEXT" size="120"/>
+                    <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
+                    <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
+                    <tableColumn name="jxStatus" title="状态" type="TEXT" size="120" optionsName="jx-status-option"/>
+                    <tableColumn name="regTime" title="注册时间" type="DATE" size="140"/>
+                    <tableColumn name="userType" title="客户类型" type="TEXT" size="120" optionsName="user-type"/>
+                    <tableColumn name="opUser" title="分配人" type="TEXT" size="120"/>
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="120"/>
+                    <tableColumn name="assignTime" title="分配时间" type="DATE" size="140"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

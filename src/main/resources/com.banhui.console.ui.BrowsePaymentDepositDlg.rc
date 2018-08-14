@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="收支明细(存管)-"
+        height="450"
+        width="950"
+>
+    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="excel" title="导出Excel"/>
+    <options name="status">
+        <option value="0">（全部）</option>
+        <option value="1">转入</option>
+        <option value="2">转出</option>
+    </options>
+    <options name="ar-type">
+        <option value="0">未知类型</option>
+        <option value="1">充值</option>
+        <option value="2">提现</option>
+        <option value="3">放款</option>
+        <option value="4">还本</option>
+        <option value="5">放款(借款人)</option>
+        <option value="6">还本(借款人)</option>
+        <option value="7">债权转入</option>
+        <option value="8">债权转出</option>
+        <option value="9">还息</option>
+        <option value="10">还息（借款人）</option>
+        <option value="11">投资</option>
+        <option value="14">还息手续费</option>
+        <option value="15">放款手续费</option>
+        <option value="18">债权转出手续费</option>
+        <option value="21">收到红包</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="tran-type-flag">类型：</label>
+                    <dropDown name="tran-type-flag" optionsName="status"/>
+                    <label for="key">关键字：</label>
+                    <text name="key"/>
+                    <button actionName="search" name="search"/>
+                    <button actionName="excel" name="excel"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="140"/>
+                    <tableColumn name="seqno" title="流水号" type="TEXT" size="120"/>
+                    <tableColumn name="arType" title="交易类型" type="TEXT" size="120" optionsName="ar-type"/>
+                    <tableColumn name="debitAmt" title="金额" type="CURRENCY" size="140"/>
+                    <tableColumn name="creditAmt" title="余额" type="CURRENCY" size="120"/>
+                    <tableColumn name="remark" title="说明" type="TEXT" size="140"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

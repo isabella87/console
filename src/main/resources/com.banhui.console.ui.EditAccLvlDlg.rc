@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="修改级别-"
+        width="300"
+        height="100"
+>
+    <message name="edit-success"><![CDATA[修改成功!]]></message>
+    <message name="edit-fail"><![CDATA[修改失败!]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="lvl-status">
+        <option value="1">保守型</option>
+        <option value="2">稳健型</option>
+        <option value="3">平衡型</option>
+        <option value="4">成长型</option>
+        <option value="5">积极型</option>
+    </options>
+    <boxLayout>
+        <gridLayout>
+            <column/>
+            <row>
+                <cell>
+                    <label for="lev">请选择账户级别：</label>
+                </cell>
+            </row>
+            <row>
+                <cell>
+                    <dropDown name="lev" optionsName="lvl-status"/>
+                </cell>
+            </row>
+        </gridLayout>
+    </boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok" default="true"/>
+        <button actionName="cancel"/>
+    </boxLayout>
+</ui>

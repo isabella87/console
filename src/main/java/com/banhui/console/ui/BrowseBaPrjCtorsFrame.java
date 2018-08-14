@@ -87,10 +87,8 @@ public class BrowseBaPrjCtorsFrame
 
         final EditBaPrjCtorDlg dlg = new EditBaPrjCtorDlg(0);
         dlg.setFixedSize(false);
-
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
-
             if (row != null && !row.isEmpty()) {
                 tableModel.insertRow(selectedRow, row);
             }

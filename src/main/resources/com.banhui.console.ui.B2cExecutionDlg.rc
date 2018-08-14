@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="执行商户转账-"
+        width="1200"
+        height="800"
+>
+    <message name="execute-title"><![CDATA[派发]]></message>
+    <action name="create" title="手工录入"/>
+    <action name="batchImport" title="批量导入"/>
+    <action name="execute" title="执行"/>
+    <action name="refresh" title="刷新"/>
+
+    <options name="status">
+        <option value="0">未成功</option>
+        <option value="1">成功</option>
+    </options>
+
+    <options name="done">
+        <option value="-1">初始状态</option>
+        <option value="0">正在执行</option>
+        <option value="1">失败</option>
+        <option value="2">成功</option>
+    </options>
+
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="batchImport"/>
+                    <button actionName="execute"/>
+                    <button actionName="refresh"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <splitPane axis="Y">
+                    <table name="list">
+                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                        <tableColumn name="jvpId" title="ID" type="TEXT" size="60"/>
+                        <tableColumn name="auId" title="AUID" type="TEXT" size="60"/>
+                        <tableColumn name="forAccountId" title="转入电子账户" type="TEXT" size="160"/>
+                        <tableColumn name="seqno" title="流水号" type="TEXT" size="100"/>
+                        <tableColumn name="txamount" title="金额" type="CURRENCY" size="100"/>
+                        <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="status"/>
+                        <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="160"/>
+                        <tableColumn name="rsp" title="响应消息" type="TEXT" size="200"/>
+                    </table>
+                    <table name="detail">
+                        <tableColumn name="a" type="TEXT"/>
+                    </table>
+                </splitPane>
+
+            </cell>
+        </row>
+
+    </gridLayout>
+
+</ui>

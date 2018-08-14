@@ -117,11 +117,13 @@ public class PermissionBatchInDlg
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
         List<Map<String, Object>> lists = new ExcelImportUtil(tableModel).readExcel();
-        if (lists != null) {
+        if (lists != null&&!lists.isEmpty()) {
             tableModel.setAllRows(lists);
             String batchInSuccess = controller().formatMessage("load-success", lists.size());
             prompt(this.getOwner(), batchInSuccess);
-        } else {
+        } else if(lists.isEmpty()){
+
+        }else {
             prompt(this.getOwner(), controller().getMessage("load-fail"));
         }
     }

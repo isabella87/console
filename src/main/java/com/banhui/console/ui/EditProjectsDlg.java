@@ -396,7 +396,7 @@ public class EditProjectsDlg
     private void operate(
             ActionEvent actionEvent
     ) {
-        final ChooseBillFileDlg dlg = new ChooseBillFileDlg(id);
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 31);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }

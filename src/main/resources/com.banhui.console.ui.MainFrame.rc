@@ -27,8 +27,17 @@
     <action name="browseYiMeiMessage" title="伊美短信(Y)" mnemonic="Y" description="已发送的伊美短信"/>
     <action name="browsePlatformMessage" title="发送消息(S)" mnemonic="S" description="发送平台消息"/>
 
-    <action name="browseSysUsers" title="帐户管理" mnemonic="U" description="管理后台帐户"/>
-    <action name="changePassword" title="修改密码" description="修改当前登录帐户的密码"/>
+    <action name="browseAssignRegClient" title="分配注册客户(R)" mnemonic="R" description="分配注册客户"/>
+    <action name="browseMyClient" title="我的注册客户(B)" mnemonic="B" description="我的注册客户"/>
+    <action name="browseClientMgrManagement" title="客户经理管理(M)" mnemonic="M" description="客户经理管理"/>
+    <action name="browseQueryNewRegClient" title="客户管理-新增注册客户(J)" mnemonic="J" description="新增注册客户"/>
+    <action name="dailyPerfStatistics" title="日绩效统计(G)" mnemonic="G" description="日绩效统计"/>
+    <action name="monthPerfStatistics" title="月绩效统计(H)" mnemonic="H" description="月绩效统计"/>
+    <action name="createQrCode" title="创建推广二维码（Q）" mnemonic="Q" description="创建推广二维码"/>
+
+    <action name="browseSysUsers" title="帐户管理(U)" mnemonic="U" description="管理后台帐户"/>
+    <action name="browseSysRoles" title="角色管理(R)" mnemonic="R" description="管理后台角色"/>
+    <action name="changePassword" title="修改密码(P)" mnemonic="P" description="修改当前登录帐户的密码"/>
 
     <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置"/>
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
@@ -66,8 +75,21 @@
             <menuItem value="browseYiMeiMessage"/>
             <menuItem value="browsePlatformMessage"/>
         </menu>
+        <menu title="客户关系管理(C)" mnemonic="C">
+            <menuItem value="browseAssignRegClient"/>
+            <menuItem value="browseMyClient"/>
+            <menuItem value="-"/>
+            <menuItem value="browseClientMgrManagement"/>
+            <menuItem value="browseQueryNewRegClient"/>
+            <menuItem value="-"/>
+            <menuItem value="dailyPerfStatistics"/>
+            <menuItem value="monthPerfStatistics"/>
+            <menuItem value="-"/>
+            <menuItem value="createQrCode"/>
+        </menu>
         <menu title="后台管理(M)" mnemonic="M">
             <menuItem value="browseSysUsers"/>
+            <menuItem value="browseSysRoles"/>
             <menuItem value="-"/>
             <menuItem value="changePassword"/>
         </menu>

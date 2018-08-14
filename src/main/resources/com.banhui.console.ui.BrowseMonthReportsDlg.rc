@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="投资月报-"
+        height="300"
+        width="500"
+>
+    <gridLayout>
+        <column/>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="year" title="年份" type="TEXT" size="140"/>
+                    <tableColumn name="month" title="月份" type="TEXT" size="140"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

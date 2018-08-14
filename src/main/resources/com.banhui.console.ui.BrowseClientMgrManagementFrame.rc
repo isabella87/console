@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="客户经理管理"
+        width="800"
+        height="600">
+
+    <message name="designated-superior-confirm" ><![CDATA[为客户经理<b> {} </b>指定新的上级：]]></message>
+    <message name="del-confirm" ><![CDATA[确认删除<b> {} </b>吗？此操作无法被撤销！]]></message>
+    <message name="update-rcode-confirm" ><![CDATA[确定要修改编号吗！]]></message>
+    <message name="rcode-confirm" ><![CDATA[输入文本“编号”继续确认！]]></message>
+    <message name="uname-confirm" >搜索登录名不能为空！</message>
+    <message name="cannot-search-uname-confirm" >查无此人！</message>
+
+    <action name="create" title="添加"/>
+    <action name="delete" title="删除"/>
+    <action name="designatedSuperior" title="指定上级"/>
+    <action name="edit" title="编辑"/>
+    <action name="updateCode" title="修改编码"/>
+    <action name="refresh" title="刷新"/>
+    <action name="gps" title="快速定位"/>
+
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="delete"/>
+                    <button actionName="designatedSuperior"/>
+                    <button actionName="edit"/>
+                    <button actionName="updateCode"/>
+                    <button actionName="refresh"/>
+                    <label mnemonic="L" for="u-name">登录名(L)：</label>
+                    <text name="u-name" type="TEXT"/>
+                    <button actionName="gps" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+
+                <splitPane axis="X">
+                    <component className="JTree" name="mgrJTree"/>
+                    <gridLayout>
+                        <column stretch="0" alignment="FIRST"/>
+                        <column />
+                        <row>
+                            <cell>
+                                <label name="department">部门：</label>
+                            </cell>
+                            <cell>
+                                <text name="department" type="TEXT"/>
+                            </cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <label name="position">职务：</label>
+                            </cell>
+                            <cell>
+                                <text name="position" type="TEXT"/>
+                            </cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <label name="enabled">是否启用：</label>
+                            </cell>
+                            <cell>
+                                <text name="enabled" type="TEXT"/>
+                            </cell>
+                        </row>
+                        <row>
+                            <cell>
+                                <label name="rCode">编号：</label>
+                            </cell>
+                            <cell>
+                                <text name="rCode" type="TEXT"/>
+                            </cell>
+                        </row>
+                        <row stretch="100">
+                            <cell>
+                                <label/>
+                            </cell>
+                        </row>
+                    </gridLayout>
+                </splitPane>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

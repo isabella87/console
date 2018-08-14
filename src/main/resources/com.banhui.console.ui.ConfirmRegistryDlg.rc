@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="确认开户-"
+>
+    <message name="confirm-registry-text"><![CDATA[确认开户吗？]]></message>
+    <message name="registry-fail"><![CDATA[开户失败]]></message>
+    <message name="registry-success"><![CDATA[开户成功]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <label for="user-id">请输入电子帐户号：</label>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <text name="user-id" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="银行流水-"
+        height="400"
+        width="800"
+>
+    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="excel" title="导出Excel"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="trans-type">
+        <option value="1">转入</option>
+        <option value="2">转出</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="create-date">查询时间：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <button actionName="search" name="search"/>
+                    <button actionName="excel" name="excel"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="tranno" title="交易流水号" type="TEXT" size="120"/>
+                    <tableColumn name="amount" title="金额" type="CURRENCY" size="120"/>
+                    <tableColumn name="transtype" title="类型" type="TEXT" size="100" optionsName="trans-type"/>
+                    <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="140"/>
+                    <tableColumn name="currBal" title="账户余额" type="TEXT" size="120"/>
+                    <tableColumn name="desline" title="描述" type="TEXT" size="120"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

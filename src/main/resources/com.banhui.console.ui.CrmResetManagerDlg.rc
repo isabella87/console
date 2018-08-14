@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="分配客户经理-"
+        width="250"
+        height="300"
+>
+    <action name="do-reset" title="分配客户经理"/>
+    <action name="browse-history" title="查看历史分配"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout>
+                    <label>投资人客户：</label>
+                    <label name="name"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="uName" title="客户经理" type="TEXT" size="100"/>
+                    <tableColumn name="pName" title="客户经理上级" type="TEXT" size="100"/>
+                </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="do-reset"/>
+                    <button actionName="browse-history"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

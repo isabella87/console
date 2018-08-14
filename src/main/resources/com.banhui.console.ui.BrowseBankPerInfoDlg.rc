@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="个人银行帐户信息-"
+        height="420"
+        width="400"
+>
+    <message name="row0"><![CDATA[<b>01-姓名</b><br/>银行开户使用的机构名称]]></message>
+    <message name="row1"><![CDATA[<b>02-手机</b>]]></message>
+    <message name="row2"><![CDATA[<b>03-身份证号码</b><br/>银行开户使用的身份证号码]]></message>
+    <message name="row3"><![CDATA[<b>04-绑定卡号</b><br/>提现时使用的银行卡]]></message>
+    <message name="row4"><![CDATA[<b>11-电子账户号</b>]]></message>
+    <message name="row5"><![CDATA[<b>12-开户日期</b>]]></message>
+    <message name="row6"><![CDATA[<b>13-是否已设置密码</b>]]></message>
+    <message name="row7"><![CDATA[<b>14-角色</b><br/>账户角色]]></message>
+    <message name="row8"><![CDATA[<b>21-总余额</b>]]></message>
+    <message name="row9"><![CDATA[<b>22-可用余额</b><br/>可用余额不包含已投标但是尚未放款的那部分金额]]></message>
+    <message name="property-name">属性名</message>
+    <message name="property-value">属性值</message>
+    <standardAction value="close"/>
+    <gridLayout>
+        <column/>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <splitPane axis="Y" dividerLocation="FIRST">
+                    <table name="list">
+                        <tableColumn name="name" type="TEXT" size="150" title="属性名"/>
+                        <tableColumn name="value" type="TEXT" size="230" title="属性值"/>
+                    </table>
+                    <component className="JTextPane" name="content" scrollable="true"/>
+                </splitPane>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

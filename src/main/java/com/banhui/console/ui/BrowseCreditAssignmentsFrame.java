@@ -129,7 +129,7 @@ public class BrowseCreditAssignmentsFrame
             return;
         }
         final long tiId = tableModel.getNumberByName(selectRow, "tiId");
-        ChooseBillFileDlg dlg = new ChooseBillFileDlg(tiId);
+        ChooseProtocolDlg dlg = new ChooseProtocolDlg(tiId, 48);
         dlg.setFixedSize(false);
         showModel(null, dlg);
 

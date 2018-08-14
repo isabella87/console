@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="机构银行帐户信息-"
+        height="450"
+        width="400"
+>
+    <message name="row0"><![CDATA[<b>01-机构名称</b><br/>银行开户使用的机构名称]]></message>
+    <message name="row1"><![CDATA[<b>02-证件类型</b><br/>银行开户使用的证件类型]]></message>
+    <message name="row2"><![CDATA[<b>03-证件号码</b><br/>银行开户使用的证件号码]]></message>
+    <message name="row3"><![CDATA[<b>04-联系电话</b>]]></message>
+    <message name="row4"><![CDATA[<b>05-对公帐户</b><br/>提现时使用的银行帐户]]></message>
+    <message name="row5"><![CDATA[<b>06-营业执照号</b>]]></message>
+    <message name="row6"><![CDATA[<b>07-税务登记号</b>]]></message>
+    <message name="row7"><![CDATA[<b>11-电子帐户号</b>]]></message>
+    <message name="row8"><![CDATA[<b>12-开户日期</b>]]></message>
+    <message name="row9"><![CDATA[<b>13-是否已设置密码</b>]]></message>
+    <message name="row10"><![CDATA[<b>14-角色</b><br/>帐户角色]]></message>
+    <message name="row11"><![CDATA[<b>21-总余额</b>]]></message>
+    <message name="row12"><![CDATA[<b>22-可用余额</b><br/>可用余额不包含已投标但是尚未放款的那部分金额]]></message>
+    <message name="property-name">属性名</message>
+    <message name="property-value">属性值</message>
+    <standardAction value="close"/>
+    <gridLayout>
+        <column/>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <splitPane axis="Y" dividerLocation="FIRST">
+                    <table name="list">
+                        <tableColumn name="name" type="TEXT" size="150" title="属性名"/>
+                        <tableColumn name="value" type="TEXT" size="230" title="属性值"/>
+                    </table>
+                    <component className="JTextPane" name="content" scrollable="true"/>
+                </splitPane>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

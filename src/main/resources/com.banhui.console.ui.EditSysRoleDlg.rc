@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="后台角色">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <row>
+            <cell>
+                <label for="name">名称：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="title">标题：</label>
+            </cell>
+            <cell>
+                <text name="title"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="description">说明：</label>
+            </cell>
+            <cell>
+                <text name="description"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label mnemonic="E" for="enabled">是否启用(E)：</label>
+            </cell>
+            <cell>
+                <checkBox name="enabled"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

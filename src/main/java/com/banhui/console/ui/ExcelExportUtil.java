@@ -249,8 +249,6 @@ public class ExcelExportUtil {
 
         if (fileChooser.showSaveDialog(Application.mainFrame()) == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-
-
             outputExcel(file.getAbsolutePath() + ".xls");
 
         }

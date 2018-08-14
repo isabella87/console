@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="查看提现指令-"
+        height="500"
+        width="900"
+>
+    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="excel" title="导出Excel"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="status">
+        <option value="99">（全部）</option>
+        <option value="1">成功</option>
+        <option value="2">失败</option>
+        <option value="3">未知结果</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="create-date">时间：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label for="isOk">类型</label>
+                    <dropDown name="status" optionsName="status"/>
+                    <button actionName="search" name="search"/>
+                    <button actionName="excel" name="excel"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="jwId" title="提现ID" type="TEXT" size="120"/>
+                    <tableColumn name="done" title="状态" type="TEXT" size="100" optionsName="status"/>
+                    <tableColumn name="datepoint" title="交易日期" type="DATE_TIME" size="160"/>
+                    <tableColumn name="authCode" title="应答码" type="TEXT" size="120"/>
+                    <tableColumn name="rsp" title="应答消息" type="TEXT" size="120"/>
+                    <tableColumn name="req" title="报文" type="TEXT" size="140"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="个人账户信息"
+        width="800"
+        height="600">
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="account-info" title="账户信息"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="account-status">
+        <option value="999">（全部）</option>
+        <option value="1">已注册</option>
+        <option value="2">已开户</option>
+    </options>
+    <options name="lock-status">
+        <option value="999">（全部）</option>
+        <option value="0">正常</option>
+        <option value="98">自动锁定</option>
+        <option value="99">停用</option>
+    </options>
+    <options name="allow-status">
+        <option value="0">不允许</option>
+        <option value="1">允许</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="reg-time">注册时间：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label for="account-status">状态：</label>
+                    <dropDown name="account-status" optionsName="account-status"/>
+                    <label for="lock-status">锁定：</label>
+                    <dropDown name="lock-status" optionsName="lock-status"/>
+                    <label for="search-key">关键字：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="account-info" name="account-info"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="auId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="loginName" title="用户名" type="TEXT" size="120"/>
+                    <tableColumn name="regTime" title="注册时间" type="DATE" size="160"/>
+                    <tableColumn name="status" title="状态" type="TEXT" size="100" optionsName="account-status"/>
+                    <tableColumn name="locked" title="锁定状态" type="TEXT" size="100" optionsName="lock-status"/>
+                    <tableColumn name="allowInvest" title="允许投资" type="TEXT" size="100" optionsName="allow-status"/>
+                    <tableColumn name="allowBorrow" title="允许借款" type="TEXT" size="100" optionsName="allow-status"/>
+                    <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
+                    <tableColumn name="idCard" title="身份证" type="TEXT" size="180"/>
+                    <tableColumn name="mobile" title="手机" type="TEXT" size="120"/>
+                    <tableColumn name="recommendMobile" title="推荐码(推荐人手机号)" type="TEXT" size="140"/>
+                    <tableColumn name="recommendName" title="推荐人" type="TEXT" size="120"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>
