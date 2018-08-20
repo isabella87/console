@@ -18,6 +18,8 @@ public class CreateCrmMgrDlg
 
     private Long id;
 
+    private String uName;
+
     @Override
     public void done(int result) {
         if (result == OK) {
@@ -44,6 +46,7 @@ public class CreateCrmMgrDlg
             ErrorHandler.handle(t);
         } else {
             this.id = result;
+            this.uName = controller().getText("u-name");
             super.done(OK);
         }
     }
@@ -52,4 +55,7 @@ public class CreateCrmMgrDlg
         return this.id;
     }
 
+    public String getuName() {
+        return this.uName;
+    }
 }

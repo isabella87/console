@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="客户经理日统计绩效">
+    <action name="statistics" title="统计(S)" mnemonic="S"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="name-list" title="客户名单(N)" mnemonic="N"/>
+    <action name="choose-depart" title="按所属部门选择"/>
+    <options name="department-status">
+        <option value="销售一部">销售一部</option>
+        <option value="销售二部">销售二部</option>
+        <option value="销售三部">销售三部</option>
+        <option value="销售四部">销售四部</option>
+        <option value="销售五部">销售五部</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="datepoint">查询时间：</label>
+                    <text name="datepoint" type="DATE"/>
+                    <button name="statistics" actionName="statistics"/>
+                    <button name="name-list" actionName="name-list"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <splitPane>
+                    <gridLayout>
+                        <column/>
+                        <row>
+                            <cell>
+                                <boxLayout>
+                                    <button actionName="refresh"/>
+                                    <label for="department">部门：</label>
+                                    <dropDown name="department" optionsName="department-status"/>
+                                    <button actionName="choose-depart"/>
+                                </boxLayout>
+                            </cell>
+                        </row>
+                        <row stretch="100">
+                            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                <table name="user-list">
+                                    <tableColumn name="check" title="" type="CHECK_BOX" size="20"/>
+                                    <tableColumn name="uName" title="客户经理" type="TEXT" size="140"/>
+                                    <tableColumn name="pName" title="客户经理上级" type="TEXT" size="140"/>
+                                    <tableColumn name="department" title="部门" type="TEXT" size="140"/>
+                                </table>
+                            </cell>
+                        </row>
+                    </gridLayout>
+                    <boxLayout>
+                        <gridLayout>
+                            <column/>
+                            <row stretch="100">
+                                <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                    <table name="list">
+                                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                        <tableColumn name="uName" title="客户经理" type="TEXT" size="100"/>
+                                        <tableColumn name="rCode" title="客户经理编码" type="TEXT" size="120"/>
+                                        <tableColumn name="pName" title="客户经理上级" type="TEXT" size="120"/>
+                                        <tableColumn name="position" title="客户经理职务" type="TEXT" size="140"/>
+                                        <tableColumn name="sumInvestAmt" title="投资余额" type="CURRENCY" size="120"/>
+                                        <tableColumn name="sumTenderAmt" title="投资总额" type="CURRENCY" size="120"/>
+                                        <tableColumn name="sumCreditAmt" title="已还本金总额" type="CURRENCY" size="120"/>
+                                        <tableColumn name="sumFirstInvestCount" title="首次投标人数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumInvesterCount" title="投标人数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumInvestCount" title="投标次数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumCreditAmt" title="买入债权本金总额" type="CURRENCY" size="120"/>
+                                        <tableColumn name="sumBindCount" title="绑卡人数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumIncomeAmt" title="平台收入" type="CURRENCY" size="120"/>
+                                    </table>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </boxLayout>
+                </splitPane>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

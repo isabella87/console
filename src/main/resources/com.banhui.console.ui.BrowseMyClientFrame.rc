@@ -3,6 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="我的注册客户">
+    <message name="search-title"><![CDATA[批量搜索中]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="choose-manager" title="选择客户经理"/>
     <action name="acc-info" title="帐户信息(I)" mnemonic="I"/>

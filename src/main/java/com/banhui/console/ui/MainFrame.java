@@ -100,11 +100,11 @@ public final class MainFrame
     }
 
     private void dailyPerfStatistics(ActionEvent actionEvent) {
-
+        this.uiController.openChild("dailyPerfStatistics", BrowseDailyPerfStatisticsFrame::new);
     }
 
     private void browseQueryNewRegClient(ActionEvent actionEvent) {
-        this.uiController.openChild("browseQueryNewRegClient",BrowseQueryNewRegClientFrame::new);
+        this.uiController.openChild("browseQueryNewRegClient", BrowseQueryNewRegClientFrame::new);
     }
 
     private void browseClientMgrManagement(ActionEvent actionEvent) {

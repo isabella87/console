@@ -12,7 +12,10 @@ public class CrmProxy
      *         查询条件。
      * @return 符合条件的列表。
      */
-    //分配注册客户
+
+    /**
+     * 分配注册客户
+     */
     public CompletableFuture<Result> queryRegUsers(Map<String, Object> params) {
         return super.http().get("crm/reg-investors/relations", params);
     }
@@ -37,7 +40,9 @@ public class CrmProxy
         return super.http().post("crm/reg-investors/assign", params);
     }
 
-    //我的注册客户
+    /**
+     * 我的注册客户
+     */
     public CompletableFuture<Result> myRegUsers(Map<String, Object> params) {
         return super.http().get("crm/reg-investors/my", params);
     }
@@ -46,6 +51,11 @@ public class CrmProxy
         long auId = takeLong(params, "au-id");
         return super.http().get("crm/reg-investors/" + auId, params);
     }
+
+    public CompletableFuture<Result> queryUserDaily(Map<String, Object> params) {
+        return super.http().get("crm/statistic/reg-user-daily", params);
+    }
+
 
     /**
      * 客户经理层级相关

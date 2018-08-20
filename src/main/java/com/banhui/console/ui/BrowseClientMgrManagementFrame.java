@@ -37,6 +37,7 @@ public class BrowseClientMgrManagementFrame
 
     private List<Map<String, Object>> mgrTreeData;
     private DefaultMutableTreeNode selectTreeNode;
+    private String uName;
 
     /**
      * {@inheritDoc}
@@ -61,22 +62,27 @@ public class BrowseClientMgrManagementFrame
         controller().disable("edit");
         controller().disable("updateCode");
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("if-self", true);
-        new CrmProxy().getAllMgrRelations(params).thenApplyAsync(Result::list).whenCompleteAsync(this::callback, UPDATE_UI);
+
+        controller().call("refresh");
     }
 
 
+    /**
+     * 主动定位节点事件
+     *
+     * @param actionEvent
+     */
     private void gps(ActionEvent actionEvent) {
-        if (controller().getText("u-name").isEmpty()) {
+        String uName = controller().getText("u-name");
+        if (uName.isEmpty()) {
             confirm(null, controller().getMessage("uname-confirm"));
         } else {
             JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
             TreeModel treeModel = mgrJTree.getModel();
             DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treeModel.getRoot();
             selectTreeNode = null;
-            treeNode = getTreeNodeByUname(treeNode);
-            if (treeNode == null) {
+            treeNode = getTreeNodeByUname(treeNode, uName);
+            if (selectTreeNode == null) {
                 confirm(null, controller().getMessage("cannot-search-uname-confirm"));
             } else {
                 mgrJTree.setSelectionPath(new TreePath(treeNode.getPath()));
@@ -85,14 +91,40 @@ public class BrowseClientMgrManagementFrame
         }
     }
 
+    /**
+     * 用于创建、编译、指定上级、更改编码后对作用节点的自动展开并定位
+     *
+     * @param uName
+     */
+    private void expandTheDescNode(String uName) {
+        JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
+        TreeModel treeModel = mgrJTree.getModel();
+        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) treeModel.getRoot();
+
+        if (uName != null && !uName.isEmpty()) {
+
+            selectTreeNode = null;
+            treeNode = getTreeNodeByUname(treeNode, uName);
+            if (selectTreeNode != null) {
+                mgrJTree.setSelectionPath(new TreePath(treeNode.getPath()));
+                mgrJTree.setExpandsSelectedPaths(true);
+            }
+        } else {
+            treeNode = (DefaultMutableTreeNode) treeNode.getChildAt(0);
+            mgrJTree.setSelectionPath(new TreePath(treeNode.getPath()));
+            mgrJTree.setExpandsSelectedPaths(true);
+        }
+
+    }
+
     private DefaultMutableTreeNode getTreeNodeByUname(
-            DefaultMutableTreeNode treeNode
+            DefaultMutableTreeNode treeNode,
+            String uName
     ) {
 
-        String uname = controller().getText("u-name");
-        if (!treeNode.getUserObject().toString().equals(uname)) {
+        if (!treeNode.getUserObject().toString().equals(uName)) {
             for (int j = 0; j < treeNode.getChildCount(); j++) {
-                getTreeNodeByUname((DefaultMutableTreeNode) treeNode.getChildAt(j));
+                getTreeNodeByUname((DefaultMutableTreeNode) treeNode.getChildAt(j), uName);
             }
         } else {
             selectTreeNode = treeNode;
@@ -113,6 +145,7 @@ public class BrowseClientMgrManagementFrame
             JTree jTree = controller().get(JTree.class, "mgrJTree");
             DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
             String uname = treeNode.getUserObject().toString();
+            this.uName = uname;
             String remark = DialogUtils.inputText(null, controller().formatMessage("rcode-confirm", uname), "");
             if (remark != null && !remark.isEmpty()) {
                 Map<String, Object> params = new HashMap<>();
@@ -138,24 +171,28 @@ public class BrowseClientMgrManagementFrame
     private void edit(ActionEvent actionEvent) {
         JTree jTree = controller().get(JTree.class, "mgrJTree");
         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-        String uname = treeNode.getUserObject().toString();
+        String uName = treeNode.getUserObject().toString();
 
-        EditCrmMgrDlg editCrmMgrDlg = new EditCrmMgrDlg(uname);
+        EditCrmMgrDlg editCrmMgrDlg = new EditCrmMgrDlg(uName);
         editCrmMgrDlg.setFixedSize(false);
 
         if (showModel(null, editCrmMgrDlg) == DialogPane.OK) {
+            this.uName = editCrmMgrDlg.getUname();
             controller().call("refresh");
+
+
         }
     }
 
     private void designatedSuperior(ActionEvent actionEvent) {
         JTree jTree = controller().get(JTree.class, "mgrJTree");
         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
-        String uname = treeNode.getUserObject().toString();
-        String remark = DialogUtils.inputText(null, controller().formatMessage("designated-superior-confirm", uname), "");
+        String uName = treeNode.getUserObject().toString();
+        this.uName = uName;
+        String remark = DialogUtils.inputText(null, controller().formatMessage("designated-superior-confirm", uName), "");
         if (remark != null && !remark.isEmpty()) {
             Map<String, Object> params = new HashMap<>();
-            params.put("u-name", uname);
+            params.put("u-name", uName);
             params.put("p-name", remark);
             new CrmProxy().moveCrmMgrRelation(params)
                           .whenCompleteAsync(this::designatedSuperiorCallback, UPDATE_UI);
@@ -194,6 +231,7 @@ public class BrowseClientMgrManagementFrame
         if (t != null) {
             ErrorHandler.handle(t);
         } else {
+            this.uName = null;
             controller().call("refresh");
         }
     }
@@ -203,9 +241,9 @@ public class BrowseClientMgrManagementFrame
         createCrmMgrDlg.setFixedSize(false);
 
         if (showModel(null, createCrmMgrDlg) == DialogPane.OK) {
+            this.uName = createCrmMgrDlg.getuName();
             controller().call("refresh");
         }
-
     }
 
     private void callback(
@@ -251,6 +289,7 @@ public class BrowseClientMgrManagementFrame
                 DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) mgrJTree.getLastSelectedPathComponent();
                 if (treeNode != null && !treeNode.getUserObject().toString().isEmpty()) {
                     String uName = treeNode.getUserObject().toString();
+                    this.uName = uName;
                     Map<String, Object> map = getUserInfoByUname(uName);
                     if (map != null) {
                         updateDetailInfo();
@@ -260,8 +299,16 @@ public class BrowseClientMgrManagementFrame
                         controller().enable("edit");
                         controller().enable("updateCode");
                     }
+                } else {
+                    controller().disable("delete");
+                    controller().disable("designatedSuperior");
+                    controller().disable("edit");
+                    controller().disable("updateCode");
                 }
             });
+
+            expandTheDescNode(uName);
+
         }
     }
 
