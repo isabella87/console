@@ -20,6 +20,7 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,6 @@ public class BrowseClientMgrManagementFrame
         controller().disable("designatedSuperior");
         controller().disable("edit");
         controller().disable("updateCode");
-
 
         controller().call("refresh");
     }
@@ -282,10 +282,21 @@ public class BrowseClientMgrManagementFrame
             mgrJTree.setCellRenderer(defaultTreeCellRenderer);
 
             TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
-            treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+//            treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
             mgrJTree.setSelectionModel(treeSelectionModel);
 
             mgrJTree.addTreeSelectionListener(e -> {
+
+                TreePath[] treePaths = mgrJTree.getSelectionPaths();
+                List<DefaultMutableTreeNode> list = new ArrayList<>();
+                for (TreePath treePath : treePaths) {
+                    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(treePath);
+                    String nn = treeNode.getLastLeaf().getUserObject().toString();
+                    System.out.println("I choose you："+nn);
+                    list.add(treeNode);
+
+                }
+
                 DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) mgrJTree.getLastSelectedPathComponent();
                 if (treeNode != null && !treeNode.getUserObject().toString().isEmpty()) {
                     String uName = treeNode.getUserObject().toString();

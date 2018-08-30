@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="生成推广二维码"
+        width="600"
+        height="500"
+>
+    <message name="default-code">班汇通推广</message>
+    <message name="default-message">http://192.168.11.30/m/regist-user.html?rcode=</message>
+    <standardAction value="cancel"/>
+    <action name="add-logo" title="添加"/>
+    <action name="create" title="生成(C)" mnemonic="C"/>
+    <action name="save" title="保存(S)" mnemonic="S"/>
+    <gridLayout>
+        <column stretch="0" alignment="FIRST"/>
+        <column/>
+        <row>
+            <cell>
+                <label for="register-address">注册地址：</label>
+            </cell>
+            <cell>
+                <text name="register-address"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="code">推广代号：</label>
+            </cell>
+            <cell>
+                <text name="code"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="logo">Logo(长和宽小于100像素)：</label>
+            </cell>
+            <cell>
+                <boxLayout>
+                    <text name="logo"/>
+                    <button actionName="add-logo"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <gridLayout title="推广注册地址">
+                    <column/>
+                    <row>
+                        <cell>
+                            <text name="recommend-url"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <imageBox name="Qr-code"/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </cell>
+        </row>
+    </gridLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="create"/>
+        <button actionName="save"/>
+        <button actionName="cancel"/>
+    </boxLayout>
+</ui>

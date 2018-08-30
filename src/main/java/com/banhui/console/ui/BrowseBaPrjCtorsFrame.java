@@ -148,7 +148,16 @@ public class BrowseBaPrjCtorsFrame
     private void check(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bcoId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 29,1);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void accelerateDate(

@@ -228,7 +228,7 @@ public class EditPerAccountInfoDlg
     private void BrowseProtocol(
             ActionEvent actionEvent
     ) {
-        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47);
+        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47,2);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }

@@ -156,19 +156,46 @@ public class BrowseBaPrjBorPersFrame
     private void check(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bpmpId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 28,1);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void creditFile(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bpmpId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 58,2);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void debtFile(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bpmpId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 60,2);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void accelerateDate(

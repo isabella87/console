@@ -2,6 +2,7 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
+import org.xx.armory.swing.DialogUtils;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -9,15 +10,6 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,14 +22,17 @@ public class ChooseProtocolDlg
         extends DialogPane {
     private volatile long id;
     private volatile int fileType;
+    private volatile int chooseType;
     private volatile String filePath;
 
     public ChooseProtocolDlg(
             long id,
-            int fileType
+            int fileType,
+            int chooseType
     ) {
         this.id = id;
         this.fileType = fileType;
+        this.chooseType = chooseType;
         if (this.id != 0) {
             setTitle(getTitle() + id + "/" + fileType);
         }
@@ -66,7 +61,7 @@ public class ChooseProtocolDlg
         final String fileHash = tableModel.getStringByName(table.getSelectedRow(), "hash");
         final String fileName = tableModel.getStringByName(table.getSelectedRow(), "name");
 
-        String path = new PictureImportUtil().choiceDirToSave(fileName);
+        String path = new FileUtil(null).choiceDirToSave(fileName);
         this.filePath = path;
         if (path != null) {
             final Map<String, Object> params = new HashMap<>();
@@ -79,36 +74,17 @@ public class ChooseProtocolDlg
     }
 
     private void downloadCallBack(
-            String fileCode,
+            String fileEncodeContent,
             Throwable t
     ) {
         if (t != null) {
             ErrorHandler.handle(t);
-        } else if (fileCode != null) {
-            byte[] buffer = Base64.getDecoder().decode(fileCode);
-            InputStream is = null;
-            OutputStream os = null;
-            try {
-                is = new ByteArrayInputStream(buffer);
-                os = new FileOutputStream(filePath);
-                byte[] by = new byte[1024];
-                int rc;
-                while ((rc = is.read(by, 0, by.length)) > 0) {
-                    os.write(by, 0, rc);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (is != null)
-                        is.close();
-                    if (os != null)
-                        os.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        } else if (fileEncodeContent != null) {
+            if (new FileUtil(null).saveDownloadFile(fileEncodeContent, filePath)) {
+                prompt(null, controller().getMessage("download-success"));
+            } else {
+                prompt(null, controller().getMessage("download-failed"));
             }
-            prompt(null, controller().getMessage("download-success"));
         }
     }
 
@@ -175,41 +151,26 @@ public class ChooseProtocolDlg
                 }
                 map.put("size", sizeByte);
             }
-            tableModel.setAllRows(c);
         }
+        tableModel.setAllRows(c);
     }
 
     private void upload(
             ActionEvent actionEvent
     ) {
-        String filePath = new PictureImportUtil().chooseFile(fileType);
-        if (filePath != null) {
-            File file = new File(filePath);
-            InputStream is;
-            ByteArrayOutputStream os;
-            byte[] buffer = null;
-            try {
-                is = new FileInputStream(file);
-                os = new ByteArrayOutputStream();
-                byte[] buff = new byte[1024];
-                int rc;
-                while ((rc = is.read(buff, 0, buff.length)) > 0) {
-                    os.write(buff, 0, rc);
-                }
-                buffer = os.toByteArray();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String encode = Base64.getEncoder().encodeToString(buffer);
-            String fileName = file.getName();
-
+        FileUtil fileUploadUtil = new FileUtil(chooseType);
+        String uploadFileContent = fileUploadUtil.getUploadFileContent();
+        String uploadFileName = fileUploadUtil.getUploadFileName();
+        if (uploadFileName != null && !uploadFileName.isEmpty() && uploadFileContent != null && !uploadFileContent.isEmpty()) {
             final Map<String, Object> params = new HashMap<>();
             params.put("object-id", id);
             params.put("file-type", fileType);
-            params.put("file-name", fileName);
-            params.put("file-code", encode);
+            params.put("file-name", uploadFileName);
+            params.put("file-code", uploadFileContent);
             new ProjectProxy().uploadBill(params)
                               .whenCompleteAsync(this::saveCallback, UPDATE_UI);
+        } else {
+            DialogUtils.confirm(null, controller().getMessage("upload-file-confirm"));
         }
     }
 

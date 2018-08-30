@@ -45,10 +45,10 @@ public class BrowseAssignRegClientFrame
     private void chooseManager(
             ActionEvent actionEvent
     ) {
-        CrmChooseManagerDlg dlg = new CrmChooseManagerDlg();
+        CrmChooseManagerDlg dlg = new CrmChooseManagerDlg(1);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
-            String uName = dlg.getuName();
+            String uName = dlg.getUName();
             if (!uName.isEmpty()) {
                 controller().setText("u-name", uName);
             }

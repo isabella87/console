@@ -49,10 +49,10 @@ public class BrowseMyClientFrame
     private void chooseManager(
             ActionEvent actionEvent
     ) {
-        CrmChooseManagerDlg dlg = new CrmChooseManagerDlg();
+        CrmChooseManagerDlg dlg = new CrmChooseManagerDlg(2);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
-            String uName = dlg.getuName();
+            String uName = dlg.getUName();
             if (!uName.isEmpty()) {
                 controller().setText("u-name", uName);
             }
@@ -103,7 +103,12 @@ public class BrowseMyClientFrame
         ids = obj;
         lists = new ArrayList<>();
         size = obj.length;
-        searchCallback2(null);
+        if (size > 0) {
+            searchCallback2(null);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(null);
+        }
     }
 
     private void searchCallback2(
@@ -160,24 +165,45 @@ public class BrowseMyClientFrame
                     BigDecimal total3 = new BigDecimal(0);
                     BigDecimal total4 = new BigDecimal(0);
                     BigDecimal total5 = new BigDecimal(0);
-                    BigDecimal total6 = new BigDecimal(0);
+                    Long total6 = 0L;
                     BigDecimal total7 = new BigDecimal(0);
                     tableModel.setAllRows(lists);
                     final Map<String, Object> params = new HashMap<>();
                     for (int i = 0; i < tableModel.getRowCount(); i++) {
                         BigDecimal amt1 = tableModel.getBigDecimalByName(i, "todayInvestAmt");
+                        if (amt1 == null) {
+                            amt1 = new BigDecimal(0);
+                        }
                         total1 = total1.add(amt1);
                         BigDecimal amt2 = tableModel.getBigDecimalByName(i, "todayWithdrawAmt");
+                        if (amt2 == null) {
+                            amt2 = new BigDecimal(0);
+                        }
                         total2 = total2.add(amt2);
                         BigDecimal amt3 = tableModel.getBigDecimalByName(i, "todayRechargeAmt");
+                        if (amt3 == null) {
+                            amt3 = new BigDecimal(0);
+                        }
                         total3 = total3.add(amt3);
                         BigDecimal amt4 = tableModel.getBigDecimalByName(i, "todayRepayCapitalAmt");
+                        if (amt4 == null) {
+                            amt4 = new BigDecimal(0);
+                        }
                         total4 = total4.add(amt4);
                         BigDecimal amt5 = tableModel.getBigDecimalByName(i, "investRemainAmt");
+                        if (amt5 == null) {
+                            amt5 = new BigDecimal(0);
+                        }
                         total5 = total5.add(amt5);
-                        BigDecimal amt6 = tableModel.getBigDecimalByName(i, "investCount");
-                        total6 = total6.add(amt6);
+                        Long amt6 = tableModel.getNumberByName(i, "investCount");
+                        if (amt6 == null) {
+                            amt6 = 0L;
+                        }
+                        total6 = total6 + amt6;
                         BigDecimal amt7 = tableModel.getBigDecimalByName(i, "sumInvestAmt");
+                        if (amt7 == null) {
+                            amt7 = new BigDecimal(0);
+                        }
                         total7 = total7.add(amt7);
                     }
                     params.put("loginName", "<总计>");
@@ -198,9 +224,17 @@ public class BrowseMyClientFrame
     private void listChanged(
             Object event
     ) {
+        final JTable table = controller().get(JTable.class, "list");
         int[] selectedRows = controller().get(JTable.class, "list").getSelectedRows();
         if (selectedRows.length == 1) {
-            controller().enable("acc-info");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+            final int selectedRow = table.getSelectedRow();
+            final String uName = tableModel.getStringByName(selectedRow, "loginName");
+            if (!uName.equals("<总计>")) {
+                controller().enable("acc-info");
+            } else {
+                controller().disable("acc-info");
+            }
         } else if (selectedRows.length > 1) {
             controller().disable("acc-info");
         } else {

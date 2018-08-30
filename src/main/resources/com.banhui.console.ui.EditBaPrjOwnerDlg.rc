@@ -66,7 +66,7 @@
                 <label for="registered-date">注册时间：</label>
             </cell>
             <cell>
-                <text name="registered-date"/>
+                <text name="registered-date" type="DATE"/>
             </cell>
             <cell>
                 <label for="reg-years">注册年限：</label>

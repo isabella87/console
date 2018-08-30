@@ -25,16 +25,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.banhui.console.ui.InputUtils.yesterday;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
-import static com.banhui.console.ui.InputUtils.yesterday;
 
-public class BrowseDailyPerfStatisticsFrame
+public class BrowseMonthPerfStatisticsFrame
         extends InternalFramePane {
     private List<DefaultMutableTreeNode> selectTreeNodes;
 
-    public BrowseDailyPerfStatisticsFrame() {
+    public BrowseMonthPerfStatisticsFrame() {
         controller().disable("name-list");
         controller().setDate("datepoint", yesterday(new Date()).getStart());
 
@@ -42,11 +42,11 @@ public class BrowseDailyPerfStatisticsFrame
         controller().connect("list", "change", this::listChanged);
         controller().connect("choose-depart", this::chooseDepart);
         controller().connect("statistics", this::doStatistics);
-        controller().connect("name-list", this::userDaily);
+        controller().connect("name-list", this::userMonth);
         controller().call("refresh");
     }
 
-    private void userDaily(
+    private void userMonth(
             ActionEvent actionEvent
     ) {
         final JTable table = controller().get(JTable.class, "list");
@@ -55,7 +55,7 @@ public class BrowseDailyPerfStatisticsFrame
         final String uName = tableModel.getStringByName(selectedRow, "uName");
         final Date datepoint = controller().getDate("datepoint");
 
-        CrmDailyStatisticsDlg dlg = new CrmDailyStatisticsDlg(uName, datepoint);
+        CrmMonthStatisticsDlg dlg = new CrmMonthStatisticsDlg(uName, datepoint);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -206,10 +206,10 @@ public class BrowseDailyPerfStatisticsFrame
         return selectTreeNodes;
     }
 
-
     private void refreshUser(
             ActionEvent actionEvent
     ) {
+
         final Map<String, Object> params = new HashMap<>();
         params.put("if-self", false);
         new CrmProxy().getAllMgrRelations(params)
@@ -228,7 +228,7 @@ public class BrowseDailyPerfStatisticsFrame
         JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
         mgrJTree.setModel(new DefaultTreeModel(null));
         mgrJTree.setRootVisible(false);
-        mgrJTree.setModel(new DefaultTreeModelSuffixUtil(maps, "uName", "pName", "department").getDefaultTreeModel());
+        mgrJTree.setModel(new DefaultTreeModelUtil(maps, "uName", "pName").getDefaultTreeModel());
         mgrJTree.setExpandsSelectedPaths(true);
 
         DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
@@ -245,8 +245,9 @@ public class BrowseDailyPerfStatisticsFrame
         mgrJTree.setCellRenderer(defaultTreeCellRenderer);
 
         TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
-        treeSelectionModel.setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+        treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         mgrJTree.setSelectionModel(treeSelectionModel);
+
     }
 
 

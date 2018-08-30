@@ -159,13 +159,31 @@ public class BrowseBaPrjEngineersFrame
     private void engCheck(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bpeId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 24,1);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void mgrCheck(
             ActionEvent event
     ) {
-
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        int selectRow = table.getSelectedRow();
+        if (selectRow < 0) {
+            return;
+        }
+        final long id = tableModel.getNumberByName(selectRow, "bpeId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 27,1);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void accelerateDate(

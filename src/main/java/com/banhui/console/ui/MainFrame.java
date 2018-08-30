@@ -92,11 +92,13 @@ public final class MainFrame
     }
 
     private void createQrCode(ActionEvent actionEvent) {
-
+        CreateQrCodeDlg dlg = new CreateQrCodeDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void monthPerfStatistics(ActionEvent actionEvent) {
-
+        this.uiController.openChild("monthPerfStatistics", BrowseMonthPerfStatisticsFrame::new);
     }
 
     private void dailyPerfStatistics(ActionEvent actionEvent) {
@@ -108,7 +110,7 @@ public final class MainFrame
     }
 
     private void browseClientMgrManagement(ActionEvent actionEvent) {
-        this.uiController.openChild("browseClientMgrManagement",BrowseClientMgrManagementFrame::new);
+        this.uiController.openChild("browseClientMgrManagement", BrowseClientMgrManagementFrame::new);
     }
 
     private void browseMyClient(ActionEvent actionEvent) {

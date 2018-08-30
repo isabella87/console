@@ -56,6 +56,18 @@ public class CrmProxy
         return super.http().get("crm/statistic/reg-user-daily", params);
     }
 
+    public CompletableFuture<Result> queryUserDailyByName(Map<String, Object> params) {
+        return super.http().get("crm/statistic/reg-users-daily", params);
+    }
+
+    public CompletableFuture<Result> queryUserMonth(Map<String, Object> params) {
+        return super.http().get("crm/statistic/reg-user-month", params);
+    }
+
+    public CompletableFuture<Result> queryUserMonthByName(Map<String, Object> params) {
+        return super.http().get("crm/statistic/reg-users-month", params);
+    }
+
 
     /**
      * 客户经理层级相关
