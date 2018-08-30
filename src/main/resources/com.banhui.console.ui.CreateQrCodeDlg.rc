@@ -4,8 +4,11 @@
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="生成推广二维码"
         width="600"
-        height="500"
+        height="520"
 >
+    <message name="none-image"><![CDATA[无二维码图片！]]></message>
+    <message name="none-code"><![CDATA[必须输入推广代号！]]></message>
+    <message name="bad-logo"><![CDATA[无法使用此logo！]]></message>
     <message name="default-code">班汇通推广</message>
     <message name="default-message">http://192.168.11.30/m/regist-user.html?rcode=</message>
     <standardAction value="cancel"/>
@@ -42,8 +45,8 @@
                 </boxLayout>
             </cell>
         </row>
-        <row>
-            <cell columnSpan="2" horizontalAlignment="BOTH">
+        <row stretch="100">
+            <cell columnSpan="2" horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <gridLayout title="推广注册地址">
                     <column/>
                     <row>
@@ -51,18 +54,23 @@
                             <text name="recommend-url"/>
                         </cell>
                     </row>
-                    <row>
-                        <cell>
+                    <row stretch="1">
+                        <cell horizontalAlignment="CENTER">
                             <imageBox name="Qr-code"/>
                         </cell>
                     </row>
                 </gridLayout>
             </cell>
         </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout>
+                    <button actionName="create"/>
+                    <button actionName="save"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
     </gridLayout>
-    <boxLayout horizontalAlignment="CENTER">
-        <button actionName="create"/>
-        <button actionName="save"/>
-        <button actionName="cancel"/>
-    </boxLayout>
+
 </ui>
