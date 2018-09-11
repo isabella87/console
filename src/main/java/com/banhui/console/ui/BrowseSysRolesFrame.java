@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -38,6 +39,14 @@ public class BrowseSysRolesFrame
     }
 
     private void perm(ActionEvent actionEvent) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = table.getSelectedRow();
+        String roleName = tableModel.getStringByName(selectedRow, "name");
+        String title = tableModel.getStringByName(selectedRow, "title");
+        final EditSysRolePermDlg dlg = new EditSysRolePermDlg(roleName, title);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void search(

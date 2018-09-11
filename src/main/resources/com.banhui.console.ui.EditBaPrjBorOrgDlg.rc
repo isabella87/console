@@ -211,6 +211,11 @@
                             <text name="fax" size="19"/>
                         </cell>
                     </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
                 </gridLayout>
             </tab>
             <tab title="联系人" description="联系人数据">

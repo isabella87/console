@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="分配权限-"
+>
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <label name="title"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <tabbedPane>
+                    <tab title="项目">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="基础操作" name="base">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-base" text="全选"/>
+                                                    <checkBox name="60012" text="查询列表"/>
+                                                    <checkBox name="60010" text="创建"/>
+                                                    <checkBox name="60011" text="更新"/>
+                                                    <checkBox name="60014" text="删除"/>
+                                                    <checkBox name="60013" text="查询详情"/>
+                                                    <checkBox name="60001" text="置顶（包含二级市场）"/>
+                                                    <checkBox name="60002" text="取消置顶（包含二级市场）"/>
+                                                    <checkBox name="60003" text="项目显示或隐藏"/>
+                                                    <checkBox name="60015" text="募集期延期"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="20483" text="查询有效借款人列表"/>
+                                                    <checkBox name="60016" text="查询项目实际借款人"/>
+                                                    <checkBox name="60017" text="更新项目实际借款人"/>
+                                                    <checkBox name="60018" text="更新项目名义借款人及担保借款人"/>
+                                                    <checkBox name="60019" text="查询借款周期信息"/>
+                                                    <checkBox name="60020" text="更新借款周期信息"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="60021" text="预览项目还款计划"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="白名单">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-permissible" text="全选"/>
+                                                    <checkBox name="80106" text="查询列表"/>
+                                                    <checkBox name="80107" text="创建"/>
+                                                    <checkBox name="80108" text="删除"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="借款人快照">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-bor-per" text="全选"/>
+                                                    <checkBox name="80091" text="查询列表"/>
+                                                    <checkBox name="80092" text="创建"/>
+                                                    <checkBox name="80093" text="删除"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="借款结构快照">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-bor-org" text="全选"/>
+                                                    <checkBox name="80096" text="查询列表"/>
+                                                    <checkBox name="80097" text="创建"/>
+                                                    <checkBox name="80098" text="删除"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="担保人快照">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-gua-per" text="全选"/>
+                                                    <checkBox name="80081" text="查询列表"/>
+                                                    <checkBox name="80082" text="创建"/>
+                                                    <checkBox name="80083" text="删除"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="担保机构快照">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-gua-org" text="全选"/>
+                                                    <checkBox name="80086" text="查询列表"/>
+                                                    <checkBox name="80087" text="创建"/>
+                                                    <checkBox name="80088" text="删除"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="评级">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-rating" text="全选"/>
+                                                    <checkBox name="80101" text="查询"/>
+                                                    <checkBox name="80102" text="创建"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="审核">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-audit" text="全选"/>
+                                                    <checkBox name="60061" text="查询项目审核信息"/>
+                                                    <checkBox name="60060" text="项目提交"/>
+                                                    <checkBox name="60062" text="项目经理审批"/>
+                                                    <checkBox name="60063" text="风控审批"/>
+                                                    <checkBox name="60064" text="评委会秘书审批"/>
+                                                    <checkBox name="60065" text="业务副总批准上线"/>
+                                                    <checkBox name="60066" text="业务副总确认满标"/>
+                                                    <checkBox name="60067" text="财务核收服务费"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <checkBox name="60069" text="业务副总批准放款"/>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="高阶操作">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-operate" text="全选"/>
+                                                    <checkBox name="60080" text="生成出借人信息表"/>
+                                                    <checkBox name="60087" text="查看投标"/>
+                                                    <checkBox name="60088" text="中途流标"/>
+                                                    <checkBox name="60089" text="撤销投标"/>
+                                                    <checkBox name="60090" text="查询流标记录"/>
+                                                    <checkBox name="60091" text="执行流标"/>
+                                                    <checkBox name="60092" text="查询是否存在未执行的投标记录"/>
+                                                    <checkBox name="60093" text="查询未执行的投标记录"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="60094" text="检查投标"/>
+                                                    <checkBox name="60095" text="有效投资查询"/>
+                                                    <checkBox name="60097" text="查询放款记录"/>
+                                                    <checkBox name="60098" text="项目结清"/>
+                                                    <checkBox name="60099" text="锁定"/>
+                                                    <checkBox name="60100" text="项目解锁"/>
+                                                    <checkBox name="60101" text="查询项目是否锁定"/>
+                                                    <checkBox name="60102" text="执行放款"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="还款">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-repay" text="全选"/>
+                                                    <checkBox name="60130" text="查询项目还款记录"/>
+                                                    <checkBox name="60131" text="创建项目还款明细"/>
+                                                    <checkBox name="60133" text="禁用还款明细"/>
+                                                    <checkBox name="60134" text="查询项目还款明细"/>
+                                                    <checkBox name="60135" text="查询单笔还款明细的详细还款记录"/>
+                                                    <checkBox name="60171" text="执行还款"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="60136" text="查询还款文件上传记录"/>
+                                                    <checkBox name="60137" text="删除还款文件上传记录"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+
+                            <row>
+                                <cell>
+                                    <gridLayout title="放款">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-loan" text="全选"/>
+                                                    <checkBox name="60120" text="查询放款文件上传记录"/>
+                                                    <checkBox name="60121" text="删除放款文件上传记录"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="借款申请">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-bor-apply" text="全选"/>
+                                                    <checkBox name="60150" text="查询列表"/>
+                                                    <checkBox name="60151" text="查询详细信息"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="项目协议">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="pro-protocol" text="全选"/>
+                                                    <checkBox name="60110" text="查询"/>
+                                                    <checkBox name="60111" text="查询借款人签章信息"/>
+                                                    <checkBox name="60112" text="创建并上传"/>
+                                                    <checkBox name="60113" text="签章"/>
+                                                    <checkBox name="60115" text="核查签章"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="债权项目">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="基础操作">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="credit" text="全选"/>
+                                                    <checkBox name="60160" text="查询债权项目列表"/>
+                                                    <checkBox name="60163" text="提前撤销转让中的债权项目"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="数据统计">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="平台基础数据统计">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="statistics" text="全选"/>
+                                                    <checkBox name="80901" text="日数据统计"/>
+                                                    <checkBox name="80902" text="月数据统计"/>
+                                                    <checkBox name="80903" text="第一次投资客户名单"/>
+                                                    <checkBox name="80904" text="VIP客户名单"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="项目基础数据">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="工程项目">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-engineer" text="全选"/>
+                                                    <checkBox name="80071" text="查询列表"/>
+                                                    <checkBox name="80072" text="创建"/>
+                                                    <checkBox name="80073" text="更新"/>
+                                                    <checkBox name="80074" text="删除"/>
+                                                    <checkBox name="80075" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="施工单位">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-ctors" text="全选"/>
+                                                    <checkBox name="80021" text="查询列表"/>
+                                                    <checkBox name="80022" text="创建"/>
+                                                    <checkBox name="80023" text="更新"/>
+                                                    <checkBox name="80024" text="删除"/>
+                                                    <checkBox name="80025" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="项目业主">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-owner" text="全选"/>
+                                                    <checkBox name="80031" text="查询列表"/>
+                                                    <checkBox name="80032" text="创建"/>
+                                                    <checkBox name="80033" text="更新"/>
+                                                    <checkBox name="80034" text="删除"/>
+                                                    <checkBox name="80035" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="担保人">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-gua-per" text="全选"/>
+                                                    <checkBox name="80061" text="查询列表"/>
+                                                    <checkBox name="80062" text="创建"/>
+                                                    <checkBox name="80063" text="更新"/>
+                                                    <checkBox name="80064" text="删除"/>
+                                                    <checkBox name="80065" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="担保机构">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-gua-org" text="全选"/>
+                                                    <checkBox name="80041" text="查询列表"/>
+                                                    <checkBox name="80042" text="创建"/>
+                                                    <checkBox name="80043" text="更新"/>
+                                                    <checkBox name="80044" text="删除"/>
+                                                    <checkBox name="80045" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="借款人">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-bor-per" text="全选"/>
+                                                    <checkBox name="80011" text="查询列表"/>
+                                                    <checkBox name="80012" text="创建"/>
+                                                    <checkBox name="80013" text="更新"/>
+                                                    <checkBox name="80014" text="删除"/>
+                                                    <checkBox name="80015" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="借款机构">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="prj-bor-org" text="全选"/>
+                                                    <checkBox name="80051" text="查询列表"/>
+                                                    <checkBox name="80052" text="创建"/>
+                                                    <checkBox name="80053" text="更新"/>
+                                                    <checkBox name="80054" text="删除"/>
+                                                    <checkBox name="80055" text="查询详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="账户管理">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="基础功能">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="acc-base" text="全选"/>
+                                                    <checkBox name="20466" text="充值指令"/>
+                                                    <checkBox name="20467" text="提现指令"/>
+                                                    <checkBox name="20468" text="投标指令"/>
+                                                    <checkBox name="20469" text="买入债券指令"/>
+                                                    <checkBox name="20470" text="投资月报"/>
+                                                    <checkBox name="20471" text="查看投标记录存管"/>
+                                                    <checkBox name="20472" text="查看投标记录平台"/>
+                                                    <checkBox name="20473" text="查询用户借款记录"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="20475" text="设置允许/禁止用户投资"/>
+                                                    <checkBox name="20477" text="设置允许/禁止用户借款"/>
+                                                    <checkBox name="20479" text="查看收支明细管理"/>
+                                                    <checkBox name="20480" text="查看收支明细平台"/>
+                                                    <checkBox name="20481" text="查看用户历史投资明细"/>
+                                                    <checkBox name="20484" text="查看银行流水"/>
+                                                    <checkBox name="20482" text="解锁/锁定用户账户"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="个人账户">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="acc-per" text="全选"/>
+                                                    <checkBox name="20460" text="查询平台用户列表"/>
+                                                    <checkBox name="20461" text="查询账户详细信息"/>
+                                                    <checkBox name="20462" text="查询银行账户信息"/>
+                                                    <checkBox name="20463" text="检查银行开户"/>
+                                                    <checkBox name="20465" text="修改账户级别"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="机构账户">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="acc-org" text="全选"/>
+                                                    <checkBox name="20490" text="查询平台用户列表"/>
+                                                    <checkBox name="20491" text="查询账户详细信息"/>
+                                                    <checkBox name="20493" text="更新账户基本信息"/>
+                                                    <checkBox name="20492" text="查询银行账户信息"/>
+                                                    <checkBox name="20494" text="确认开户"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="商户转账">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="acc-transfer" text="全选"/>
+                                                    <checkBox name="20611" text="查询商户转账批次列表"/>
+                                                    <checkBox name="20610" text="创建商户转账批次及备注"/>
+                                                    <checkBox name="20612" text="删除商户转账批次"/>
+                                                    <checkBox name="20613" text="创建商户转账明细"/>
+                                                    <checkBox name="20614" text="查询某批次商户转账明细列表"/>
+                                                    <checkBox name="20615" text="执行某批次商户转账"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="冻结资金">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="frozen-funds" text="全选"/>
+                                                    <checkBox name="20474" text="查询账户余额"/>
+                                                    <checkBox name="20650" text="查询用户冻结资金列表"/>
+                                                    <checkBox name="20651" text="添加冻结资金"/>
+                                                    <checkBox name="20652" text="解除冻结资金"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="消息管理">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="平台消息">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="plat-message" text="全选"/>
+                                                    <checkBox name="20630" text="查询消息列表"/>
+                                                    <checkBox name="20631" text="查询消息详情"/>
+                                                    <checkBox name="20632" text="查询消息接收人信息"/>
+                                                    <checkBox name="20633" text="创建消息"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="亿美短信">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="yimei-message" text="全选"/>
+                                                    <checkBox name="20640" text="短信列表查询"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="客户关系管理">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="跟进客户关系管理">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="track-investors" text="全选"/>
+                                                    <checkBox name="20401" text="查询跟进客户列表"/>
+                                                    <checkBox name="20402" text="创建跟进客户"/>
+                                                    <checkBox name="20403" text="更新跟进客户详细信息"/>
+                                                    <checkBox name="20404" text="删除跟进客户"/>
+                                                    <checkBox name="20407" text="查询跟进客户信息"/>
+                                                    <checkBox name="20501" text="跟进客户客户经理分配"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="20501" text="批量分配跟进客户客户经理"/>
+                                                    <checkBox name="20501" text="取消跟进客户分配的客户经理"/>
+                                                    <checkBox name="20501" text="查询跟踪客户的历史分配客户经理"/>
+                                                    <checkBox name="20406" text="根据手机号查询用户注册AUID"/>
+                                                    <checkBox name="20502" text="查询跟进客户跟进信息"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="20502" text="创建跟进客户跟进信息"/>
+                                                    <checkBox name="20405" text="修改跟进客户手机号"/>
+                                                    <checkBox name="20502" text="查询我的跟进客户列表信息"/>
+                                                    <checkBox name="20502" text="查询工作任务中已跟进的跟进情况"/>
+                                                    <checkBox name="20502" text="查询工作任务中已完成工作任务的数量"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="注册客户关系管理">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="reg-investors" text="全选"/>
+                                                    <checkBox name="20701" text="查询分配注册客户列表"/>
+                                                    <checkBox name="20704" text="分配注册客户"/>
+                                                    <checkBox name="20703" text="快速重新分配注册客户"/>
+                                                    <checkBox name="20704" text="查询客户历史客户经理绑定记录"/>
+                                                    <checkBox name="20702" text="查询我的注册客户列表"/>
+                                                    <checkBox name="20503" text="查询新增注册用户列表"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="20507" text="查询三部超时注册用户列表"/>
+                                                    <checkBox name="20506" text="查询三部转二部注册用户列表"/>
+                                                    <checkBox name="20505" text="查询二部转一部注册用户列表"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="客户经理管理">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="基础操作">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="customer-manager" text="全选"/>
+                                                    <checkBox name="20931" text="查询客户经理层级树"/>
+                                                    <checkBox name="20430" text="添加"/>
+                                                    <checkBox name="20432" text="编辑"/>
+                                                    <checkBox name="20433" text="删除"/>
+                                                    <checkBox name="20434" text="指定上级"/>
+                                                    <checkBox name="20435" text="查询"/>
+                                                    <checkBox name="20436" text="修改编号"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="客户经理绩效">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="manager-statistic" text="全选"/>
+                                                    <checkBox name="20440" text="查询日绩效统计"/>
+                                                    <checkBox name="20441" text="查询日绩效统计客户详细列表"/>
+                                                    <checkBox name="20442" text="查询月绩效统计"/>
+                                                    <checkBox name="20443" text="查询月绩效统计客户详细列表"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                    <tab title="运维管理">
+                        <gridLayout>
+                            <column/>
+                            <row>
+                                <cell>
+                                    <gridLayout title="账户管理">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="sys-acc" text="全选"/>
+                                                    <checkBox name="10000" text="查看账户列表信息"/>
+                                                    <checkBox name="10001" text="创建"/>
+                                                    <checkBox name="10002" text="修改"/>
+                                                    <checkBox name="10004" text="删除"/>
+                                                    <checkBox name="10003" text="查看单个账户信息"/>
+                                                    <checkBox name="10006" text="查询账户角色信息"/>
+                                                    <checkBox name="10005" text="重置账户密码"/>
+                                                    <checkBox name="10104" text="修改账户密码"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="角色管理">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="sys-role" text="全选"/>
+                                                    <checkBox name="10010" text="查看角色列表信息"/>
+                                                    <checkBox name="10007" text="创建"/>
+                                                    <checkBox name="10008" text="修改"/>
+                                                    <checkBox name="10011" text="删除"/>
+                                                    <checkBox name="10009" text="查看单个角色信息"/>
+                                                    <checkBox name="10013" text="查询角色权限"/>
+                                                    <checkBox name="10012" text="分配角色权限"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+                            <row stretch="1">
+                                <cell verticalAlignment="BOTH">
+                                    <label/>
+                                </cell>
+                            </row>
+                        </gridLayout>
+                    </tab>
+                </tabbedPane>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

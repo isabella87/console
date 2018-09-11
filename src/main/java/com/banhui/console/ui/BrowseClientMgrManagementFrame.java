@@ -20,7 +20,6 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class BrowseClientMgrManagementFrame
 
     private List<Map<String, Object>> mgrTreeData;
     private DefaultMutableTreeNode selectTreeNode;
-    private String uName;
+    private String pgsUname;
 
     /**
      * {@inheritDoc}
@@ -145,7 +144,7 @@ public class BrowseClientMgrManagementFrame
             JTree jTree = controller().get(JTree.class, "mgrJTree");
             DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
             String uname = treeNode.getUserObject().toString();
-            this.uName = uname;
+            this.pgsUname = uname;
             String remark = DialogUtils.inputText(null, controller().formatMessage("rcode-confirm", uname), "");
             if (remark != null && !remark.isEmpty()) {
                 Map<String, Object> params = new HashMap<>();
@@ -177,7 +176,7 @@ public class BrowseClientMgrManagementFrame
         editCrmMgrDlg.setFixedSize(false);
 
         if (showModel(null, editCrmMgrDlg) == DialogPane.OK) {
-            this.uName = editCrmMgrDlg.getUname();
+            this.pgsUname = editCrmMgrDlg.getUname();
             controller().call("refresh");
 
 
@@ -188,7 +187,7 @@ public class BrowseClientMgrManagementFrame
         JTree jTree = controller().get(JTree.class, "mgrJTree");
         DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
         String uName = treeNode.getUserObject().toString();
-        this.uName = uName;
+        this.pgsUname = uName;
         String remark = DialogUtils.inputText(null, controller().formatMessage("designated-superior-confirm", uName), "");
         if (remark != null && !remark.isEmpty()) {
             Map<String, Object> params = new HashMap<>();
@@ -231,7 +230,7 @@ public class BrowseClientMgrManagementFrame
         if (t != null) {
             ErrorHandler.handle(t);
         } else {
-            this.uName = null;
+            this.pgsUname = null;
             controller().call("refresh");
         }
     }
@@ -241,7 +240,7 @@ public class BrowseClientMgrManagementFrame
         createCrmMgrDlg.setFixedSize(false);
 
         if (showModel(null, createCrmMgrDlg) == DialogPane.OK) {
-            this.uName = createCrmMgrDlg.getuName();
+            this.pgsUname = createCrmMgrDlg.getuName();
             controller().call("refresh");
         }
     }
@@ -262,10 +261,14 @@ public class BrowseClientMgrManagementFrame
 
             updateDetailInfo();
 
-            JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
-            mgrJTree.setModel(new DefaultTreeModel(null));
+            JScrollPane jScrollPane = controller().get(JScrollPane.class, "mgrJTree");
+//            mgrJTree.setModel(new DefaultTreeModel(null));
+            CheckNodeTree mgrJTree = new CheckNodeTree(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
+
+
+
             mgrJTree.setRootVisible(false);
-            mgrJTree.setModel(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
+//            mgrJTree.setModel(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
             mgrJTree.setExpandsSelectedPaths(true);
 
             DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
@@ -279,28 +282,19 @@ public class BrowseClientMgrManagementFrame
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mgrJTree.setCellRenderer(defaultTreeCellRenderer);
+//            mgrJTree.setCellRenderer(defaultTreeCellRenderer);
 
             TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
-//            treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+            treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
             mgrJTree.setSelectionModel(treeSelectionModel);
 
+            jScrollPane.setViewportView(mgrJTree);
+
             mgrJTree.addTreeSelectionListener(e -> {
-
-                TreePath[] treePaths = mgrJTree.getSelectionPaths();
-                List<DefaultMutableTreeNode> list = new ArrayList<>();
-                for (TreePath treePath : treePaths) {
-                    DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(treePath);
-                    String nn = treeNode.getLastLeaf().getUserObject().toString();
-                    System.out.println("I choose you："+nn);
-                    list.add(treeNode);
-
-                }
-
-                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) mgrJTree.getLastSelectedPathComponent();
+                CheckNode treeNode = (CheckNode) mgrJTree.getLastSelectedPathComponent();
                 if (treeNode != null && !treeNode.getUserObject().toString().isEmpty()) {
                     String uName = treeNode.getUserObject().toString();
-                    this.uName = uName;
+                    this.pgsUname = uName;
                     Map<String, Object> map = getUserInfoByUname(uName);
                     if (map != null) {
                         updateDetailInfo();
@@ -318,7 +312,7 @@ public class BrowseClientMgrManagementFrame
                 }
             });
 
-            expandTheDescNode(uName);
+            expandTheDescNode(pgsUname);
 
         }
     }

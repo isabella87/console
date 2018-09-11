@@ -375,12 +375,9 @@
                                     </cell>
                                     <cell columnSpan="2" horizontalAlignment="FIRST">
                                         <boxLayout>
-                                            <checkBox name="contract1"/>
-                                            <label>《出借居住协议》</label>
-                                            <checkBox name="contract2"/>
-                                            <label>《借款协议》</label>
-                                            <checkBox name="contract3"/>
-                                            <label>《票据融资协议》</label>
+                                            <checkBox name="contract1" text="《出借居住协议》"/>
+                                            <checkBox name="contract2" text="《借款协议》"/>
+                                            <checkBox name="contract3" text="《票据融资协议》"/>
                                         </boxLayout>
                                     </cell>
                                 </row>
@@ -398,12 +395,9 @@
                                     </cell>
                                     <cell columnSpan="2" horizontalAlignment="FIRST">
                                         <boxLayout>
-                                            <checkBox name="flag1"/>
-                                            <label>新手项目</label>
-                                            <checkBox name="flag2"/>
-                                            <label>优选标</label>
-                                            <checkBox name="flag3"/>
-                                            <label>保险</label>
+                                            <checkBox name="flag1" text="新手项目"/>
+                                            <checkBox name="flag2" text="优选标"/>
+                                            <checkBox name="flag3" text="保险"/>
                                         </boxLayout>
                                     </cell>
                                 </row>
@@ -451,7 +445,7 @@
                             </gridLayout>
                         </cell>
                     </row>
-                    <row stretch="100" alignment="BOTH">
+                    <row>
                         <cell>
                             <gridLayout title="白名单">
                                 <column alignment="FIRST"/>
@@ -460,12 +454,12 @@
                                         <button actionName="editPermissible"/>
                                     </cell>
                                 </row>
-                                <row stretch="100" alignment="BOTH">
-                                    <cell>
-                                        <literal/>
-                                    </cell>
-                                </row>
                             </gridLayout>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
                         </cell>
                     </row>
                 </gridLayout>

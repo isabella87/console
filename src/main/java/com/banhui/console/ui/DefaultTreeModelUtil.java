@@ -44,7 +44,7 @@ public class DefaultTreeModelUtil {
         // 1, 遍历出顶级节点集合； 2，循环顶级节点并遍历创建子节点
         List<Map<String, Object>> topMaps = getTopMaps(treeData);
         for (Map<String, Object> map : topMaps) {
-            DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(stringValue(map, treeNodeTitle));
+            CheckNode treeNode = new CheckNode(stringValue(map, treeNodeTitle));
             rootTreeNode.add(treeNode);
             addChildTreeNode(treeNode, stringValue(map, treeNodeTitle));
         }
@@ -52,13 +52,13 @@ public class DefaultTreeModelUtil {
     }
 
     private void addChildTreeNode(
-            DefaultMutableTreeNode pTreeNode,
+            CheckNode pTreeNode,
             String pName
     ) {
         for (Map<String, Object> map : treeData) {
             String myPName = stringValue(map, pTreeNodeTitle);
             if (myPName != null && !myPName.isEmpty() && myPName.equals(pName)) {
-                DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode(stringValue(map, treeNodeTitle));
+                CheckNode treeNode = new CheckNode(stringValue(map, treeNodeTitle));
                 pTreeNode.add(treeNode);
                 addChildTreeNode(treeNode, stringValue(map, treeNodeTitle));
             }

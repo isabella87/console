@@ -42,26 +42,28 @@ public class QrCodeUtil {
 
         if (logo != null && !logo.isEmpty()) {
             final BufferedImage iconBi = ImageIO.read(new File(logo));// 读logo
-            final Graphics2D g = (Graphics2D) img.getGraphics();// 开启画图
-            g.setColor(Color.WHITE);
-            g.fillRect(0, 0, width, height);
-            final int iconWidth = iconBi.getWidth();
-            final int iconHeight = iconBi.getHeight();
-            if (iconWidth > 100 || iconHeight > 100) {
-                prompt(null, "无法使用此LOGO！");
-                return bg;
+            if (iconBi != null) {
+                final Graphics2D g = (Graphics2D) img.getGraphics();// 开启画图
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, width, height);
+                final int iconWidth = iconBi.getWidth();
+                final int iconHeight = iconBi.getHeight();
+                if (iconWidth > 100 || iconHeight > 100) {
+                    prompt(null, "无法使用此LOGO！");
+                    return bg;
+                }
+                g.drawImage(bg.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0, null);
+                g.drawImage(iconBi.getScaledInstance(iconWidth, iconHeight, Image.SCALE_DEFAULT),
+                            (width - iconWidth) / 2,
+                            (height - iconHeight) / 2, Color.WHITE, null);
+                final Font font = new Font("Microsoft Yahei", Font.PLAIN, 18);
+                g.setColor(Color.BLACK);
+                g.setFont(font);
+                return img;
+
             }
-            g.drawImage(bg.getScaledInstance(width, height, Image.SCALE_DEFAULT), 0, 0, null);
-            g.drawImage(iconBi.getScaledInstance(iconWidth, iconHeight, Image.SCALE_DEFAULT),
-                        (width - iconWidth) / 2,
-                        (height - iconHeight) / 2, Color.WHITE, null);
-            final Font font = new Font("Microsoft Yahei", Font.PLAIN, 18);
-            g.setColor(Color.BLACK);
-            g.setFont(font);
-            return img;
-        } else {
-            return bg;
         }
+        return bg;
     }
 
     public void outputImage(

@@ -5,6 +5,7 @@ import com.banhui.console.rpc.B2cTransProxy;
 import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xx.armory.swing.DialogUtils;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.banhui.console.rpc.ResultUtils.longValue;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
@@ -25,6 +27,7 @@ public class B2cExecutionDlg
     private final Logger logger = LoggerFactory.getLogger(B2cExecutionDlg.class);
 
     private volatile long id;
+    private Collection<Map<String, Object>> children;
 
     public B2cExecutionDlg(
             long id
@@ -37,9 +40,29 @@ public class B2cExecutionDlg
         controller().connect("batchImport", this::batchImport);
         controller().connect("execute", this::execute);
         controller().connect("refresh", this::refresh);
+        controller().connect("list", "change", this::listChange);
 
         controller().call("refresh");
 
+    }
+
+    private void listChange(Object o) {
+
+        JTable table = controller().get(JTable.class, "list");
+        TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
+        Collection<Map<String, Object>> child = new ArrayList<>();
+
+        int selectedRow = table.getSelectedRow();
+        if (table.getSelectedRow() > -1) {
+            long tvId = tableModel.getNumberByName(selectedRow, "tvId");
+            for (Map<String, Object> item : children) {
+                if (Long.valueOf(item.get("tsId").toString()) == tvId) {
+                    child.add(item);
+                }
+            }
+        }
+        detailTableModel.setAllRows(child);
     }
 
     private void batchImport(ActionEvent actionEvent) {
@@ -70,17 +93,34 @@ public class B2cExecutionDlg
 
                 int rowCount = tableModel.getRowCount();
                 for (int row = 0; row < rowCount; row++) {
-                    long done = tableModel.getNumberByName(row, "done");
-                    if (done == 1) {
+                    long status = tableModel.getNumberByName(row, "status");
+                    if (status == 1) {
                         continue;
                     }
+
+                    boolean flag = false;
+                    long tvId = tableModel.getNumberByName(row, "tvId");
+                    for (Map<String, Object> item : children) {
+                        if (longValue(item, "tsId") == tvId) {
+                            if (longValue(item, "done") == 0 || longValue(item, "done") == 2) {
+                                flag = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (flag) {
+                        continue;
+                    }
+
                     Map<String, Object> params = new HashMap<>();
                     params.put("tbdId", id);
-                    params.put("id", tableModel.getValueByName(row, "jvpId"));
+                    params.put("id", tableModel.getValueByName(row, "tvId"));
                     returnList.add(params);
                 }
 
                 return returnList;
+
+
             }
 
             @Override
@@ -99,24 +139,23 @@ public class B2cExecutionDlg
                     throws Exception {
 
                 new B2cTransProxy().execute(params)
-                                   .thenApplyAsync(Result::map)
+                                   .thenApplyAsync(Result::booleanValue)
                                    .whenCompleteAsync(this::executeCallback, UPDATE_UI).join();
 
             }
 
             private void executeCallback(
-                    Map<String, Object> row,
+                    boolean flag,
                     Throwable t
             ) {
                 if (t != null) {
-//                    ErrorHandler.handle(t);
+                    ErrorHandler.handle(t);
                     return;
-                } else {
-                    //TODO 更新行状态
                 }
             }
         });
         showModel(null, dlg);
+        controller().call("refresh");
     }
 
 
@@ -124,19 +163,21 @@ public class B2cExecutionDlg
             ActionEvent event
     ) {
         new B2cTransProxy().queryMerXfers(id)
-                           .thenApplyAsync(Result::list)
+                           .thenApplyAsync(Result::map)
                            .whenCompleteAsync(this::refreshCallback, UPDATE_UI);
     }
 
     private void refreshCallback(
-            List<Map<String, Object>> maps,
+            Map<String, Object> map,
             Throwable t
     ) {
         if (t != null) {
             ErrorHandler.handle(t);
         } else {
             final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-            tableModel.setAllRows(maps);
+            Collection<Map<String, Object>> items = (Collection<Map<String, Object>>) map.get("items");
+            children = (Collection<Map<String, Object>>) map.get("children");
+            tableModel.setAllRows(items);
         }
     }
 
