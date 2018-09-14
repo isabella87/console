@@ -104,9 +104,16 @@ public class FileUtil {
             String fileEncodeContent,
             String filePath
     ) {
+        byte[] buffer = Base64.getDecoder().decode(fileEncodeContent);
+        return writeFile(buffer, filePath);
+    }
+
+    public boolean writeFile(
+            byte[] buffer,
+            String filePath
+    ) {
         boolean flag = false;
 
-        byte[] buffer = Base64.getDecoder().decode(fileEncodeContent);
         InputStream is = null;
         OutputStream os = null;
         try {
@@ -133,4 +140,28 @@ public class FileUtil {
         }
         return flag;
     }
+
+    public byte[] readFile(String filePath) {
+
+        byte[] buffer = null;
+        if (filePath != null) {
+            InputStream is;
+            ByteArrayOutputStream os;
+
+            try {
+                is = FileUtil.class.getResourceAsStream(filePath);
+                os = new ByteArrayOutputStream();
+                byte[] buff = new byte[1024];
+                int rc;
+                while ((rc = is.read(buff, 0, buff.length)) > 0) {
+                    os.write(buff, 0, rc);
+                }
+                buffer = os.toByteArray();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return buffer;
+    }
+
 }

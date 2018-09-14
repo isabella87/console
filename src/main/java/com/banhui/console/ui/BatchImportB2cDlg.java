@@ -33,7 +33,16 @@ public class BatchImportB2cDlg
         controller().connect("load", this::load);
         controller().connect("delete", this::delete);
         controller().connect("begin", this::begin);
+        controller().connect("downTemp", this::downTemp);
         controller().connect("list", "change", this::listChanged);
+    }
+
+    private void downTemp(ActionEvent actionEvent) {
+
+        FileUtil fileUtil = new  FileUtil(null);
+        String dirPath = fileUtil.choiceDirToSave("b2c_temp.xls");
+
+        fileUtil.writeFile(fileUtil.readFile("/b2c_temp.xls"),dirPath);
     }
 
     private void begin(

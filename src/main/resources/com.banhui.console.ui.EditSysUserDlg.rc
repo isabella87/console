@@ -39,7 +39,7 @@
                 <label mnemonic="E" for="enabled">是否启用(E)：</label>
             </cell>
             <cell>
-                <checkBox name="enabled" text=""/>
+                <checkBox name="enabled"/>
             </cell>
         </row>
         <row stretch="100">

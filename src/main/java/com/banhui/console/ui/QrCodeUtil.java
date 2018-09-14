@@ -35,7 +35,6 @@ public class QrCodeUtil {
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         hints.put(EncodeHintType.MARGIN, 1);
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-
         BitMatrix bitMatrix = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, width, height, hints);// 生成矩阵
         final BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);// 创建图片
         final BufferedImage bg = toBufferedImage(bitMatrix);// 二维码图片
