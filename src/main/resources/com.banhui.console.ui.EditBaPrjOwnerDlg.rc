@@ -21,7 +21,7 @@
     </options>
     <options name="owner-strength">
         <option>无</option>
-        <option>全国500强施工企业</option>
+        <option>全国50强施工企业</option>
         <option>全国百强施工企业</option>
         <option>区域龙头施工企业</option>
         <option>全国性施工企业</option>
@@ -72,7 +72,7 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years"/>
+                <text name="reg-years" suffix="年" type="NUMBER"/>
             </cell>
         </row>
         <row>
@@ -80,13 +80,13 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" suffix="万元"/>
+                <text name="reg-funds" suffix="万元" type="NUMBER"/>
             </cell>
             <cell>
                 <label for="show-reg-funds">展示注册资金：</label>
             </cell>
             <cell>
-                <text name="show-reg-funds" suffix="万元"/>
+                <text name="show-reg-funds" suffix="万元"  type="NUMBER"/>
             </cell>
         </row>
         <row>

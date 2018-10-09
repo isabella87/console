@@ -65,6 +65,7 @@ public class BrowseCreditAssignmentsFrame
         final int dateType = controller().getInteger("date-type");
         final int transferStatus = Integer.valueOf(controller().getText("transfer-status"));
         final int keyType = controller().getInteger("key-type");
+        final int prjType = controller().getInteger("prj-type");
         final String key = controller().getText("search-key");
         final Date startDate = floorOfDay(controller().getDate("start-date"));
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
@@ -73,6 +74,7 @@ public class BrowseCreditAssignmentsFrame
         params.put("start-time", startDate);
         params.put("end-time", endDate);
         params.put("date-type", dateType);
+        params.put("prj-type", prjType);
 
         if (transferStatus != Integer.MAX_VALUE) {
             params.put("status", transferStatus);

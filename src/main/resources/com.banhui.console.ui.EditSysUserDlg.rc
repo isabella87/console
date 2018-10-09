@@ -23,7 +23,7 @@
                 <label mnemonic="M" for="mobile">手机号码(M)：</label>
             </cell>
             <cell>
-                <text name="mobile"/>
+                <text name="mobile" pattern="^1[34578]\d{9}$"/>
             </cell>
         </row>
         <row>

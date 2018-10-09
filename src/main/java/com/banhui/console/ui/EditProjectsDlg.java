@@ -659,6 +659,8 @@ public class EditProjectsDlg
         controller().setText("core-guara-name", stringValue(data, "coreGuaraName"));
         controller().setInteger("bonus-day", intValue(data, "bonusDay"));
         controller().setNumber("bonus-period", longValue(data, "bonusPeriod"));
+        controller().setText("bill-pledgor", stringValue(data, "billPledgor"));
+        controller().setText("show-bill-pledgor", stringValue(data, "showBillPledgor"));
 //        controller().setText("financier_cu_id", stringValue(data, "financierCuId"));
 
         int contract = (int) data.get("contract");

@@ -54,8 +54,8 @@ public class EditBaPrjGuaranteeOrgDlg
             params.put("name", controller().getText("name").trim());
             params.put("show-name", controller().getText("show-name").trim());
             params.put("registered-date", controller().getDate("registered-date"));
-            params.put("reg-years", controller().getText("reg-years").trim());
-            params.put("reg-funds", controller().getText("reg-funds").trim());
+            params.put("reg-years", controller().getNumber("reg-years"));
+            params.put("reg-funds", controller().getNumber("reg-funds"));
             params.put("reg-address", controller().getText("reg-address").trim());
             params.put("show-reg-address", controller().getText("show-reg-address").trim());
             params.put("postcode", controller().getText("postcode").trim());
@@ -64,7 +64,7 @@ public class EditBaPrjGuaranteeOrgDlg
             params.put("legal-person-show-name", controller().getText("legal-person-show-name").trim());
             params.put("linkman", controller().getText("linkman").trim());
             params.put("mobile", controller().getText("mobile").trim());
-            params.put("ranking", controller().getText("ranking").trim());
+            params.put("ranking", controller().getNumber("ranking"));
             params.put("qualification", controller().getText("qualification").trim());
             params.put("social-credit-code", controller().getText("social-credit-code").trim());
             params.put("show-social-credit-code", controller().getText("show-social-credit-code").trim());
@@ -74,8 +74,7 @@ public class EditBaPrjGuaranteeOrgDlg
 
             (this.id == 0 ? new BaPrjGuaranteeOrgsProxy().add(params) : new BaPrjGuaranteeOrgsProxy().update(params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -102,7 +101,7 @@ public class EditBaPrjGuaranteeOrgDlg
         controller().setText("show-name", stringValue(data, "showName"));
         controller().setDate("registered-date", dateValue(data, "registeredDate"));
         controller().setNumber("reg-years", longValue(data, "regYears"));
-        controller().setDecimal("reg-funds", decimalValue(data, "regFunds"));
+        controller().setNumber("reg-funds", longValue(data, "regFunds"));
         controller().setText("reg-address", stringValue(data, "regAddress"));
         controller().setText("show-reg-address", stringValue(data, "showRegAddress"));
         controller().setText("postcode", stringValue(data, "postcode"));
@@ -121,12 +120,16 @@ public class EditBaPrjGuaranteeOrgDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-
-        this.row = row;
-
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+            controller().enable("ok");
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

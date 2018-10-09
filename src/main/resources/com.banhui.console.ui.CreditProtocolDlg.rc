@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="强制债权转让签章-">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <action name="search" title="搜索"/>
+    <action name="createAndUpload" title="生成并上传"/>
+    <action name="doSign" title="签章"/>
+    <action name="checkSign" title="核查签章"/>
+    <action name="searchSignerInfo" title="查看债权人签章信息"/>
+    <action name="download" title="下载"/>
+    <action name="clean" title="清空协议"/>
+
+    <options name="signStatus">
+        <option value="0">未完成</option>
+        <option value="1">已完成</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="search"/>
+                    <button actionName="createAndUpload"/>
+                    <button actionName="doSign"/>
+                    <button actionName="checkSign"/>
+                    <button actionName="searchSignerInfo"/>
+                    <button actionName="download"/>
+                    <button actionName="clean"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <table name="list">
+                    <tableColumn name="fileId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="fileName" title="合同名称" type="TEXT" size="160"/>
+                    <tableColumn name="category" title="类型" type="TEXT" size="80"/>
+                    <tableColumn name="signStatus" title="签章状态" type="TEXT" optionsName="signStatus" size="80"/>
+                    <tableColumn name="downloadTime" title="签章时间" type="DATE_TIME"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

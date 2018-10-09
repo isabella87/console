@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="借款人签章信息-"
+        width="800"
+        height="350"
+>
+    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <options name="sign-status">
+        <option value="-1">已上传</option>
+        <option value="0">拒签署</option>
+        <option value="1">已签署</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell horizontalAlignment="FIRST">
+                <button actionName="search" name="search"/>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="idNo" title="ID" type="DATE_TIME" size="80"/>
+                    <tableColumn name="name" title="借款人/联系人" type="TEXT" size="140"/>
+                    <tableColumn name="link" title="签章地址" type="TEXT" size="250"/>
+                    <tableColumn name="status" title="签章状态" type="TEXT" size="120" optionsName="sign-status"/>
+                    <tableColumn name="mobile" title="签章手机号" type="TEXT" size="140"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

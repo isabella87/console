@@ -21,7 +21,7 @@
     </options>
     <options name="ent-strength">
         <option>无</option>
-        <option>全国500强施工企业</option>
+        <option>全国50强施工企业</option>
         <option>全国百强施工企业</option>
         <option>区域龙头施工企业</option>
         <option>全国性施工企业</option>
@@ -88,13 +88,13 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years" size="10"/>
+                <text name="reg-years" size="10" suffix=" 年 " type="NUMBER"/>
             </cell>
             <cell>
                 <label for="show-reg-years">展示注册年限：</label>
             </cell>
             <cell>
-                <text name="show-reg-years" size="10"/>
+                <text name="show-reg-years" size="10" suffix=" 年 " type="NUMBER"/>
             </cell>
         </row>
         <row>
@@ -102,13 +102,19 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" size="10" suffix="万元"/>
+                <boxLayout>
+                    <text name="reg-funds" size="10" suffix="万元" type="NUMBER"/>
+                </boxLayout>
             </cell>
             <cell>
                 <label for="show-reg-funds">展示注册资金：</label>
             </cell>
             <cell>
-                <text name="show-reg-funds" prefix="大于等于>=" suffix="万元" size="8"/>
+                <boxLayout>
+                    <label>大于等于</label>
+                    <text name="show-reg-funds" size="8" pattern="\d{1,}"/>
+                    <label>万元</label>
+                </boxLayout>
             </cell>
         </row>
         <row>
@@ -116,13 +122,13 @@
                 <label for="lasted-area">上一年度施工面积：</label>
             </cell>
             <cell>
-                <text name="lasted-area" suffix="平米" size="10"/>
+                <text name="lasted-area" suffix="平米" size="10" type="CURRENCY"/>
             </cell>
             <cell>
                 <label for="lasted-output">上一年度产值：</label>
             </cell>
             <cell>
-                <text name="lasted-output" suffix="亿" size="10"/>
+                <text name="lasted-output" suffix="亿" size="10" type="CURRENCY"/>
             </cell>
         </row>
         <row>
@@ -138,13 +144,13 @@
                 <label for="nation-prize-count">全国性工程奖：</label>
             </cell>
             <cell>
-                <text name="nation-prize-count" size="10" suffix="次"/>
+                <text name="nation-prize-count" size="10" suffix=" 次 " type="NUMBER"/>
             </cell>
             <cell>
                 <label for="provin-prize-count">省级工程奖：</label>
             </cell>
             <cell>
-                <text name="provin-prize-count" size="10" suffix="次"/>
+                <text name="provin-prize-count" size="10" suffix=" 次 " type="NUMBER"/>
             </cell>
         </row>
         <row>

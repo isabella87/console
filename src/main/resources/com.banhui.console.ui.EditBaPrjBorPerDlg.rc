@@ -23,7 +23,7 @@
         <option>不便分类的其他从业人员</option>
     </options>
 
-    <boxLayout >
+    <boxLayout>
         <tabbedPane>
             <tab title="基础" description="基础数据">
                 <gridLayout>
@@ -64,7 +64,7 @@
                             <label for="mobile">手机号码：</label>
                         </cell>
                         <cell>
-                            <text name="mobile" size="24"/>
+                            <text name="mobile" pattern="^1[34578]\d{9}$" size="24"/>
                         </cell>
                         <cell>
                             <label for="email">E-Mail：</label>
@@ -91,14 +91,17 @@
                         <cell>
                             <label for="gender">性别：</label>
                         </cell>
-                        <cell>
+                        <cell horizontalAlignment="FIRST">
                             <dropDown name="gender" optionsName="genders" size="8"/>
                         </cell>
                         <cell>
                             <label for="work-years">从业经历：</label>
                         </cell>
-                        <cell>
-                            <text name="work-years" size="8" suffix="年"/>
+                        <cell horizontalAlignment="FIRST">
+                            <boxLayout>
+                                <text name="work-years" size="8" pattern="\d{1,}"/>
+                                <label>年</label>
+                            </boxLayout>
                         </cell>
                     </row>
                     <row>
@@ -111,10 +114,12 @@
                         <cell>
                             <label for="id-card-address">地址：</label>
                         </cell>
-                        <cell>
-                            <boxLayout>
-                                <text name="id-card-address-prov" size="6" suffix="省"/>
-                                <text name="id-card-address-city" size="4" suffix="市"/>
+                        <cell horizontalAlignment="FIRST">
+                            <boxLayout horizontalAlignment="FIRST">
+                                <text name="id-card-address-prov" size="6"/>
+                                <label>省</label>
+                                <text name="id-card-address-city" size="6"/>
+                                <label>市</label>
                             </boxLayout>
                         </cell>
                     </row>
@@ -196,7 +201,7 @@
                             <label for="linkman-mobile">手机号码：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-mobile" size="24"/>
+                            <text name="linkman-mobile" pattern="^1[34578]\d{9}$" size="24"/>
                         </cell>
                         <cell>
                             <label for="linkman-email">E-Mail：</label>
@@ -238,7 +243,7 @@
                             <label for="linkman-id-card">身份证：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-id-card" size="24"/>
+                            <text name="linkman-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="24"/>
                         </cell>
                     </row>
                     <row stretch="100">
@@ -256,7 +261,7 @@
     <boxLayout>
         <ruler/>
     </boxLayout>
-    <boxLayout  horizontalAlignment="CENTER">
+    <boxLayout horizontalAlignment="CENTER">
         <button actionName="ok" default="true"/>
         <button actionName="cancel"/>
     </boxLayout>

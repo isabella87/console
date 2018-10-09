@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.dateValue;
+import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.intValue;
+import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -32,7 +34,7 @@ public class EditBaPrjCtorDlg
             setTitle(controller().getMessage("create") + getTitle());
         } else {
             updateData();
-            setTitle(controller().getMessage("edit") + getTitle());
+            setTitle(controller().getMessage("edit") + getTitle()+"-"+id);
         }
     }
 
@@ -55,12 +57,12 @@ public class EditBaPrjCtorDlg
             params.put("ent-quality", controller().getText("ent-quality"));
             params.put("ent-strength", controller().getText("ent-strength").trim());
             params.put("registered-date", controller().getDate("registered-date"));
-            params.put("reg-years", controller().getText("reg-years").trim());
-            params.put("show-reg-years", controller().getText("show-reg-years").trim());
-            params.put("reg-funds", controller().getText("reg-funds").trim());
-            params.put("show-reg-funds", controller().getText("show-reg-funds").trim());
-            params.put("lasted-area", controller().getText("lasted-area").trim());
-            params.put("lasted-output", controller().getText("lasted-output").trim());
+            params.put("reg-years", controller().getInteger("reg-years"));
+            params.put("show-reg-years", controller().getInteger("show-reg-years"));
+            params.put("reg-funds", controller().getNumber("reg-funds"));
+            params.put("show-reg-funds", controller().getNumber("show-reg-funds"));
+            params.put("lasted-area", controller().getDecimal("lasted-area"));
+            params.put("lasted-output", controller().getDecimal("lasted-output"));
             params.put("qualification", controller().getText("qualification").trim());
             params.put("nation-prize-count", controller().getNumber("nation-prize-count"));
             params.put("provin-prize-count", controller().getNumber("provin-prize-count"));
@@ -98,12 +100,12 @@ public class EditBaPrjCtorDlg
         controller().setText("ent-quality", stringValue(data, "entQuality"));
         controller().setText("ent-strength", stringValue(data, "entStrength"));
         controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setText("reg-years", stringValue(data, "regYears"));
-        controller().setText("show-reg-years", stringValue(data, "showRegYears"));
-        controller().setText("reg-funds", stringValue(data, "regFunds"));
-        controller().setText("show-reg-funds", stringValue(data, "showRegFunds"));
-        controller().setText("lasted-area", stringValue(data, "lastedArea"));
-        controller().setText("lasted-output", stringValue(data, "lastedOutput"));
+        controller().setInteger("reg-years", intValue(data, "regYears"));
+        controller().setInteger("show-reg-years", intValue(data, "showRegYears"));
+        controller().setNumber("reg-funds", longValue(data, "regFunds"));
+        controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
+        controller().setDecimal("lasted-area", decimalValue(data, "lastedArea"));
+        controller().setDecimal("lasted-output", decimalValue(data, "lastedOutput"));
         controller().setText("qualification", stringValue(data, "qualification"));
         controller().setInteger("nation-prize-count", intValue(data, "nationPrizeCount"));
         controller().setInteger("provin-prize-count", intValue(data, "provinPrizeCount"));

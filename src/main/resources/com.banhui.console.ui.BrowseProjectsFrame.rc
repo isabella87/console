@@ -10,6 +10,8 @@
     <action name="create" title="发起项目(C)" mnemonic="C"/>
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
     <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
+    <action name="protocol" title="项目签章(P)" mnemonic="P"/>
+    <action name="creditProtocolSign" title="强制债权转让签章"/>
     <action name="delete" title="删除(X)" mnemonic="X"/>
     <action name="audit" title="审批(A)" mnemonic="A"/>
     <action name="repay" title="还款(R)" mnemonic="R"/>
@@ -38,6 +40,10 @@
         <option value="0">未签章</option>
         <option value="1">已签章</option>
     </options>
+    <options name="locked">
+        <option value="1">已锁定</option>
+        <option value="0">未锁定</option>
+    </options>
     <gridLayout>
         <column/>
         <row>
@@ -54,6 +60,7 @@
                     <literal>-</literal>
                     <text name="end-date" type="DATE"/>
                     <dropDown name="status" includeAll="true" optionsName="status"/>
+                    <dropDown name="locked" includeAll="true" optionsName="locked"/>
                     <dropDown name="key-type">
                         <option value="1">编号：</option>
                         <option value="2">名称：</option>
@@ -70,6 +77,8 @@
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="create"/>
                     <button actionName="edit" name="edit"/>
+                    <button actionName="protocol" name="protocol"/>
+                    <button actionName="creditProtocolSign"/>
                     <button actionName="view" name="view"/>
                     <button actionName="delete"/>
                     <button actionName="audit"/>
@@ -106,6 +115,7 @@
                     <tableColumn name="clearTime" title="结清时间" type="DATE_TIME" size="120"/>
                     <tableColumn name="visible" title="可见" type="NUMBER" size="120"/>
                     <tableColumn name="topTime" title="置顶时间" type="DATE_TIME" size="120"/>
+                    <tableColumn name="lockedTime" title="锁定时间" type="DATE_TIME" size="120"/>
                     <!--<tableColumn name="signStatus" title="签章状态" type="YES_OR_NO" size="40"/>-->
                 </table>
             </cell>

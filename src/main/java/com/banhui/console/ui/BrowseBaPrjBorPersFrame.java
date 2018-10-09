@@ -147,10 +147,9 @@ public class BrowseBaPrjBorPersFrame
             logger.debug("ba-prj-engineer {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmpId"), row.get("bpmpId")));
         }
-        controller().enable("delete");
+        controller().disable("delete");
     }
 
     private void check(

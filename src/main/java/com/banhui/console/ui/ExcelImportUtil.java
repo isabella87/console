@@ -24,6 +24,8 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import static org.xx.armory.swing.DialogUtils.prompt;
+
 /**
  * @author Isabella
  */
@@ -49,7 +51,7 @@ public class ExcelImportUtil {
 
     public List<Map<String, Object>> readExcel() {
         String path = choiceFile();
-        if(path == null){
+        if (path == null) {
             return new ArrayList<>();
         }
         InputStream is;
@@ -114,7 +116,7 @@ public class ExcelImportUtil {
                 Object content = getStringCellValue(cell, j);
 //                Object content = getCellValue(cell);  输出跟在输入在类型上有变动，不好用
 
-                map.put(columnTitleAndName.get( firstRowCelLValues.get(j).split("-")[0]), content);
+                map.put(columnTitleAndName.get(firstRowCelLValues.get(j).split("-")[0]), content);
             }
             datas.add(map);
         }
@@ -136,11 +138,15 @@ public class ExcelImportUtil {
         String cellStr = cell.toString();
         if (cellStr != null && !cellStr.isEmpty()) {
             String cellTitle = firstRowCelLValues.get(column).trim();
-            switch (columnTitleAndType.get(cellTitle.split("-")[0])) {
+            TypedTableColumnType columnType = columnTitleAndType.get(cellTitle.split("-")[0]);
+            if (columnType == null) {
+                prompt(null, "文件格式错误！！！");
+            }
+            switch (columnType) {
                 case TEXT:
-                    if(cellTitle.contains("-")){
+                    if (cellTitle.contains("-")) {
                         strCell = (int) cell.getNumericCellValue();
-                    }else{
+                    } else {
                         strCell = cell.getStringCellValue();
                     }
 
@@ -212,7 +218,7 @@ public class ExcelImportUtil {
         for (int i = 0; i < columns.size(); i++) {
             TypedTableColumn column = columns.get(i);
             String columnTitle = column.getTitle().trim();
-            if(columnTitle == null ||columnTitle.isEmpty()){
+            if (columnTitle == null || columnTitle.isEmpty()) {
                 continue;
             }
             columnTitleAndName.put(column.getTitle(), columns.get(i).getName());

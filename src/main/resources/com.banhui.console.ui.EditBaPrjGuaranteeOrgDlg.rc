@@ -37,7 +37,7 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years" size="10" suffix="年"/>
+                <text name="reg-years" size="10" suffix=" 年 " type="NUMBER"/>
             </cell>
         </row>
         <row>
@@ -45,7 +45,7 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" size="10" suffix="万元"/>
+                <text name="reg-funds" size="10" suffix=" 万元 " type="NUMBER"/>
             </cell>
         </row>
         <row>
@@ -75,7 +75,7 @@
                 <label for="legal-id-card">法人身份证号：</label>
             </cell>
             <cell>
-                <text name="legal-id-card"/>
+                <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
             </cell>
         </row>
         <row>
@@ -110,8 +110,12 @@
             <cell>
                 <label for="ranking">行业地位：</label>
             </cell>
-            <cell>
-                <text name="ranking" size="5" prefix="第" suffix="位"/>
+            <cell horizontalAlignment="FIRST">
+                <boxLayout>
+                    <label>第</label>
+                    <text name="ranking" size="5" type="NUMBER"/>
+                    <label>位</label>
+                </boxLayout>
             </cell>
             <cell>
                 <label for="qualification">行业资质：</label>

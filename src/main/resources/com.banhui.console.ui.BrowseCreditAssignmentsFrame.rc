@@ -36,7 +36,12 @@
         <option value="3">转让人</option>
         <option value="4">ID</option>
     </options>
-    <options name="p-type">
+    <options name="prj-type">
+        <option>(全部)</option>
+        <option value="1">工程贷</option>
+        <option value="7">供应商贷</option>
+        <option value="8">分销商贷</option>
+        <option value="9">个人贷</option>
         <option value="10">企业贷</option>
         <option value="5">票据贷</option>
     </options>
@@ -50,8 +55,16 @@
                     <literal>-</literal>
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label>项目类型：</label>
+                    <dropDown name="prj-type" optionsName="prj-type"/>
                     <label>转让状态：</label>
                     <dropDown name="transfer-status" optionsName="transfer-status"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
                     <label mnemonic="K" for="search-key">关键字(K)：</label>
                     <dropDown name="key-type" optionsName="key-type"/>
                     <text name="search-key" type="TEXT"/>
@@ -78,7 +91,7 @@
                     <tableColumn name="itemNo" title="转让编号" type="TEXT" size="120"/>
                     <tableColumn name="itemName" title="转让项目名称" type="TEXT" size="120"/>
                     <tableColumn name="pyeRealName" title="转让人" type="TEXT" size="120"/>
-                    <tableColumn name="pType" title="项目类型" type="TEXT" size="120" optionsName="p-type"/>
+                    <tableColumn name="pType" title="项目类型" type="TEXT" size="120" optionsName="prj-type"/>
                     <tableColumn name="status" title="项目状态" type="TEXT" size="120" optionsName="transfer-status"/>
                     <tableColumn name="totalTranNo" title="总期数" type="NUMBER" size="120"/>
                     <tableColumn name="unpaidTranNo" title="剩余期数" type="NUMBER" size="120"/>

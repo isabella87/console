@@ -97,7 +97,7 @@
                             <label for="recommend-mobile">推荐人手机号：</label>
                         </cell>
                         <cell>
-                            <text name="recommend-mobile"/>
+                            <text name="recommend-mobile" pattern="^1[34578]\d{9}$"/>
                         </cell>
                         <cell/>
                         <cell>
@@ -159,7 +159,7 @@
                             <label for="id-card">身份证号码：</label>
                         </cell>
                         <cell>
-                            <text name="id-card"/>
+                            <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
                         </cell>
                     </row>
                     <row>

@@ -194,7 +194,7 @@ public class ProjectProxy
         return super.http().post("mgr/prj/" + pid + "/revoke/top-time", null);
     }
 
-    //票据贷
+    //文件
     public CompletableFuture<Result> uploadBill(Map<String, Object> params) {
         long objectId = takeLong(params, "object-id");
         return super.http().post("mgr/files/" + objectId + "/protocol", params);
@@ -212,6 +212,43 @@ public class ProjectProxy
 
     public CompletableFuture<Result> downloadProtocol(Map<String, Object> params) {
         return super.http().get("mgr/files/download-protocol", params);
+    }
+
+    //项目签章
+    public CompletableFuture<Result> signatureList(long pid) {
+        return super.http().get("protocol/" + pid + "/files", null);
+    }
+
+    public CompletableFuture<Result> abandon(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        int category = takeInt(params, "category");
+        return super.http().delete("protocol/" + pid + "/abandon/" + category, params);
+    }
+
+    public CompletableFuture<Result> createAndUpload(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long codeNo = takeLong(params, "code-no");
+        return super.http().post("protocol/" + pid + "/create/" + codeNo, params);
+    }
+
+    public CompletableFuture<Result> sign(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long category = takeLong(params, "category");
+        return super.http().post("protocol/" + pid + "/sign/" + category, params);
+    }
+
+    public CompletableFuture<Result> checkSign(long pid) {
+        return super.http().post("protocol/" + pid + "/check", null);
+    }
+
+    public CompletableFuture<Result> borSignInfo(long pid) {
+        return super.http().get("protocol/" + pid + "/sign-links", null);
+    }
+
+    public CompletableFuture<Result> sync(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        String fileName = takeString(params, "file-name");
+        return super.http().post("protocol/" + pid + "/files/" + fileName + "/sync", params);
     }
 
 }

@@ -6,10 +6,10 @@
         width="800"
         height="600">
 
-    <message name="designated-superior-confirm" ><![CDATA[为客户经理<b> {} </b>指定新的上级：]]></message>
+    <message name="designated-superior-confirm" ><![CDATA[为客户经理<b> {} </b>指定新的上级（所填内容为空，则设置为顶级）：]]></message>
     <message name="del-confirm" ><![CDATA[确认删除<b> {} </b>吗？此操作无法被撤销！]]></message>
     <message name="update-rcode-confirm" ><![CDATA[确定要修改编号吗！]]></message>
-    <message name="rcode-confirm" ><![CDATA[输入文本“编号”继续确认！]]></message>
+    <message name="rcode-confirm" ><![CDATA[输入“编号”(例如：C009)继续确认！]]></message>
     <message name="uname-confirm" >搜索登录名不能为空！</message>
     <message name="cannot-search-uname-confirm" >查无此人！</message>
 

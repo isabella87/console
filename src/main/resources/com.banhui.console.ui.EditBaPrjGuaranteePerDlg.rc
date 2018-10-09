@@ -49,7 +49,7 @@
                 <label for="id-card">身份证号：</label>
             </cell>
             <cell>
-                <text name="id-card"/>
+                <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
             </cell>
             <cell>
                 <label for="gender">性别：</label>

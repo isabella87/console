@@ -169,9 +169,10 @@ public class ChooseProtocolDlg
             params.put("file-code", uploadFileContent);
             new ProjectProxy().uploadBill(params)
                               .whenCompleteAsync(this::saveCallback, UPDATE_UI);
-        } else {
-            DialogUtils.confirm(null, controller().getMessage("upload-file-confirm"));
         }
+//        else {
+//            DialogUtils.confirm(null, controller().getMessage("upload-file-confirm"));
+//        }
     }
 
     private void saveCallback(

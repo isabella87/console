@@ -55,7 +55,7 @@ public class EditBaPrjBorPerDlg
             params.put("mobile", controller().getText("mobile").trim());
             params.put("email", controller().getText("email").trim());
             params.put("address", controller().getText("address").trim());
-            params.put("work-years", controller().getText("work-years").trim());
+            params.put("work-years", controller().getNumber("work-years"));
             params.put("intro", controller().getText("intro").trim());
             params.put("company", controller().getText("company").trim());
             params.put("position", controller().getText("position").trim());
@@ -144,9 +144,9 @@ public class EditBaPrjBorPerDlg
     ) {
         if (t != null) {
             ErrorHandler.handle(t);
+            controller().enable("ok");
         } else {
             this.row = row;
-
             super.done(OK);
         }
     }

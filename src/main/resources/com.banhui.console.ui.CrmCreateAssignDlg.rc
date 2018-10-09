@@ -30,7 +30,7 @@
                 <label for="mobile">注册客户手机号：</label>
             </cell>
             <cell>
-                <text name="mobile" pattern="1[0-9]{10}"/>
+                <text name="mobile" pattern="^1[34578]\d{9}$"/>
             </cell>
         </row>
         <row>

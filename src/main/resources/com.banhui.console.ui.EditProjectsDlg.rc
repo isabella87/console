@@ -411,10 +411,18 @@
                                 </row>
                                 <row>
                                     <cell>
-                                        <label>质押票据文件：</label>
+                                        <boxLayout>
+                                            <label>质押票据文件：</label>
+                                            <button actionName="operate"/>
+                                        </boxLayout>
                                     </cell>
-                                    <cell horizontalAlignment="FIRST">
-                                        <button actionName="operate"/>
+                                    <cell horizontalAlignment="BOTH">
+                                        <boxLayout>
+                                            <label for="bill-pledgor">票据出质人：</label>
+                                            <text name="bill-pledgor"/>
+                                            <label for="show-bill-pledgor">票据出质人：</label>
+                                            <text name="show-bill-pledgor"/>
+                                        </boxLayout>
                                     </cell>
                                 </row>
                             </gridLayout>

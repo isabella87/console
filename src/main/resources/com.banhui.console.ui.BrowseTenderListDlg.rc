@@ -17,9 +17,9 @@
     </options>
     <options name="status">
         <option value="99">（全部）</option>
-        <option value="1">成功</option>
-        <option value="2">失败</option>
-        <option value="3">未知结果</option>
+        <option value="2">成功</option>
+        <option value="1">失败</option>
+        <option value="0">未知</option>
     </options>
     <gridLayout>
         <column/>
@@ -46,9 +46,9 @@
                     <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="status"/>
                     <tableColumn name="seqno" title="流水号" type="TEXT" size="120"/>
                     <tableColumn name="datepoint" title="交易日期" type="DATE_TIME" size="160"/>
-                    <tableColumn name="authCode" title="应答码" type="TEXT" size="120"/>
-                    <tableColumn name="rsp" title="应答消息" type="TEXT" size="120"/>
-                    <tableColumn name="req" title="报文" type="TEXT" size="120"/>
+                    <tableColumn name="retCode" title="应答码" type="TEXT" size="120"/>
+                    <tableColumn name="retMsg" title="应答消息" type="TEXT" size="120"/>
+                    <tableColumn name="logText" title="报文" type="TEXT" size="120"/>
                 </table>
             </cell>
         </row>

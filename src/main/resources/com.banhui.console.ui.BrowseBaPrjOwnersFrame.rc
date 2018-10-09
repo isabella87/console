@@ -54,8 +54,8 @@
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="boId" title="ID" type="TEXT" size="60"/>
                     <tableColumn name="ownerName" title="企业名称" type="TEXT" size="100"/>
-                    <tableColumn name="regYears" title="注册年限" type="NUMBER" size="60"/>
-                    <tableColumn name="entIndustry" title="行业" type="TEXT" size="60"/>
+                    <tableColumn name="regYears" title="注册年限" type="TEXT" size="100"/>
+                    <tableColumn name="entIndustry" title="行业" type="TEXT" size="100"/>
                     <tableColumn name="regFunds" title="注册资本金（万元）" type="CURRENCY" size="160"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
                 </table>

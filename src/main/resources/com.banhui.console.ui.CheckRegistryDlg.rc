@@ -17,7 +17,7 @@
         </row>
         <row>
             <cell>
-                <text name="id-card" required="true"/>
+                <text name="id-card" required="true" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
             </cell>
         </row>
         <row>

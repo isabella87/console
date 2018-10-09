@@ -189,13 +189,13 @@ public class BrowseClientMgrManagementFrame
         String uName = treeNode.getUserObject().toString();
         this.pgsUname = uName;
         String remark = DialogUtils.inputText(null, controller().formatMessage("designated-superior-confirm", uName), "");
-        if (remark != null && !remark.isEmpty()) {
+//        if (remark != null && !remark.isEmpty()) {   //注释这行代码可以设置多个显性顶级节点，即可以创建父节点为空的节点。
             Map<String, Object> params = new HashMap<>();
             params.put("u-name", uName);
             params.put("p-name", remark);
             new CrmProxy().moveCrmMgrRelation(params)
                           .whenCompleteAsync(this::designatedSuperiorCallback, UPDATE_UI);
-        }
+//        }
     }
 
     private void designatedSuperiorCallback(
@@ -261,14 +261,15 @@ public class BrowseClientMgrManagementFrame
 
             updateDetailInfo();
 
-            JScrollPane jScrollPane = controller().get(JScrollPane.class, "mgrJTree");
-//            mgrJTree.setModel(new DefaultTreeModel(null));
-            CheckNodeTree mgrJTree = new CheckNodeTree(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
 
+            JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
+            mgrJTree.setModel(new DefaultTreeModel(null));
 
+//            JScrollPane jScrollPane = controller().get(JScrollPane.class, "mgrJTree");
+//            CheckNodeTree mgrJTree = new CheckNodeTree(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
 
             mgrJTree.setRootVisible(false);
-//            mgrJTree.setModel(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
+            mgrJTree.setModel(new DefaultTreeModelUtil(mgrTreeData, "uName", "pName").getDefaultTreeModel());
             mgrJTree.setExpandsSelectedPaths(true);
 
             DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
@@ -282,16 +283,17 @@ public class BrowseClientMgrManagementFrame
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//            mgrJTree.setCellRenderer(defaultTreeCellRenderer);
+            mgrJTree.setCellRenderer(defaultTreeCellRenderer);
 
             TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
             treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
             mgrJTree.setSelectionModel(treeSelectionModel);
 
-            jScrollPane.setViewportView(mgrJTree);
+//            jScrollPane.setViewportView(mgrJTree);
 
             mgrJTree.addTreeSelectionListener(e -> {
-                CheckNode treeNode = (CheckNode) mgrJTree.getLastSelectedPathComponent();
+//                CheckNode treeNode = (CheckNode) mgrJTree.getLastSelectedPathComponent();
+                DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) mgrJTree.getLastSelectedPathComponent();
                 if (treeNode != null && !treeNode.getUserObject().toString().isEmpty()) {
                     String uName = treeNode.getUserObject().toString();
                     this.pgsUname = uName;

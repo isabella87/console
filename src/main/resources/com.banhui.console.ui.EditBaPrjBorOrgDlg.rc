@@ -42,7 +42,7 @@
                             <label for="org-name">机构名称：</label>
                         </cell>
                         <cell>
-                            <text name="org-name" required="true" pattern="\w{4,}" size="19"/>
+                            <text name="org-name" required="true" pattern="\w{2,}" size="19"/>
                         </cell>
                         <cell>
                             <label for="show-org-name">机构展示名称：</label>
@@ -56,13 +56,13 @@
                             <label for="registered-fund">注册资金：</label>
                         </cell>
                         <cell>
-                            <text name="registered-fund" size="10" suffix="万元"/>
+                            <text name="registered-fund" size="10" suffix="万元" type="NUMBER"/>
                         </cell>
                         <cell>
                             <label for="registered-show-fund">注册展示资金：</label>
                         </cell>
                         <cell>
-                            <text name="registered-show-fund" suffix="万元" size="10"/>
+                            <text name="registered-show-fund" size="10" />
                         </cell>
                     </row>
                     <row>
@@ -166,13 +166,13 @@
                             <label for="legal-person-name">姓名：</label>
                         </cell>
                         <cell>
-                            <text name="legal-person-name" size="19"/>
+                            <text name="legal-person-name" size="19" pattern="\w{2,}"/>
                         </cell>
                         <cell>
                             <label for="legal-person-show-name">展示姓名：</label>
                         </cell>
                         <cell>
-                            <text name="legal-person-show-name" size="19"/>
+                            <text name="legal-person-show-name" size="19" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -180,13 +180,13 @@
                             <label for="legal-id-card">身份证号：</label>
                         </cell>
                         <cell>
-                            <text name="legal-id-card" size="19"/>
+                            <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="19"/>
                         </cell>
                         <cell>
                             <label for="mobile">手机号：</label>
                         </cell>
                         <cell>
-                            <text name="mobile" size="19"/>
+                            <text name="mobile" pattern="^1[34578]\d{9}$" size="19"/>
                         </cell>
                     </row>
                     <row>
@@ -229,13 +229,13 @@
                             <label for="linkman-name">姓名：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-name" size="19"/>
+                            <text name="linkman-name" size="19" pattern="\w{2,}"/>
                         </cell>
                         <cell>
                             <label for="linkman-show-name">展示姓名：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-show-name" size="19"/>
+                            <text name="linkman-show-name" size="19" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -243,13 +243,13 @@
                             <label for="linkman-id-card">身份证号：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-id-card" size="19"/>
+                            <text name="linkman-id-card"  pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="19"/>
                         </cell>
                         <cell>
                             <label for="linkman-mobile">手机号：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-mobile" size="19"/>
+                            <text name="linkman-mobile" pattern="^1[34578]\d{9}$" size="19"/>
                         </cell>
                     </row>
                     <row>

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.dateValue;
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
+import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -52,7 +53,7 @@ public class EditBaPrjBorOrgDlg
 
             params.put("org-name", controller().getText("org-name").trim());
             params.put("show-org-name", controller().getText("show-org-name").trim());
-            params.put("registered-fund", controller().getText("registered-fund").trim());
+            params.put("registered-fund", controller().getNumber("registered-fund"));
             params.put("registered-show-fund", controller().getText("registered-show-fund").trim());
             params.put("registered-date", controller().getDate("registered-date"));
             params.put("legal-id-card", controller().getText("legal-id-card").trim());
@@ -86,8 +87,7 @@ public class EditBaPrjBorOrgDlg
 
             (this.id == 0 ? new BaPrjBorOrgsProxy().add(params) : new BaPrjBorOrgsProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -112,7 +112,7 @@ public class EditBaPrjBorOrgDlg
     ) {
         controller().setText("org-name", stringValue(data, "orgName"));
         controller().setText("show-org-name", stringValue(data, "showOrgName"));
-        controller().setDecimal("registered-fund", decimalValue(data, "registeredFund"));
+        controller().setNumber("registered-fund", longValue(data, "registeredFund"));
         controller().setText("registered-show-fund", stringValue(data, "registeredShowFund"));
         controller().setDate("registered-date", dateValue(data, "registeredDate"));
         controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
@@ -147,11 +147,16 @@ public class EditBaPrjBorOrgDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+            controller().enable("ok");
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

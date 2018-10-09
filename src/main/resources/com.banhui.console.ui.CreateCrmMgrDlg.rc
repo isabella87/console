@@ -34,7 +34,7 @@
                <label name="p-name">上级经理：</label>
            </cell>
             <cell>
-                <text name="p-name" type="TEXT"/>
+                <text name="p-name" type="TEXT" suffix="空时,为顶级" size="10"/>
             </cell>
         </row>
 

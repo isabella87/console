@@ -104,9 +104,7 @@ public class EditBaPrjGuaranteePerDlg
     private void saveCallback(
             Map<String, Object> row
     ) {
-
         this.row = row;
-
         super.done(OK);
     }
 
