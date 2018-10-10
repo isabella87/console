@@ -132,7 +132,7 @@ public class EditPlatformMessageDlg
         } else {
             controller().setText("loginName", stringValue(data, "loginName") + "(" + stringValue(data, "realName") + ")");
             controller().setText("title", stringValue(data, "title"));
-            controller().setDecimal("brief", decimalValue(data, "brief"));
+            controller().setText("brief", stringValue(data, "brief"));
             controller().setText("content", stringValue(data, "content"));
         }
     }

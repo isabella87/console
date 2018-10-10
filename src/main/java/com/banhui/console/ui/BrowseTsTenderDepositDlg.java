@@ -28,6 +28,7 @@ public class BrowseTsTenderDepositDlg
         }
         controller().connect("search", this::search);
         controller().connect("excel", this::excel);
+        controller().call("search");
     }
 
     private void search(

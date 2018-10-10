@@ -33,6 +33,7 @@ public class BrowseBorrowRecordDlg
         controller().connect("accelerate-date", "change", this::accelerateDate);
         controller().connect("search", this::search);
         controller().connect("excel", this::excel);
+        controller().call("search");
     }
 
     private void search(

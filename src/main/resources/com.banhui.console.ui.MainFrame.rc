@@ -24,7 +24,7 @@
     <action name="browsePerson" title="个人账户(P)" mnemonic="P" description="个人帐户"/>
     <action name="browseCorp" title="机构账户(O)" mnemonic="O" description="机构帐户"/>
     <action name="browseCommerceTrade" title="商户转账(T)" mnemonic="T" description="商户转账"/>
-    <action name="browseYiMeiMessage" title="伊美短信(Y)" mnemonic="Y" description="已发送的伊美短信"/>
+    <action name="browseYiMeiMessage" title="亿美短信(Y)" mnemonic="Y" description="已发送的亿美短信"/>
     <action name="browsePlatformMessage" title="发送消息(S)" mnemonic="S" description="发送平台消息"/>
 
     <action name="browseAssignRegClient" title="分配注册客户(R)" mnemonic="R" description="分配注册客户"/>

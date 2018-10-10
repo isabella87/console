@@ -41,7 +41,7 @@
                     <tableColumn name="tranno" title="交易流水号" type="TEXT" size="120"/>
                     <tableColumn name="amount" title="金额" type="CURRENCY" size="120"/>
                     <tableColumn name="transtype" title="类型" type="TEXT" size="100" optionsName="trans-type"/>
-                    <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="140"/>
+                    <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="150"/>
                     <tableColumn name="currBal" title="账户余额" type="TEXT" size="120"/>
                     <tableColumn name="desline" title="描述" type="TEXT" size="120"/>
                 </table>

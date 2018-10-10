@@ -64,6 +64,7 @@ public class BrowseFrozenFundDlg
             ErrorHandler.handle(t);
         } else if (flag) {
             prompt(this.getOwner(), controller().getMessage("unfrozen-success"));
+            controller().call("search");
         } else {
             prompt(this.getOwner(), controller().getMessage("unfrozen-fail"));
         }
@@ -99,18 +100,14 @@ public class BrowseFrozenFundDlg
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             tableModel.setAllRows((Collection<Map<String, Object>>) results[1]);
-
-//            double sum1 = 0D;
-//            for (int i = 0; i < tableModel.getRowCount(); i++) {
-//                double execute = tableModel.getNumberByName(i, "txAmount");
-//                sum1 = sum1 + execute;
-//            }
-//            controller().setText("progress", controller().formatMessage("frozen-amt", sum1));
-            BigDecimal sum = decimalValue((Map) results[0], "currBal");
-            controller().setText("progress", controller().formatMessage("frozen-amt", sum));
+            BigDecimal currBal = decimalValue((Map) results[0], "currBal");
+            BigDecimal availBal = decimalValue((Map) results[0], "availBal");
+            if (availBal != null && currBal != null) {
+                BigDecimal amt = currBal.subtract(availBal);
+                controller().setText("progress", controller().formatMessage("frozen-amt", amt));
+            }
         }
     }
-
 
     private void listChanged(
             Object event

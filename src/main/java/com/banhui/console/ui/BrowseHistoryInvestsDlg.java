@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.banhui.console.rpc.ResultUtils.dateValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -52,7 +53,7 @@ public class BrowseHistoryInvestsDlg
         }
         params.put("start-date", startDate);
         params.put("end-date", endDate);
-        params.put("key",controller().getText("key").trim());
+        params.put("key", controller().getText("key").trim());
         new AccountsProxy().historyInvests(params)
                            .thenApplyAsync(Result::list)
                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)
@@ -71,6 +72,12 @@ public class BrowseHistoryInvestsDlg
     private void searchCallback(
             Collection<Map<String, Object>> c
     ) {
+        for (Map<String, Object> map : c) {
+            Date date = dateValue(map, "datepoint2");
+            if (date != null && date.getTime() > new Date().getTime()) {
+                map.put("datepoint2", null);
+            }
+        }
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
         tableModel.setAllRows(c);
     }

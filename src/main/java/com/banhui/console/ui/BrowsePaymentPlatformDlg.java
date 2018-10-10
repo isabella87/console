@@ -8,11 +8,13 @@ import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -70,6 +72,14 @@ public class BrowsePaymentPlatformDlg
     private void searchCallback(
             Collection<Map<String, Object>> c
     ) {
+        for (Map<String,Object> map : c) {
+            BigDecimal creditAmt = decimalValue(map, "creditAmt");
+            BigDecimal unfrzAmt = decimalValue(map, "unfrzAmt");
+            BigDecimal debitAmt = decimalValue(map, "debitAmt");
+            BigDecimal frzAmt = decimalValue(map, "frzAmt");
+            BigDecimal amt = creditAmt.add(unfrzAmt).subtract(debitAmt).subtract(frzAmt);
+            map.put("amt", amt);
+        }
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
         tableModel.setAllRows(c);
     }
