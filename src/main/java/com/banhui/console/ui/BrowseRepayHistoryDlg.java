@@ -31,11 +31,10 @@ public class BrowseRepayHistoryDlg
             ActionEvent actionEvent
 
     ) {
+        controller().disable("delete");
         String confirmDeleteText = controller().formatMessage("delete-confirm");
         String confirmText = controller().formatMessage("confirm-text");
         if (confirm(this.getOwner(), confirmDeleteText, confirmText)) {
-            controller().disable("delete");
-
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final long trhId = tableModel.getNumberByName(table.getSelectedRow(), "trhId");
@@ -62,7 +61,6 @@ public class BrowseRepayHistoryDlg
             tableModel.removeFirstRow(row -> Objects.equals(id.toString(), row.get("trhId")));
             prompt(null, controller().getMessage("delete-success"));
         }
-        controller().enable("delete");
     }
 
     private void refresh(

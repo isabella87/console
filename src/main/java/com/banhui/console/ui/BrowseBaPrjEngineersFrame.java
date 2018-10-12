@@ -149,11 +149,8 @@ public class BrowseBaPrjEngineersFrame
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpeId"), row.get("bpeId")));
         }
-
-        controller().enable("delete");
     }
 
     private void engCheck(

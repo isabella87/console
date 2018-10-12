@@ -139,10 +139,8 @@ public class BrowseBaPrjCtorsFrame
             logger.debug("ba-prj-engineer {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bcoId"), row.get("bcoId")));
         }
-        controller().enable("delete");
     }
 
     private void check(

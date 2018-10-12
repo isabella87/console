@@ -87,7 +87,7 @@
         </row>
         <row>
             <cell>
-                <label for="main-credit-amt">主债权余额：：</label>
+                <label for="main-credit-amt">主债权余额：</label>
             </cell>
             <cell>
                 <text name="main-credit-amt" type="CURRENCY" suffix="元"/>

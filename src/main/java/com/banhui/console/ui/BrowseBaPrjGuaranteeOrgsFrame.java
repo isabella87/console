@@ -145,7 +145,6 @@ public class BrowseBaPrjGuaranteeOrgsFrame
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bgoId"), row.get("bgoId")));
         }
-        controller().enable("delete");
     }
 
     private void check(

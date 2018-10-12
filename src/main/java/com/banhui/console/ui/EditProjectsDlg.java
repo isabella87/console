@@ -183,10 +183,10 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         listName = "guaranteePersons";
-        idName = "pgp-id";
-        final JTable table = controller().get(JTable.class, "guaranteePersons");
+        idName = "pgpId";
+        final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pgpId = tableModel.getNumberByName(table.getSelectedRow(), "pgpId");
+        final long pgpId = tableModel.getNumberByName(table.getSelectedRow(), idName);
 
         String confirmDeleteText = controller().formatMessage("delete-guaPer", pgpId);
         if (confirm(null, confirmDeleteText)) {
@@ -223,10 +223,10 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         listName = "guaranteeOrg";
-        idName = "pgo-id";
-        final JTable table = controller().get(JTable.class, "guaranteeOrg");
+        idName = "pgoId";
+        final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pgoId = tableModel.getNumberByName(table.getSelectedRow(), "pgoId");
+        final long pgoId = tableModel.getNumberByName(table.getSelectedRow(), idName);
 
         String confirmDeleteText = controller().formatMessage("delete-guaOrg", pgoId);
         if (confirm(null, confirmDeleteText)) {
@@ -267,10 +267,10 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         listName = "borPersons";
-        idName = "bpmp-id";
+        idName = "bpmpId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long bpmpId = tableModel.getNumberByName(table.getSelectedRow(), "bpmpId");
+        final long bpmpId = tableModel.getNumberByName(table.getSelectedRow(), idName);
 
         String confirmDeleteText = controller().formatMessage("delete-borPer", bpmpId);
         if (confirm(null, confirmDeleteText)) {
@@ -310,10 +310,10 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         listName = "borOrgs";
-        idName = "bpmo-id";
+        idName = "bpmoId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long bpmoId = tableModel.getNumberByName(table.getSelectedRow(), "bpmoId");
+        final long bpmoId = tableModel.getNumberByName(table.getSelectedRow(), idName);
 
         String confirmDeleteText = controller().formatMessage("delete-borOrg", bpmoId);
         if (confirm(null, confirmDeleteText)) {
@@ -337,7 +337,8 @@ public class EditProjectsDlg
         } else {
             final JTable table = controller().get(JTable.class, listName);
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            tableModel.removeFirstRow(row -> Objects.equals(thisId.toString(), row.get(idName)));
+
+            tableModel.removeFirstRow(row -> Objects.equals(thisId.toString(), row.get(idName).toString()));
         }
     }
 

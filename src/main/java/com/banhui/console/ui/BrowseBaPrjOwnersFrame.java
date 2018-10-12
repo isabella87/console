@@ -119,11 +119,9 @@ public class BrowseBaPrjOwnersFrame
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
         if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
-
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "boId");
-
             new BaPrjOwnersProxy().del(bpeId)
                                   .thenApplyAsync(Result::map)
                                   .whenCompleteAsync(this::delCallback, UPDATE_UI);
@@ -139,10 +137,8 @@ public class BrowseBaPrjOwnersFrame
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("boId"), row.get("boId")));
         }
-        controller().enable("delete");
     }
 
     private void check(

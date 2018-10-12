@@ -118,7 +118,6 @@ public class BrowseBaPrjGuaranteePersFrame
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
         if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
-
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bgpId");
@@ -138,10 +137,8 @@ public class BrowseBaPrjGuaranteePersFrame
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bgpId"), row.get("bgpId")));
         }
-        controller().enable("delete");
     }
 
     private void check(

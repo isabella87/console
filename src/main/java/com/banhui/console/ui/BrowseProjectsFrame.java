@@ -372,7 +372,6 @@ public class BrowseProjectsFrame
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("pId"), row.get("pId")));
         }
-        controller().enable("delete");
     }
 
     private void audit(

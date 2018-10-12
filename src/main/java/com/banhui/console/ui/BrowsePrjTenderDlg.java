@@ -135,10 +135,8 @@ public class BrowsePrjTenderDlg extends DialogPane {
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("ttId"), row.get("ttId")));
         }
-        controller().enable("revoke");
     }
 
     private void saveCallback(

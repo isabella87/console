@@ -125,7 +125,6 @@ public class BrowseB2cDetailFrame
         String confirmDeleteText = controller().formatMessage("confirm-delete-text");
         if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
-
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final String tbdId = tableModel.getStringByName(table.getSelectedRow(), "tbdId");
@@ -146,10 +145,8 @@ public class BrowseB2cDetailFrame
             logger.debug("ts_b2c_detail {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("tbdId"), row.get("tbdId")));
         }
-        controller().enable("delete");
     }
 
     private void accelerateDate(
