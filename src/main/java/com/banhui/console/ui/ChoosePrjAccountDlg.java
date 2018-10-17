@@ -46,7 +46,10 @@ public class ChoosePrjAccountDlg extends DialogPane {
     ) {
         final Map<String, Object> params = new HashMap<>();
         params.put("allow-role", allowRole);
-        params.put("user-type", controller().getNumber("user-type"));
+        final long userType = controller().getNumber("user-type");
+        if (userType != Integer.MAX_VALUE) {
+            params.put("user-type", userType);
+        }
         params.put("key", controller().getText("key"));
 
         new ProjectProxy().queryAll(params)

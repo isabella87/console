@@ -63,7 +63,7 @@ public class BrowseCreditAssignmentsFrame
         assertUIThread();
 
         final int dateType = controller().getInteger("date-type");
-        final int transferStatus = Integer.valueOf(controller().getText("transfer-status"));
+        final int transferStatus = controller().getInteger("transfer-status");
         final int keyType = controller().getInteger("key-type");
         final int prjType = controller().getInteger("prj-type");
         final String key = controller().getText("search-key");
@@ -74,11 +74,10 @@ public class BrowseCreditAssignmentsFrame
         params.put("start-time", startDate);
         params.put("end-time", endDate);
         params.put("date-type", dateType);
-        params.put("prj-type", prjType);
-
-        if (transferStatus != Integer.MAX_VALUE) {
-            params.put("status", transferStatus);
+        if (prjType != Integer.MAX_VALUE) {
+            params.put("prj-type", prjType);
         }
+        params.put("status", transferStatus);
         params.put("key", key);
         params.put("key-type", keyType);
         controller().disable("search");
@@ -131,7 +130,7 @@ public class BrowseCreditAssignmentsFrame
             return;
         }
         final long tiId = tableModel.getNumberByName(selectRow, "tiId");
-        ChooseProtocolDlg dlg = new ChooseProtocolDlg(tiId, 48,2);
+        ChooseProtocolDlg dlg = new ChooseProtocolDlg(tiId, 48, 2);
         dlg.setFixedSize(false);
         showModel(null, dlg);
 

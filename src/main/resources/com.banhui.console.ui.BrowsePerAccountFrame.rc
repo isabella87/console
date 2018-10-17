@@ -15,12 +15,10 @@
         <option value="0">今年</option>
     </options>
     <options name="account-status">
-        <option value="999">（全部）</option>
         <option value="1">已注册</option>
         <option value="2">已开户</option>
     </options>
     <options name="lock-status">
-        <option value="999">（全部）</option>
         <option value="0">正常</option>
         <option value="98">自动锁定</option>
         <option value="99">停用</option>
@@ -40,9 +38,9 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="account-status">状态：</label>
-                    <dropDown name="account-status" optionsName="account-status"/>
+                    <dropDown name="account-status" optionsName="account-status" includeAll="true"/>
                     <label for="lock-status">锁定：</label>
-                    <dropDown name="lock-status" optionsName="lock-status"/>
+                    <dropDown name="lock-status" optionsName="lock-status" includeAll="true"/>
                     <label for="search-key">关键字：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>

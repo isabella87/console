@@ -85,9 +85,22 @@ public class BrowseMyClientFrame
                 break;
         }
         params.put("u-name", uName);
-        params.put("gender", controller().getNumber("gender"));
-        params.put("user-type", controller().getText("user-type"));
-        params.put("jx-status", controller().getNumber("jx-status"));
+        final long userType = controller().getNumber("user-type");
+        if (userType != Integer.MAX_VALUE) {
+            params.put("user-type", userType);
+        }
+        final long age = controller().getNumber("age");
+        if (age != Integer.MAX_VALUE) {
+            params.put("age", age);
+        }
+        final long jxStatus = controller().getNumber("jx-status");
+        if (jxStatus != Integer.MAX_VALUE) {
+            params.put("jx-status", jxStatus);
+        }
+        final long gender = controller().getNumber("gender");
+        if (gender != Integer.MAX_VALUE) {
+            params.put("gender", gender);
+        }
         params.put("search-key", controller().getText("search-key"));
         controller().disable("search");
         new CrmProxy().myRegUsers(params)

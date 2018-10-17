@@ -16,7 +16,6 @@
         <option value="0">今年</option>
     </options>
     <options name="s-type">
-        <option value="99">（全部）</option>
         <option value="1">普通投资</option>
         <option value="2">债权转入</option>
     </options>
@@ -31,7 +30,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="s-type">类型：</label>
-                    <dropDown name="s-type" optionsName="s-type"/>
+                    <dropDown name="s-type" optionsName="s-type" includeAll="true"/>
                     <label for="key">关键字：</label>
                     <text name="key"/>
                     <button actionName="search" name="search"/>

@@ -7,9 +7,10 @@
     <message name="edit">编辑</message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
-    <options name="gender">
-        <option>女</option>
-        <option>男</option>
+    <options name="gender-status">
+        <option value="0">未知</option>
+        <option value="2">女</option>
+        <option value="1">男</option>
     </options>
     <gridLayout>
         <column stretch="0"/>
@@ -55,7 +56,7 @@
                 <label for="gender">性别：</label>
             </cell>
             <cell>
-                <text name="gender" optionsName="gender" size="1"/>
+                <dropDown name="gender" optionsName="gender-status"/>
             </cell>
         </row>
         <row>

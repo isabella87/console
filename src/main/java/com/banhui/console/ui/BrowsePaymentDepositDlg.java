@@ -40,8 +40,10 @@ public class BrowsePaymentDepositDlg
         if (this.auId != 0) {
             params.put("au-id", auId);
         }
-        final String tranTypeFlag = String.valueOf(controller().getInteger("tran-type-flag"));
-        params.put("tran-type-flag", tranTypeFlag);
+        final int tranTypeFlag = controller().getInteger("tran-type-flag");
+        if (tranTypeFlag != Integer.MAX_VALUE) {
+            params.put("tran-type-flag", String.valueOf(tranTypeFlag));
+        }
         params.put("tran-type", 0);
         new AccountsProxy().historyFundsDeposit(params)
                            .thenApplyAsync(Result::map)

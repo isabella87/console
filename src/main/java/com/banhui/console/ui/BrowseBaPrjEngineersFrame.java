@@ -80,7 +80,6 @@ public class BrowseBaPrjEngineersFrame
             final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
             tableModel.setAllRows(c);
         }
-
         controller().enable("search");
     }
 
@@ -163,7 +162,7 @@ public class BrowseBaPrjEngineersFrame
             return;
         }
         final long id = tableModel.getNumberByName(selectRow, "bpeId");
-        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 24,1);
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 24, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -178,7 +177,7 @@ public class BrowseBaPrjEngineersFrame
             return;
         }
         final long id = tableModel.getNumberByName(selectRow, "bpeId");
-        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 27,1);
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 27, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }

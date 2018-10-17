@@ -147,8 +147,8 @@ public class BrowseBankOrgInfoDlg
 
         final Map<String, Object> params13 = new HashMap<>();
         params13.put("name", "可用余额");
-        if (map.get("visibleBal") != null) {
-            params13.put("value", map.get("visibleBal"));
+        if (map.get("availableBal") != null) {
+            params13.put("value", map.get("availableBal"));
         } else {
             params13.put("value", 0);
         }

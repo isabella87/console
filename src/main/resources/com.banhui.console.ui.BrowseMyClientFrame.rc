@@ -8,20 +8,17 @@
     <action name="choose-manager" title="选择客户经理"/>
     <action name="acc-info" title="帐户信息(I)" mnemonic="I"/>
     <options name="jx-status-option">
-        <option>全部</option>
         <option value="2">未开户</option>
         <option value="3">未绑卡</option>
         <option value="4">已绑卡</option>
         <option value="5">已投资</option>
     </options>
     <options name="type-status">
-        <option>(全部)</option>
         <option value="1">个人</option>
         <option value="2">机构</option>
     </options>
     <options name="age-status">
-        <option>(全部)</option>
-        <option value="1">20-24岁</option>
+        <option value="1">1-24岁</option>
         <option value="2">25-29岁</option>
         <option value="3">30-39岁</option>
         <option value="4">40-49岁</option>
@@ -29,7 +26,6 @@
         <option value="6">60岁以上</option>
     </options>
     <options name="gender-status">
-        <option value="">(全部)</option>
         <option value="1">男</option>
         <option value="2">女</option>
     </options>
@@ -44,13 +40,13 @@
                     <label for="datepoint">查询日期：</label>
                     <text name="datepoint" type="DATE"/>
                     <label name="age">年龄：</label>
-                    <dropDown name="age" optionsName="age-status"/>
+                    <dropDown name="age" optionsName="age-status" includeAll="true"/>
                     <label name="gender">性别：</label>
-                    <dropDown name="gender" optionsName="gender-status"/>
+                    <dropDown name="gender" optionsName="gender-status" includeAll="true"/>
                     <label name="user-type">帐户类型：</label>
-                    <dropDown name="user-type" optionsName="type-status"/>
+                    <dropDown name="user-type" optionsName="type-status" includeAll="true"/>
                     <label for="jx-status">客户状态：</label>
-                    <dropDown name="jx-status" optionsName="jx-status-option"/>
+                    <dropDown name="jx-status" optionsName="jx-status-option" includeAll="true"/>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
                 </boxLayout>

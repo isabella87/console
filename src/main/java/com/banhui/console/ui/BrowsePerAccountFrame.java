@@ -58,10 +58,10 @@ public class BrowsePerAccountFrame
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
 
         final Map<String, Object> params = new HashMap<>();
-        if (status != 999) {
+        if (status != Integer.MAX_VALUE) {
             params.put("status", status);
         }
-        if (lockStatus != 999) {
+        if (lockStatus != Integer.MAX_VALUE) {
             params.put("locked-status", lockStatus);
         }
         params.put("search-key", searchKey);

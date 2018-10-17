@@ -16,7 +16,6 @@
         <option value="0">今年</option>
     </options>
     <options name="status">
-        <option value="888">（全部）</option>
         <option value="0">审批中</option>
         <option value="1">募集阶段</option>
         <option value="2">已募集满</option>
@@ -35,7 +34,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="status">类型:</label>
-                    <dropDown name="status" optionsName="status"/>
+                    <dropDown name="status" optionsName="status" includeAll="true"/>
                     <label for="key">关键字：</label>
                     <text name="key"/>
                     <button actionName="search" name="search"/>

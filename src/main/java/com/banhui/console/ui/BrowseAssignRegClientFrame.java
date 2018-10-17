@@ -142,7 +142,9 @@ public class BrowseAssignRegClientFrame
         params.put("department", department);
         params.put("start-date1", startDate);
         params.put("end-date1", endDate);
-        params.put("jx-status", jxStatus);
+        if (jxStatus != Integer.MAX_VALUE) {
+            params.put("jx-status", jxStatus);
+        }
         params.put("search-key", searchKey);
         controller().disable("search");
         new CrmProxy().queryRegUsers(params)

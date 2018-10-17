@@ -49,7 +49,7 @@ public class BrowsePaymentPlatformDlg
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
         final int tranTypeFlag = controller().getInteger("tran-type-flag");
 
-        if (tranTypeFlag != 999) {
+        if (tranTypeFlag != Integer.MAX_VALUE) {
             params.put("tran-type-flag", tranTypeFlag);
         }
         params.put("start-date", startDate);

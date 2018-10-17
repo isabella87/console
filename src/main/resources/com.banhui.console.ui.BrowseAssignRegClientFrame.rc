@@ -27,7 +27,6 @@
         <option value="销售五部">销售五部</option>
     </options>
     <options name="jx-status-option">
-        <option>全部</option>
         <option value="2">未开户</option>
         <option value="3">未绑卡</option>
         <option value="4">已绑卡</option>
@@ -53,7 +52,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="jx-status">客户状态：</label>
-                    <dropDown name="jx-status" optionsName="jx-status-option"/>
+                    <dropDown name="jx-status" optionsName="jx-status-option" includeAll="true"/>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
                 </boxLayout>

@@ -16,7 +16,6 @@
         <option value="0">今年</option>
     </options>
     <options name="status">
-        <option value="0">（全部）</option>
         <option value="1">转入</option>
         <option value="2">转出</option>
     </options>
@@ -49,7 +48,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="tran-type-flag">类型：</label>
-                    <dropDown name="tran-type-flag" optionsName="status"/>
+                    <dropDown name="tran-type-flag" optionsName="status" includeAll="true"/>
                     <!--<label for="key">关键字：</label>-->
                     <!--<text name="key"/>-->
                     <button actionName="search" name="search"/>

@@ -16,7 +16,6 @@
         <option value="0">今年</option>
     </options>
     <options name="status">
-        <option value="99">（全部）</option>
         <option value="2">未成功</option>
         <option value="1">已成功</option>
     </options>
@@ -35,7 +34,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="type">类型：</label>
-                    <dropDown name="type" optionsName="status"/>
+                    <dropDown name="type" optionsName="status" includeAll="true"/>
                     <button actionName="search" name="search"/>
                     <button actionName="excel" name="excel"/>
                 </boxLayout>

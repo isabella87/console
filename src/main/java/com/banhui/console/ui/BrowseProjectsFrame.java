@@ -1,7 +1,9 @@
 package com.banhui.console.ui;
 
+import com.banhui.console.rpc.AuthenticationProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
+import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -16,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.banhui.console.rpc.ResultUtils.stringValue;
+import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -28,6 +32,8 @@ public class BrowseProjectsFrame
     /**
      * {@inheritDoc}
      */
+    private volatile String userName;
+
     public BrowseProjectsFrame() {
         controller().connect("search", this::search);
         controller().connect("audit", this::audit);
@@ -45,6 +51,7 @@ public class BrowseProjectsFrame
         controller().connect("top", this::top);
         controller().connect("cancel-top", this::cancelTop);
         controller().connect("protocol", this::protocol);
+        controller().connect("accelerate-date", "change", this::accelerateDate);
 
         controller().disable("audit");
         controller().disable("view");
@@ -68,6 +75,19 @@ public class BrowseProjectsFrame
         tcm.removeColumn(visibleColumn);
         tcm.removeColumn(topTimeColumn);
 
+        new AuthenticationProxy().current()
+                                 .thenApply(Result::map)
+                                 .whenCompleteAsync(this::userInfo, UPDATE_UI);
+    }
+
+    private void userInfo(
+            Map<String, Object> user,
+            Throwable throwable
+    ) {
+        if (throwable != null) {
+            ErrorHandler.handle(throwable);
+        }
+        this.userName = stringValue(user, "userName");
     }
 
     private void creditProtocolSign(ActionEvent actionEvent) {
@@ -186,14 +206,15 @@ public class BrowseProjectsFrame
 
         final int dateType = controller().getInteger("date-type");
         final int status = Integer.valueOf(controller().getText("status"));
+        final int type = Integer.valueOf(controller().getText("type"));
         final int keyType = controller().getInteger("key-type");
         final String key = controller().getText("search-key");
         final Date startDate = floorOfDay(controller().getDate("start-date"));
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
-        final Boolean locked =controller().getBoolean("locked");
+        final Boolean locked = controller().getBoolean("locked");
 
         final Map<String, Object> params = new HashMap<>();
-        params.put("locked",locked);
+        params.put("locked", locked);
 
         switch (dateType) {
             case 1:
@@ -216,10 +237,17 @@ public class BrowseProjectsFrame
                 params.put("clear-start-time", startDate);
                 params.put("clear-end-time", endDate);
                 break;
+            case 6:
+                params.put("repay-start-time", startDate);
+                params.put("repay-end-time", endDate);
+                break;
         }
 
         if (status != Integer.MAX_VALUE) {
             params.put("status", status);
+        }
+        if (type != Integer.MAX_VALUE) {
+            params.put("type", type);
         }
 
         switch (keyType) {
@@ -238,7 +266,6 @@ public class BrowseProjectsFrame
         }
 
         controller().disable("search");
-
         new ProjectProxy().allProjects(params)
                           .thenApplyAsync(Result::list)
                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
@@ -253,14 +280,16 @@ public class BrowseProjectsFrame
         tableModel.setAllRows(c);
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             if (tableModel.getNumberByName(i, "visible") == 0) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已隐藏）", i, 3);
+                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已隐藏）", i, 4);
             }
-        }
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
             if (tableModel.getDateByName(i, "topTime") != null) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 3);
+                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 4);
+            }
+            if (tableModel.getDateByName(i, "lockedTime") != null) {
+                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已锁定）", i, 4);
             }
         }
+
     }
 
     private void protocol(
@@ -387,6 +416,18 @@ public class BrowseProjectsFrame
         showModel(null, dlg);
     }
 
+    private void accelerateDate(
+            Object event
+    ) {
+        final int years = controller().getInteger("accelerate-date");
+        DateRange dateRange = latestSomeYears(new Date(), years);
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
+        }
+
+    }
+
 
     private void listChanged(
             Object event
@@ -424,19 +465,25 @@ public class BrowseProjectsFrame
                 controller().enable("top");
                 controller().enable("cancel-hide");
                 controller().enable("cancel-top");
+                controller().enable("audit");
                 // 选中了行，并且仅选中一行。
                 if (status == 0) {
                     controller().enable("delete");
                     controller().show("edit");
                     controller().enable("edit");
                     controller().hide("view");
-                    controller().enable("audit");
                 } else {
-                    controller().disable("delete");
-                    controller().hide("edit");
-                    controller().show("view");
-                    controller().enable("view");
-                    controller().enable("audit");
+                    if (!userName.equals("admin")) {
+                        controller().disable("delete");
+                        controller().hide("edit");
+                        controller().show("view");
+                        controller().enable("view");
+                    } else {
+                        controller().enable("delete");
+                        controller().show("edit");
+                        controller().hide("view");
+                        controller().enable("edit");
+                    }
                     if (status >= 90) {
                         controller().enable("repay");
                     } else {

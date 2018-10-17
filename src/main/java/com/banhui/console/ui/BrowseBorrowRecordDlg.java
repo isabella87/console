@@ -48,12 +48,12 @@ public class BrowseBorrowRecordDlg
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
         final int status = controller().getInteger("status");
 
-        if (status != 888) {
-            params.put("status",status);
+        if (status != Integer.MAX_VALUE) {
+            params.put("status", status);
         }
         params.put("start-date", startDate);
         params.put("end-date", endDate);
-        params.put("key",controller().getText("key").trim());
+        params.put("key", controller().getText("key").trim());
         new AccountsProxy().borrowRecord(params)
                            .thenApplyAsync(Result::list)
                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)

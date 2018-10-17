@@ -15,8 +15,12 @@
         <option value="5">最近五年</option>
         <option value="0">今年</option>
     </options>
-    <options name="status">
-        <option value="99">（全部）</option>
+    <options name="isOk-status">
+        <option value="1">成功</option>
+        <option value="2">失败</option>
+        <option value="3">未知</option>
+    </options>
+    <options name="done-status">
         <option value="2">成功</option>
         <option value="1">失败</option>
         <option value="0">未知</option>
@@ -32,7 +36,7 @@
                     <text name="end-date" type="DATE"/>
                     <dropDown name="accelerate-date" optionsName="accelerate-date"/>
                     <label for="isOk">类型</label>
-                    <dropDown name="status" optionsName="status"/>
+                    <dropDown name="isOk" optionsName="isOk-status" includeAll="true"/>
                     <button actionName="search" name="search"/>
                     <button actionName="excel" name="excel"/>
                 </boxLayout>
@@ -43,7 +47,7 @@
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="jciId" title="债权转让ID" type="TEXT" size="100"/>
-                    <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="status"/>
+                    <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="done-status"/>
                     <tableColumn name="seqno" title="流水号" type="TEXT" size="120"/>
                     <tableColumn name="datepoint" title="交易日期" type="DATE_TIME" size="160"/>
                     <tableColumn name="rsp" title="应答码" type="TEXT" size="120"/>

@@ -135,8 +135,8 @@ public class BrowseBankPerInfoDlg
 
         final Map<String, Object> params10 = new HashMap<>();
         params10.put("name", "可用余额");
-        if (map.get("visibleBal") != null) {
-            params10.put("value", map.get("visibleBal"));
+        if (map.get("availableBal") != null) {
+            params10.put("value", map.get("availableBal"));
         } else {
             params10.put("value", 0);
         }

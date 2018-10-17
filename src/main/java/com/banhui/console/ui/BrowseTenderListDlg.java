@@ -43,13 +43,13 @@ public class BrowseTenderListDlg
         if (this.auId != 0) {
             params.put("au-id", auId);
         }
-        final int isOk = controller().getInteger("status");
+        final int isOk = controller().getInteger("isOk");
         final Date startDate = floorOfDay(controller().getDate("start-date"));
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
 
         params.put("start-date", startDate);
         params.put("end-date", endDate);
-        if (isOk != 99) {
+        if (isOk != Integer.MAX_VALUE) {
             params.put("is-ok", isOk);
         }
         new AccountsProxy().getJxTenderList(params)

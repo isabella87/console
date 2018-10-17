@@ -48,7 +48,7 @@ public class BrowseHistoryInvestsDlg
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
         final int sType = controller().getInteger("s-type");
 
-        if (sType != 99) {
+        if (sType != Integer.MAX_VALUE) {
             params.put("s-type", sType);
         }
         params.put("start-date", startDate);

@@ -47,8 +47,8 @@ public class BrowseTsTenderPlatformDlg
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
         final int type = controller().getInteger("type");
 
-        if (type != 99) {
-            params.put("type",type);
+        if (type != Integer.MAX_VALUE) {
+            params.put("type", type);
         }
         params.put("start-date", startDate);
         params.put("end-date", endDate);
