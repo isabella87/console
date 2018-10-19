@@ -88,7 +88,7 @@ public final class MainFrame
         this.uiController.connect("about", this::about);
 
         // 设置状态栏。
-        initStatusBar();
+//        initStatusBar();
     }
 
     private void createQrCode(ActionEvent actionEvent) {
@@ -179,14 +179,14 @@ public final class MainFrame
         statusBar.setBorder(combineBorders(createMatteBorder(2, 0, 0, 0, getBackground().brighter()), statusBar.getBorder()));
 
         final JLabel toolTipLabel = new JLabel();
-        toolTipLabel.setText("aaaaa");
+        toolTipLabel.setText("就绪");
 
         final JProgressBar progressBar = new JProgressBar();
         progressBar.setBorderPainted(true);
         progressBar.setOrientation(JProgressBar.HORIZONTAL);
 
         final JButton showRpcHistory = new JButton();
-        showRpcHistory.setText("History");
+        showRpcHistory.setText(  Application.settings().getProperty("last-signed-user"));
 
         statusBar.add(toolTipLabel);
         statusBar.add(progressBar);
