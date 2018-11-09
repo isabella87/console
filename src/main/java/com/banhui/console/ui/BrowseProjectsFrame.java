@@ -413,7 +413,9 @@ public class BrowseProjectsFrame
         final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
         final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status);
         dlg.setFixedSize(false);
-        showModel(null, dlg);
+        if (showModel(null, dlg) == DialogPane.OK) {
+            controller().call("search");
+        }
     }
 
     private void accelerateDate(

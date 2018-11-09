@@ -11,7 +11,7 @@
     <action name="midway" title="中途流标(M)" mnemonic="M"/>
     <action name="revoke" title="撤销投标(T)" mnemonic="T"/>
     <action name="check" title="检查投标(C)" mnemonic="C"/>
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <action name="excel" title="导出Excel"/>
     <gridLayout>
         <column />

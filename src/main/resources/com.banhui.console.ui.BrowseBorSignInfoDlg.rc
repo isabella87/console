@@ -6,7 +6,7 @@
         width="800"
         height="350"
 >
-    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <options name="sign-status">
         <option value="-1">已上传</option>
         <option value="0">拒签署</option>

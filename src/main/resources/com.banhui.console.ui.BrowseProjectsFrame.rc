@@ -12,7 +12,7 @@
     <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
     <action name="protocol" title="项目签章(P)" mnemonic="P"/>
     <action name="creditProtocolSign" title="强制债权转让签章"/>
-    <action name="delete" title="删除(X)" mnemonic="X"/>
+    <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <action name="audit" title="审批(A)" mnemonic="A"/>
     <action name="repay" title="还款(R)" mnemonic="R"/>
     <action name="hide" title="隐藏"/>

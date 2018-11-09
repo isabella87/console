@@ -5,7 +5,7 @@
         title="强制债权转让签章-">
     <message name="create">创建</message>
     <message name="edit">编辑</message>
-    <action name="search" title="搜索"/>
+    <action name="search" title="搜索" smallIcon="search.png"/>
     <action name="createAndUpload" title="生成并上传"/>
     <action name="doSign" title="签章"/>
     <action name="checkSign" title="核查签章"/>

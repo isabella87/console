@@ -6,6 +6,7 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <bundledJVMPath>java</bundledJVMPath>
 <classPath>java\bin</classPath>
 <classPath>java\lib</classPath>

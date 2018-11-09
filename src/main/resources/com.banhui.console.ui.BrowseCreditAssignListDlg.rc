@@ -6,7 +6,7 @@
         height="500"
         width="900"
 >
-    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="excel" title="导出Excel"/>
     <options name="accelerate-date">
         <option value="-1">快速选择日期</option>

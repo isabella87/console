@@ -1,6 +1,7 @@
 package com.banhui.console.ui;
 
-import javafx.scene.control.DialogPane;
+
+import org.xx.armory.swing.components.DialogPane;
 
 /**
  * 显示后台管理帐户的对话框。

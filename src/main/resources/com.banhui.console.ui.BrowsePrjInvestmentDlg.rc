@@ -5,7 +5,7 @@
         title="有效投资-"
         width="1000"
         height="600">
-    <action name="search" title="搜索(S)" mnemonic="S"/>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="excel" title="导出Excel"/>
     <options name="s-type">
         <option value="1">投标</option>

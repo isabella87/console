@@ -97,14 +97,6 @@ public class ProjectProxy
         return super.http().delete("mgr/prj/" + pid + "/mgr-org/" + bpmoId, params);
     }
 
-    public CompletableFuture<Result> prjMgrPersonsByPrjId(long id) {
-        return super.http().get("mgr/prj/" + id + "/mgr-person", null);
-    }
-
-    public CompletableFuture<Result> prjMgrOrgsByPrjId(long id) {
-        return super.http().get("mgr/prj/" + id + "/mgr-org", null);
-    }
-
     public CompletableFuture<Result> prjRating(long id) {
         return super.http().get("mgr/prj/" + id + "/rating", null);
     }

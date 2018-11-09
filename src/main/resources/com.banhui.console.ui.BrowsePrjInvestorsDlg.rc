@@ -5,7 +5,7 @@
         title="出借人信息表-"
         width="820"
         height="400">
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <gridLayout>
         <column/>
         <row>

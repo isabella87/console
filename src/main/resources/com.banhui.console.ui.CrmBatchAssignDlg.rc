@@ -11,7 +11,7 @@
     <message name="batchIn-title"><![CDATA[分配客户经理]]></message>
     <message name="success">已成功</message>
     <action name="load" title="载入文件"/>
-    <action name="delete" title="删除"/>
+    <action name="delete" title="删除" smallIcon="delete.png"/>
     <action name="begin" title="开始"/>
     <gridLayout>
         <column/>

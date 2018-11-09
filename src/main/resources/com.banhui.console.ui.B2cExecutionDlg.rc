@@ -10,7 +10,7 @@
     <action name="create" title="手工录入"/>
     <action name="batchImport" title="批量导入"/>
     <action name="execute" title="执行"/>
-    <action name="refresh" title="刷新"/>
+    <action name="refresh" title="刷新" smallIcon="reset.png"/>
 
     <options name="status">
         <option value="0">未成功</option>

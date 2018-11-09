@@ -145,7 +145,9 @@ public class BrowseAssignRegClientFrame
         if (jxStatus != Integer.MAX_VALUE) {
             params.put("jx-status", jxStatus);
         }
-        params.put("search-key", searchKey);
+        if (!searchKey.isEmpty()) {
+            params.put("search-key", searchKey);
+        }
         controller().disable("search");
         new CrmProxy().queryRegUsers(params)
                       .thenApplyAsync(Result::list)

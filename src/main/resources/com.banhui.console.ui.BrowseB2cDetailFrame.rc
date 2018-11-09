@@ -9,7 +9,7 @@
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="create" title="创建商户转账(C)" mnemonic="C"/>
     <action name="execute" title="执行(E)" mnemonic="E"/>
-    <action name="delete" title="删除(X)" mnemonic="X"/>
+    <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <options name="accelerate-date">
         <option value="-1">快速选择日期</option>
         <option value="1">最近一年</option>

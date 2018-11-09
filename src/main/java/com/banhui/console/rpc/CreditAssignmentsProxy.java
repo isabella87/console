@@ -1,8 +1,5 @@
 package com.banhui.console.rpc;
 
-import com.banhui.console.rpc.AbstractProxy;
-import com.banhui.console.rpc.Result;
-
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 

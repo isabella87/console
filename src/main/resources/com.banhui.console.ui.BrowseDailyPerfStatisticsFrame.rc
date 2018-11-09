@@ -4,7 +4,7 @@
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="客户经理日统计绩效">
     <action name="statistics" title="统计(S)" mnemonic="S"/>
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <action name="name-list" title="客户名单(N)" mnemonic="N"/>
     <action name="choose-depart" title="按所属部门选择"/>
     <options name="department-status">

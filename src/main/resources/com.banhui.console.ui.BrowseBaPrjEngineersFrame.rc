@@ -9,7 +9,7 @@
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
     <action name="eng-check" title="工程项目核实列表"/>
     <action name="mgr-check" title="项目经理核实列表"/>
-    <action name="delete" title="删除(X)" mnemonic="X"/>
+    <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <options name="accelerate-date">
         <option value="-1">快速选择日期</option>
         <option value="1">最近一年</option>

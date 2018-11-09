@@ -9,7 +9,7 @@
     <message name="confirm-repay"><![CDATA[确定要执行还款吗？]]></message>
     <message name="confirm-text"><![CDATA[还款]]></message>
     <action name="execute" title="执行还款(R)" mnemonic="R"/>
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <action name="export" title="导出Excel"/>
     <options name="status">
         <option value="0">未完成</option>

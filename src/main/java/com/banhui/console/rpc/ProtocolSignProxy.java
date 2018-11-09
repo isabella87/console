@@ -22,7 +22,7 @@ public class ProtocolSignProxy extends AbstractProxy{
     }
 
     public CompletableFuture<Result> download(Map<String,Object> params){
-        return super.http().get("/protocol/download",params);
+        return super.http().post("/protocol/download",params);
     }
 
     public CompletableFuture<Result> getForceCreditAgreementFilesInfoByPId(Map<String,Object> params){

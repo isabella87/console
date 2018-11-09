@@ -14,11 +14,11 @@
     <message name="cannot-search-uname-confirm" >查无此人！</message>
 
     <action name="create" title="添加"/>
-    <action name="delete" title="删除"/>
+    <action name="delete" title="删除" smallIcon="delete.png"/>
     <action name="designatedSuperior" title="指定上级"/>
-    <action name="edit" title="编辑"/>
+    <action name="edit" title="编辑" smallIcon="edit.png"/>
     <action name="updateCode" title="修改编码"/>
-    <action name="refresh" title="刷新"/>
+    <action name="refresh" title="刷新" smallIcon="reset.png"/>
     <action name="gps" title="快速定位"/>
 
     <gridLayout>

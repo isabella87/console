@@ -9,7 +9,7 @@
     <message name="confirm-loan-text"><![CDATA[确定要执行放款吗？]]></message>
     <message name="confirm-text"><![CDATA[放款]]></message>
     <action name="loan" title="执行放款(L)" mnemonic="L"/>
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <action name="excel" title="导出为Excel"/>
     <options name="status1">
         <option value="0">未完成</option>

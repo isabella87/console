@@ -23,7 +23,7 @@
     <action name="choose1" title="选择"/>
     <action name="cancel1" title="取消"/>
     <action name="operate" title="操作"/>
-    <action name="editPermissible" title="编辑"/>
+    <action name="editPermissible" title="编辑" smallIcon="edit.png"/>
     <action name="createBondsman" title="创建担保人(F)" mnemonic="F"/>
     <action name="deleteBondsman" title="删除(I)" mnemonic="I"/>
     <action name="createGuaOrg" title="创建担保机构(C)" mnemonic="C"/>

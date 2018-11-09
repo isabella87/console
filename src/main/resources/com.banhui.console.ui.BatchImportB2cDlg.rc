@@ -12,7 +12,7 @@
     <message name="success">已成功</message>
     <standardAction value="close"/>
     <action name="load" title="载入文件"/>
-    <action name="delete" title="删除"/>
+    <action name="delete" title="删除" smallIcon="delete.png"/>
     <action name="begin" title="开始"/>
     <action name="downTemp" title="单击下载模板"/>
     <options name="status">

@@ -9,7 +9,7 @@
     <message name="confirm-cancel-tender"><![CDATA[确定要执行流标吗？]]></message>
     <message name="confirm-text"><![CDATA[流标]]></message>
     <action name="execute" title="执行流标(E)" mnemonic="E"/>
-    <action name="refresh" title="刷新(U)" mnemonic="U"/>
+    <action name="refresh" title="刷新(U)" mnemonic="U" smallIcon="reset.png"/>
     <action name="excel" title="导出Excel"/>
     <options name="status1">
         <option value="0">未完成</option>

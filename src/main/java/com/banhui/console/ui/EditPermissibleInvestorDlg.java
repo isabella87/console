@@ -36,11 +36,7 @@ public class EditPermissibleInvestorDlg
         controller().connect("delete", this::delete);
         controller().connect("list", "change", this::listChanged);
 
-        final Map<String, Object> params = new HashMap<>();
-        params.put("p-id", id);
-        new ProjectProxy().queryPermissible(params)
-                          .thenApplyAsync(Result::list)
-                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
+        controller().call("search");
     }
 
     private void batchIn(
@@ -107,7 +103,7 @@ public class EditPermissibleInvestorDlg
     ) {
         final Map<String, Object> params = new HashMap<>();
         params.put("p-id", id);
-        params.put("key", controller().getText("key"));
+        params.put("search-key", controller().getText("key"));
         new ProjectProxy().queryPermissible(params)
                           .thenApplyAsync(Result::list)
                           .whenCompleteAsync(this::searchCallback, UPDATE_UI);

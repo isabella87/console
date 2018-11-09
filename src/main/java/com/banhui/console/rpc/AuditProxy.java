@@ -66,12 +66,8 @@ public class AuditProxy
         return super.http().post("mgr/prj/loan-projs/" + pid + "/bus-vp-stop-raising", params);
     }
 
-    public CompletableFuture<Result> prjBonus(long id) {
-        return super.http().get("mgr/prj/" + id + "/bonus", null);
-    }
-
     //结清
-    public CompletableFuture<Result> completedPrj(long id) {
+        public CompletableFuture<Result> completedPrj(long id) {
         return super.http().post("mgr/prj/" + id + "/completed", null);
     }
 

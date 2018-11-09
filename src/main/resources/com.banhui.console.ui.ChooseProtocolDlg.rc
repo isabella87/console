@@ -12,7 +12,7 @@
     <message name="download-success"><![CDATA[下载成功!]]></message>
     <message name="download-failed"><![CDATA[下载失败!]]></message>
     <message name="confirm-delete"><![CDATA[确定删除以下文件 <b>{}</b> : 此操作不可恢复!确认吗？]]></message>
-    <action name="refresh" title="刷新" smallIcon="search.png"/>
+    <action name="refresh" title="刷新" smallIcon="reset.png"/>
     <action name="upload" title="上传"/>
     <action name="download" title="下载"/>
     <action name="delete" title="删除" smallIcon="delete.png"/>

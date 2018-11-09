@@ -2,6 +2,7 @@ package com.banhui.console.ui;
 
 
 import com.banhui.console.rpc.AuditProxy;
+import com.banhui.console.rpc.ProjectRepayProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
@@ -121,11 +122,10 @@ public class AuditProjectsDlg extends DialogPane {
 
     //结清
     private void completed(ActionEvent actionEvent) {
-
-        new AuditProxy().prjBonus(id)
-                        .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::updateUnPaidAmt, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
+        new ProjectRepayProxy().queryPrjBonus(id)
+                               .thenApplyAsync(Result::list)
+                               .thenAcceptAsync(this::updateUnPaidAmt, UPDATE_UI)
+                               .exceptionally(ErrorHandler::handle);
     }
 
     private void updateUnPaidAmt(
@@ -145,9 +145,8 @@ public class AuditProjectsDlg extends DialogPane {
 
         if (confirm(this.getOwner(), confirmClose, confirmCompleted)) {
             new AuditProxy().completedPrj(id)
-                            .thenApplyAsync(Result::map)
-                            .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                            .exceptionally(ErrorHandler::handle);
+                            .thenApplyAsync(Result::booleanValue)
+                            .whenCompleteAsync(this::saveCallback, UPDATE_UI);
         }
     }
 
@@ -216,9 +215,8 @@ public class AuditProjectsDlg extends DialogPane {
                 }
                 params.put("comments", controller().getText("comments").trim());
                 new AuditProxy().busVpStopRaising(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("auctions"), UPDATE_UI);
             }
         }
@@ -251,6 +249,7 @@ public class AuditProjectsDlg extends DialogPane {
     public void pass(
             ActionEvent actionEvent
     ) {
+        controller().disable("pass");
         final Map<String, Object> params = new HashMap<>();
         if (this.id != 0) {
             params.put("p-id", id);
@@ -270,9 +269,8 @@ public class AuditProjectsDlg extends DialogPane {
             params2.put("p-id", id);
             params2.put("bond_amt", bond);
             new AuditProxy().updatePrjBond(params2)
-                            .thenApplyAsync(Result::map)
-                            .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                            .exceptionally(ErrorHandler::handle)
+                            .thenApplyAsync(Result::booleanValue)
+                            .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                             .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
         }
         doAudit(params);
@@ -282,71 +280,59 @@ public class AuditProjectsDlg extends DialogPane {
     public void doAudit(
             Map<String, Object> params
     ) {
-        if (this.id != 0) {
-            params.put("p-id", id);
-        }
         switch (role) {
             case 0:
                 new AuditProxy().prjSubmit(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 1:
                 new AuditProxy().prjMgrAudit(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 10:
                 new AuditProxy().riskCtrlAudit(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 20:
                 new AuditProxy().busSecAudit(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 30:
                 new AuditProxy().busVpAprOnLine(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 50:
                 new AuditProxy().busVpConfirmFull(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 60:
                 new AuditProxy().checkFee(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
 
                 break;
             case 70:
                 params.put("s-datepoint", null);
                 new AuditProxy().busVpConfirmLoan(params)
-                                .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
         }
     }
-
 
     private void searchCallback(
             Collection<Map<String, Object>> c
@@ -357,12 +343,16 @@ public class AuditProjectsDlg extends DialogPane {
     }
 
     private void saveCallback(
-            Map<String, Object> row
-    ) {
-        this.row = row;
-        super.done(OK);
-    }
+            Boolean flag,
+            Throwable t
 
+    ) {
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else if (flag) {
+            super.done(OK);
+        }
+    }
 
     public Map<String, Object> getResultRow() {
         return this.row;

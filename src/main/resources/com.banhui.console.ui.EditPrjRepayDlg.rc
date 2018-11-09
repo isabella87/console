@@ -14,11 +14,11 @@
     <action name="create" title="发起还款"/>
     <action name="forbid" title="禁用"/>
     <action name="search" title="查询还款记录"/>
-    <action name="refresh" title="刷新"/>
+    <action name="refresh" title="刷新" smallIcon="reset.png"/>
     <action name="export" title="导出Excel"/>
     <action name="create-bonus" title="创建还款计划"/>
-    <action name="edit-bonus" title="编辑还款计划"/>
-    <action name="delete-bonus" title="删除还款计划"/>
+    <action name="edit-bonus" title="编辑还款计划" smallIcon="edit.png"/>
+    <action name="delete-bonus" title="删除还款计划" smallIcon="delete.png"/>
 
     <options name="status">
         <option value="0">未还/未还清</option>
