@@ -26,7 +26,10 @@ public class StatisticMonthDlg
     private Map<String, Object> statistic3;
     private Map<String, Object> statistic4;
     private Map<String, Object> statistic5;
-
+    private Map<String, Object> statistic6;
+    private Map<String, Object> statistic7;
+    private Map<String, Object> statistic8;
+    private Map<String, Object> statistic9;
     public StatisticMonthDlg() {
         initMap();
 
@@ -64,13 +67,13 @@ public class StatisticMonthDlg
         html.append("</td><td>总充值人数(其它)</td><td>");
         html.append(statistic4.get("totalRechargeCountOther"));
         html.append("</td></tr><tr><td>当月提现人数(仅投资人)</td><td>");
-        html.append(statistic1.get("withdrawCountInvestor"));
+        html.append(statistic6.get("withdrawCountInvestor"));
         html.append("</td><td>总提现人数(仅投资人)</td><td>");
-        html.append(statistic4.get("totalWithdrawCountInvestor"));
+        html.append(statistic7.get("totalWithdrawCountInvestor"));
         html.append("</td></tr><tr><td>当月提现人数(其它)</td><td>");
-        html.append(statistic1.get("withdrawCountOther"));
+        html.append(statistic6.get("withdrawCountOther"));
         html.append("</td><td>总提现人数(其它)</td><td>");
-        html.append(statistic4.get("totalWithdrawCountOther"));
+        html.append(statistic7.get("totalWithdrawCountOther"));
         html.append("</td></tr><tr><td>当月投资人数</td><td>");
         html.append(statistic2.get("investCount"));
         html.append("</td><td>总投资人数</td><td>");
@@ -88,25 +91,25 @@ public class StatisticMonthDlg
         html.append("</td><td>总充值金额(其它)</td><td>");
         html.append(statistic4.get("totalRechargeAmtOther"));
         html.append("</td></tr><tr><td>当月提现金额(仅投资人)</td><td>");
-        html.append(statistic1.get("withdrawAmtInvestor"));
+        html.append(statistic6.get("withdrawAmtInvestor"));
         html.append("</td><td>总提现金额(仅投资人)</td><td>");
-        html.append(statistic4.get("totalWithdrawAmtInvestor"));
+        html.append(statistic7.get("totalWithdrawAmtInvestor"));
         html.append("</td></tr><tr><td>当月提现金额(其它)</td><td>");
-        html.append(statistic1.get("withdrawAmtOther"));
+        html.append(statistic6.get("withdrawAmtOther"));
         html.append("</td><td>总提现金额(其它)</td><td>");
-        html.append(statistic4.get("totalWithdrawAmtOther"));
+        html.append(statistic7.get("totalWithdrawAmtOther"));
         html.append("</td></tr><tr><td>当月投资金额</td><td>");
         html.append(statistic3.get("investAmt"));
         html.append("</td><td>总投资金额</td><td>");
         html.append(statistic3.get("totalInvestAmt"));
         html.append("</td></tr><tr><td>当月债权申请笔数</td><td>");
-        html.append(statistic5.get("creditApplyCount"));
+        html.append(statistic9.get("creditApplyCount"));
         html.append("</td><td>总债权申请笔数</td><td>");
-        html.append(statistic5.get("totalCreditApplyCount"));
+        html.append(statistic9.get("totalCreditApplyCount"));
         html.append("</td></tr><tr><td>当月债权成交笔数</td><td>");
-        html.append(statistic5.get("creditedCount"));
+        html.append(statistic9.get("creditedCount"));
         html.append("</td><td>总债权成交笔数</td><td>");
-        html.append(statistic5.get("totalCreditedCount"));
+        html.append(statistic9.get("totalCreditedCount"));
         html.append("</td></tr><tr><td>当月债权转让成交金额</td><td>");
         html.append(statistic3.get("creditAmt"));
         html.append("</td><td>总债权转让成交金额</td><td>");
@@ -114,9 +117,9 @@ public class StatisticMonthDlg
         html.append("<tr><td></td><td></td><td>借款余额</td><td>");
         html.append(statistic5.get("loanBalanceAmt"));
         html.append("</td></tr><tr><td>当月还本金额</td><td>");
-        html.append(statistic5.get("repayCapitalAmt"));
+        html.append(statistic9.get("repayCapitalAmt"));
         html.append("</td><td>总还本金额</td><td>");
-        html.append(statistic5.get("totalRepayCapitalAmt"));
+        html.append(statistic9.get("totalRepayCapitalAmt"));
         html.append("</td></tr><tr><td>当月还款服务费</td><td>");
         html.append(statistic5.get("repayFeeAmt"));
         html.append("</td><td>总还款服务费</td><td>");
@@ -126,21 +129,21 @@ public class StatisticMonthDlg
         html.append("</td><td>总债权转让服务费</td><td>");
         html.append(statistic5.get("totalCreditFeeAmt"));
         html.append("</td></tr><tr><td>当月个人平均借款额度</td><td>");
-        html.append(statistic5.get("personAverageBorrowAmt"));
+        html.append(statistic8.get("personAverageBorrowAmt"));
         html.append("</td><td>历史个人平均借款总额</td><td>");
-        html.append(statistic5.get("totalPersonAverageBorrowAmt"));
+        html.append(statistic8.get("totalPersonAverageBorrowAmt"));
         html.append("</td></tr><tr><td>当月机构平均借款额度</td><td>");
-        html.append(statistic5.get("orgAverageBorrowAmt"));
+        html.append(statistic8.get("orgAverageBorrowAmt"));
         html.append("</td><td>历史机构平均借款总额</td><td>");
-        html.append(statistic5.get("totalOrgAverageBorrowAmt"));
+        html.append(statistic8.get("totalOrgAverageBorrowAmt"));
         html.append("</td></tr><tr><td>当月上线项目平均借款天数</td><td>");
-        html.append(statistic5.get("averageBorrowDays"));
+        html.append(statistic8.get("averageBorrowDays"));
         html.append("</td><td>上线项目平均借款天数</td><td>");
-        html.append(statistic5.get("totalAverageBorrowDays"));
+        html.append(statistic8.get("totalAverageBorrowDays"));
         html.append("</td></tr><tr><td>当月上线项目平均借款利率</td><td>");
-        html.append(statistic5.get("averageBorrowRate"));
+        html.append(statistic8.get("averageBorrowRate")+"%");
         html.append("</td><td>上线项目平均借款利率</td><td>");
-        html.append(statistic5.get("totalAverageBorrowRate"));
+        html.append(statistic8.get("totalAverageBorrowRate")+"%");
         html.append("</td></tr></table>");
         html.append(controller().getMessage("explain"));
         textPane.setText(html.toString());
@@ -161,13 +164,21 @@ public class StatisticMonthDlg
                 new StatisticProxy().monthStatistic2(params),
                 new StatisticProxy().monthStatistic3(params),
                 new StatisticProxy().monthStatistic4(params),
-                new StatisticProxy().monthStatistic5(params)
+                new StatisticProxy().monthStatistic5(params),
+                new StatisticProxy().monthStatistic6(params),
+                new StatisticProxy().monthStatistic7(params),
+                new StatisticProxy().monthStatistic8(params),
+                new StatisticProxy().monthStatistic9(params)
         ).thenApply(results -> new Object[]{
                 results[0].map(),
                 results[1].map(),
                 results[2].map(),
                 results[3].map(),
-                results[4].map()
+                results[4].map(),
+                results[5].map(),
+                results[6].map(),
+                results[7].map(),
+                results[8].map()
         }).whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
@@ -182,12 +193,8 @@ public class StatisticMonthDlg
             final Map<String, Object> result0 = (Map<String, Object>) results[0];
             statistic1.put("rechargeCountInvestor", intValue(result0, "rechargeCountInvestor"));
             statistic1.put("rechargeCountOther", intValue(result0, "rechargeCountOther"));
-            statistic1.put("withdrawCountInvestor", intValue(result0, "withdrawCountInvestor"));
-            statistic1.put("withdrawCountOther", intValue(result0, "withdrawCountOther"));
-            statistic1.put("rechargeAmtInvestor", decimalValue(result0, "rechargeAmtInvestor").setScale(2));
-            statistic1.put("rechargeAmtOther", decimalValue(result0, "rechargeAmtOther").setScale(2));
-            statistic1.put("withdrawAmtInvestor", decimalValue(result0, "withdrawAmtInvestor").setScale(2));
-            statistic1.put("withdrawAmtOther", decimalValue(result0, "withdrawAmtOther").setScale(2));
+            statistic1.put("rechargeAmtInvestor", decimalValue(result0, "rechargeAmtInvestor"));
+            statistic1.put("rechargeAmtOther", decimalValue(result0, "rechargeAmtOther"));
 
             final Map<String, Object> result1 = (Map<String, Object>) results[1];
             statistic2.put("newRegCount", intValue(result1, "newRegCount"));
@@ -199,41 +206,54 @@ public class StatisticMonthDlg
             statistic2.put("totalBorrowerCount", intValue(result1, "totalBorrowerCount"));
 
             final Map<String, Object> result2 = (Map<String, Object>) results[2];
-            statistic3.put("investAmt", decimalValue(result2, "investAmt").setScale(2));
-            statistic3.put("creditAmt", decimalValue(result2, "creditAmt").setScale(2));
-            statistic3.put("totalInvestAmt", decimalValue(result2, "totalInvestAmt").setScale(2));
-            statistic3.put("totalCreditAmt", decimalValue(result2, "totalCreditAmt").setScale(2));
+            statistic3.put("investAmt", decimalValue(result2, "investAmt"));
+            statistic3.put("creditAmt", decimalValue(result2, "creditAmt"));
+            statistic3.put("totalInvestAmt", decimalValue(result2, "totalInvestAmt"));
+            statistic3.put("totalCreditAmt", decimalValue(result2, "totalCreditAmt"));
 
             final Map<String, Object> result3 = (Map<String, Object>) results[3];
             statistic4.put("totalRechargeCountInvestor", intValue(result3, "totalRechargeCountInvestor"));
             statistic4.put("totalRechargeCountOther", intValue(result3, "totalRechargeCountOther"));
-            statistic4.put("totalWithdrawCountInvestor", intValue(result3, "totalWithdrawCountInvestor"));
-            statistic4.put("totalWithdrawCountOther", intValue(result3, "totalWithdrawCountOther"));
-            statistic4.put("totalRechargeAmtInvestor", decimalValue(result3, "totalRechargeAmtInvestor").setScale(2));
-            statistic4.put("totalRechargeAmtOther", decimalValue(result3, "totalRechargeAmtOther").setScale(2));
-            statistic4.put("totalWithdrawAmtInvestor", decimalValue(result3, "totalWithdrawAmtInvestor").setScale(2));
-            statistic4.put("totalWithdrawAmtOther", decimalValue(result3, "totalWithdrawAmtOther").setScale(2));
+            statistic4.put("totalRechargeAmtInvestor", decimalValue(result3, "totalRechargeAmtInvestor"));
+            statistic4.put("totalRechargeAmtOther", decimalValue(result3, "totalRechargeAmtOther"));
 
             final Map<String, Object> result4 = (Map<String, Object>) results[4];
-            statistic5.put("loanBalanceAmt", decimalValue(result4, "loanBalanceAmt").setScale(2));
-            statistic5.put("repayFeeAmt", decimalValue(result4, "repayFeeAmt").setScale(2));
-            statistic5.put("totalRepayFeeAmt", decimalValue(result4, "totalRepayFeeAmt").setScale(2));
-            statistic5.put("creditFeeAmt", decimalValue(result4, "creditFeeAmt").setScale(2));
-            statistic5.put("totalCreditFeeAmt", decimalValue(result4, "totalCreditFeeAmt").setScale(2));
-            statistic5.put("averageBorrowDays", decimalValue(result4, "averageBorrowDays"));
-            statistic5.put("totalAverageBorrowDays", decimalValue(result4, "totalAverageBorrowDays"));
-            statistic5.put("averageBorrowRate", decimalValue(result4, "averageBorrowRate").setScale(2) + "%");
-            statistic5.put("totalAverageBorrowRate", decimalValue(result4, "totalAverageBorrowRate").setScale(2) + "%");
-            statistic5.put("personAverageBorrowAmt", decimalValue(result4, "personAverageBorrowAmt").setScale(2));
-            statistic5.put("totalPersonAverageBorrowAmt", decimalValue(result4, "totalPersonAverageBorrowAmt").setScale(2));
-            statistic5.put("orgAverageBorrowAmt", decimalValue(result4, "orgAverageBorrowAmt").setScale(2));
-            statistic5.put("totalOrgAverageBorrowAmt", decimalValue(result4, "totalOrgAverageBorrowAmt").setScale(2));
-            statistic5.put("repayCapitalAmt", decimalValue(result4, "repayCapitalAmt").setScale(2));
-            statistic5.put("totalRepayCapitalAmt", decimalValue(result4, "totalRepayCapitalAmt").setScale(2));
-            statistic5.put("creditApplyCount", intValue(result4, "creditApplyCount"));
-            statistic5.put("totalCreditApplyCount", intValue(result4, "totalCreditApplyCount"));
-            statistic5.put("creditedCount", intValue(result4, "creditedCount"));
-            statistic5.put("totalCreditedCount", intValue(result4, "totalCreditedCount"));
+            statistic5.put("loanBalanceAmt", decimalValue(result4, "loanBalanceAmt"));
+            statistic5.put("repayFeeAmt", decimalValue(result4, "repayFeeAmt"));
+            statistic5.put("totalRepayFeeAmt", decimalValue(result4, "totalRepayFeeAmt"));
+            statistic5.put("creditFeeAmt", decimalValue(result4, "creditFeeAmt"));
+            statistic5.put("totalCreditFeeAmt", decimalValue(result4, "totalCreditFeeAmt"));
+
+            final Map<String, Object> result5 = (Map<String, Object>) results[5];
+            statistic6.put("withdrawCountInvestor", intValue(result5, "withdrawCountInvestor"));
+            statistic6.put("withdrawCountOther", intValue(result5, "withdrawCountOther"));
+            statistic6.put("withdrawAmtInvestor", decimalValue(result5, "withdrawAmtInvestor"));
+            statistic6.put("withdrawAmtOther", decimalValue(result5, "withdrawAmtOther"));
+
+            final Map<String, Object> result6 = (Map<String, Object>) results[6];
+            statistic7.put("totalWithdrawCountInvestor", intValue(result6, "totalWithdrawCountInvestor"));
+            statistic7.put("totalWithdrawCountOther", intValue(result6, "totalWithdrawCountOther"));
+            statistic7.put("totalWithdrawAmtInvestor", decimalValue(result6, "totalWithdrawAmtInvestor"));
+            statistic7.put("totalWithdrawAmtOther", decimalValue(result6, "totalWithdrawAmtOther"));
+
+            final Map<String, Object> result7 = (Map<String, Object>) results[7];
+            statistic8.put("averageBorrowDays", decimalValue(result7, "averageBorrowDays"));
+            statistic8.put("totalAverageBorrowDays", decimalValue(result7, "totalAverageBorrowDays"));
+            statistic8.put("averageBorrowRate", decimalValue(result7, "averageBorrowRate"));
+            statistic8.put("totalAverageBorrowRate", decimalValue(result7, "totalAverageBorrowRate"));
+            statistic8.put("personAverageBorrowAmt", decimalValue(result7, "personAverageBorrowAmt"));
+            statistic8.put("totalPersonAverageBorrowAmt", decimalValue(result7, "totalPersonAverageBorrowAmt"));
+            statistic8.put("orgAverageBorrowAmt", decimalValue(result7, "orgAverageBorrowAmt"));
+            statistic8.put("totalOrgAverageBorrowAmt", decimalValue(result7, "totalOrgAverageBorrowAmt"));
+
+            final Map<String, Object> result8 = (Map<String, Object>) results[8];
+            statistic9.put("repayCapitalAmt", decimalValue(result8, "repayCapitalAmt"));
+            statistic9.put("totalRepayCapitalAmt", decimalValue(result8, "totalRepayCapitalAmt"));
+            statistic9.put("creditApplyCount", intValue(result8, "creditApplyCount"));
+            statistic9.put("totalCreditApplyCount", intValue(result8, "totalCreditApplyCount"));
+            statistic9.put("creditedCount", intValue(result8, "creditedCount"));
+            statistic9.put("totalCreditedCount", intValue(result8, "totalCreditedCount"));
+
             doHtml();
         }
     }
@@ -242,12 +262,8 @@ public class StatisticMonthDlg
         statistic1 = new HashMap<>();
         statistic1.put("rechargeCountInvestor", "");
         statistic1.put("rechargeCountOther", "");
-        statistic1.put("withdrawCountInvestor", "");
-        statistic1.put("withdrawCountOther", "");
         statistic1.put("rechargeAmtInvestor", "");
         statistic1.put("rechargeAmtOther", "");
-        statistic1.put("withdrawAmtInvestor", "");
-        statistic1.put("withdrawAmtOther", "");
 
         statistic2 = new HashMap<>();
         statistic2.put("newInvestCount", "");
@@ -267,12 +283,8 @@ public class StatisticMonthDlg
         statistic4 = new HashMap<>();
         statistic4.put("totalRechargeCountInvestor", "");
         statistic4.put("totalRechargeCountOther", "");
-        statistic4.put("totalWithdrawCountInvestor", "");
-        statistic4.put("totalWithdrawCountOther", "");
         statistic4.put("totalRechargeAmtInvestor", "");
         statistic4.put("totalRechargeAmtOther", "");
-        statistic4.put("totalWithdrawAmtInvestor", "");
-        statistic4.put("totalWithdrawAmtOther", "");
 
         statistic5 = new HashMap<>();
         statistic5.put("loanBalanceAmt", "");
@@ -280,19 +292,35 @@ public class StatisticMonthDlg
         statistic5.put("totalRepayFeeAmt", "");
         statistic5.put("creditFeeAmt", "");
         statistic5.put("totalCreditFeeAmt", "");
-        statistic5.put("averageBorrowDays", "");
-        statistic5.put("totalAverageBorrowDays", "");
-        statistic5.put("averageBorrowRate", "");
-        statistic5.put("totalAverageBorrowRate", "");
-        statistic5.put("personAverageBorrowAmt", "");
-        statistic5.put("totalPersonAverageBorrowAmt", "");
-        statistic5.put("orgAverageBorrowAmt", "");
-        statistic5.put("totalOrgAverageBorrowAmt", "");
-        statistic5.put("repayCapitalAmt", "");
-        statistic5.put("totalRepayCapitalAmt", "");
-        statistic5.put("creditApplyCount", "");
-        statistic5.put("totalCreditApplyCount", "");
-        statistic5.put("creditedCount", "");
-        statistic5.put("totalCreditedCount", "");
+
+        statistic6 = new HashMap<>();
+        statistic6.put("withdrawCountInvestor", "");
+        statistic6.put("withdrawCountOther", "");
+        statistic6.put("withdrawAmtInvestor", "");
+        statistic6.put("withdrawAmtOther", "");
+
+        statistic7 = new HashMap<>();
+        statistic7.put("totalWithdrawCountInvestor", "");
+        statistic7.put("totalWithdrawCountOther", "");
+        statistic7.put("totalWithdrawAmtInvestor", "");
+        statistic7.put("totalWithdrawAmtOther", "");
+
+        statistic8 = new HashMap<>();
+        statistic8.put("averageBorrowDays", "");
+        statistic8.put("totalAverageBorrowDays", "");
+        statistic8.put("averageBorrowRate", "");
+        statistic8.put("totalAverageBorrowRate", "");
+        statistic8.put("personAverageBorrowAmt", "");
+        statistic8.put("totalPersonAverageBorrowAmt", "");
+        statistic8.put("orgAverageBorrowAmt", "");
+        statistic8.put("totalOrgAverageBorrowAmt", "");
+
+        statistic9 = new HashMap<>();
+        statistic9.put("repayCapitalAmt", "");
+        statistic9.put("totalRepayCapitalAmt", "");
+        statistic9.put("creditApplyCount", "");
+        statistic9.put("totalCreditApplyCount", "");
+        statistic9.put("creditedCount", "");
+        statistic9.put("totalCreditedCount", "");
     }
 }

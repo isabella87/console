@@ -33,6 +33,22 @@ public class StatisticProxy
         return super.http().get("mgr/statistic/5-daily", params);
     }
 
+    public CompletableFuture<Result> dailyStatistic6(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/6-daily", params);
+    }
+
+    public CompletableFuture<Result> dailyStatistic7(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/7-daily", params);
+    }
+
+    public CompletableFuture<Result> dailyStatistic8(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/8-daily", params);
+    }
+
+    public CompletableFuture<Result> dailyStatistic9(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/9-daily", params);
+    }
+
     //月统计数据
     public CompletableFuture<Result> monthStatistic1(Map<String, Object> params) {
         return super.http().get("mgr/statistic/1-month", params);
@@ -53,6 +69,23 @@ public class StatisticProxy
     public CompletableFuture<Result> monthStatistic5(Map<String, Object> params) {
         return super.http().get("mgr/statistic/5-month", params);
     }
+
+    public CompletableFuture<Result> monthStatistic6(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/6-month", params);
+    }
+
+    public CompletableFuture<Result> monthStatistic7(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/7-month", params);
+    }
+
+    public CompletableFuture<Result> monthStatistic8(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/8-month", params);
+    }
+
+    public CompletableFuture<Result> monthStatistic9(Map<String, Object> params) {
+        return super.http().get("mgr/statistic/9-month", params);
+    }
+
 
     //第一次投资客户名单
     public CompletableFuture<Result> newInvestors(Map<String, Object> params) {
