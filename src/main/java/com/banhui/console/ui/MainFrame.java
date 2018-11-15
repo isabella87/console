@@ -1,6 +1,7 @@
 package com.banhui.console.ui;
 
 import org.xx.armory.swing.Application;
+import org.xx.armory.swing.DialogUtils;
 import org.xx.armory.swing.MDIFrameUIController;
 import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.AboutDialog;
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import static javax.swing.BorderFactory.createMatteBorder;
 import static org.xx.armory.swing.ComponentUtils.combineBorders;
@@ -34,10 +36,30 @@ public final class MainFrame
                 super.windowOpened(event);
 
                 MainFrame.this.toFront();
+//
+                Boolean flag = false;
+                Boolean timeout = false;
+                String fudStr = Application.settings().getProperty("first-used-date");
+                if (fudStr == null || fudStr.isEmpty()) {
+                    Application.settings().setProperty("first-used-date", String.valueOf(new Date().getTime()));
+                } else {
+                    long fudLong = Long.valueOf(fudStr);
+                    Date now = new Date();
+                    if ((now.getTime() - fudLong) / 1000 > 10) {
+                        timeout = true;
+                    }
+                }
 
-                final int result = showModel(MainFrame.this, new SignInDlg());
-                if (result == DialogPane.OK) {
-                    // 更新当前用户。
+
+                if (!flag && timeout) {
+                    //TODO 试用期已过，弹出注册框
+                    DialogUtils.inputText(null,"30天试用期已过，请填写注册码：",null);
+
+                }else{
+                    final int result = showModel(MainFrame.this, new SignInDlg());
+                    if (result == DialogPane.OK) {
+                        // 更新当前用户。
+                    }
                 }
             }
         });
