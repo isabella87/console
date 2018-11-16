@@ -137,7 +137,7 @@ public class AccountsProxy
 
     public CompletableFuture<Result> checkRegistry(Map<String, Object> params) {
         long auId = takeLong(params, "au-id");
-        return super.http().post("mgr/accounts/third-user-info/" + auId + "/check-registry", params);
+        return super.http().post("mgr/accounts/third-user-info/" + auId + "/check-person-registry", params);
     }
 
     public CompletableFuture<Result> bankPerInfo(long auId) {

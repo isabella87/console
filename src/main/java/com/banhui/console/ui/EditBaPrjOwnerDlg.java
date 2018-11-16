@@ -100,16 +100,12 @@ public class EditBaPrjOwnerDlg
         controller().setText("owner-strength", stringValue(data, "ownerStrength"));
         controller().setText("owner-quality", stringValue(data, "ownerQuality"));
         controller().setText("intro", stringValue(data, "intro"));
-
-
     }
 
     private void saveCallback(
             Map<String, Object> row
     ) {
-
         this.row = row;
-
         super.done(OK);
     }
 

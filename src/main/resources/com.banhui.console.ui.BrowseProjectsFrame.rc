@@ -58,6 +58,9 @@
         <option value="3">最近三年</option>
         <option value="5">最近五年</option>
         <option value="0">今年</option>
+        <option value="-2">明年</option>
+        <option value="-3">今天</option>
+        <option value="-4">明天</option>
     </options>
     <gridLayout>
         <column/>

@@ -153,12 +153,13 @@ public class BrowseB2cDetailFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(new Date(), years);
-        if (dateRange != null) {
-            controller().setDate("start-date", dateRange.getStart());
-            controller().setDate("end-date", dateRange.getEnd());
+        if (years >= 0) {
+            DateRange dateRange = latestSomeYears(new Date(), years);
+            if (dateRange != null) {
+                controller().setDate("start-date", dateRange.getStart());
+                controller().setDate("end-date", dateRange.getEnd());
+            }
         }
-
     }
 
 

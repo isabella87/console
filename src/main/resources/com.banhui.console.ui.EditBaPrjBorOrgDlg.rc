@@ -48,7 +48,7 @@
                             <label for="show-org-name">机构展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="show-org-name" size="19"/>
+                            <text name="show-org-name" size="19" required="true" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -112,13 +112,13 @@
                             <label for="work-address">办公地址：</label>
                         </cell>
                         <cell>
-                            <text name="work-address" size="19"/>
+                            <text name="work-address" size="19" required="true"/>
                         </cell>
                         <cell>
                             <label for="show-work-address">展示办公地址：</label>
                         </cell>
                         <cell>
-                            <text name="show-work-address" size="19"/>
+                            <text name="show-work-address" size="19" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -126,7 +126,7 @@
                             <label for="shareholder-info">股东信息：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="shareholder-info"/>
+                            <text name="shareholder-info" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -134,7 +134,7 @@
                             <label for="show-shareholder-info">展示股东信息：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="show-shareholder-info"/>
+                            <text name="show-shareholder-info" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -142,7 +142,7 @@
                             <label for="operate-area">经营区域：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="operate-area"/>
+                            <text name="operate-area" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -150,7 +150,7 @@
                             <label for="other-info">其他信息：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="other-info" type="TEXT_AREA" rowSize="3"/>
+                            <text name="other-info" type="TEXT_AREA" rowSize="3" required="true"/>
                         </cell>
                     </row>
                 </gridLayout>
@@ -194,7 +194,7 @@
                             <label for="email">E-Mail：</label>
                         </cell>
                         <cell>
-                            <text name="email" size="19"/>
+                            <text name="email" size="19" required="true"/>
                         </cell>
                         <cell>
                             <label for="wchat">微信：</label>

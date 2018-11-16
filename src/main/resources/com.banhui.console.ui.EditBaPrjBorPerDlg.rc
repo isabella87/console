@@ -42,7 +42,7 @@
                             <label for="show-name">展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="show-name" size="24"/>
+                            <text name="show-name" size="24" required="true" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -50,13 +50,13 @@
                             <label for="age">年龄：</label>
                         </cell>
                         <cell>
-                            <text name="age" size="24"/>
+                            <text name="age" size="24" required="true" type="NUMBER"/>
                         </cell>
                         <cell>
                             <label for="show-age">展示年龄：</label>
                         </cell>
                         <cell>
-                            <text name="show-age" size="24"/>
+                            <text name="show-age" size="24" required="true" type="NUMBER"/>
                         </cell>
                     </row>
                     <row>
@@ -70,7 +70,7 @@
                             <label for="email">E-Mail：</label>
                         </cell>
                         <cell>
-                            <text name="email" size="24"/>
+                            <text name="email" size="24" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -157,7 +157,7 @@
                             <label for="industry">所属行业：</label>
                         </cell>
                         <cell>
-                            <text name="industry" size="24"/>
+                            <text name="industry" size="24" required="true"/>
                         </cell>
                         <cell>
                             <label for="work-nature">工作性质：</label>
@@ -193,7 +193,7 @@
                             <label for="linkman-show-name">展示姓名：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-show-name" size="24"/>
+                            <text name="linkman-show-name" size="24" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -207,7 +207,7 @@
                             <label for="linkman-email">E-Mail：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-email" size="24"/>
+                            <text name="linkman-email" size="24" required="true"/>
                         </cell>
                     </row>
                     <row>

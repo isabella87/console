@@ -1,6 +1,5 @@
 package com.banhui.console.ui;
 
-
 import org.xx.armory.swing.components.DialogPane;
 
 /**

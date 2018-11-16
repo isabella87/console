@@ -122,7 +122,6 @@ public class BrowseBaPrjCtorsFrame
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bcoId");
-
             new BaPrjCtrosProxy().del(bpeId)
                                  .thenApplyAsync(Result::map)
                                  .whenCompleteAsync(this::delCallback, UPDATE_UI);
@@ -139,7 +138,7 @@ public class BrowseBaPrjCtorsFrame
             logger.debug("ba-prj-engineer {} delete", deletedRow);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bcoId"), row.get("bcoId")));
+            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bcoId").toString(), row.get("bcoId").toString()));
         }
     }
 
@@ -162,12 +161,13 @@ public class BrowseBaPrjCtorsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(new Date(), years);
-        if (dateRange != null) {
-            controller().setDate("start-date", dateRange.getStart());
-            controller().setDate("end-date", dateRange.getEnd());
+        if (years >= 0) {
+            DateRange dateRange = latestSomeYears(new Date(), years);
+            if (dateRange != null) {
+                controller().setDate("start-date", dateRange.getStart());
+                controller().setDate("end-date", dateRange.getEnd());
+            }
         }
-
     }
 
 

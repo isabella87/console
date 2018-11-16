@@ -87,7 +87,7 @@ public class BrowsePerAccountFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        if (years != -1) {
+        if (years >= 0) {
             DateRange dateRange = latestSomeYears(new Date(), years);
             if (dateRange != null) {
                 controller().setDate("start-date", dateRange.getStart());

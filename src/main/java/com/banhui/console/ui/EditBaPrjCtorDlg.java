@@ -17,6 +17,7 @@ import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
+import static org.xx.armory.swing.DialogUtils.prompt;
 
 public class EditBaPrjCtorDlg
         extends DialogPane {
@@ -34,7 +35,7 @@ public class EditBaPrjCtorDlg
             setTitle(controller().getMessage("create") + getTitle());
         } else {
             updateData();
-            setTitle(controller().getMessage("edit") + getTitle()+"-"+id);
+            setTitle(controller().getMessage("edit") + getTitle() + "-" + id);
         }
     }
 
@@ -50,7 +51,6 @@ public class EditBaPrjCtorDlg
             if (this.id != 0) {
                 params.put("bco-id", id);
             }
-
             params.put("name", controller().getText("name").trim());
             params.put("show-name", controller().getText("show-name").trim());
             params.put("ent-nature", controller().getText("ent-nature"));
@@ -66,8 +66,13 @@ public class EditBaPrjCtorDlg
             params.put("qualification", controller().getText("qualification").trim());
             params.put("nation-prize-count", controller().getNumber("nation-prize-count"));
             params.put("provin-prize-count", controller().getNumber("provin-prize-count"));
-            params.put("intro", controller().getText("intro").trim());
-
+            if (controller().getText("intro").trim().isEmpty()) {
+                prompt(this.getOwner(), controller().getMessage("intro-null"));
+                controller().enable("ok");
+                return;
+            } else {
+                params.put("intro", controller().getText("intro").trim());
+            }
             (this.id == 0 ? new BaPrjCtrosProxy().add(params) : new BaPrjCtrosProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .thenAcceptAsync(this::saveCallback, UPDATE_UI)
@@ -110,16 +115,12 @@ public class EditBaPrjCtorDlg
         controller().setInteger("nation-prize-count", intValue(data, "nationPrizeCount"));
         controller().setInteger("provin-prize-count", intValue(data, "provinPrizeCount"));
         controller().setText("intro", stringValue(data, "intro"));
-
-
     }
 
     private void saveCallback(
             Map<String, Object> row
     ) {
-
         this.row = row;
-
         super.done(OK);
     }
 

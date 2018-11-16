@@ -46,7 +46,7 @@
                             <label for="eng-show-name">展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="eng-show-name"/>
+                            <text name="eng-show-name" pattern="\w{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -70,7 +70,7 @@
                         <cell>
                             <boxLayout>
                                 <text name="mgr-org-level" optionsName="grade-status" size="2"/>
-                                <text name="mgr-org" pattern="\w{2,}" size="11"/>
+                                <text name="mgr-org" size="11"/>
                             </boxLayout>
                         </cell>
                         <cell>
@@ -87,7 +87,7 @@
                         <cell>
                             <boxLayout>
                                 <text name="design-org-level" optionsName="grade-status" size="2"/>
-                                <text name="design-org" pattern="\w{2,}" size="11"/>
+                                <text name="design-org" size="11"/>
                             </boxLayout>
                         </cell>
                         <cell>
@@ -110,7 +110,7 @@
                             <label for="all-org">总包单位：</label>
                         </cell>
                         <cell>
-                            <text name="all-org" pattern="\w{2,}"/>
+                            <text name="all-org" />
                         </cell>
                         <cell>
                             <label for="show-all-org">展示名称：</label>
@@ -125,7 +125,7 @@
                         </cell>
                         <cell>
                             <text name="area" type="NUMBER" pattern="^(([1-9]\d?)|0)(\.\d{1-2})?$" suffix="平米"
-                                  minValue="1000" required="true" size="8"/>
+                                  minValue="1000" size="8"/>
                         </cell>
                         <cell>
                             <label for="show-area">展示面积：</label>
@@ -169,7 +169,7 @@
                             <label for="mgr-real-name">真实姓名：</label>
                         </cell>
                         <cell>
-                            <text name="mgr-real-name" pattern="\w{2,}"/>
+                            <text name="mgr-real-name"/>
                         </cell>
                         <cell>
                             <label for="mgr-show-name">展示名：</label>

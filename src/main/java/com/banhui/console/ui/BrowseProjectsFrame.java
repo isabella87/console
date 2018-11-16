@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,8 @@ import java.util.Objects;
 
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
+import static com.banhui.console.ui.InputUtils.today;
+import static com.banhui.console.ui.InputUtils.tomorrow;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -337,7 +340,6 @@ public class BrowseProjectsFrame
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = 0;
-
         final CreateProjectFrame dlg = new CreateProjectFrame();
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -383,15 +385,14 @@ public class BrowseProjectsFrame
         String confirmDeleteText = controller().formatMessage("confirm-delete-text", pId);
         if (confirm(null, confirmDeleteText)) {
             controller().disable("delete");
-
             new ProjectProxy().deletePrjLoan(pId)
-                              .thenApplyAsync(Result::map)
+                              .thenApplyAsync(Result::longValue)
                               .whenCompleteAsync(this::delCallback, UPDATE_UI);
         }
     }
 
     private void delCallback(
-            Map<String, Object> deletedRow,
+            Long pid,
             Throwable t
     ) {
         if (t != null) {
@@ -399,7 +400,7 @@ public class BrowseProjectsFrame
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("pId"), row.get("pId")));
+            tableModel.removeFirstRow(row -> Objects.equals(pid.toString(), row.get("pId").toString()));
         }
     }
 
@@ -422,12 +423,30 @@ public class BrowseProjectsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(new Date(), years);
+        DateRange dateRange = null;
+        if (years >= 0) {
+            dateRange = latestSomeYears(new Date(), years);
+        } else {
+            switch (years) {
+                case -2:
+                    Date date = new Date();
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    cal.add(Calendar.YEAR, 1);
+                    dateRange = latestSomeYears(cal.getTime(), 0);
+                    break;
+                case -3:
+                    dateRange = today(new Date());
+                    break;
+                case -4:
+                    dateRange = tomorrow(new Date());
+                    break;
+            }
+        }
         if (dateRange != null) {
             controller().setDate("start-date", dateRange.getStart());
             controller().setDate("end-date", dateRange.getEnd());
         }
-
     }
 
 

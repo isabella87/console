@@ -23,6 +23,7 @@
         <option value="3">最近三年</option>
         <option value="5">最近五年</option>
         <option value="0">今年</option>
+        <option value="-2">明年</option>
     </options>
     <options name="transfer-status">
         <option value="99">--全部--</option>

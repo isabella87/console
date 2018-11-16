@@ -37,7 +37,6 @@ public class EditBaPrjEngineerDlg
             setTitle(controller().getMessage("edit") + getTitle());
             updateData();
         }
-
         controller().connect("", "verify-error", MsgUtils::verifyError);
     }
 
@@ -53,7 +52,6 @@ public class EditBaPrjEngineerDlg
             if (this.id != 0) {
                 params.put("bpe-id", id);
             }
-
             params.put("name", controller().getText("name").trim());
             params.put("address", controller().getText("address").trim());
             params.put("prj-start-time", controller().getDate("prj-start-time"));
@@ -140,7 +138,6 @@ public class EditBaPrjEngineerDlg
             Map<String, Object> row
     ) {
         this.row = row;
-
         super.done(OK);
     }
 

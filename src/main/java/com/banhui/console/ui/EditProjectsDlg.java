@@ -104,6 +104,7 @@ public class EditProjectsDlg
         controller().connect("rate", "change", this::interestChange);
         controller().connect("borrow-days", "change", this::interestChange);
         controller().connect("in-time", "change", this::inTimeChange);
+        controller().connect("", "verify-error", MsgUtils::verifyError);
 
         this.id = id;
         if (this.id == 0) {
@@ -337,7 +338,6 @@ public class EditProjectsDlg
         } else {
             final JTable table = controller().get(JTable.class, listName);
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(thisId.toString(), row.get(idName).toString()));
         }
     }
@@ -397,7 +397,7 @@ public class EditProjectsDlg
     private void operate(
             ActionEvent actionEvent
     ) {
-        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 31,1);
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 31, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -598,10 +598,7 @@ public class EditProjectsDlg
                     results[3].list(),
                     results[4].map()
             }, UPDATE_UI)
-             .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-             .exceptionally(ErrorHandler::handle)
-             .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
-
+             .whenCompleteAsync(this::saveCallback, UPDATE_UI);
         } else {
             super.done(result);
         }
@@ -609,10 +606,16 @@ public class EditProjectsDlg
 
     @SuppressWarnings("unchecked")
     private void saveCallback(
-            Object[] results
+            Object[] results,
+            Throwable t
     ) {
-        this.row = (Map<String, Object>) results[0];
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+            controller().enable("ok");
+        } else {
+            this.row = (Map<String, Object>) results[0];
+            super.done(OK);
+        }
     }
 
     private void updateDataCallback(

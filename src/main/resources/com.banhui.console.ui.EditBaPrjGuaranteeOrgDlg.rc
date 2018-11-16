@@ -23,7 +23,7 @@
                 <label for="show-name">展示名称：</label>
             </cell>
             <cell>
-                <text name="show-name"/>
+                <text name="show-name" required="true" pattern="\w{2,}"/>
             </cell>
         </row>
         <row>
@@ -37,7 +37,7 @@
                 <label for="reg-years">注册年限：</label>
             </cell>
             <cell>
-                <text name="reg-years" size="10" suffix=" 年 " type="NUMBER"/>
+                <text name="reg-years" size="10" suffix=" 年 " type="NUMBER" required="true"/>
             </cell>
         </row>
         <row>
@@ -45,7 +45,7 @@
                 <label for="reg-funds">注册资金：</label>
             </cell>
             <cell>
-                <text name="reg-funds" size="10" suffix=" 万元 " type="NUMBER"/>
+                <text name="reg-funds" size="10" suffix=" 万元 " type="NUMBER" required="true"/>
             </cell>
         </row>
         <row>
@@ -75,7 +75,7 @@
                 <label for="legal-id-card">法人身份证号：</label>
             </cell>
             <cell>
-                <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
+                <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" required="true"/>
             </cell>
         </row>
         <row>
@@ -83,13 +83,13 @@
                 <label for="legal-person-name">法人姓名：</label>
             </cell>
             <cell>
-                <text name="legal-person-name" pattern="\w{2,}"/>
+                <text name="legal-person-name" pattern="\w{2,}" required="true"/>
             </cell>
             <cell>
                 <label for="legal-person-show-name">法人展示名：</label>
             </cell>
             <cell>
-                <text name="legal-person-show-name"/>
+                <text name="legal-person-show-name" pattern="\w{2,}" required="true"/>
             </cell>
         </row>
         <row>
@@ -97,13 +97,13 @@
                 <label for="linkman">联系人：</label>
             </cell>
             <cell>
-                <text name="linkman" pattern="\w{2,}"/>
+                <text name="linkman" pattern="\w{2,}" required="true"/>
             </cell>
             <cell>
                 <label for="mobile">联系电话：</label>
             </cell>
             <cell>
-                <text name="mobile"/>
+                <text name="mobile" required="true" pattern="^1[34578]\d{9}$"/>
             </cell>
         </row>
         <row>

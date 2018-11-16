@@ -13,12 +13,15 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
+import static com.banhui.console.ui.InputUtils.today;
+import static com.banhui.console.ui.InputUtils.tomorrow;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.DialogUtils.prompt;
@@ -182,13 +185,21 @@ public class BrowseCreditAssignmentsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        if (years != -1) {
-            DateRange dateRange = latestSomeYears(new Date(), years);
-            if (dateRange != null) {
-                controller().setDate("start-date", dateRange.getStart());
-                controller().setDate("end-date", dateRange.getEnd());
-            }
+        DateRange dateRange = null;
+        if (years >= 0) {
+            dateRange = latestSomeYears(new Date(), years);
+        } else if (years == -2) {
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.YEAR, 1);
+            dateRange = latestSomeYears(cal.getTime(), 0);
         }
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
+        }
+
     }
 
     private void listChanged(

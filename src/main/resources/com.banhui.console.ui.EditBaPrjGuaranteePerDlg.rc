@@ -28,7 +28,7 @@
                 <label for="show-name">展示姓名：</label>
             </cell>
             <cell>
-                <text name="show-name"/>
+                <text name="show-name" required="true" pattern="\w{2,}"/>
             </cell>
         </row>
         <row>
@@ -36,13 +36,13 @@
                 <label for="age">年龄：</label>
             </cell>
             <cell>
-                <text name="age"/>
+                <text name="age" type="NUMBER" required="true"/>
             </cell>
             <cell>
                 <label for="show-age">展示年龄：</label>
             </cell>
             <cell>
-                <text name="show-age"/>
+                <text name="show-age" type="NUMBER" required="true"/>
             </cell>
         </row>
         <row>
@@ -78,7 +78,7 @@
                 <label for="mobile">联系电话：</label>
             </cell>
             <cell>
-                <text name="mobile"/>
+                <text name="mobile" required="true" pattern="^1[34578]\d{9}$"/>
             </cell>
             <cell>
                 <label for="postcode">邮编：</label>
