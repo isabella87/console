@@ -38,7 +38,7 @@
     <options name="limit-status">
         <option>同主债权诉讼时效</option>
         <option>主债务履行期届满之日起二年</option>
-        <option>主债务履行期届满之日起二年</option>
+        <option>主债务履行期届满之日起三年</option>
     </options>
     <options name="relation-ship-status">
         <option>亲戚</option>

@@ -39,11 +39,11 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="msId" title="ID" type="NUMBER" size="60"/>
-                    <tableColumn name="mobile" title="手机号" type="TEXT" size="100"/>
+                    <tableColumn name="msId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="mobile" title="手机号" type="TEXT" size="120"/>
                     <tableColumn name="status" title="状态" type="TEXT" optionsName="status" size="100"/>
-                    <tableColumn name="datepoint" title="创建时间" type="DATE_TIME" size="160"/>
-                    <tableColumn name="content" title="内容" type="TEXT" size="500"/>
+                    <tableColumn name="datepoint" title="创建时间" type="DATE_TIME" size="180"/>
+                    <tableColumn name="content" title="内容" type="TEXT" size="300"/>
                 </table>
             </cell>
         </row>

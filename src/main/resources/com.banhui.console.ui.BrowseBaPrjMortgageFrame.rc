@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="质押人"
+        width="800"
+        height="600">
+    <message name="confirm-delete-text"><![CDATA[确定删除吗？]]></message>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="create" title="创建(C)" mnemonic="C"/>
+    <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
+    <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="type">
+        <option value="2">质押</option>
+        <option value="1">抵押</option>
+    </options>
+    <gridLayout>
+        <column />
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label mnemonic="D" for="create-date">创建时间(D)：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label mnemonic="K" for="search-key">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="edit"/>
+                    <button actionName="delete"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="bpmId" title="ID" type="TEXT" size="60"/>
+                    <tableColumn name="mType" title="类型" type="TEXT" size="100" optionsName="type"/>
+                    <tableColumn name="content" title="质押物内容" type="TEXT" size="120"/>
+                    <tableColumn name="ownerName" title="抵押人姓名或者机构名称" type="TEXT" size="200"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="creator" title="创建人" type="TEXT" size="80"/>
+                    <tableColumn name="updateTime" title="修改时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="updater" title="修改人" type="TEXT" size="80"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

@@ -43,7 +43,7 @@ public class BrowseCreditAssignListDlg
         if (this.auId != 0) {
             params.put("au-id", auId);
         }
-        final int isOk = controller().getInteger("isOK");
+        final int isOk = controller().getInteger("isOk");
         final Date startDate = floorOfDay(controller().getDate("start-date"));
         final Date endDate = ceilingOfDay(controller().getDate("end-date"));
 

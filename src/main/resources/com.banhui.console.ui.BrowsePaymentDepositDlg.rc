@@ -3,15 +3,19 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="收支明细(存管)-"
-        height="450"
-        width="950"
+        height="400"
+        width="800"
 >
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="excel" title="导出Excel"/>
     <options name="status">
         <option value="0">（全部）</option>
-        <option value="1">转入</option>
-        <option value="2">转出</option>
+        <option value="2">转入</option>
+        <option value="1">转出</option>
+    </options>
+    <options name="tx-status">
+        <option value="-">转出</option>
+        <option value="+">转入</option>
     </options>
     <gridLayout>
         <column/>
@@ -31,12 +35,12 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="160"/>
-                    <tableColumn name="seqno" title="流水号" type="TEXT" size="120"/>
-                    <tableColumn name="remark" title="交易类型" type="TEXT" size="120"/>
-                    <tableColumn name="debitAmt" title="金额" type="CURRENCY" size="140"/>
-                    <tableColumn name="creditAmt" title="余额" type="CURRENCY" size="120"/>
-                    <tableColumn name="remark" title="说明" type="TEXT" size="140"/>
+                    <tableColumn name="inpDate" title="时间" type="DATE" size="120"/>
+                    <tableColumn name="traceNo" title="流水号" type="TEXT" size="120"/>
+                    <tableColumn name="txFlag" title="交易类型" type="TEXT" size="100" optionsName="tx-status"/>
+                    <tableColumn name="txAmount" title="金额" type="CURRENCY" size="130"/>
+                    <tableColumn name="currBal" title="余额" type="CURRENCY" size="130"/>
+                    <tableColumn name="describe" title="说明" type="TEXT" size="140"/>
                 </table>
             </cell>
         </row>

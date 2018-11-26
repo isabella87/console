@@ -48,7 +48,7 @@
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="jbId" title="申请投资ID" type="TEXT" size="100"/>
                     <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="done-status"/>
-                    <tableColumn name="seqno" title="流水号" type="TEXT" size="120"/>
+                    <tableColumn name="seqno" title="流水号" type="TEXT" size="180"/>
                     <tableColumn name="datepoint" title="交易日期" type="DATE_TIME" size="160"/>
                     <tableColumn name="retCode" title="应答码" type="TEXT" size="120"/>
                     <tableColumn name="retMsg" title="应答消息" type="TEXT" size="120"/>

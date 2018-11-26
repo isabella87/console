@@ -20,6 +20,7 @@
     <action name="browseBaPrjGuaranteeOrgs" title="担保机构(G)" mnemonic="G" description="担保机构"/>
     <action name="browseBaPrjBorPers" title="借款个人(P)" mnemonic="P" description="借款个人"/>
     <action name="browseBaPrjBorOrgs" title="借款机构(O)" mnemonic="O" description="借款机构"/>
+    <action name="browseBaPrjMortgage" title="质押人(M)" mnemonic="M" description="质押人"/>
 
     <action name="browsePerson" title="个人账户(P)" mnemonic="P" description="个人帐户"/>
     <action name="browseCorp" title="机构账户(O)" mnemonic="O" description="机构帐户"/>
@@ -65,6 +66,8 @@
             <menuItem value="-"/>
             <menuItem value="browseBaPrjBorPers"/>
             <menuItem value="browseBaPrjBorOrgs"/>
+            <menuItem value="-"/>
+            <menuItem value="browseBaPrjMortgage"/>
         </menu>
         <menu title="账户管理(A)" mnemonic="A">
             <menuItem value="browsePerson"/>

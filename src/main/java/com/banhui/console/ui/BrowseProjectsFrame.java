@@ -73,11 +73,12 @@ public class BrowseProjectsFrame
         controller().setNumber("locked", 0L);
 
         TableColumnModel tcm = controller().get(JTable.class, "list").getColumnModel();
-        TableColumn visibleColumn = tcm.getColumn(18);
-        TableColumn topTimeColumn = tcm.getColumn(19);
+        TableColumn visibleColumn = tcm.getColumn(20);
+        TableColumn topTimeColumn = tcm.getColumn(21);
+        TableColumn lockTimeColumn = tcm.getColumn(22);
         tcm.removeColumn(visibleColumn);
         tcm.removeColumn(topTimeColumn);
-
+        tcm.removeColumn(lockTimeColumn);
         new AuthenticationProxy().current()
                                  .thenApply(Result::map)
                                  .whenCompleteAsync(this::userInfo, UPDATE_UI);

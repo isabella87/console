@@ -12,12 +12,12 @@
         <column/>
         <row>
             <cell>
-                <label for="id-card">请输入身份证号：</label>
+                <label for="id-card">请输入手机号码或者身份证号：</label>
             </cell>
         </row>
         <row>
             <cell>
-                <text name="id-card" required="true" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
+                <text name="id-card" required="true" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])|^1[34578]\d{9}$"/>
             </cell>
         </row>
         <row>

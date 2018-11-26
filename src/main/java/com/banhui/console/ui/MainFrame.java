@@ -51,15 +51,15 @@ public final class MainFrame
                 }
 
 
-                if (!flag && timeout) {
+                /*if (!flag && timeout) {
                     //TODO 试用期已过，弹出注册框
                     DialogUtils.inputText(null,"30天试用期已过，请填写注册码：",null);
 
-                }else{
+                }else{*/
                     final int result = showModel(MainFrame.this, new SignInDlg());
                     if (result == DialogPane.OK) {
                         // 更新当前用户。
-                    }
+                    //}
                 }
             }
         });
@@ -86,6 +86,7 @@ public final class MainFrame
         this.uiController.connect("browseBaPrjGuaranteeOrgs", this::browseBaPrjGuaranteeOrgs);
         this.uiController.connect("browseBaPrjBorPers", this::browseBaPrjBorPers);
         this.uiController.connect("browseBaPrjBorOrgs", this::browseBaPrjBorOrgs);
+        this.uiController.connect("browseBaPrjMortgage", this::browseBaPrjMortgage);
 
         this.uiController.connect("browsePerson", this::browsePerson);
         this.uiController.connect("browseCorp", this::browseCorp);
@@ -267,6 +268,12 @@ public final class MainFrame
             ActionEvent event
     ) {
         this.uiController.openChild("browseBaPrjBorOrgs", BrowseBaPrjBorOrgsFrame::new);
+    }
+
+    private void browseBaPrjMortgage(
+            ActionEvent event
+    ) {
+        this.uiController.openChild("browseBaPrjMortgage", BrowseBaPrjMortgageFrame::new);
     }
 
     private void browseSysUsers(

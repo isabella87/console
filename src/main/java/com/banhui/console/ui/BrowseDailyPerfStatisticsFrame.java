@@ -63,6 +63,7 @@ public class BrowseDailyPerfStatisticsFrame
     private void doStatistics(
             ActionEvent actionEvent
     ) {
+        controller().disable("statistics");
         JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
         TreePath[] treePaths = mgrJTree.getSelectionPaths();
         StringBuffer sb = new StringBuffer();
@@ -168,6 +169,7 @@ public class BrowseDailyPerfStatisticsFrame
             params.put("sumIncomeAmt", total9);
             tableModel.addRow(params);
         }
+        controller().enable("statistics");
     }
 
     private void chooseDepart(
@@ -205,7 +207,6 @@ public class BrowseDailyPerfStatisticsFrame
         }
         return selectTreeNodes;
     }
-
 
     private void refreshUser(
             ActionEvent actionEvent

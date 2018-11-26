@@ -63,6 +63,7 @@ public class BrowseMonthPerfStatisticsFrame
     private void doStatistics(
             ActionEvent actionEvent
     ) {
+        controller().disable("statistics");
         JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
         TreePath[] treePaths = mgrJTree.getSelectionPaths();
         StringBuffer sb = new StringBuffer();
@@ -83,7 +84,7 @@ public class BrowseMonthPerfStatisticsFrame
         final Map<String, Object> params = new HashMap<>();
         params.put("datepoint", controller().getDate("datepoint"));
         params.put("u-names", sb.toString());
-        new CrmProxy().queryUserDaily(params)
+        new CrmProxy().queryUserMonth(params)
                       .thenApplyAsync(Result::list)
                       .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
@@ -168,6 +169,7 @@ public class BrowseMonthPerfStatisticsFrame
             params.put("sumIncomeAmt", total9);
             tableModel.addRow(params);
         }
+        controller().enable("statistics");
     }
 
     private void chooseDepart(
@@ -209,7 +211,6 @@ public class BrowseMonthPerfStatisticsFrame
     private void refreshUser(
             ActionEvent actionEvent
     ) {
-
         final Map<String, Object> params = new HashMap<>();
         params.put("if-self", false);
         new CrmProxy().getAllMgrRelations(params)
@@ -228,7 +229,7 @@ public class BrowseMonthPerfStatisticsFrame
         JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
         mgrJTree.setModel(new DefaultTreeModel(null));
         mgrJTree.setRootVisible(false);
-        mgrJTree.setModel(new DefaultTreeModelUtil(maps, "uName", "pName").getDefaultTreeModel());
+        mgrJTree.setModel(new DefaultTreeModelSuffixUtil(maps, "uName", "pName", "department").getDefaultTreeModel());
         mgrJTree.setExpandsSelectedPaths(true);
 
         DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
@@ -245,9 +246,8 @@ public class BrowseMonthPerfStatisticsFrame
         mgrJTree.setCellRenderer(defaultTreeCellRenderer);
 
         TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
-        treeSelectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        treeSelectionModel.setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
         mgrJTree.setSelectionModel(treeSelectionModel);
-
     }
 
 

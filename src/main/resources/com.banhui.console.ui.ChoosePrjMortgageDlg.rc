@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title=""
+        height="400"
+        width="600"
+>
+    <message name="mortgage">抵押/质押人</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="search" title="搜索（S）" mnemonic="S" smallIcon="search.png"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="key">关键字（K）</label>
+                    <text name="key"/>
+                    <button actionName="search" name="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="listMortgage">
+                    <tableColumn title="ID" size="80" type="TEXT" name="bpmId"/>
+                    <tableColumn title="抵押/质押人" size="160" type="TEXT" name="ownerName"/>
+                    <tableColumn title="抵押物估值" size="160" type="TEXT" name="evaluation"/>
+                    <tableColumn title="联系人姓名" size="160" type="TEXT" name="linkMan"/>
+                    <tableColumn title="联系人手机号码" size="160" type="TEXT" name="linkMobile"/>
+                </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

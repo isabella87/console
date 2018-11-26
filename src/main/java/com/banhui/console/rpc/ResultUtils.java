@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -393,11 +392,11 @@ public final class ResultUtils {
         if (value == null) {
             return null;
         } else if (value instanceof String) {
-            return decimalValue((String) value).setScale(2, RoundingMode.HALF_UP);
+            return decimalValue((String) value);
         } else if (value instanceof BigDecimal) {
-            return ((BigDecimal) value).setScale(2, RoundingMode.HALF_UP);
+            return (BigDecimal) value;
         } else if (value instanceof Number) {
-            return new BigDecimal(value.toString()).setScale(2, RoundingMode.HALF_UP);
+            return new BigDecimal(value.toString());
         } else {
             throw new ClassCastException("cannot cast " + value + " to decimal");
         }

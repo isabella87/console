@@ -55,15 +55,12 @@ public class EditProjectsDlg
     ) {
         controller().readOnly("item-no", true);
         controller().readOnly("type", true);
-        controller().readOnly("invest-max-amt-ratio", true);
         controller().readOnly("out-time", true);
         controller().readOnly("financier_cu", true);
         controller().readOnly("nominal_au", true);
         controller().readOnly("bondsman_au", true);
         controller().readOnly("interest", true);
 
-        controller().setBoolean("for-per-invest-max-amt", true);
-        controller().setBoolean("for-invest-max-amt", true);
         controller().setBoolean("for-in-time", true);
 
         controller().connect("guaranteePersons", "change", this::listChanged);
@@ -71,9 +68,6 @@ public class EditProjectsDlg
         controller().connect("borPersons", "change", this::listChanged3);
         controller().connect("borOrgs", "change", this::listChanged4);
 
-        controller().connect("for-invest-max-amt-ratio", "change", this::checkboxInMaxAmtRatio);
-        controller().connect("for-per-invest-max-amt", "change", this::checkboxPerMaxAmt);
-        controller().connect("for-invest-max-amt", "change", this::checkboxInMaxAmt);
         controller().connect("for-in-time", "change", this::checkboxInOutTime);
         controller().connect("bonus-period", "change", this::changeBonusPeriod);
         controller().connect("preview", this::preview);
@@ -93,6 +87,9 @@ public class EditProjectsDlg
         controller().connect("deleteBorPer", this::deleteBorPer);
         controller().connect("createBorOrg", this::createBorOrg);
         controller().connect("deleteBorOrg", this::deleteBorOrg);
+
+        controller().connect("createMortgage", this::createMortgage);
+        controller().connect("deleteMortgage", this::deleteMortgage);
 
         controller().disable("delay");
         controller().disable("deleteBondsman");
@@ -137,7 +134,8 @@ public class EditProjectsDlg
                 new ProjectProxy().queryPrjGuaranteePersons(id),
                 new ProjectProxy().queryPrjGuaranteeOrg(id),
                 new ProjectProxy().queryBorPersons(id),
-                new ProjectProxy().queryBorOrgs(id)
+                new ProjectProxy().queryBorOrgs(id),
+                new ProjectProxy().queryMortgages(id)
         ).thenApply(results -> new Object[]{
                 results[0].map(),
                 results[1].list(),
@@ -145,7 +143,8 @@ public class EditProjectsDlg
                 results[3].list(),
                 results[4].list(),
                 results[5].list(),
-                results[6].list()
+                results[6].list(),
+                results[7].list()
         }).whenCompleteAsync(this::searchCallback, UPDATE_UI);
 
     }
@@ -329,6 +328,49 @@ public class EditProjectsDlg
         }
     }
 
+    private void createMortgage(
+            ActionEvent actionEvent
+    ) {
+        final JTable table = controller().get(JTable.class, "mortgages");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow = 0;
+        List<Long> lists = new ArrayList<>();
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            lists.add(tableModel.getNumberByName(i, "bpmId"));
+        }
+        final CreatePrjMortgageDlg dlg = new CreatePrjMortgageDlg(id, lists);
+        dlg.setFixedSize(false);
+
+        if (showModel(null, dlg) == DialogPane.OK) {
+            Map<String, Object> row = dlg.getResultRow();
+            if (row != null && !row.isEmpty()) {
+                tableModel.insertRow(selectedRow, row);
+            }
+        }
+    }
+
+    private void deleteMortgage(
+            ActionEvent actionEvent
+    ) {
+        listName = "mortgages";
+        idName = "pmId";
+        final JTable table = controller().get(JTable.class, listName);
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final long pmId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+
+        String confirmDeleteText = controller().formatMessage("delete-mortgage", pmId);
+        if (confirm(null, confirmDeleteText)) {
+            controller().disable("deleteMortgage");
+
+            final Map<String, Object> params = new HashMap<>();
+            params.put("p-id", id);
+            params.put("pm-id", pmId);
+            new ProjectProxy().deleteMortgage(params)
+                              .thenApplyAsync(Result::longValue)
+                              .whenCompleteAsync(this::delCallback, UPDATE_UI);
+        }
+    }
+
     private void delCallback(
             Long thisId,
             Throwable t
@@ -403,17 +445,6 @@ public class EditProjectsDlg
     }
 
 
-    private void checkboxInMaxAmtRatio(
-            Object event
-    ) {
-        if (controller().getBoolean("for-invest-max-amt-ratio")) {
-            controller().readOnly("invest-max-amt-ratio", false);
-        } else {
-            controller().readOnly("invest-max-amt-ratio", true);
-        }
-    }
-
-
     @SuppressWarnings("unchecked")
     private void searchCallback(
             Object[] results,
@@ -441,6 +472,10 @@ public class EditProjectsDlg
             JTable table4 = controller().get(JTable.class, "borOrgs");
             TypedTableModel tableModel4 = (TypedTableModel) table4.getModel();
             tableModel4.setAllRows((Collection<Map<String, Object>>) results[6]);
+
+            JTable table5 = controller().get(JTable.class, "mortgages");
+            TypedTableModel tableModel5 = (TypedTableModel) table5.getModel();
+            tableModel5.setAllRows((Collection<Map<String, Object>>) results[7]);
 
             updateDataCallback((Map<String, Object>) results[0]);
         }
@@ -502,21 +537,17 @@ public class EditProjectsDlg
             params.put("financing-days", controller().getNumber("financing-days"));
             params.put("expected-borrow-time", controller().getDate("expected-borrow-time"));
             params.put("per-invest-min-amt", controller().getDecimal("per-invest-min-amt"));
+            params.put("invest-max-amt-ratio", 100);
             params.put("per-invest-amt", controller().getDecimal("per-invest-amt"));
             params.put("core-guara-name", controller().getText("core-guara-name").trim());
-            if (controller().getBoolean("for-invest-max-amt-ratio")) {
-                params.put("invest-max-amt-ratio", controller().getDecimal("invest-max-amt-ratio"));
-            } else {
-                params.put("invest-max-amt-ratio", null);
-            }
-            if (controller().getBoolean("for-invest-max-amt")) {
+            if (controller().getDecimal("invest-max-amt") != null) {
                 params.put("invest-max-amt", controller().getDecimal("invest-max-amt"));
             } else {
                 params.put("invest-max-amt", params.get("amt"));
             }
             params.put("key", controller().getText("key").trim());
             params.put("water-mark", controller().getText("water-mark").trim());
-            if (controller().getBoolean("for-per-invest-max-amt")) {
+            if (controller().getDecimal("per-invest-max-amt") != null) {
                 params.put("per-invest-max-amt", controller().getDecimal("per-invest-max-amt"));
             } else {
                 params.put("per-invest-max-amt", params.get("amt"));
@@ -530,7 +561,6 @@ public class EditProjectsDlg
             params.put("remark", controller().getText("remark").trim());
             params.put("financier", controller().getText("financier").trim());
             params.put("deposit-ratio", controller().getFloat("deposit-ratio"));
-            params.put("prj-intro", controller().getText("prj-intro").trim());
             params.put("loan-purposes", controller().getText("loan-purposes").trim());
             params.put("visible", true);
             params.put("sold-fee", 0);
@@ -637,12 +667,6 @@ public class EditProjectsDlg
         controller().setDate("expected-borrow-time", dateValue(data, "expectedBorrowTime"));
         controller().setDecimal("per-invest-min-amt", decimalValue(data, "perInvestMinAmt"));
         controller().setDecimal("per-invest-amt", decimalValue(data, "perInvestAmt"));
-        if (data.get("investMaxAmtRatio") == null || data.get("investMaxAmtRatio").equals("null")) {
-            controller().setBoolean("for-invest-max-amt-ratio", false);
-        } else {
-            controller().setBoolean("for-invest-max-amt-ratio", true);
-            controller().setDecimal("invest-max-amt-ratio", decimalValue(data, "investMaxAmtRatio"));
-        }
         controller().setDecimal("invest-max-amt", decimalValue(data, "investMaxAmt"));
         controller().setText("key", stringValue(data, "key"));
 //        controller().setText("visible", stringValue(data, "visible"));
@@ -658,7 +682,6 @@ public class EditProjectsDlg
         controller().setText("remark", stringValue(data, "remark"));
         controller().setText("financier", stringValue(data, "financier"));
         controller().setDecimal("deposit-ratio", decimalValue(data, "depositRatio"));
-        controller().setText("prj-intro", stringValue(data, "prjIntro"));
         controller().setText("loan-purposes", stringValue(data, "loanPurposes"));
         controller().setText("core-guara-name", stringValue(data, "coreGuaraName"));
         controller().setInteger("bonus-day", intValue(data, "bonusDay"));
@@ -734,26 +757,6 @@ public class EditProjectsDlg
             controller().setNumber("bonus-day", 1L);
         }
         controller().setDecimal("interest", calInterest());
-    }
-
-    private void checkboxPerMaxAmt(
-            Object event
-    ) {
-        if (controller().getBoolean("for-per-invest-max-amt")) {
-            controller().readOnly("per-invest-max-amt", false);
-        } else {
-            controller().readOnly("per-invest-max-amt", true);
-        }
-    }
-
-    private void checkboxInMaxAmt(
-            Object event
-    ) {
-        if (controller().getBoolean("for-invest-max-amt")) {
-            controller().readOnly("invest-max-amt", false);
-        } else {
-            controller().readOnly("invest-max-amt", true);
-        }
     }
 
     private void checkboxInOutTime(

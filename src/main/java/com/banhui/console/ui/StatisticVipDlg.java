@@ -7,6 +7,7 @@ import org.xx.armory.swing.components.DialogPane;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class StatisticVipDlg
         extends DialogPane {
 
     public StatisticVipDlg() {
-        controller().setNumber("limit-amt", 50000L);
+        controller().setNumber("limit-amt", 500000L);
         controller().setDate("datepoint", new Date());
         controller().connect("search", this::search);
     }
@@ -74,13 +75,25 @@ public class StatisticVipDlg
             html.append("</td><td>");
             html.append(stringValue(data, "mobile"));
             html.append("</td><td>");
-            html.append(decimalValue(data, "monthSumAmt"));
+            html.append(to2Scale(data, "monthSumAmt"));
             html.append("</td><td>");
-            html.append(decimalValue(data, "blanceAmt"));
+            html.append(to2Scale(data, "blanceAmt"));
             html.append("</td><td>");
-            html.append(decimalValue(data, "monthSumCredit"));
+            html.append(to2Scale(data, "monthSumCredit"));
         }
         html.append("</td></tr></table></body></html>");
         textPane.setText(html.toString());
+    }
+
+    private BigDecimal to2Scale(
+            Map<String, Object> data,
+            String key
+    ) {
+        BigDecimal num = decimalValue(data, key);
+        if (num != null) {
+            return num.setScale(2, RoundingMode.HALF_UP);
+        } else {
+            return new BigDecimal(0).setScale(2, RoundingMode.HALF_UP);
+        }
     }
 }

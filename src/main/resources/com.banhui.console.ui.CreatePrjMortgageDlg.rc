@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title=""
+>
+    <message name="mortgage">抵押/质押人-</message>
+    <message name="mortgage-blank"><![CDATA[请选择一个抵押/质押人]]></message>
+    <message name="repeat-text"><![CDATA[该抵押/质押人已存在！]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="select" title="选择（S）"/>
+    <options name="visible-status">
+        <option value="1">可见</option>
+        <option value="0">不可见</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <column/>
+        <column/>
+        <column/>
+        <row>
+            <cell>
+                <label name="thisName">抵押/质押人:</label>
+            </cell>
+            <cell columnSpan="2">
+                <text name="name"/>
+            </cell>
+            <cell horizontalAlignment="FIRST">
+                <button actionName="select"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="guara-high-credit-amt">担保债权限额：</label>
+            </cell>
+            <cell>
+                <text name="guara-high-credit-amt" type="CURRENCY" suffix="万元"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="order-no">排列顺序：</label>
+            </cell>
+            <cell>
+                <text name="order-no" type="NUMBER"/>
+            </cell>
+            <cell>
+                <label for="visible">协议可见：</label>
+            </cell>
+            <cell>
+                <dropDown name="visible" optionsName="visible-status"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label name="intro">介绍：</label>
+            </cell>
+            <cell columnSpan="3">
+                <text name="intro" type="TEXT_AREA" rowSize="3"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true" name="ok"/>
+                    <button actionName="cancel" name="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

@@ -8,6 +8,7 @@
     <message name="delete-guaOrg"><![CDATA[删除以下担保机构：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-borPer"><![CDATA[删除以下借款人：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-borOrg"><![CDATA[删除以下借款机构：{}，此操作不可恢复！确认吗？]]></message>
+    <message name="delete-mortgage"><![CDATA[删除以下抵押物：{}，此操作不可恢复！确认吗？]]></message>
     <message name="null-borPer"><![CDATA[必须选择一个借款人!]]></message>
     <message name="create">创建-</message>
     <message name="edit">编辑-</message>
@@ -32,6 +33,8 @@
     <action name="deleteBorPer" title="删除(L)" mnemonic="L"/>
     <action name="createBorOrg" title="创建借款机构(E)" mnemonic="E"/>
     <action name="deleteBorOrg" title="删除(M)" mnemonic="M"/>
+    <action name="createMortgage" title="创建抵押物(E)"/>
+    <action name="deleteMortgage" title="删除(M)" />
     <options name="project-type">
         <option value="10">企业贷</option>
         <option value="5">票据贷</option>
@@ -40,6 +43,7 @@
         <option value="1">每月固定日还款（放款30天作为首次还款日）</option>
         <option value="2">每月固定日还款（首次还款日为指定日）</option>
         <option value="3">固定周期还款</option>
+        <option value="4">到期一次性还本付息</option>
     </options>
     <options name="water">
         <option>xs</option>
@@ -251,22 +255,16 @@
                         <cell>
                             <label for="invest-max-amt-ratio">投资限额：</label>
                         </cell>
-                        <cell columnSpan="3" horizontalAlignment="FIRST">
-                            <boxLayout>
-                                <checkBox name="for-invest-max-amt-ratio" text="不能大于融资金额的"/>
-                                <text name="invest-max-amt-ratio" suffix=" % " type="CURRENCY" size="8"/>
-                                <checkBox name="for-invest-max-amt" text="不能大于"/>
-                                <text name="invest-max-amt" type="NUMBER" size="10" suffix=" 元 "/>
-                            </boxLayout>
+                        <cell>
+                            <text name="invest-max-amt" type="NUMBER" size="10" suffix=" 元 "/>
                         </cell>
                     </row>
                     <row>
                         <cell>
                             <label for="invest-max-amt">单笔投资上限额：</label>
                         </cell>
-                        <cell columnSpan="3">
+                        <cell columnSpan="2">
                             <boxLayout horizontalAlignment="FIRST">
-                                <checkBox name="for-per-invest-max-amt" text="不能高于"/>
                                 <text name="per-invest-max-amt" suffix=" 元   " type="NUMBER" size="8" minValue="1000"/>
                                 <label><![CDATA[<html><font color="red">
                             注意！单笔投资限额设置：下限1千元，上限为借款总额！</font></html>]]></label>
@@ -291,23 +289,15 @@
                             <label for="loan-purposes">借款用途：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="loan-purposes"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell horizontalAlignment="FIRST">
-                            <label for="remark">备注：</label>
-                        </cell>
-                        <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="remark"/>
+                            <text name="loan-purposes" type="TEXT_AREA" rowSize="6"/>
                         </cell>
                     </row>
                     <row>
                         <cell verticalAlignment="FIRST">
-                            <label for="prj-intro">项目简介：</label>
+                            <label for="remark">备注：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="prj-intro" type="TEXT_AREA" rowSize="6"/>
+                            <text name="remark"/>
                         </cell>
                     </row>
                 </gridLayout>
@@ -446,7 +436,7 @@
                                     <cell>
                                         <boxLayout horizontalAlignment="BOTH">
                                             <label for="prj-risk-assess">项目风险评估：</label>
-                                            <text name="prj-risk-assess" pattern="\w{2,}" required="true"/>
+                                            <text name="prj-risk-assess" required="true"/>
                                         </boxLayout>
                                     </cell>
                                 </row>
@@ -476,7 +466,7 @@
                 <gridLayout>
                     <column/>
                     <row stretch="100">
-                        <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                        <cell>
                             <gridLayout title="担保人">
                                 <column/>
                                 <row stretch="100">
@@ -610,6 +600,46 @@
                                     </cell>
                                 </row>
                             </gridLayout>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="抵押物" description="抵押物">
+                <gridLayout>
+                    <column/>
+                    <row>
+                        <cell>
+                            <gridLayout title="抵押物">
+                                <column/>
+                                <row stretch="100">
+                                    <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                                        <table name="mortgages">
+                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                                            <tableColumn name="pmId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="ownerName" title="抵押人姓名或者机构名称" type="TEXT" size="200"/>
+                                            <tableColumn name="ownerIdNo" title="抵押人证件号" type="TEXT" size="160"/>
+                                            <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
+                                            <tableColumn name="guaraHighCreditAmt" title="担保的最高债权额" type="CURRENCY" size="160"/>
+                                            <tableColumn name="visible" title="协议可见" type="TEXT" size="100"
+                                                         optionsName="visible"/>
+                                        </table>
+                                    </cell>
+                                </row>
+                                <row>
+                                    <cell>
+                                        <boxLayout horizontalAlignment="FIRST">
+                                            <button actionName="createMortgage" name="createMortgage"/>
+                                            <button actionName="deleteMortgage" name="deleteMortgage"/>
+                                        </boxLayout>
+                                    </cell>
+                                </row>
+                            </gridLayout>
+
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
                         </cell>
                     </row>
                 </gridLayout>

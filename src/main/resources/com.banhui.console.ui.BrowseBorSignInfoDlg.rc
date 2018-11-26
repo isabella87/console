@@ -23,7 +23,7 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="idNo" title="ID" type="DATE_TIME" size="80"/>
+                    <tableColumn name="idNo" title="ID" type="TEXT" size="180"/>
                     <tableColumn name="name" title="借款人/联系人" type="TEXT" size="140"/>
                     <tableColumn name="link" title="签章地址" type="TEXT" size="250"/>
                     <tableColumn name="status" title="签章状态" type="TEXT" size="120" optionsName="sign-status"/>

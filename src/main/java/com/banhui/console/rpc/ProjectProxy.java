@@ -97,6 +97,21 @@ public class ProjectProxy
         return super.http().delete("mgr/prj/" + pid + "/mgr-org/" + bpmoId, params);
     }
 
+    public CompletableFuture<Result> queryMortgages(long id) {
+        return super.http().get("mgr/prj/" + id + "/mortgage", null);
+    }
+
+    public CompletableFuture<Result> createMortgage(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        return super.http().put("mgr/prj/" + pid + "/mortgage", params);
+    }
+
+    public CompletableFuture<Result> deleteMortgage(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long pmId = takeLong(params, "pm-id");
+        return super.http().delete("mgr/prj/" + pid + "/mortgage/" + pmId, params);
+    }
+
     public CompletableFuture<Result> prjRating(long id) {
         return super.http().get("mgr/prj/" + id + "/rating", null);
     }

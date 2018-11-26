@@ -29,6 +29,10 @@
         <option value="1">男</option>
         <option value="2">女</option>
     </options>
+    <options name="gender-status2">
+        <option value="1">男</option>
+        <option value="0">女</option>
+    </options>
     <gridLayout>
         <column/>
         <row>
@@ -64,7 +68,7 @@
                     <tableColumn name="auId" title="ID" type="TEXT" size="100"/>
                     <tableColumn name="loginName" title="登录名" type="TEXT" size="120"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
-                    <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status"/>
+                    <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status2"/>
                     <tableColumn name="age" title="年龄" type="TEXT" size="120"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
                     <tableColumn name="regTime" title="注册时间" type="DATE_TIME" size="160"/>

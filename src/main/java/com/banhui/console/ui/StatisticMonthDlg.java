@@ -6,9 +6,12 @@ import org.xx.armory.swing.components.DialogPane;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.banhui.console.rpc.ResultUtils.allDone;
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
@@ -30,6 +33,7 @@ public class StatisticMonthDlg
     private Map<String, Object> statistic7;
     private Map<String, Object> statistic8;
     private Map<String, Object> statistic9;
+
     public StatisticMonthDlg() {
         initMap();
 
@@ -141,9 +145,9 @@ public class StatisticMonthDlg
         html.append("</td><td>上线项目平均借款天数</td><td>");
         html.append(statistic8.get("totalAverageBorrowDays"));
         html.append("</td></tr><tr><td>当月上线项目平均借款利率</td><td>");
-        html.append(statistic8.get("averageBorrowRate")+"%");
+        html.append(statistic8.get("averageBorrowRate") + "%");
         html.append("</td><td>上线项目平均借款利率</td><td>");
-        html.append(statistic8.get("totalAverageBorrowRate")+"%");
+        html.append(statistic8.get("totalAverageBorrowRate") + "%");
         html.append("</td></tr></table>");
         html.append(controller().getMessage("explain"));
         textPane.setText(html.toString());
@@ -193,8 +197,8 @@ public class StatisticMonthDlg
             final Map<String, Object> result0 = (Map<String, Object>) results[0];
             statistic1.put("rechargeCountInvestor", intValue(result0, "rechargeCountInvestor"));
             statistic1.put("rechargeCountOther", intValue(result0, "rechargeCountOther"));
-            statistic1.put("rechargeAmtInvestor", decimalValue(result0, "rechargeAmtInvestor"));
-            statistic1.put("rechargeAmtOther", decimalValue(result0, "rechargeAmtOther"));
+            statistic1.put("rechargeAmtInvestor", to2Scale(result0, "rechargeAmtInvestor"));
+            statistic1.put("rechargeAmtOther", to2Scale(result0, "rechargeAmtOther"));
 
             final Map<String, Object> result1 = (Map<String, Object>) results[1];
             statistic2.put("newRegCount", intValue(result1, "newRegCount"));
@@ -206,55 +210,67 @@ public class StatisticMonthDlg
             statistic2.put("totalBorrowerCount", intValue(result1, "totalBorrowerCount"));
 
             final Map<String, Object> result2 = (Map<String, Object>) results[2];
-            statistic3.put("investAmt", decimalValue(result2, "investAmt"));
-            statistic3.put("creditAmt", decimalValue(result2, "creditAmt"));
-            statistic3.put("totalInvestAmt", decimalValue(result2, "totalInvestAmt"));
-            statistic3.put("totalCreditAmt", decimalValue(result2, "totalCreditAmt"));
+            statistic3.put("investAmt", to2Scale(result2, "investAmt"));
+            statistic3.put("creditAmt", to2Scale(result2, "creditAmt"));
+            statistic3.put("totalInvestAmt", to2Scale(result2, "totalInvestAmt"));
+            statistic3.put("totalCreditAmt", to2Scale(result2, "totalCreditAmt"));
 
             final Map<String, Object> result3 = (Map<String, Object>) results[3];
             statistic4.put("totalRechargeCountInvestor", intValue(result3, "totalRechargeCountInvestor"));
             statistic4.put("totalRechargeCountOther", intValue(result3, "totalRechargeCountOther"));
-            statistic4.put("totalRechargeAmtInvestor", decimalValue(result3, "totalRechargeAmtInvestor"));
-            statistic4.put("totalRechargeAmtOther", decimalValue(result3, "totalRechargeAmtOther"));
+            statistic4.put("totalRechargeAmtInvestor", to2Scale(result3,"totalRechargeAmtInvestor"));
+            statistic4.put("totalRechargeAmtOther", to2Scale(result3,"totalRechargeAmtOther"));
 
             final Map<String, Object> result4 = (Map<String, Object>) results[4];
-            statistic5.put("loanBalanceAmt", decimalValue(result4, "loanBalanceAmt"));
-            statistic5.put("repayFeeAmt", decimalValue(result4, "repayFeeAmt"));
-            statistic5.put("totalRepayFeeAmt", decimalValue(result4, "totalRepayFeeAmt"));
-            statistic5.put("creditFeeAmt", decimalValue(result4, "creditFeeAmt"));
-            statistic5.put("totalCreditFeeAmt", decimalValue(result4, "totalCreditFeeAmt"));
+            statistic5.put("loanBalanceAmt", to2Scale(result4,"loanBalanceAmt"));
+            statistic5.put("repayFeeAmt", to2Scale(result4,"repayFeeAmt"));
+            statistic5.put("totalRepayFeeAmt", to2Scale(result4,"totalRepayFeeAmt"));
+            statistic5.put("creditFeeAmt", to2Scale(result4,"creditFeeAmt"));
+            statistic5.put("totalCreditFeeAmt", to2Scale(result4,"creditFeeAmt"));
 
             final Map<String, Object> result5 = (Map<String, Object>) results[5];
             statistic6.put("withdrawCountInvestor", intValue(result5, "withdrawCountInvestor"));
             statistic6.put("withdrawCountOther", intValue(result5, "withdrawCountOther"));
-            statistic6.put("withdrawAmtInvestor", decimalValue(result5, "withdrawAmtInvestor"));
-            statistic6.put("withdrawAmtOther", decimalValue(result5, "withdrawAmtOther"));
+            statistic6.put("withdrawAmtInvestor", to2Scale(result5,"withdrawAmtInvestor"));
+            statistic6.put("withdrawAmtOther", to2Scale(result5,"withdrawAmtOther"));
 
             final Map<String, Object> result6 = (Map<String, Object>) results[6];
             statistic7.put("totalWithdrawCountInvestor", intValue(result6, "totalWithdrawCountInvestor"));
             statistic7.put("totalWithdrawCountOther", intValue(result6, "totalWithdrawCountOther"));
-            statistic7.put("totalWithdrawAmtInvestor", decimalValue(result6, "totalWithdrawAmtInvestor"));
-            statistic7.put("totalWithdrawAmtOther", decimalValue(result6, "totalWithdrawAmtOther"));
+            statistic7.put("totalWithdrawAmtInvestor", to2Scale(result6,"totalWithdrawAmtInvestor"));
+            statistic7.put("totalWithdrawAmtOther", to2Scale(result6,"totalWithdrawAmtOther"));
 
             final Map<String, Object> result7 = (Map<String, Object>) results[7];
-            statistic8.put("averageBorrowDays", decimalValue(result7, "averageBorrowDays"));
-            statistic8.put("totalAverageBorrowDays", decimalValue(result7, "totalAverageBorrowDays"));
-            statistic8.put("averageBorrowRate", decimalValue(result7, "averageBorrowRate"));
-            statistic8.put("totalAverageBorrowRate", decimalValue(result7, "totalAverageBorrowRate"));
-            statistic8.put("personAverageBorrowAmt", decimalValue(result7, "personAverageBorrowAmt"));
-            statistic8.put("totalPersonAverageBorrowAmt", decimalValue(result7, "totalPersonAverageBorrowAmt"));
-            statistic8.put("orgAverageBorrowAmt", decimalValue(result7, "orgAverageBorrowAmt"));
-            statistic8.put("totalOrgAverageBorrowAmt", decimalValue(result7, "totalOrgAverageBorrowAmt"));
+            statistic8.put("averageBorrowDays", intValue(result7, "averageBorrowDays"));
+            statistic8.put("totalAverageBorrowDays", intValue(result7, "totalAverageBorrowDays"));
+            statistic8.put("averageBorrowRate", to2Scale(result7, "averageBorrowRate"));
+            statistic8.put("totalAverageBorrowRate", to2Scale(result7, "totalAverageBorrowRate"));
+            statistic8.put("personAverageBorrowAmt", to2Scale(result7, "personAverageBorrowAmt"));
+            statistic8.put("totalPersonAverageBorrowAmt", to2Scale(result7, "totalPersonAverageBorrowAmt"));
+            statistic8.put("orgAverageBorrowAmt", to2Scale(result7, "orgAverageBorrowAmt"));
+            statistic8.put("totalOrgAverageBorrowAmt", to2Scale(result7, "totalOrgAverageBorrowAmt"));
 
             final Map<String, Object> result8 = (Map<String, Object>) results[8];
-            statistic9.put("repayCapitalAmt", decimalValue(result8, "repayCapitalAmt"));
-            statistic9.put("totalRepayCapitalAmt", decimalValue(result8, "totalRepayCapitalAmt"));
+            statistic9.put("repayCapitalAmt", to2Scale(result8, "repayCapitalAmt"));
+            statistic9.put("totalRepayCapitalAmt", to2Scale(result8, "totalRepayCapitalAmt"));
             statistic9.put("creditApplyCount", intValue(result8, "creditApplyCount"));
             statistic9.put("totalCreditApplyCount", intValue(result8, "totalCreditApplyCount"));
             statistic9.put("creditedCount", intValue(result8, "creditedCount"));
             statistic9.put("totalCreditedCount", intValue(result8, "totalCreditedCount"));
 
             doHtml();
+        }
+    }
+
+    private BigDecimal to2Scale(
+            Map<String, Object> data,
+            String key
+    ) {
+        BigDecimal num = decimalValue(data, key);
+        if (num != null) {
+            return num.setScale(2, RoundingMode.HALF_UP);
+        } else {
+            return new BigDecimal(0).setScale(2, RoundingMode.HALF_UP);
         }
     }
 

@@ -41,8 +41,8 @@
         <option value="1">已签章</option>
     </options>
     <options name="locked">
-        <option value="1">已锁定</option>
         <option value="0">未锁定</option>
+        <option value="1">已锁定</option>
     </options>
     <options name="type">
         <option value="1">工程贷</option>
@@ -126,21 +126,22 @@
                     <tableColumn name="itemName" title="项目名称" type="TEXT" size="220"/>
                     <tableColumn name="status" title="状态" type="TEXT" size="80" optionsName="status"/>
                     <tableColumn name="signStatus" title="签章状态" type="TEXT" size="80" optionsName="sign-status"/>
-                    <tableColumn name="amt" title="计划募集金额" type="CURRENCY" size="100"/>
-                    <tableColumn name="investedAmt" title="已募集金额" type="CURRENCY" size="100"/>
+                    <tableColumn name="amt" title="计划募集金额" type="CURRENCY" size="120"/>
+                    <tableColumn name="investedAmt" title="已募集金额" type="CURRENCY" size="120"/>
                     <tableColumn name="borrowDays" title="借款天数" type="NUMBER" size="80"/>
-                    <tableColumn name="rate" title="借款利率（年化）" type="PERCENT" size="120"/>
-                    <tableColumn name="costFee" title="总借款成本（年化）" type="PERCENT" size="120"/>
+                    <tableColumn name="rate" title="借款利率" type="PERCENT" size="120"/>
+                    <tableColumn name="costFee" title="总借款成本" type="PERCENT" size="120"/>
                     <tableColumn name="totalInterest" title="总利息" type="CURRENCY" size="100"/>
                     <tableColumn name="inProxy" title="项目经理" type="TEXT" size="100"/>
                     <tableColumn name="financier" title="融资方" type="TEXT" size="100"/>
-                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="120"/>
-                    <tableColumn name="onLineTime" title="上线时间" type="DATE_TIME" size="120"/>
-                    <tableColumn name="loanTime" title="放款时间" type="DATE_TIME" size="120"/>
-                    <tableColumn name="clearTime" title="结清时间" type="DATE_TIME" size="120"/>
-                    <tableColumn name="visible" title="可见" type="NUMBER" size="120"/>
-                    <tableColumn name="topTime" title="置顶时间" type="DATE_TIME" size="120"/>
-                    <tableColumn name="lockedTime" title="锁定时间" type="DATE_TIME" size="120"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="onLineTime" title="上线时间" type="DATE" size="110"/>
+                    <tableColumn name="loanTime" title="放款时间" type="DATE" size="110"/>
+                    <tableColumn name="capitalRepayTime" title="预计还本时间" type="DATE" size="110"/>
+                    <tableColumn name="clearTime" title="结清时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="visible" title="可见" type="NUMBER" size="50"/>
+                    <tableColumn name="topTime" title="置顶时间" type="DATE_TIME" size="50"/>
+                    <tableColumn name="lockedTime" title="锁定时间" type="DATE_TIME" size="50"/>
                 </table>
             </cell>
         </row>

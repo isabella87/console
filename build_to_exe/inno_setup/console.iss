@@ -24,7 +24,7 @@ DisableProgramGroupPage=yes
 OutputDir=E:\workspace\banhui_m\console\trunk\build_to_exe\inno_setup
 OutputBaseFilename=setup
 SetupIconFile=E:\workspace\banhui_m\console\trunk\build_to_exe\favicon.ico
-Password=wanyxbb
+Password=banhui99
 Compression=lzma
 SolidCompression=yes
 
