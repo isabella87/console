@@ -2,7 +2,7 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title=""
+        title="选择抵押/质押人"
         height="400"
         width="600"
 >
@@ -27,7 +27,6 @@
                     <tableColumn title="ID" size="80" type="TEXT" name="bpmId"/>
                     <tableColumn title="抵押/质押人" size="160" type="TEXT" name="ownerName"/>
                     <tableColumn title="抵押物估值" size="160" type="TEXT" name="evaluation"/>
-                    <tableColumn title="联系人姓名" size="160" type="TEXT" name="linkMan"/>
                     <tableColumn title="联系人手机号码" size="160" type="TEXT" name="linkMobile"/>
                 </table>
             </cell>

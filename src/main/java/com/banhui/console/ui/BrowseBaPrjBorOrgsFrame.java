@@ -146,7 +146,6 @@ public class BrowseBaPrjBorOrgsFrame
 
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmoId"), row.get("bpmoId")));
         }
-        controller().enable("delete");
     }
 
     private void check(

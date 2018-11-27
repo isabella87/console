@@ -2,6 +2,7 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.Result;
 import com.banhui.console.rpc.SysProxy;
+import org.xx.armory.swing.DialogUtils;
 import org.xx.armory.swing.UIUtils;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
@@ -33,7 +34,7 @@ public class BrowseSysUsersFrame
         controller().connect("search", this::search);
         controller().connect("create", this::create);
         controller().connect("edit", this::edit);
-        controller().connect("reset-password", this::resetPassword2);
+        controller().connect("reset-password", this::resetPassword);
         controller().connect("delete", this::delete);
         controller().connect("list", "change", this::listChanged);
 
@@ -153,7 +154,7 @@ public class BrowseSysUsersFrame
             controller().disable("reset-password");
 
             new SysProxy().resetPassword(userName)
-                          .thenAcceptAsync(Result::none)
+                          .thenAcceptAsync(Result::booleanValue)
                           .whenCompleteAsync(this::resetPasswordCallback, UPDATE_UI);
         }
     }
@@ -190,13 +191,20 @@ public class BrowseSysUsersFrame
                     int i,
                     String id
             ) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    return;
-                }
+
+                new SysProxy().resetPassword(id).thenApplyAsync(Result::map).whenCompleteAsync(this::executeCallback, UPDATE_UI).join();
 
                 System.out.println("running: " + id);
+            }
+
+            private void executeCallback(
+                    Map<String, Object> stringObjectMap,
+                    Throwable t
+            ) {
+                if (t != null) {
+                    ErrorHandler.handle(t);
+                    return;
+                }
             }
         });
 
@@ -243,7 +251,7 @@ public class BrowseSysUsersFrame
     }
 
     private void resetPasswordCallback(
-            Void dummy,
+            Void v,
             Throwable t
     ) {
         if (t != null) {
@@ -251,6 +259,11 @@ public class BrowseSysUsersFrame
         }
 
         controller().enable("reset-password");
+
+        String pwdResetSuccess = controller().getMessage("pwd-reset-success");
+        DialogUtils.prompt(null, pwdResetSuccess);
+
+
     }
 
     private void deleteCallback(

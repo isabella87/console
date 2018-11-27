@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 public class EditSysRolePermDlg
@@ -57,7 +58,7 @@ public class EditSysRolePermDlg
         controller().connect("frozen-funds", "change", this::frozenFunds);
         controller().connect("plat-message", "change", this::platMessage);
         controller().connect("yimei-message", "change", this::yimeiMessage);
-        controller().connect("track-investors", "change", this::trackInvestors);
+//        controller().connect("track-investors", "change", this::trackInvestors);
         controller().connect("reg-investors", "change", this::regInvestors);
         controller().connect("customer-manager", "change", this::customerManager);
         controller().connect("manager-statistic", "change", this::managerStatistic);
@@ -215,7 +216,7 @@ public class EditSysRolePermDlg
 
     private void accOrg(Object event) {
         final Boolean flag = controller().getBoolean("acc-org");
-        int[] perms = {20490, 20491, 20492, 20493, 20494};
+        int[] perms = {20490, 20491, 20492, 20493, 20494, 20463};
         doSelect(perms, flag);
     }
 
@@ -243,21 +244,21 @@ public class EditSysRolePermDlg
         doSelect(perms, flag);
     }
 
-    private void trackInvestors(Object event) {
-        final Boolean flag = controller().getBoolean("track-investors");
-        int[] perms = {20401, 20402, 20403, 20404, 20407, 20501, 20406, 20502, 20405};
-        doSelect(perms, flag);
-    }
+//    private void trackInvestors(Object event) {
+//        final Boolean flag = controller().getBoolean("track-investors");
+//        int[] perms = {20401, 20402, 20403, 20404, 20407, 20501, 20406, 20502, 20405};
+//        doSelect(perms, flag);
+//    }
 
     private void regInvestors(Object event) {
         final Boolean flag = controller().getBoolean("reg-investors");
-        int[] perms = {20701, 20704, 20703, 20702, 20503, 20507, 20506, 20505};
+        int[] perms = {20701, 20704, 20703, 20702, 20503};
         doSelect(perms, flag);
     }
 
     private void customerManager(Object event) {
         final Boolean flag = controller().getBoolean("customer-manager");
-        int[] perms = {20931, 20430, 20432, 20433, 20434, 20435, 20436, 20505};
+        int[] perms = {20931, 20430, 20432, 20433, 20434, 20435, 20436};
         doSelect(perms, flag);
     }
 
@@ -285,10 +286,10 @@ public class EditSysRolePermDlg
     ) {
         if (result == OK) {
             controller().disable("ok");
-            int[] perms = {10000, 10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10010, 10011, 10012, 10013, 10104, 20401, 20402, 20403, 20404, 20405,
-                    20406, 20407, 20430, 20432, 20433, 20434, 20435, 20436, 20440, 20441, 20442, 20443, 20460, 20461, 20462, 20463, 20465, 20466, 20467, 20468, 20469,
-                    20470, 20471, 20472, 20473, 20474, 20475, 20477, 20479, 20480, 20481, 20482, 20483, 20484, 20490, 20491, 20492, 20493, 20494, 20501, 20502, 20503,
-                    20505, 20506, 20507, 20610, 20611, 20612, 20613, 20614, 20615, 20630, 20631, 20632, 20633, 20640, 20650, 20651, 20652, 20701, 20702, 20703, 20704,
+            int[] perms = {10000, 10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10010, 10011, 10012, 10013, 10104, 20430, 20432,
+                    20433, 20434, 20435, 20436, 20440, 20441, 20442, 20443, 20460, 20461, 20462, 20463, 20464, 20465, 20466, 20467, 20468, 20469,
+                    20470, 20471, 20472, 20473, 20474, 20475, 20477, 20479, 20480, 20481, 20482, 20483, 20484, 20490, 20491, 20492, 20493, 20494, 20503,
+                    20610, 20611, 20612, 20613, 20614, 20615, 20630, 20631, 20632, 20633, 20640, 20650, 20651, 20652, 20701, 20702, 20703, 20704,
                     20931, 60001, 60002, 60003, 60010, 60011, 60012, 60013, 60014, 60015, 60016, 60017, 60018, 60019, 60020, 60021, 60060, 60061, 60062, 60063, 60064,
                     60065, 60066, 60067, 60069, 60080, 60087, 60088, 60089, 60090, 60091, 60092, 60093, 60094, 60095, 60097, 60098, 60099, 60100, 60101, 60102, 60110,
                     60111, 60112, 60113, 60115, 60120, 60121, 60130, 60131, 60133, 60134, 60135, 60136, 60137, 60150, 60151, 60160, 60163, 60171, 80011, 80012, 80013,
@@ -303,6 +304,11 @@ public class EditSysRolePermDlg
                     str.append(perm1);
                     str.append(",");
                 }
+            }
+            if (str.toString().isEmpty()) {
+                warn(this.getOwner(), controller().getMessage("empty"));
+                controller().enable("ok");
+                return;
             }
             final Map<String, Object> params = new HashMap<>();
             params.put("role-name", roleName);

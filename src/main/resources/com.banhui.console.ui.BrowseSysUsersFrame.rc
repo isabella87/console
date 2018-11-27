@@ -5,6 +5,7 @@
         title="后台帐户管理"
         width="800"
         height="600">
+    <message name="pwd-reset-success">用户密码已被重置！</message>
     <message name="reset-password-execution">执行重置帐户密码</message>
     <message name="confirm-reset-password"><![CDATA[重置帐户 <b><u>{}</u></b> 的密码，此操作无法被撤销！确认吗？]]></message>
     <message name="confirm-delete"><![CDATA[删除帐户 <b><u>{}</u></b>，此操作无法被撤销！确认吗？]]></message>

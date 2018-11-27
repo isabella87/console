@@ -1,6 +1,5 @@
 package com.banhui.console.ui;
 
-import com.banhui.console.rpc.BaPrjBorOrgsProxy;
 import com.banhui.console.rpc.BaPrjMortgageProxy;
 import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
@@ -60,7 +59,6 @@ public class BrowseBaPrjMortgageFrame
         params.put("end-time", endDate);
         params.put("key", key);
         controller().disable("search");
-
         new BaPrjMortgageProxy().all(params)
                                 .thenApplyAsync(Result::list)
                                 .thenAcceptAsync(this::searchCallback, UPDATE_UI)
@@ -82,7 +80,7 @@ public class BrowseBaPrjMortgageFrame
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = 0;
 
-        final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(0);
+        final EditBaPrjMortgageDlg dlg = new EditBaPrjMortgageDlg(0);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
@@ -99,7 +97,7 @@ public class BrowseBaPrjMortgageFrame
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
         final long id = tableModel.getNumberByName(selectedRow, "bpmId");
-        final EditBaPrjBorOrgDlg dlg = new EditBaPrjBorOrgDlg(id);
+        final EditBaPrjMortgageDlg dlg = new EditBaPrjMortgageDlg(id);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
@@ -119,11 +117,11 @@ public class BrowseBaPrjMortgageFrame
 
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bpmId");
-
-            new BaPrjBorOrgsProxy().del(bpeId)
+            final long bpmId = tableModel.getNumberByName(table.getSelectedRow(), "bpmId");
+            new BaPrjMortgageProxy().del(bpmId)
                                    .thenApplyAsync(Result::map)
                                    .whenCompleteAsync(this::delCallback, UPDATE_UI);
+
         }
     }
 
@@ -136,10 +134,8 @@ public class BrowseBaPrjMortgageFrame
         } else {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmId"), row.get("bpmId")));
         }
-        controller().enable("delete");
     }
 
 

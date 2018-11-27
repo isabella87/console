@@ -149,7 +149,6 @@ public class BrowseBaPrjBorPersFrame
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             tableModel.removeFirstRow(row -> Objects.equals(deletedRow.get("bpmpId"), row.get("bpmpId")));
         }
-        controller().disable("delete");
     }
 
     private void check(

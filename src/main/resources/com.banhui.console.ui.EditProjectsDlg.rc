@@ -33,7 +33,7 @@
     <action name="deleteBorPer" title="删除(L)" mnemonic="L"/>
     <action name="createBorOrg" title="创建借款机构(E)" mnemonic="E"/>
     <action name="deleteBorOrg" title="删除(M)" mnemonic="M"/>
-    <action name="createMortgage" title="创建抵押物(E)"/>
+    <action name="createMortgage" title="创建抵押/质押人(E)"/>
     <action name="deleteMortgage" title="删除(M)" />
     <options name="project-type">
         <option value="10">企业贷</option>
@@ -65,6 +65,10 @@
     <options name="visible">
         <option value="1">可见</option>
         <option value="0">不可见</option>
+    </options>
+    <options name="mType">
+        <option value="1">抵押</option>
+        <option value="2">质押</option>
     </options>
     <boxLayout>
         <tabbedPane>
@@ -406,14 +410,6 @@
                                             <button actionName="operate"/>
                                         </boxLayout>
                                     </cell>
-                                    <cell horizontalAlignment="BOTH">
-                                        <boxLayout>
-                                            <label for="bill-pledgor">票据出质人：</label>
-                                            <text name="bill-pledgor"/>
-                                            <label for="show-bill-pledgor">票据出质人：</label>
-                                            <text name="show-bill-pledgor"/>
-                                        </boxLayout>
-                                    </cell>
                                 </row>
                             </gridLayout>
                         </cell>
@@ -604,20 +600,20 @@
                     </row>
                 </gridLayout>
             </tab>
-            <tab title="抵押物" description="抵押物">
+            <tab title="抵押/质押人" description="抵押/质押人">
                 <gridLayout>
                     <column/>
                     <row>
                         <cell>
-                            <gridLayout title="抵押物">
+                            <gridLayout title="抵押/质押人">
                                 <column/>
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="mortgages">
                                             <tableColumn name="_row" title="" type="TEXT" size="40"/>
                                             <tableColumn name="pmId" title="ID" type="TEXT" size="60"/>
-                                            <tableColumn name="ownerName" title="抵押人姓名或者机构名称" type="TEXT" size="200"/>
-                                            <tableColumn name="ownerIdNo" title="抵押人证件号" type="TEXT" size="160"/>
+                                            <tableColumn name="ownerName" title="姓名或者机构名称" type="TEXT" size="200"/>
+                                            <tableColumn name="mType" title="类型" type="TEXT" size="160" optionsName="mType"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
                                             <tableColumn name="guaraHighCreditAmt" title="担保的最高债权额" type="CURRENCY" size="160"/>
                                             <tableColumn name="visible" title="协议可见" type="TEXT" size="100"

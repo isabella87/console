@@ -6,6 +6,7 @@
 >
     <message name="create">创建</message>
     <message name="edit">编辑</message>
+    <message name="empty"><![CDATA[至少要选择一个权限!]]></message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <gridLayout>
@@ -575,6 +576,7 @@
                                                     <checkBox name="20491" text="查询账户详细信息"/>
                                                     <checkBox name="20493" text="更新账户基本信息"/>
                                                     <checkBox name="20492" text="查询银行账户信息"/>
+                                                    <checkBox name="20464" text="检查银行开户"/>
                                                     <checkBox name="20494" text="确认开户"/>
                                                 </boxLayout>
                                             </cell>
@@ -673,48 +675,48 @@
                     <tab title="客户关系管理">
                         <gridLayout>
                             <column/>
-                            <row>
-                                <cell>
-                                    <gridLayout title="跟进客户关系管理">
-                                        <column alignment="FIRST"/>
-                                        <row>
-                                            <cell>
-                                                <boxLayout>
-                                                    <checkBox name="track-investors" text="全选"/>
-                                                    <checkBox name="20401" text="查询跟进客户列表"/>
-                                                    <checkBox name="20402" text="创建跟进客户"/>
-                                                    <checkBox name="20403" text="更新跟进客户详细信息"/>
-                                                    <checkBox name="20404" text="删除跟进客户"/>
-                                                    <checkBox name="20407" text="查询跟进客户信息"/>
-                                                    <checkBox name="20501" text="跟进客户客户经理分配"/>
-                                                </boxLayout>
-                                            </cell>
-                                        </row>
-                                        <row>
-                                            <cell>
-                                                <boxLayout>
-                                                    <checkBox name="20501" text="批量分配跟进客户客户经理"/>
-                                                    <checkBox name="20501" text="取消跟进客户分配的客户经理"/>
-                                                    <checkBox name="20501" text="查询跟踪客户的历史分配客户经理"/>
-                                                    <checkBox name="20406" text="根据手机号查询用户注册AUID"/>
-                                                    <checkBox name="20502" text="查询跟进客户跟进信息"/>
-                                                </boxLayout>
-                                            </cell>
-                                        </row>
-                                        <row>
-                                            <cell>
-                                                <boxLayout>
-                                                    <checkBox name="20502" text="创建跟进客户跟进信息"/>
-                                                    <checkBox name="20405" text="修改跟进客户手机号"/>
-                                                    <checkBox name="20502" text="查询我的跟进客户列表信息"/>
-                                                    <checkBox name="20502" text="查询工作任务中已跟进的跟进情况"/>
-                                                    <checkBox name="20502" text="查询工作任务中已完成工作任务的数量"/>
-                                                </boxLayout>
-                                            </cell>
-                                        </row>
-                                    </gridLayout>
-                                </cell>
-                            </row>
+                            <!--<row>-->
+                                <!--<cell>-->
+                                    <!--<gridLayout title="跟进客户关系管理">-->
+                                        <!--<column alignment="FIRST"/>-->
+                                        <!--<row>-->
+                                            <!--<cell>-->
+                                                <!--<boxLayout>-->
+                                                    <!--<checkBox name="track-investors" text="全选"/>-->
+                                                    <!--<checkBox name="20401" text="查询跟进客户列表"/>-->
+                                                    <!--<checkBox name="20402" text="创建跟进客户"/>-->
+                                                    <!--<checkBox name="20403" text="更新跟进客户详细信息"/>-->
+                                                    <!--<checkBox name="20404" text="删除跟进客户"/>-->
+                                                    <!--<checkBox name="20407" text="查询跟进客户信息"/>-->
+                                                    <!--<checkBox name="20501" text="跟进客户客户经理分配"/>-->
+                                                <!--</boxLayout>-->
+                                            <!--</cell>-->
+                                        <!--</row>-->
+                                        <!--<row>-->
+                                            <!--<cell>-->
+                                                <!--<boxLayout>-->
+                                                    <!--<checkBox name="20501" text="批量分配跟进客户客户经理"/>-->
+                                                    <!--<checkBox name="20501" text="取消跟进客户分配的客户经理"/>-->
+                                                    <!--<checkBox name="20501" text="查询跟踪客户的历史分配客户经理"/>-->
+                                                    <!--<checkBox name="20406" text="根据手机号查询用户注册AUID"/>-->
+                                                    <!--<checkBox name="20502" text="查询跟进客户跟进信息"/>-->
+                                                <!--</boxLayout>-->
+                                            <!--</cell>-->
+                                        <!--</row>-->
+                                        <!--<row>-->
+                                            <!--<cell>-->
+                                                <!--<boxLayout>-->
+                                                    <!--<checkBox name="20502" text="创建跟进客户跟进信息"/>-->
+                                                    <!--<checkBox name="20405" text="修改跟进客户手机号"/>-->
+                                                    <!--<checkBox name="20502" text="查询我的跟进客户列表信息"/>-->
+                                                    <!--<checkBox name="20502" text="查询工作任务中已跟进的跟进情况"/>-->
+                                                    <!--<checkBox name="20502" text="查询工作任务中已完成工作任务的数量"/>-->
+                                                <!--</boxLayout>-->
+                                            <!--</cell>-->
+                                        <!--</row>-->
+                                    <!--</gridLayout>-->
+                                <!--</cell>-->
+                            <!--</row>-->
                             <row>
                                 <cell>
                                     <gridLayout title="注册客户关系管理">
@@ -732,15 +734,15 @@
                                                 </boxLayout>
                                             </cell>
                                         </row>
-                                        <row>
-                                            <cell>
-                                                <boxLayout>
-                                                    <checkBox name="20507" text="查询三部超时注册用户列表"/>
-                                                    <checkBox name="20506" text="查询三部转二部注册用户列表"/>
-                                                    <checkBox name="20505" text="查询二部转一部注册用户列表"/>
-                                                </boxLayout>
-                                            </cell>
-                                        </row>
+                                        <!--<row>-->
+                                            <!--<cell>-->
+                                                <!--<boxLayout>-->
+                                                    <!--<checkBox name="20507" text="查询三部超时注册用户列表"/>-->
+                                                    <!--<checkBox name="20506" text="查询三部转二部注册用户列表"/>-->
+                                                    <!--<checkBox name="20505" text="查询二部转一部注册用户列表"/>-->
+                                                <!--</boxLayout>-->
+                                            <!--</cell>-->
+                                        <!--</row>-->
                                     </gridLayout>
                                 </cell>
                             </row>

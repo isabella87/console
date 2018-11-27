@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="抵押/质押人">
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <!--<message name="intro-null"><![CDATA[单位介绍不能为空!]]></message>-->
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="type">
+        <option value="1">抵押</option>
+        <option value="2">质押</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <column/>
+        <row>
+            <cell>
+                <label for="content">抵押/质押物内容：</label>
+            </cell>
+            <cell>
+                <text name="content" required="true" pattern="\w{2,}"/>
+            </cell>
+            <cell>
+                <label for="evaluation">抵押/质押物估值：</label>
+            </cell>
+            <cell>
+                <text name="evaluation" required="true" type="CURRENCY"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="m-type">类型：</label>
+            </cell>
+            <cell>
+                <dropDown name="m-type" optionsName="type"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="owner-name">姓名/机构名称：</label>
+            </cell>
+            <cell>
+                <text name="owner-name" required="true" pattern="\w{2,}"/>
+            </cell>
+            <cell>
+                <label for="owner-show-name">展示名称：</label>
+            </cell>
+            <cell>
+                <text name="owner-show-name" required="true" pattern="\w{2,}"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="owner-id-no">证件号：</label>
+            </cell>
+            <cell>
+                <text name="owner-id-no" required="true"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="link-man">联系人姓名：</label>
+            </cell>
+            <cell>
+                <text name="link-man" required="true"/>
+            </cell>
+            <cell>
+                <label for="link-mobile">联系人手机号码：</label>
+            </cell>
+            <cell>
+                <text name="link-mobile" pattern="^1[34578]\d{9}$"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="link-address">联系人地址：</label>
+            </cell>
+            <cell columnSpan="3">
+                <text name="link-address"/>
+            </cell>
+        </row>
+        <row>
+            <cell verticalAlignment="FIRST">
+                <label for="remark">备注：</label>
+            </cell>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <text name="remark" type="TEXT_AREA" rowSize="4"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="8" horizontalAlignment="BOTH">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

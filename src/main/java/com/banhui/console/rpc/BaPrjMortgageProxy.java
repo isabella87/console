@@ -21,23 +21,23 @@ public class BaPrjMortgageProxy
     public CompletableFuture<Result> add(
             Map<String, Object> params
     ) {
-        return super.http().put("mgr/ba/prj-mgr-mortgage", params);
+        return super.http().put("mgr/ba/prj-mortgage", params);
     }
 
     public CompletableFuture<Result> update(long id,
             Map<String, Object> params
     ) {
-        return super.http().post("mgr/ba/prj-mgr-mortgage/"+id, params);
+        return super.http().post("mgr/ba/prj-mortgage/"+id, params);
     }
 
     public CompletableFuture<Result> del(long id
     ) {
-        return super.http().delete("mgr/ba/prj-mgr-mortgage/" + id, null);
+        return super.http().delete("mgr/ba/prj-mortgage/" + id, null);
     }
 
     public CompletableFuture<Result> query(long id
     ) {
-        return super.http().get("mgr/ba/prj-mgr-mortgage/"+ id,null);
+        return super.http().get("mgr/ba/prj-mortgage/"+ id,null);
     }
 
 

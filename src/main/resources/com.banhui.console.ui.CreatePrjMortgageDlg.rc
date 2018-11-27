@@ -2,7 +2,7 @@
 <ui
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
-        title=""
+        title="创建抵押/质押人"
 >
     <message name="mortgage">抵押/质押人-</message>
     <message name="mortgage-blank"><![CDATA[请选择一个抵押/质押人]]></message>

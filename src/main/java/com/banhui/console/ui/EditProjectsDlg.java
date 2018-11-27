@@ -67,6 +67,7 @@ public class EditProjectsDlg
         controller().connect("guaranteeOrg", "change", this::listChanged2);
         controller().connect("borPersons", "change", this::listChanged3);
         controller().connect("borOrgs", "change", this::listChanged4);
+        controller().connect("mortgages", "change", this::listChanged5);
 
         controller().connect("for-in-time", "change", this::checkboxInOutTime);
         controller().connect("bonus-period", "change", this::changeBonusPeriod);
@@ -96,6 +97,7 @@ public class EditProjectsDlg
         controller().disable("deleteGuaOrg");
         controller().disable("deleteBorPer");
         controller().disable("deleteBorOrg");
+        controller().disable("deleteMortgage");
 
         controller().connect("amt", "change", this::interestChange);
         controller().connect("rate", "change", this::interestChange);
@@ -686,8 +688,6 @@ public class EditProjectsDlg
         controller().setText("core-guara-name", stringValue(data, "coreGuaraName"));
         controller().setInteger("bonus-day", intValue(data, "bonusDay"));
         controller().setNumber("bonus-period", longValue(data, "bonusPeriod"));
-        controller().setText("bill-pledgor", stringValue(data, "billPledgor"));
-        controller().setText("show-bill-pledgor", stringValue(data, "showBillPledgor"));
 //        controller().setText("financier_cu_id", stringValue(data, "financierCuId"));
 
         int contract = (int) data.get("contract");
@@ -840,6 +840,19 @@ public class EditProjectsDlg
             controller().disable("deleteBorOrg");
         } else {
             controller().disable("deleteBorOrg");
+        }
+    }
+
+    private void listChanged5(
+            Object event
+    ) {
+        int[] selectedRows = controller().get(JTable.class, "mortgages").getSelectedRows();
+        if (selectedRows.length == 1) {
+            controller().enable("deleteMortgage");
+        } else if (selectedRows.length > 1) {
+            controller().disable("deleteMortgage");
+        } else {
+            controller().disable("deleteMortgage");
         }
     }
 
