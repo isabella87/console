@@ -52,7 +52,7 @@
                 <label for="show-name">展示名称：</label>
             </cell>
             <cell>
-                <text name="show-name" required="true" pattern="\w{2,}"/>
+                <text name="show-name" required="true"/>
             </cell>
         </row>
         <row>
@@ -95,7 +95,10 @@
                 <label for="show-reg-years">展示注册年限：</label>
             </cell>
             <cell>
-                <text name="show-reg-years" size="10" suffix=" 年 " type="NUMBER" required="true"/>
+                <boxLayout>
+                    <text name="show-reg-years" size="10" required="true"/>
+                    <label>年</label>
+                </boxLayout>
             </cell>
         </row>
         <row>
@@ -137,7 +140,7 @@
                 <label for="qualification">行业资质：</label>
             </cell>
             <cell>
-                <text name="qualification" optionsName="qualification" size="10" />
+                <text name="qualification" optionsName="qualification" size="10"/>
             </cell>
         </row>
         <row>

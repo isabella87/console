@@ -57,10 +57,10 @@ public class EditBaPrjCtorDlg
             params.put("ent-quality", controller().getText("ent-quality"));
             params.put("ent-strength", controller().getText("ent-strength").trim());
             params.put("registered-date", controller().getDate("registered-date"));
-            params.put("reg-years", controller().getInteger("reg-years"));
-            params.put("show-reg-years", controller().getInteger("show-reg-years"));
-            params.put("reg-funds", controller().getNumber("reg-funds"));
-            params.put("show-reg-funds", controller().getNumber("show-reg-funds"));
+            params.put("reg-years", controller().getNumber("reg-years"));
+            params.put("show-reg-years", controller().getText("show-reg-years").trim());
+            params.put("reg-funds", controller().getDecimal("reg-funds"));
+            params.put("show-reg-funds", controller().getText("show-reg-funds"));
             params.put("lasted-area", controller().getDecimal("lasted-area"));
             params.put("lasted-output", controller().getDecimal("lasted-output"));
             params.put("qualification", controller().getText("qualification").trim());
@@ -105,15 +105,15 @@ public class EditBaPrjCtorDlg
         controller().setText("ent-quality", stringValue(data, "entQuality"));
         controller().setText("ent-strength", stringValue(data, "entStrength"));
         controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setInteger("reg-years", intValue(data, "regYears"));
-        controller().setInteger("show-reg-years", intValue(data, "showRegYears"));
-        controller().setNumber("reg-funds", longValue(data, "regFunds"));
+        controller().setNumber("reg-years", longValue(data, "regYears"));
+        controller().setText("show-reg-years", stringValue(data, "showRegYears"));
+        controller().setDecimal("reg-funds", decimalValue(data, "regFunds"));
         controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
         controller().setDecimal("lasted-area", decimalValue(data, "lastedArea"));
         controller().setDecimal("lasted-output", decimalValue(data, "lastedOutput"));
         controller().setText("qualification", stringValue(data, "qualification"));
-        controller().setInteger("nation-prize-count", intValue(data, "nationPrizeCount"));
-        controller().setInteger("provin-prize-count", intValue(data, "provinPrizeCount"));
+        controller().setNumber("nation-prize-count", longValue(data, "nationPrizeCount"));
+        controller().setNumber("provin-prize-count", longValue(data, "provinPrizeCount"));
         controller().setText("intro", stringValue(data, "intro"));
     }
 

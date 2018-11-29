@@ -50,7 +50,7 @@
                 <label for="owner-show-name">展示名称：</label>
             </cell>
             <cell>
-                <text name="owner-show-name" required="true" pattern="\w{2,}"/>
+                <text name="owner-show-name" required="true" pattern=".{2,}"/>
             </cell>
         </row>
         <row>

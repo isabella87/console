@@ -5,8 +5,14 @@
         title="个人账户信息"
         width="800"
         height="600">
+    <message name="search-title"><![CDATA[搜索个人账户中：]]></message>
+    <message name="all-page"><![CDATA[共有 {} 条 ，{} 页 ]]></message>
+    <message name="wrong-page"><![CDATA[请输入正确的页码！1-{}页 ]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="account-info" title="账户信息"/>
+    <action name="previous-page" title="上一页"/>
+    <action name="next-page" title="下一页"/>
+    <action name="to-page" title="跳转"/>
     <options name="accelerate-date">
         <option value="-1">快速选择日期</option>
         <option value="1">最近一年</option>
@@ -67,10 +73,24 @@
                     <tableColumn name="allowBorrow" title="允许借款" type="TEXT" size="100" optionsName="allow-status"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
                     <tableColumn name="idCard" title="身份证" type="TEXT" size="180"/>
-                    <tableColumn name="mobile" title="手机" type="TEXT" size="120"/>
+                    <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
                     <tableColumn name="recommendMobile" title="推荐码(推荐人手机号)" type="TEXT" size="140"/>
                     <tableColumn name="recommendName" title="推荐人" type="TEXT" size="120"/>
                 </table>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <label name="page-num"/>
+                    <button actionName="previous-page" name="previous-page"/>
+                    <label>第-</label>
+                    <label name="this-page"/>
+                    <label>-页</label>
+                    <button actionName="next-page" name="next-page"/>
+                    <text name="to-page-num" type="NUMBER" size="8"/>
+                    <button actionName="to-page" name="to-page"/>
+                </boxLayout>
             </cell>
         </row>
     </gridLayout>

@@ -48,13 +48,13 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="bgoId" title="ID" type="TEXT" size="60"/>
+                    <tableColumn name="bgoId" title="ID" type="TEXT" size="80"/>
                     <tableColumn name="name" title="企业名称" type="TEXT" size="200"/>
-                    <tableColumn name="regYears" title="注册年限（年）" type="TEXT" size="100"/>
+                    <tableColumn name="regYears" title="注册年限（年）" type="TEXT" size="140"/>
                     <tableColumn name="regAddress" title="注册地址" type="TEXT" size="200"/>
                     <tableColumn name="regFunds" title="注册资本金（万元）" type="CURRENCY" size="160"/>
                     <tableColumn name="ranking" title="行业排名" type="NUMBER" size="160"/>
-                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
                 </table>
             </cell>
         </row>

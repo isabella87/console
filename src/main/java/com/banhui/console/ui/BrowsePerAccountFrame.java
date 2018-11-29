@@ -4,17 +4,21 @@ import com.banhui.console.rpc.AccountsProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.InternalFramePane;
+import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
@@ -22,6 +26,10 @@ import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowsePerAccountFrame
         extends InternalFramePane {
+    //private volatile Collection<Map<String, Object>> lists;
+    private volatile int pageNum;
+    private volatile int pageIndex;
+    private final int PAGE_SIZE = 2000;
 
     public BrowsePerAccountFrame() {
         controller().disable("account-info");
@@ -30,6 +38,26 @@ public class BrowsePerAccountFrame
         controller().connect("accelerate-date", "change", this::accelerateDate);
         controller().connect("search", this::search);
         controller().connect("account-info", this::accountInfo);
+        controller().connect("account-info", this::accountInfo);
+        controller().connect("next-page", this::nextPage);
+        controller().connect("previous-page", this::previousPage);
+        controller().connect("to-page", this::toPage);
+
+        controller().disable("previous-page");
+        controller().disable("next-page");
+        controller().disable("to-page");
+    }
+
+    private void updatePage() {
+        controller().enable("previous-page");
+        controller().enable("next-page");
+        controller().enable("to-page");
+        int pageIndex = controller().getInteger("this-page");
+        if (pageIndex <= 1) {
+            controller().disable("previous-page");
+        } else if (pageIndex >= pageNum) {
+            controller().disable("next-page");
+        }
     }
 
     private void accountInfo(
@@ -41,7 +69,7 @@ public class BrowsePerAccountFrame
         final long id = tableModel.getNumberByName(selectedRow, "auId");
         final long status = tableModel.getNumberByName(selectedRow, "status");
 
-        final EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id,status);
+        final EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, status);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -50,38 +78,79 @@ public class BrowsePerAccountFrame
             ActionEvent actionEvent
     ) {
         assertUIThread();
-
-        final int status = controller().getInteger("account-status");
-        final int lockStatus = controller().getInteger("lock-status");
-        final String searchKey = controller().getText("search-key");
-        final Date startDate = floorOfDay(controller().getDate("start-date"));
-        final Date endDate = ceilingOfDay(controller().getDate("end-date"));
-
-        final Map<String, Object> params = new HashMap<>();
-        if (status != Integer.MAX_VALUE) {
-            params.put("status", status);
-        }
-        if (lockStatus != Integer.MAX_VALUE) {
-            params.put("locked-status", lockStatus);
-        }
-        params.put("search-key", searchKey);
-        params.put("start-time", startDate);
-        params.put("end-time", endDate);
         controller().disable("search");
-        new AccountsProxy().queryAccPersonInfos(params)
-                           .thenApplyAsync(Result::list)
+        new AccountsProxy().getAccPersonTotal(getParams())
+                           .thenApplyAsync(Result::longValue)
                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
-                           .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
+                           .exceptionally(ErrorHandler::handle);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Long num
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        pageNum = (PAGE_SIZE + num.intValue() - 1) / PAGE_SIZE;
+        controller().setText("page-num", controller().formatMessage("all-page", num, pageNum));
+        search2(null, 1);
     }
 
+    private void previousPage(
+            ActionEvent actionEvent
+    ) {
+        controller().disable("previous-page");
+        controller().disable("next-page");
+        controller().disable("to-page");
+        int pageIndex = controller().getInteger("this-page") - 1;
+        search2(null, pageIndex);
+    }
+
+    private void nextPage(
+            ActionEvent actionEvent
+    ) {
+        controller().disable("previous-page");
+        controller().disable("next-page");
+        controller().disable("to-page");
+        int pageIndex = controller().getInteger("this-page") + 1;
+        search2(null, pageIndex);
+    }
+
+    private void toPage(
+            ActionEvent actionEvent
+    ) {
+        int pageIndex = controller().getInteger("to-page-num");
+        if (pageIndex > pageNum || pageIndex <= 0) {
+            warn(null, controller().formatMessage("wrong-page", pageNum));
+            controller().setText("to-page-num", null);
+            return;
+        }
+        controller().disable("previous-page");
+        controller().disable("next-page");
+        controller().disable("to-page");
+        search2(null, pageIndex);
+    }
+
+
+    private void search2(
+            ActionEvent actionEvent,
+            int pageIndex
+    ) {
+        Map<String, Object> param = getParams();
+        this.pageIndex = pageIndex;
+        param.put("pn", pageIndex);
+        new AccountsProxy().queryAccPersonInfos(param)
+                           .thenApplyAsync(Result::list)
+                           .thenAcceptAsync(this::searchCallback2, UPDATE_UI)
+                           .exceptionally(ErrorHandler::handle);
+    }
+
+    private void searchCallback2(
+            Collection<Map<String, Object>> map
+    ) {
+        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+        tableModel.setAllRows(map);
+        controller().setInteger("this-page", pageIndex);
+        updatePage();
+        controller().enable("search");
+    }
 
     private void accelerateDate(
             Object event
@@ -108,4 +177,25 @@ public class BrowsePerAccountFrame
             controller().disable("account-info");
         }
     }
+
+    public Map<String, Object> getParams() {
+        final int status = controller().getInteger("account-status");
+        final int lockStatus = controller().getInteger("lock-status");
+        final String searchKey = controller().getText("search-key");
+        final Date startDate = floorOfDay(controller().getDate("start-date"));
+        final Date endDate = ceilingOfDay(controller().getDate("end-date"));
+
+        final Map<String, Object> params = new HashMap<>();
+        if (status != Integer.MAX_VALUE) {
+            params.put("status", status);
+        }
+        if (lockStatus != Integer.MAX_VALUE) {
+            params.put("locked-status", lockStatus);
+        }
+        params.put("search-key", searchKey);
+        params.put("start-time", startDate);
+        params.put("end-time", endDate);
+        return params;
+    }
+
 }

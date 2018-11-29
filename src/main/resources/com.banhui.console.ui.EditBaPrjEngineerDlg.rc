@@ -13,7 +13,8 @@
         <option>乙级</option>
     </options>
     <options name="gender-status">
-        <option value="0">女</option>
+        <option value="">未知</option>
+        <option value="2">女</option>
         <option value="1">男</option>
     </options>
     <options name="eng-type">
@@ -55,7 +56,7 @@
                             <label for="eng-show-name">展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="eng-show-name" pattern="\w{2,}"/>
+                            <text name="eng-show-name" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>

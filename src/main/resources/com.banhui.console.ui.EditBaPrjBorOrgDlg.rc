@@ -48,7 +48,7 @@
                             <label for="show-org-name">机构展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="show-org-name" size="19" required="true" pattern="\w{2,}"/>
+                            <text name="show-org-name" size="19" required="true" />
                         </cell>
                     </row>
                     <row>

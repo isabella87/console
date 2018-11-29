@@ -23,6 +23,7 @@ import static com.banhui.console.rpc.ResultUtils.allDone;
 import static com.banhui.console.rpc.ResultUtils.intValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
@@ -66,16 +67,23 @@ public class BrowseMyClientFrame
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
         long id = tableModel.getNumberByName(selectedRow, "auId");
-        EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, 0);
-        dlg.setFixedSize(false);
-        showModel(null, dlg);
+        long type = tableModel.getNumberByName(selectedRow, "userType");
+        if (type == 1) {
+            EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, 0);
+            dlg.setFixedSize(false);
+            showModel(null, dlg);
+        } else {
+            EditOrgAccountInfoDlg dlg = new EditOrgAccountInfoDlg(id);
+            dlg.setFixedSize(false);
+            showModel(null, dlg);
+        }
     }
 
     private void search(
             ActionEvent actionEvent
     ) {
-        final Map<String, Object> params = new HashMap<>();
         String uName = controller().getText("u-name");
+        final Map<String, Object> params = new HashMap<>();
         switch (uName) {
             case "我自己":
                 uName = "+";
@@ -85,23 +93,32 @@ public class BrowseMyClientFrame
                 break;
         }
         params.put("u-name", uName);
+        int pram = 0;
         final long userType = controller().getNumber("user-type");
         if (userType != Integer.MAX_VALUE) {
             params.put("user-type", userType);
+            pram = 1;
         }
         final long age = controller().getNumber("age");
         if (age != Integer.MAX_VALUE) {
             params.put("age", age);
+            pram = 1;
         }
         final long jxStatus = controller().getNumber("jx-status");
         if (jxStatus != Integer.MAX_VALUE) {
             params.put("jx-status", jxStatus);
+            pram = 1;
         }
         final long gender = controller().getNumber("gender");
         if (gender != Integer.MAX_VALUE) {
             params.put("gender", gender);
+            pram = 1;
         }
         params.put("search-key", controller().getText("search-key"));
+        if ("*".equals(uName) && controller().getText("search-key").isEmpty() && pram == 0) {
+            warn(null, controller().getMessage("search-null"));
+            return;
+        }
         controller().disable("search");
         new CrmProxy().myRegUsers(params)
                       .thenApplyAsync(Result::array)
@@ -248,8 +265,6 @@ public class BrowseMyClientFrame
             } else {
                 controller().disable("acc-info");
             }
-        } else if (selectedRows.length > 1) {
-            controller().disable("acc-info");
         } else {
             controller().disable("acc-info");
         }

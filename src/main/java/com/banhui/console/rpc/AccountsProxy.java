@@ -126,6 +126,10 @@ public class AccountsProxy
         return super.http().get("mgr/accounts/persons", params);
     }
 
+    public CompletableFuture<Result> getAccPersonTotal(Map<String, Object> params) {
+        return super.http().get("mgr/accounts/persons-total", params);
+    }
+
     public CompletableFuture<Result> queryAccPersonInfoById(long id) {
         return super.http().get("mgr/accounts/persons/" + id, null);
     }

@@ -127,7 +127,7 @@ public class EditBaPrjEngineerDlg
         controller().setText("mgr-show-name", stringValue(data, "mgrShowName"));
         controller().setText("qualification", stringValue(data, "qualification"));
         controller().setText("mgr-intro", stringValue(data, "mgrIntro"));
-        controller().setInteger("mgr-gender", intValue(data, "mgrGender"));
+        controller().setText("mgr-gender", stringValue(data, "mgrGender"));
         controller().setNumber("mgr-age", longValue(data, "mgrAge"));
         controller().setText("mgr-show-age", stringValue(data, "mgrShowAge"));
 

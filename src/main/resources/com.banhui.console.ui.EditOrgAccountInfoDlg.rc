@@ -226,13 +226,11 @@
                 <gridLayout>
                     <column alignment="FIRST"/>
                     <column/>
-                    <column alignment="FIRST"/>
-                    <column/>
                     <row>
                         <cell>
                             <label for="acc-bank">银行账户开户行：</label>
                         </cell>
-                        <cell columnSpan="3">
+                        <cell>
                             <text name="acc-bank"/>
                         </cell>
                     </row>
@@ -240,14 +238,21 @@
                         <cell>
                             <label for="account">银行账户:</label>
                         </cell>
-                        <cell>
-                            <text name="account"/>
+                        <cell horizontalAlignment="BOTH">
+                            <text name="account" size="48"/>
                         </cell>
+                    </row>
+                    <row>
                         <cell>
                             <label for="acc-user-name">银行账户户名:</label>
                         </cell>
                         <cell>
                             <text name="acc-user-name"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
                         </cell>
                     </row>
                 </gridLayout>

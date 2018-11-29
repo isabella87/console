@@ -4,6 +4,7 @@
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="我的注册客户">
     <message name="search-title"><![CDATA[批量搜索中]]></message>
+    <message name="search-null"><![CDATA[请输入关键字]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
     <action name="choose-manager" title="选择客户经理"/>
     <action name="acc-info" title="帐户信息(I)" mnemonic="I"/>
@@ -51,6 +52,13 @@
                     <dropDown name="user-type" optionsName="type-status" includeAll="true"/>
                     <label for="jx-status">客户状态：</label>
                     <dropDown name="jx-status" optionsName="jx-status-option" includeAll="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="search-key">关键字：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
                 </boxLayout>
@@ -67,7 +75,7 @@
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="auId" title="ID" type="TEXT" size="100"/>
                     <tableColumn name="loginName" title="登录名" type="TEXT" size="120"/>
-                    <tableColumn name="realName" title="姓名" type="TEXT" size="120"/>
+                    <tableColumn name="realName" title="姓名" type="TEXT" size="140"/>
                     <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status2"/>
                     <tableColumn name="age" title="年龄" type="TEXT" size="120"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
