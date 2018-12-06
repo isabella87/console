@@ -62,6 +62,7 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <splitPane axis="Y">
                     <table name="list">
+                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
                         <tableColumn name="tranNo" title="期数" type="NUMBER" size="60"/>
                         <tableColumn name="tranType" title="类型" type="TEXT" size="60" optionsName="tran-type"/>
                         <tableColumn name="dueTime" title="应还日期" type="DATE" size="100"/>
@@ -73,6 +74,7 @@
                         <tableColumn name="delayUnpaidAmt" title="未还逾期利息" type="FLOAT" size="100"/>
                     </table>
                     <table name="detail">
+                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
                         <tableColumn name="pbdId" title="ID" type="NUMBER" size="60"/>
                         <tableColumn name="tranType" title="类型" type="TEXT" size="60" optionsName="tran-type"/>
                         <tableColumn name="paidTime" title="还款时间" type="DATE" size="100"/>

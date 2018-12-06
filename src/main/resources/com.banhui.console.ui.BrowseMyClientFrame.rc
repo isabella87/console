@@ -28,10 +28,6 @@
     </options>
     <options name="gender-status">
         <option value="1">男</option>
-        <option value="2">女</option>
-    </options>
-    <options name="gender-status2">
-        <option value="1">男</option>
         <option value="0">女</option>
     </options>
     <gridLayout>
@@ -44,10 +40,6 @@
                     <button actionName="choose-manager"/>
                     <label for="datepoint">查询日期：</label>
                     <text name="datepoint" type="DATE"/>
-                    <label name="age">年龄：</label>
-                    <dropDown name="age" optionsName="age-status" includeAll="true"/>
-                    <label name="gender">性别：</label>
-                    <dropDown name="gender" optionsName="gender-status" includeAll="true"/>
                     <label name="user-type">帐户类型：</label>
                     <dropDown name="user-type" optionsName="type-status" includeAll="true"/>
                     <label for="jx-status">客户状态：</label>
@@ -74,9 +66,9 @@
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="auId" title="ID" type="TEXT" size="100"/>
-                    <tableColumn name="loginName" title="登录名" type="TEXT" size="120"/>
+                    <tableColumn name="loginName" title="登录名" type="TEXT" size="140"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="140"/>
-                    <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status2"/>
+                    <tableColumn name="gender" title="性别" type="TEXT" size="100" optionsName="gender-status"/>
                     <tableColumn name="age" title="年龄" type="TEXT" size="120"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
                     <tableColumn name="regTime" title="注册时间" type="DATE_TIME" size="160"/>

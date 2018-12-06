@@ -9,6 +9,7 @@
     <message name="upload-success"><![CDATA[上传成功!]]></message>
     <message name="upload-file-confirm"><![CDATA[上传内容不存在！]]></message>
     <message name="delete-success"><![CDATA[文件删除成功!]]></message>
+    <message name="delete-fail"><![CDATA[文件删除失败!]]></message>
     <message name="download-success"><![CDATA[下载成功!]]></message>
     <message name="download-failed"><![CDATA[下载失败!]]></message>
     <message name="confirm-delete"><![CDATA[确定删除以下文件 <b>{}</b> : 此操作不可恢复!确认吗？]]></message>

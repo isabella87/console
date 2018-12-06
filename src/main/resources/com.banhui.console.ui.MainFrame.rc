@@ -40,6 +40,7 @@
     <action name="browseSysRoles" title="角色管理(R)" mnemonic="R" description="管理后台角色"/>
     <action name="changePassword" title="修改密码(P)" mnemonic="P" description="修改当前登录帐户的密码"/>
 
+    <action name="export" title="导出到Excel表格" mnemonic="E" description="导出当前列表中信息"/>
     <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置"/>
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
     <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
@@ -97,6 +98,7 @@
             <menuItem value="changePassword"/>
         </menu>
         <menu title="工具(T)" mnemonic="S">
+            <menuItem value="export"/>
             <menuItem value="editSettings"/>
         </menu>
         <menu title="->"/>

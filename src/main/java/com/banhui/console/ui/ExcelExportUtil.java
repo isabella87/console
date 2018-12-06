@@ -105,7 +105,7 @@ public class ExcelExportUtil {
 
         final List<TypedTableColumn> columns = tableModel.getAllColumns();
         //冻结首行
-        sheet.createFreezePane(columns.size(), TITLE_ROW + 1);
+//        sheet.createFreezePane(columns.size(), TITLE_ROW + 1);
 
         for (int i = 0; i < columns.size(); ++i) {
             final TypedTableColumn column = columns.get(i);

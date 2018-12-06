@@ -10,8 +10,8 @@
     <action name="create" title="发起项目(C)" mnemonic="C"/>
     <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
     <action name="view" title="查看(V)" mnemonic="V" smallIcon="view.png"/>
-    <action name="protocol" title="项目签章(P)" mnemonic="P"/>
-    <action name="creditProtocolSign" title="强制债权转让签章"/>
+    <!--<action name="protocol" title="项目签章(P)" mnemonic="P"/>-->
+    <!--<action name="creditProtocolSign" title="强制债权转让签章"/>-->
     <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <action name="audit" title="审批(A)" mnemonic="A"/>
     <action name="repay" title="还款(R)" mnemonic="R"/>
@@ -101,8 +101,6 @@
                 <boxLayout horizontalAlignment="FIRST">
                     <button actionName="create"/>
                     <button actionName="edit" name="edit"/>
-                    <button actionName="protocol" name="protocol"/>
-                    <button actionName="creditProtocolSign"/>
                     <button actionName="view" name="view"/>
                     <button actionName="delete"/>
                     <button actionName="audit"/>

@@ -1,8 +1,7 @@
 package com.banhui.console.ui;
 
-import com.banhui.console.rpc.ProjectProxy;
-import com.banhui.console.rpc.Result;
-import org.xx.armory.swing.DialogUtils;
+import com.banhui.console.rpc.FileRef;
+import com.banhui.console.rpc.OfsClient;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -10,12 +9,15 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
-import java.util.Collection;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.xx.armory.swing.DialogUtils.confirm;
-import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.DialogUtils.prompt;
 
 public class ChooseProtocolDlg
@@ -61,33 +63,19 @@ public class ChooseProtocolDlg
         final String fileHash = tableModel.getStringByName(table.getSelectedRow(), "hash");
         final String fileName = tableModel.getStringByName(table.getSelectedRow(), "name");
 
+        OfsClient ofsClient = new OfsClient();
         String path = new FileUtil(null).choiceDirToSave(fileName);
         this.filePath = path;
         if (path != null) {
-            final Map<String, Object> params = new HashMap<>();
-            params.put("id", fileId);
-            params.put("hash", fileHash);
-            new ProjectProxy().downloadProtocol(params)
-                              .thenApplyAsync(Result::stringValue)
-                              .whenCompleteAsync(this::downloadCallBack, UPDATE_UI);
-        }
-    }
-
-    private void downloadCallBack(
-            String fileEncodeContent,
-            Throwable t
-    ) {
-        if (t != null) {
-            ErrorHandler.handle(t);
-        } else if (fileEncodeContent != null) {
-            if (new FileUtil(null).saveDownloadFile(fileEncodeContent, filePath)) {
+            try {
+                ofsClient.download(fileId, fileHash, path);
                 prompt(null, controller().getMessage("download-success"));
-            } else {
+            } catch (IOException e) {
                 prompt(null, controller().getMessage("download-failed"));
+                e.printStackTrace();
             }
         }
     }
-
 
     private void delete(
             ActionEvent actionEvent
@@ -100,93 +88,80 @@ public class ChooseProtocolDlg
 
         String confirmDelete = controller().formatMessage("confirm-delete", fileName);
         if (confirm(null, confirmDelete)) {
+            OfsClient ofsClient = new OfsClient();
+            boolean flag = ofsClient.unlink(fileId, fileHash);
+            if (flag) {
+                controller().call("refresh");
+                prompt(null, controller().getMessage("delete-success"));
+            } else {
+                prompt(null, controller().getMessage("delete-fail"));
+            }
             controller().disable("delete");
-            final Map<String, Object> params = new HashMap<>();
-            params.put("object-id", id);
-            params.put("file-type", fileType);
-            params.put("id", fileId);
-            params.put("hash", fileHash);
-            new ProjectProxy().delProtocol(params)
-                              .thenApplyAsync(Result::map)
-                              .whenCompleteAsync(this::delCallback, UPDATE_UI);
         }
     }
 
-    private void delCallback(
-            Map<String, Object> deletedRow,
-            Throwable t
-    ) {
-        if (t != null) {
-            ErrorHandler.handle(t);
-        } else {
-            controller().call("refresh");
-            prompt(null, controller().getMessage("delete-success"));
-        }
-        controller().disable("delete");
-    }
 
     private void refresh(
             ActionEvent actionEvent
     ) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("object-id", id);
-        params.put("file-type", fileType);
-        new ProjectProxy().protocolList(params)
-                          .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI);
-    }
-
-    private void searchCallback(
-            Collection<Map<String, Object>> c
-    ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        for (Map<String, Object> map : c) {
-            if (!map.isEmpty() && map.get("size") != null) {
-                int size = (int) map.get("size");
+        OfsClient ofsClient = new OfsClient();
+        try {
+            List<FileRef> frList = ofsClient.list(id, (long) fileType);
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            List<Map<String, Object>> list = new ArrayList<>();
+            for (FileRef fr : frList) {
+                Map<String, Object> param = new HashMap<>();
+                param.put("name", fr.getName());
+                long size = fr.getSize();
+                DecimalFormat df = new DecimalFormat("#.0");
                 String sizeByte;
                 if (size > 1024) {
-                    sizeByte = size / 1024 + " KB";
+                    sizeByte = df.format((double) size / 1024) + " KB";
                 } else {
-                    sizeByte = size + " B";
+                    sizeByte = df.format((double) size) + " B";
                 }
-                map.put("size", sizeByte);
+                param.put("size", sizeByte);
+                param.put("lastModifiedTime", fr.getLastModifiedTime());
+                param.put("hash", fr.getHash());
+                param.put("id", fr.getId());
+                list.add(param);
             }
+            tableModel.setAllRows(list);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        tableModel.setAllRows(c);
     }
 
     private void upload(
             ActionEvent actionEvent
     ) {
         FileUtil fileUploadUtil = new FileUtil(chooseType);
-        String uploadFileContent = fileUploadUtil.getUploadFileContent();
+        InputStream uploadFileContent = fileUploadUtil.getUploadFileInputString();
         String uploadFileName = fileUploadUtil.getUploadFileName();
-        if (uploadFileName != null && !uploadFileName.isEmpty() && uploadFileContent != null && !uploadFileContent.isEmpty()) {
-            final Map<String, Object> params = new HashMap<>();
-            params.put("object-id", id);
-            params.put("file-type", fileType);
-            params.put("file-name", uploadFileName);
-            params.put("file-code", uploadFileContent);
-            new ProjectProxy().uploadBill(params)
-                              .whenCompleteAsync(this::saveCallback, UPDATE_UI);
+        if (uploadFileName != null && !uploadFileName.isEmpty() && uploadFileContent != null) {
+            OfsClient ofsClient = new OfsClient();
+            try {
+                ofsClient.upload(id, fileType, uploadFileName, null, fileUploadUtil.getFileSize(), uploadFileContent);
+                controller().call("refresh");
+                prompt(null, controller().getMessage("upload-success"));
+            } catch (IOException e) {
+                ErrorHandler.handle(e);
+            }
         }
-//        else {
-//            DialogUtils.confirm(null, controller().getMessage("upload-file-confirm"));
+    }
+
+//    private void saveCallback(
+//            Result result,
+//            Throwable t
+//    ) {
+//
+//        if (t != null) {
+//            ErrorHandler.handle(t);
+//        } else {
+//            controller().call("refresh");
+//            prompt(null, controller().getMessage("upload-success"));
 //        }
-    }
-
-    private void saveCallback(
-            Result result,
-            Throwable t
-    ) {
-
-        if (t != null) {
-            ErrorHandler.handle(t);
-        } else {
-            controller().call("refresh");
-            prompt(null, controller().getMessage("upload-success"));
-        }
-    }
+//    }
 
     private void listChanged(
             Object event

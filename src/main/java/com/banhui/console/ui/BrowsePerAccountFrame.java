@@ -46,6 +46,9 @@ public class BrowsePerAccountFrame
         controller().disable("previous-page");
         controller().disable("next-page");
         controller().disable("to-page");
+
+        TypedTableModel typedTableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+        MainFrame.setCurExportTableModelInfo(getTitle(),typedTableModel);
     }
 
     private void updatePage() {

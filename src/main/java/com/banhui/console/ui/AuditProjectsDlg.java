@@ -2,16 +2,20 @@ package com.banhui.console.ui;
 
 
 import com.banhui.console.rpc.AuditProxy;
+import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.ProjectRepayProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.swing.components.DialogPane;
+import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +53,9 @@ public class AuditProjectsDlg extends DialogPane {
         controller().connect("completed", this::completed);//结清
         controller().connect("lock", this::lock);//锁定
         controller().connect("unlock", this::unlock);//解锁
+        controller().connect("projectProtocol", this::projectProtocol);
+        controller().connect("billProtocol", this::billProtocol);
+        controller().connect("checkProtocol", this::checkProtocol);
 
         controller().hide("auctions");
         controller().hide("tender");
@@ -61,6 +68,9 @@ public class AuditProjectsDlg extends DialogPane {
         controller().hide("completed");
         controller().hide("lock");
         controller().hide("unlock");
+        controller().hide("projectProtocol");
+        controller().hide("billProtocol");
+        controller().hide("checkProtocol");
 
         new AuditProxy().queryAudit(id)
                         .thenApplyAsync(Result::list)
@@ -72,6 +82,124 @@ public class AuditProjectsDlg extends DialogPane {
                         .thenAcceptAsync(this::lockStatus, UPDATE_UI);
     }
 
+    private void projectProtocol(
+            ActionEvent actionEvent
+    ) {
+        if (confirm(null, controller().getMessage("protocol-create"))) {
+            final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Map<String, Object>>() {
+
+                @Override
+                public String getTitle() {
+                    return controller().getMessage("project-protocol");
+                }
+
+                @Override
+                protected Collection<Map<String, Object>> load() {
+                    List<Map<String, Object>> retList = new ArrayList<>();
+                    for (int i = 1; i <= 6; i++) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("object-id", id);
+                        params.put("index", i);
+                        retList.add(params);
+                    }
+                    return retList;
+                }
+
+                @Override
+                protected String getCurrent(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    return "生成工程贷协议：" + controller().getMessage("file" + params.get("index"));
+                }
+
+                @Override
+                protected void execute(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    new ProjectProxy().protocol(params)
+                                      .thenApplyAsync(Result::stringValue)
+                                      .whenCompleteAsync(this::saveCallback, UPDATE_UI).join();
+                }
+
+                private void saveCallback(
+                        String string,
+                        Throwable t
+                ) {
+                    if (t != null) {
+                        ErrorHandler.handle(t);
+                    }
+                }
+
+            });
+            showModel(null, dlg);
+        }
+    }
+
+    private void billProtocol(
+            ActionEvent actionEvent
+    ) {
+        if (confirm(null, controller().getMessage("protocol-create"))) {
+            final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Map<String, Object>>() {
+
+                @Override
+                public String getTitle() {
+                    return controller().getMessage("bill-protocol");
+                }
+
+                @Override
+                protected Collection<Map<String, Object>> load() {
+                    List<Map<String, Object>> retList = new ArrayList<>();
+                    for (int i = 4; i <= 9; i++) {
+                        Map<String, Object> params = new HashMap<>();
+                        params.put("object-id", id);
+                        params.put("index", i);
+                        retList.add(params);
+                    }
+                    return retList;
+                }
+
+                @Override
+                protected String getCurrent(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    return "生成票据贷协议：" + controller().getMessage("file" + params.get("index"));
+                }
+
+                @Override
+                protected void execute(
+                        int i,
+                        Map<String, Object> params
+                ) {
+                    new ProjectProxy().protocol(params)
+                                      .thenApplyAsync(Result::stringValue)
+                                      .whenCompleteAsync(this::saveCallback, UPDATE_UI).join();
+                }
+
+                private void saveCallback(
+                        String string,
+                        Throwable t
+                ) {
+                    if (t != null) {
+                        ErrorHandler.handle(t);
+                    }
+                }
+
+            });
+            showModel(null, dlg);
+        }
+    }
+
+
+    private void checkProtocol(
+            ActionEvent actionEvent
+    ) {
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 40, 3);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
 
     private void lockStatus(
             long status
@@ -408,6 +536,9 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("beizhu");
                 controller().show("auctions");
                 controller().hide("npass");
+                controller().show("projectProtocol");
+                controller().show("billProtocol");
+                controller().show("checkProtocol");
                 break;
             case 70:
                 controller().setText("role", "业务副总批准放款");
@@ -417,6 +548,9 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("auctions");
                 controller().hide("npass");
                 controller().show("auctionsPass");
+                controller().show("projectProtocol");
+                controller().show("billProtocol");
+                controller().show("checkProtocol");
                 break;
             case 80:
                 controller().show("investor");
@@ -426,6 +560,9 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("npass");
                 controller().hide("pass");
                 controller().hide("comments");
+                controller().show("projectProtocol");
+                controller().show("billProtocol");
+                controller().show("checkProtocol");
                 break;
             case 90:
                 controller().show("investor");
@@ -437,6 +574,9 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("npass");
                 controller().hide("pass");
                 controller().hide("comments");
+                controller().show("projectProtocol");
+                controller().show("billProtocol");
+                controller().show("checkProtocol");
                 break;
             case 999:
                 controller().show("investor");

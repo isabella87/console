@@ -64,7 +64,6 @@ public class BrowseBaPrjBorPersFrame
         params.put("end-create-time", endDate);
         params.put("key", key);
 
-
         controller().disable("search");
 //串行异步，链式异步
         new BaPrjBorPersProxy().all(params)

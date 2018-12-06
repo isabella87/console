@@ -2,8 +2,6 @@ package com.banhui.console.ui;
 
 import com.banhui.console.rpc.CrmProxy;
 import com.banhui.console.rpc.Result;
-import com.banhui.console.rpc.SysProxy;
-import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.ProgressDialog;
@@ -19,14 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.banhui.console.rpc.ResultUtils.allDone;
-import static com.banhui.console.rpc.ResultUtils.intValue;
-import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
-import static org.xx.armory.swing.UIUtils.ceilingOfDay;
-import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseMyClientFrame
         extends InternalFramePane {
@@ -99,19 +92,9 @@ public class BrowseMyClientFrame
             params.put("user-type", userType);
             pram = 1;
         }
-        final long age = controller().getNumber("age");
-        if (age != Integer.MAX_VALUE) {
-            params.put("age", age);
-            pram = 1;
-        }
         final long jxStatus = controller().getNumber("jx-status");
         if (jxStatus != Integer.MAX_VALUE) {
             params.put("jx-status", jxStatus);
-            pram = 1;
-        }
-        final long gender = controller().getNumber("gender");
-        if (gender != Integer.MAX_VALUE) {
-            params.put("gender", gender);
             pram = 1;
         }
         params.put("search-key", controller().getText("search-key"));
@@ -123,21 +106,21 @@ public class BrowseMyClientFrame
         new CrmProxy().myRegUsers(params)
                       .thenApplyAsync(Result::array)
                       .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle)
-                      .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
+                      .exceptionally(ErrorHandler::handle);
     }
 
     private void searchCallback(
             Object[] obj
     ) {
+        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+        tableModel.setAllRows(null);
         ids = obj;
         lists = new ArrayList<>();
         size = obj.length;
         if (size > 0) {
             searchCallback2(null);
         } else {
-            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-            tableModel.setAllRows(null);
+            controller().enable("search");
         }
     }
 
@@ -180,15 +163,14 @@ public class BrowseMyClientFrame
                 setIndex(i);
                 new CrmProxy().myRegUsersById(params)
                               .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::searchCallback2, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle);
+                              .thenAcceptAsync(this::searchCallback2, UPDATE_UI).join();
             }
 
             private void searchCallback2(
                     Map<String, Object> map
             ) {
-                lists.add(map);
                 final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+                tableModel.addRow(map);
                 if (getIndex() == size - 1) {
                     BigDecimal total1 = new BigDecimal(0);
                     BigDecimal total2 = new BigDecimal(0);
@@ -197,7 +179,6 @@ public class BrowseMyClientFrame
                     BigDecimal total5 = new BigDecimal(0);
                     Long total6 = 0L;
                     BigDecimal total7 = new BigDecimal(0);
-                    tableModel.setAllRows(lists);
                     final Map<String, Object> params = new HashMap<>();
                     for (int i = 0; i < tableModel.getRowCount(); i++) {
                         BigDecimal amt1 = tableModel.getBigDecimalByName(i, "todayInvestAmt");
@@ -245,6 +226,7 @@ public class BrowseMyClientFrame
                     params.put("investCount", total6);
                     params.put("sumInvestAmt", total7);
                     tableModel.addRow(params);
+                    controller().enable("search");
                 }
             }
         });

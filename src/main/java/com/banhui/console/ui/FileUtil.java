@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,8 @@ public class FileUtil {
     private String uploadFileName;
 
     private String uploadFilePath;
+
+    private long fileSize;
 
     public FileUtil(
             Integer chooseType
@@ -44,6 +47,9 @@ public class FileUtil {
                 fileChooser.addChoosableFileFilter(pdfFilter);
                 fileChooser.setFileFilter(pdfFilter);
                 break;
+            default:
+                fileChooser.addChoosableFileFilter(null);
+                fileChooser.setFileFilter(null);
         }
         if (fileChooser.showDialog(Application.mainFrame(), "") == JFileChooser.APPROVE_OPTION) {
             uploadFileName = fileChooser.getSelectedFile().getName();
@@ -51,6 +57,22 @@ public class FileUtil {
             return fileChooser.getSelectedFile().getAbsolutePath();
         }
         return null;
+    }
+
+    public InputStream getUploadFileInputString() {
+        chooseFile();
+
+        InputStream inputStream = null;
+        if (uploadFilePath != null) {
+            try {
+                File file = new File(uploadFilePath);
+                inputStream = new FileInputStream(file);
+                fileSize = file.length();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return inputStream;
     }
 
     public String getUploadFileContent() {
@@ -164,4 +186,7 @@ public class FileUtil {
         return buffer;
     }
 
+    public long getFileSize() {
+        return fileSize;
+    }
 }

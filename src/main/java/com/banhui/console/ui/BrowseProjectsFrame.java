@@ -43,7 +43,6 @@ public class BrowseProjectsFrame
         controller().connect("repay", this::repay);
         controller().connect("view", this::view);
         controller().connect("edit", this::edit);
-        controller().connect("creditProtocolSign", this::creditProtocolSign);
         controller().connect("create", this::create);
         controller().connect("delete", this::delete);
         controller().connect("repay-history", this::repayHistory);
@@ -53,7 +52,7 @@ public class BrowseProjectsFrame
         controller().connect("cancel-hide", this::cancelHide);
         controller().connect("top", this::top);
         controller().connect("cancel-top", this::cancelTop);
-        controller().connect("protocol", this::protocol);
+//        controller().connect("creditProtocolSign", this::creditProtocolSign);
         controller().connect("accelerate-date", "change", this::accelerateDate);
 
         controller().disable("audit");
@@ -63,8 +62,7 @@ public class BrowseProjectsFrame
         controller().disable("delete");
         controller().disable("hide");
         controller().disable("top");
-        controller().disable("protocol");
-        controller().disable("creditProtocolSign");
+//        controller().disable("creditProtocolSign");
 
         controller().hide("cancel-hide");
         controller().hide("cancel-top");
@@ -73,6 +71,8 @@ public class BrowseProjectsFrame
         controller().setNumber("locked", 0L);
 
         TableColumnModel tcm = controller().get(JTable.class, "list").getColumnModel();
+        TypedTableModel typedTableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+        MainFrame.setCurExportTableModelInfo(getTitle(),typedTableModel);
         TableColumn visibleColumn = tcm.getColumn(20);
         TableColumn topTimeColumn = tcm.getColumn(21);
         TableColumn lockTimeColumn = tcm.getColumn(22);
@@ -296,22 +296,6 @@ public class BrowseProjectsFrame
 
     }
 
-    private void protocol(
-            ActionEvent actionEvent
-    ) {
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
-            return;
-        }
-        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
-        final BrowsePrjSignatureDlg dlg = new BrowsePrjSignatureDlg(pId);
-        dlg.setFixedSize(false);
-        showModel(null, dlg);
-    }
-
-
     private void view(
             ActionEvent event
     ) {
@@ -463,11 +447,11 @@ public class BrowseProjectsFrame
             final long visible = tableModel.getNumberByName(selectRow, "visible");
             final Date topTime = tableModel.getDateByName(selectRow, "topTime");
             final Date lockedTime = tableModel.getDateByName(selectRow, "lockedTime");
-            if (lockedTime != null) {
-                controller().enable("creditProtocolSign");
-            } else {
-                controller().disable("creditProtocolSign");
-            }
+//            if (lockedTime != null) {
+//                controller().enable("creditProtocolSign");
+//            } else {
+//                controller().disable("creditProtocolSign");
+//            }
             if (visible == 1) {
                 controller().hide("cancel-hide");
                 controller().show("hide");
@@ -510,11 +494,6 @@ public class BrowseProjectsFrame
                         controller().enable("repay");
                     } else {
                         controller().disable("repay");
-                    }
-                    if (status >= 60) {
-                        controller().enable("protocol");
-                    } else {
-                        controller().disable("protocol");
                     }
                 }
             } else if (selectedRows.length > 1) {

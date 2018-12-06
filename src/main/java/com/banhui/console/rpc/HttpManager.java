@@ -8,7 +8,7 @@ import static org.xx.armory.commons.Validators.notNull;
 
 public final class HttpManager {
     private static final Object HTTP_LOCK = new Object();
-    private static URI baseUri;
+    public static URI baseUri;
     private static volatile Http http;
 
     private HttpManager() {

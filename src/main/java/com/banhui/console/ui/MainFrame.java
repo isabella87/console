@@ -7,6 +7,7 @@ import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.AboutDialog;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.StatusBar;
+import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +22,16 @@ import static org.xx.armory.swing.ComponentUtils.showModel;
 public final class MainFrame
         extends JFrame {
     private MDIFrameUIController uiController;
+    public static TypedTableModel curExportTableModel;
+    public static String curExportTitle;
+
+    public static void setCurExportTableModelInfo(
+            String exportTitle,
+            TypedTableModel exportTableModel
+    ) {
+        curExportTitle = exportTitle;
+        curExportTableModel = exportTableModel;
+    }
 
     public MainFrame() {
         initUi();
@@ -56,9 +67,9 @@ public final class MainFrame
                     DialogUtils.inputText(null,"30天试用期已过，请填写注册码：",null);
 
                 }else{*/
-                    final int result = showModel(MainFrame.this, new SignInDlg());
-                    if (result == DialogPane.OK) {
-                        // 更新当前用户。
+                final int result = showModel(MainFrame.this, new SignInDlg());
+                if (result == DialogPane.OK) {
+                    // 更新当前用户。
                     //}
                 }
             }
@@ -107,11 +118,25 @@ public final class MainFrame
         this.uiController.connect("changePassword", this::changePassword);
 
         this.uiController.connect("editSettings", this::editSettings);
+        this.uiController.connect("export", this::export);
         this.uiController.connect("exit", this::exit);
         this.uiController.connect("about", this::about);
 
+        this.uiController.enable("export");
+
         // 设置状态栏。
 //        initStatusBar();
+    }
+
+    private void export(ActionEvent actionEvent) {
+
+        if (curExportTableModel != null && curExportTitle != null && !curExportTitle.isEmpty()) {
+            this.uiController.disable("export");
+            new ExcelExportUtil(curExportTitle, curExportTableModel).choiceDirToSave();
+            this.uiController.enable("export");
+        } else {
+            DialogUtils.prompt(getOwner(),"无可导出列表数据！");
+        }
     }
 
     private void createQrCode(ActionEvent actionEvent) {
@@ -209,7 +234,7 @@ public final class MainFrame
         progressBar.setOrientation(JProgressBar.HORIZONTAL);
 
         final JButton showRpcHistory = new JButton();
-        showRpcHistory.setText(  Application.settings().getProperty("last-signed-user"));
+        showRpcHistory.setText(Application.settings().getProperty("last-signed-user"));
 
         statusBar.add(toolTipLabel);
         statusBar.add(progressBar);
