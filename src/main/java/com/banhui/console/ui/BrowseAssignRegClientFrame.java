@@ -40,6 +40,10 @@ public class BrowseAssignRegClientFrame
         controller().connect("create-assign", this::createAssign);
         controller().connect("batch-assign", this::batchAssign);
         controller().connect("fast-assign", this::fastAssign);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void chooseManager(

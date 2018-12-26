@@ -43,6 +43,10 @@ public class BrowseBaPrjMortgageFrame
 
         controller().disable("edit");
         controller().disable("delete");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

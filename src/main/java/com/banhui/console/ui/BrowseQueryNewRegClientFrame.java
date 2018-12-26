@@ -31,6 +31,10 @@ public class BrowseQueryNewRegClientFrame
         controller().connect("search", this::search);
 
         controller().setDate("start-date", lastMonth(new Date()));
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

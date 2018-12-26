@@ -38,6 +38,10 @@ public class BrowseMyClientFrame
         controller().connect("search", this::search);
         controller().connect("choose-manager", this::chooseManager);
         controller().connect("acc-info", this::browseAccInfo);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void chooseManager(

@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -23,6 +25,7 @@ import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static com.banhui.console.ui.InputUtils.today;
 import static com.banhui.console.ui.InputUtils.tomorrow;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -71,17 +74,28 @@ public class BrowseProjectsFrame
         controller().setNumber("locked", 0L);
 
         TableColumnModel tcm = controller().get(JTable.class, "list").getColumnModel();
-        TypedTableModel typedTableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        MainFrame.setCurExportTableModelInfo(getTitle(),typedTableModel);
         TableColumn visibleColumn = tcm.getColumn(20);
         TableColumn topTimeColumn = tcm.getColumn(21);
         TableColumn lockTimeColumn = tcm.getColumn(22);
         tcm.removeColumn(visibleColumn);
         tcm.removeColumn(topTimeColumn);
         tcm.removeColumn(lockTimeColumn);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+
         new AuthenticationProxy().current()
                                  .thenApply(Result::map)
                                  .whenCompleteAsync(this::userInfo, UPDATE_UI);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(
+                    WindowEvent event
+            ) {
+            }
+            });
     }
 
     private void userInfo(

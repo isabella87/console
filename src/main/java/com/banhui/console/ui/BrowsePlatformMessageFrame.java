@@ -39,6 +39,10 @@ public class BrowsePlatformMessageFrame
         controller().connect("list", "change", this::listChanged);
 
         controller().disable("edit");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void accelerateDate(

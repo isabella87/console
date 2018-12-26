@@ -1,11 +1,12 @@
 package com.banhui.console.ui;
 
+import org.apache.logging.log4j.util.PropertiesUtil;
 import org.xx.armory.swing.Application;
-import org.xx.armory.swing.DialogUtils;
 import org.xx.armory.swing.MDIFrameUIController;
 import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.AboutDialog;
 import org.xx.armory.swing.components.DialogPane;
+import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.StatusBar;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -13,39 +14,54 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import static javax.swing.BorderFactory.createMatteBorder;
 import static org.xx.armory.swing.ComponentUtils.combineBorders;
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.warn;
+import static org.xx.armory.swing.DialogUtils.confirm;
+
 
 public final class MainFrame
         extends JFrame {
     private MDIFrameUIController uiController;
-    public static TypedTableModel curExportTableModel;
-    public static String curExportTitle;
+    private static String tableTitle;
+    private static TypedTableModel tableModel;
 
-    public static void setCurExportTableModelInfo(
-            String exportTitle,
-            TypedTableModel exportTableModel
+    public static void setTableTitleAndTableModel(
+            String thisExportTableTile,
+            TypedTableModel thisExportTableModel
     ) {
-        curExportTitle = exportTitle;
-        curExportTableModel = exportTableModel;
+        tableTitle = thisExportTableTile;
+        tableModel = thisExportTableModel;
     }
 
     public MainFrame() {
         initUi();
 
         // 设置标题。
-        setTitle(getTitle() + " " + this.uiController.formatMessage("title-version", Application.version()));
-
+        setTitle(getTitle() + " " + this.uiController.formatMessage("title-version", getBhtVersion()));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(
                     WindowEvent event
             ) {
                 super.windowOpened(event);
-
                 MainFrame.this.toFront();
 //
                 Boolean flag = false;
@@ -60,7 +76,6 @@ public final class MainFrame
                         timeout = true;
                     }
                 }
-
 
                 /*if (!flag && timeout) {
                     //TODO 试用期已过，弹出注册框
@@ -117,25 +132,118 @@ public final class MainFrame
         this.uiController.connect("browseSysRoles", this::browseSysRoles);
         this.uiController.connect("changePassword", this::changePassword);
 
+        this.uiController.connect("exportExcel", this::exportExcel);
         this.uiController.connect("editSettings", this::editSettings);
-        this.uiController.connect("export", this::export);
         this.uiController.connect("exit", this::exit);
         this.uiController.connect("about", this::about);
+        this.uiController.connect("manual", this::downloadManual);
+        this.uiController.connect("update", this::update);
 
-        this.uiController.enable("export");
-
+        this.uiController.disable("exportExcel");
+        String lastedVersion = getLatestVersion("http://192.168.11.30/update/console/lasted");
+        String localeVersion = getBhtVersion();
+        int compare = compareVersion(localeVersion, lastedVersion);
+        if (compare == -1) {
+            this.uiController.enable("update");
+        } else {
+            this.uiController.disable("update");
+        }
+//        JMenuBar bar = this.uiController.get(JMenuBar.class,"update");
+//        bar.removeAll();
         // 设置状态栏。
 //        initStatusBar();
     }
 
-    private void export(ActionEvent actionEvent) {
+    private void update(
+            ActionEvent actionEvent
+    ) {
+        FileUtil fileUtil = new FileUtil(null);
+        String dirPath = fileUtil.choiceDirToSave("setup.exe");
+        if (dirPath != null && !dirPath.isEmpty()) {
+            try {
+                URL url = new URL("http://192.168.11.30/update/console/setup.exe");
+                HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
+                urlCon.setConnectTimeout(3000);
+                urlCon.setReadTimeout(3000);
+                int code = urlCon.getResponseCode();
+                if (code != HttpURLConnection.HTTP_OK) {
+                    throw new Exception("文件读取失败");
+                }
+                InputStream is = new DataInputStream(urlCon.getInputStream());
+                OutputStream os = new DataOutputStream(new FileOutputStream(dirPath));
+                byte[] buffer = new byte[1024];
+                final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Long>() {
 
-        if (curExportTableModel != null && curExportTitle != null && !curExportTitle.isEmpty()) {
-            this.uiController.disable("export");
-            new ExcelExportUtil(curExportTitle, curExportTableModel).choiceDirToSave();
-            this.uiController.enable("export");
+                    @Override
+                    public String getTitle() {
+                        return "下载最新文件";
+                    }
+
+                    @Override
+                    protected Collection<Long> load() {
+                        List<Long> retList = new ArrayList<>();
+                        try {
+                            int rc;
+                            while ((rc = is.read(buffer, 0, buffer.length)) > 0) {
+                                retList.add((long) rc);
+                                os.write(buffer, 0, rc);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                is.close();
+                                os.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return retList;
+                    }
+
+                    @Override
+                    protected String getCurrent(
+                            int i,
+                            Long rc
+                    ) {
+                        return "下载协议中:";
+                    }
+
+                    @Override
+                    protected void execute(
+                            int i,
+                            Long rc
+                    ) {
+                    }
+                });
+                showModel(null, dlg);
+                if (confirm(null, this.uiController.getMessage("update-confirm"))) {
+                    Runtime.getRuntime().exec(dirPath); // 打开exe文件
+                    System.exit(0);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void downloadManual(
+            ActionEvent actionEvent
+    ) {
+        FileUtil fileUtil = new FileUtil(null);
+        String dirPath = fileUtil.choiceDirToSave("操作手册.docx");
+        fileUtil.writeFile(fileUtil.readFile("/操作手册.docx"), dirPath);
+    }
+
+    private void exportExcel(
+            ActionEvent actionEvent
+    ) {
+        if (tableModel != null && tableModel.getRowCount() != 0 && tableTitle != null) {
+            this.uiController.disable("exportExcel");
+            new ExcelExportUtil(tableTitle, tableModel).choiceDirToSave();
+            this.uiController.enable("exportExcel");
         } else {
-            DialogUtils.prompt(getOwner(),"无可导出列表数据！");
+            warn(null, "导出内容为空！");
         }
     }
 
@@ -332,5 +440,76 @@ public final class MainFrame
             ActionEvent event
     ) {
         Application.current().shutdown();
+    }
+
+    public static int compareVersion(
+            String v1,
+            String v2
+    ) {
+        if (v1.equals(v2)) {
+            return 0;
+        }
+        String[] version1Array = v1.split("[._]");
+        String[] version2Array = v2.split("[._]");
+        int index = 0;
+        int minLen = Math.min(version1Array.length, version2Array.length);
+        long diff = 0;
+
+        while (index < minLen
+                && (diff = Long.parseLong(version1Array[index])
+                - Long.parseLong(version2Array[index])) == 0) {
+            index++;
+        }
+        if (diff == 0) {
+            for (int i = index; i < version1Array.length; i++) {
+                if (Long.parseLong(version1Array[i]) > 0) {
+                    return 1;
+                }
+            }
+
+            for (int i = index; i < version2Array.length; i++) {
+                if (Long.parseLong(version2Array[i]) > 0) {
+                    return -1;
+                }
+            }
+            return 0;
+        } else {
+            return diff > 0 ? 1 : -1;
+        }
+    }
+
+    public static String getLatestVersion(String urlStr) {
+        URL url;
+        BufferedReader in = null;
+        String str = null;
+        try {
+            url = new URL(urlStr);
+            in = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            str = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return str;
+    }
+
+    public static String getBhtVersion() {
+        String version = null;
+        Properties properties = new Properties();
+        InputStream in = PropertiesUtil.class.getResourceAsStream("/default-settings.properties");
+        try {
+            properties.load(in);
+            version = properties.getProperty("bht-version");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return version;
     }
 }

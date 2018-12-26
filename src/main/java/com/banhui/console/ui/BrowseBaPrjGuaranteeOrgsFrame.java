@@ -45,6 +45,10 @@ public class BrowseBaPrjGuaranteeOrgsFrame
         controller().disable("edit");
         controller().disable("check");
         controller().disable("delete");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

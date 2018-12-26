@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
-import static com.banhui.console.ui.InputUtils.today;
-import static com.banhui.console.ui.InputUtils.tomorrow;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.DialogUtils.prompt;
@@ -58,6 +56,10 @@ public class BrowseCreditAssignmentsFrame
         TableColumn topTimeColumn = tcm.getColumn(22);
         tcm.removeColumn(tiIdColumn);
         tcm.removeColumn(topTimeColumn);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

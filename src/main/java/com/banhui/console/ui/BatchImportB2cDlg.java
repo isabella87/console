@@ -41,7 +41,6 @@ public class BatchImportB2cDlg
 
         FileUtil fileUtil = new  FileUtil(null);
         String dirPath = fileUtil.choiceDirToSave("b2c_temp.xls");
-
         fileUtil.writeFile(fileUtil.readFile("/b2c_temp.xls"),dirPath);
     }
 

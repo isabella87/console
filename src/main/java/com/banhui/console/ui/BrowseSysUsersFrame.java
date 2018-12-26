@@ -12,6 +12,7 @@ import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,10 @@ public class BrowseSysUsersFrame
         controller().disable("delete");
 
         controller().setBoolean("enabled", true);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
 
         new SysProxy().allRoles(null)
                       .thenApplyAsync(Result::list)
@@ -191,14 +196,17 @@ public class BrowseSysUsersFrame
                     int i,
                     String id
             ) {
-
-                new SysProxy().resetPassword(id).thenApplyAsync(Result::map).whenCompleteAsync(this::executeCallback, UPDATE_UI).join();
-
+                //new SysProxy().resetPassword(id).thenApplyAsync(Result::booleanValue).whenCompleteAsync(this::executeCallback, UPDATE_UI).join();
+                try {
+                    Thread.sleep(10000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.out.println("running: " + id);
             }
 
             private void executeCallback(
-                    Map<String, Object> stringObjectMap,
+                   Boolean flag,
                     Throwable t
             ) {
                 if (t != null) {

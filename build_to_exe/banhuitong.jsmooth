@@ -6,6 +6,7 @@
 <JVMSearchPath>jdkpath</JVMSearchPath>
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
+<arguments></arguments>
 <bundledJVMPath>jre</bundledJVMPath>
 <currentDirectory>${EXECUTABLEPATH}</currentDirectory>
 <embeddedJar>true</embeddedJar>
@@ -24,6 +25,7 @@
 </skeletonProperties>
 <skeletonProperties>
 <key>URL</key>
+<value></value>
 </skeletonProperties>
 <skeletonProperties>
 <key>SingleProcess</key>

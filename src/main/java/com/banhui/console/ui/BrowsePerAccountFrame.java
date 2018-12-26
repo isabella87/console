@@ -4,16 +4,13 @@ import com.banhui.console.rpc.AccountsProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.InternalFramePane;
-import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
@@ -43,12 +40,11 @@ public class BrowsePerAccountFrame
         controller().connect("previous-page", this::previousPage);
         controller().connect("to-page", this::toPage);
 
-        controller().disable("previous-page");
-        controller().disable("next-page");
-        controller().disable("to-page");
+        disablePage();
 
-        TypedTableModel typedTableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        MainFrame.setCurExportTableModelInfo(getTitle(),typedTableModel);
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void updatePage() {
@@ -99,9 +95,7 @@ public class BrowsePerAccountFrame
     private void previousPage(
             ActionEvent actionEvent
     ) {
-        controller().disable("previous-page");
-        controller().disable("next-page");
-        controller().disable("to-page");
+        disablePage();
         int pageIndex = controller().getInteger("this-page") - 1;
         search2(null, pageIndex);
     }
@@ -109,9 +103,7 @@ public class BrowsePerAccountFrame
     private void nextPage(
             ActionEvent actionEvent
     ) {
-        controller().disable("previous-page");
-        controller().disable("next-page");
-        controller().disable("to-page");
+        disablePage();
         int pageIndex = controller().getInteger("this-page") + 1;
         search2(null, pageIndex);
     }
@@ -125,9 +117,7 @@ public class BrowsePerAccountFrame
             controller().setText("to-page-num", null);
             return;
         }
-        controller().disable("previous-page");
-        controller().disable("next-page");
-        controller().disable("to-page");
+        disablePage();
         search2(null, pageIndex);
     }
 
@@ -199,6 +189,12 @@ public class BrowsePerAccountFrame
         params.put("start-time", startDate);
         params.put("end-time", endDate);
         return params;
+    }
+
+    public void disablePage(){
+        controller().disable("previous-page");
+        controller().disable("next-page");
+        controller().disable("to-page");
     }
 
 }

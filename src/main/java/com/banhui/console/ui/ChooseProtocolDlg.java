@@ -82,15 +82,26 @@ public class ChooseProtocolDlg
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final String fileName = tableModel.getStringByName(table.getSelectedRow(), "name");
-        final long fileId = tableModel.getNumberByName(table.getSelectedRow(), "id");
-        final String fileHash = tableModel.getStringByName(table.getSelectedRow(), "hash");
-
-        String confirmDelete = controller().formatMessage("confirm-delete", fileName);
+        int[] selectedRows = table.getSelectedRows();
+        StringBuilder fileName = new StringBuilder();
+        for (int selectedRow : selectedRows) {
+            final String name = tableModel.getStringByName(selectedRow, "name");
+            fileName.append("、").append(name);
+        }
+        String confirmDelete = controller().formatMessage("confirm-delete", fileName.toString());
+        int a = 0;
         if (confirm(null, confirmDelete)) {
-            OfsClient ofsClient = new OfsClient();
-            boolean flag = ofsClient.unlink(fileId, fileHash);
-            if (flag) {
+            boolean flag;
+            for (int selectedRow : selectedRows) {
+                final long fileId = tableModel.getNumberByName(selectedRow, "id");
+                final String fileHash = tableModel.getStringByName(selectedRow, "hash");
+                OfsClient ofsClient = new OfsClient();
+                flag = ofsClient.unlink(fileId, fileHash);
+                if (!flag) {
+                    a++;
+                }
+            }
+            if (a == 0) {
                 controller().call("refresh");
                 prompt(null, controller().getMessage("delete-success"));
             } else {
@@ -150,19 +161,6 @@ public class ChooseProtocolDlg
         }
     }
 
-//    private void saveCallback(
-//            Result result,
-//            Throwable t
-//    ) {
-//
-//        if (t != null) {
-//            ErrorHandler.handle(t);
-//        } else {
-//            controller().call("refresh");
-//            prompt(null, controller().getMessage("upload-success"));
-//        }
-//    }
-
     private void listChanged(
             Object event
     ) {
@@ -171,7 +169,6 @@ public class ChooseProtocolDlg
             controller().enable("delete");
             controller().enable("download");
         } else if (selectedRows.length > 1) {
-            controller().disable("delete");
             controller().disable("download");
         } else {
             controller().disable("delete");

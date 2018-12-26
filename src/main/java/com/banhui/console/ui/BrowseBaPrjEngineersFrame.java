@@ -47,6 +47,10 @@ public class BrowseBaPrjEngineersFrame
         controller().disable("eng-check");
         controller().disable("mgr-check");
         controller().disable("delete");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

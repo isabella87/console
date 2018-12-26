@@ -36,6 +36,10 @@ public class BrowseSysRolesFrame
 
         controller().setBoolean("enabled", true);
 
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+
     }
 
     private void perm(ActionEvent actionEvent) {

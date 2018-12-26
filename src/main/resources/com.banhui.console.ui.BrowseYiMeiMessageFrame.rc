@@ -4,7 +4,12 @@
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="账户管理-亿美短信通道发送记录"
 >
+    <message name="all-page"><![CDATA[共有 {} 条 ，{} 页 ]]></message>
+    <message name="wrong-page"><![CDATA[请输入正确的页码！1-{}页 ]]></message>
     <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="previous-page" title="上一页"/>
+    <action name="next-page" title="下一页"/>
+    <action name="to-page" title="跳转"/>
     <options name="accelerate-date">
         <option value="-1">快速选择日期</option>
         <option value="1">最近一年</option>
@@ -40,12 +45,27 @@
                 <table name="list">
                     <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="msId" title="ID" type="TEXT" size="80"/>
-                    <tableColumn name="mobile" title="手机号" type="TEXT" size="120"/>
-                    <tableColumn name="status" title="状态" type="TEXT" optionsName="status" size="100"/>
-                    <tableColumn name="datepoint" title="创建时间" type="DATE_TIME" size="180"/>
-                    <tableColumn name="content" title="内容" type="TEXT" size="300"/>
+                    <tableColumn name="mobile" title="手机号" type="TEXT" size="140"/>
+                    <tableColumn name="status" title="状态" type="TEXT" optionsName="status" size="120"/>
+                    <tableColumn name="datepoint" title="创建时间" type="DATE_TIME" size="200"/>
+                    <tableColumn name="content" title="内容" type="TEXT" size="400"/>
                 </table>
             </cell>
         </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="CENTER">
+                    <label name="page-num"/>
+                    <button actionName="previous-page" name="previous-page"/>
+                    <label>第-</label>
+                    <label name="this-page"/>
+                    <label>-页</label>
+                    <button actionName="next-page" name="next-page"/>
+                    <text name="to-page-num" type="NUMBER" size="8"/>
+                    <button actionName="to-page" name="to-page"/>
+                </boxLayout>
+            </cell>
+        </row>
+
     </gridLayout>
 </ui>

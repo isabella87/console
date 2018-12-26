@@ -44,6 +44,10 @@ public class BrowseMonthPerfStatisticsFrame
         controller().connect("statistics", this::doStatistics);
         controller().connect("name-list", this::userMonth);
         controller().call("refresh");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void userMonth(

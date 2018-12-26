@@ -49,6 +49,10 @@ public class BrowseBaPrjBorOrgsFrame
         controller().disable("credit-file");
         controller().disable("debt-file");
         controller().disable("delete");
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void search(

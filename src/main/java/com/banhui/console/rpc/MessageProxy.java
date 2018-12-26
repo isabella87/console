@@ -19,9 +19,13 @@ public class MessageProxy
     }
 
     public CompletableFuture<Result> queryYmMsgs(Map<String,Object> params){
-        return super.http().get("mgr/ym",params);
+        return super.http().get("mgr/ym/msgs",params);
     }
     public CompletableFuture<Result> matchAccUserInfoInvest(Map<String,Object> params){
         return super.http().get("mgr/accounts/invest/persons/matches",params);
+    }
+
+    public CompletableFuture<Result> getYmMsgTotal(Map<String,Object> params){
+        return super.http().get("mgr/ym/msgs-total",params);
     }
 }

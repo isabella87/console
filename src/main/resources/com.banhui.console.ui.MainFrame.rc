@@ -6,6 +6,7 @@
         width="800" height="600"
         icon="app-icon.png">
     <message name="title-version">【{}】</message>
+    <message name="update-confirm"><![CDATA[是否关闭进程并直接运行安装文件？]]></message>
     <action name="browseProjects" title="贷款项目(P)..." mnemonic="P" accelerator="ctrl P" description="管理贷款项目"/>
     <action name="browseCreditAssignments" title="债权转让(C)" mnemonic="C" accelerator="ctrl C" description="管理债权转让"/>
     <action name="dailyStatistic" title="日数据统计(D)" mnemonic="D" description="日数据统计"/>
@@ -40,10 +41,14 @@
     <action name="browseSysRoles" title="角色管理(R)" mnemonic="R" description="管理后台角色"/>
     <action name="changePassword" title="修改密码(P)" mnemonic="P" description="修改当前登录帐户的密码"/>
 
-    <action name="export" title="导出到Excel表格" mnemonic="E" description="导出当前列表中信息"/>
+    <action name="exportExcel" title="导出Excel表格(E)" mnemonic="e" description="导出Excel表格"/>
     <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置"/>
+
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
     <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
+    <action name="manual" title="下载操作手册(M)..." mnemonic="M" description="下载系统操作手册"/>
+
+    <action name="update" title="更新最新版本.." mnemonic="U" description="更新管理系统最新版本"/>
     <menuBar>
         <menu title="项目管理(P)" mnemonic="P">
             <menuItem value="browseProjects"/>
@@ -98,12 +103,14 @@
             <menuItem value="changePassword"/>
         </menu>
         <menu title="工具(T)" mnemonic="S">
-            <menuItem value="export"/>
+            <!--<menuItem value="exportExcel"/>-->
             <menuItem value="editSettings"/>
         </menu>
         <menu title="->"/>
         <menu title="帮助(H)" mnemonic="H">
             <menuItem value="about"/>
+            <menuItem value="manual"/>
+            <menuItem value="update"/>
         </menu>
     </menuBar>
 </ui>

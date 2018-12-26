@@ -3,7 +3,6 @@ package com.banhui.console.ui;
 import com.banhui.console.rpc.AccountsProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
@@ -31,6 +30,10 @@ public class BrowseOrgAccountFrame
         controller().connect("accelerate-date", "change", this::accelerateDate);
         controller().connect("search", this::search);
         controller().connect("account-info", this::accountInfo);
+
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
     }
 
     private void accountInfo(
