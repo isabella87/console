@@ -29,7 +29,7 @@
         </row>
         <row>
             <cell>
-                <label mnemonic="T" for="captcha-code">验证码(T)：</label>
+                <label mnemonic="T" for="captcha-code"> 验证码(T)：</label>
             </cell>
             <cell>
                 <imageBox name="captcha-image"/>

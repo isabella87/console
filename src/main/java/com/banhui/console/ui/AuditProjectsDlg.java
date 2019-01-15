@@ -42,20 +42,21 @@ public class AuditProjectsDlg extends DialogPane {
         role = (int) status;
         setTitle(getTitle() + id);
 
-        controller().connect("npass", this::npass);//不通过
-        controller().connect("auctionsPass", this::auctionsPass);//不通过且流标
-        controller().connect("pass", this::pass);//通过
-        controller().connect("auctions", this::auctions);//执行流标
-        controller().connect("tender", this::tender);//查看投标
-        controller().connect("investor", this::investor);//生成出借人信息表
-        controller().connect("loan", this::loan);//查看放款记录
-        controller().connect("investment", this::investment);//有效投资
-        controller().connect("completed", this::completed);//结清
-        controller().connect("lock", this::lock);//锁定
-        controller().connect("unlock", this::unlock);//解锁
+        controller().connect("npass", this::npass);
+        controller().connect("auctionsPass", this::auctionsPass);
+        controller().connect("pass", this::pass);
+        controller().connect("auctions", this::auctions);
+        controller().connect("tender", this::tender);
+        controller().connect("investor", this::investor);
+        controller().connect("loan", this::loan);
+        controller().connect("investment", this::investment);
+        controller().connect("completed", this::completed);
+        controller().connect("lock", this::lock);
+        controller().connect("unlock", this::unlock);
         controller().connect("projectProtocol", this::projectProtocol);
         controller().connect("billProtocol", this::billProtocol);
         controller().connect("checkProtocol", this::checkProtocol);
+        controller().connect("autoTender", this::autoTender);
 
         controller().hide("auctions");
         controller().hide("tender");
@@ -71,6 +72,7 @@ public class AuditProjectsDlg extends DialogPane {
         controller().hide("projectProtocol");
         controller().hide("billProtocol");
         controller().hide("checkProtocol");
+        controller().hide("autoTender");
 
         new AuditProxy().queryAudit(id)
                         .thenApplyAsync(Result::list)
@@ -80,6 +82,14 @@ public class AuditProjectsDlg extends DialogPane {
         new AuditProxy().prjLockStatus(id)
                         .thenApplyAsync(Result::longValue)
                         .thenAcceptAsync(this::lockStatus, UPDATE_UI);
+    }
+
+    private void autoTender(
+            ActionEvent actionEvent
+    ) {
+        final BrowsePrjAutoTenderDlg dlg = new BrowsePrjAutoTenderDlg(id);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void projectProtocol(
@@ -517,6 +527,7 @@ public class AuditProjectsDlg extends DialogPane {
             case 40:
                 controller().show("tender");
                 controller().show("auctions");
+                controller().show("autoTender");
                 controller().hide("npass");
                 controller().hide("pass");
                 break;
@@ -528,6 +539,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("auctions");
                 controller().hide("npass");
                 controller().show("auctionsPass");
+                controller().show("autoTender");
                 break;
             case 60:
                 controller().setText("role", "财务核收服务费");
@@ -539,6 +551,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("projectProtocol");
                 controller().show("billProtocol");
                 controller().show("checkProtocol");
+                controller().show("autoTender");
                 break;
             case 70:
                 controller().setText("role", "业务副总批准放款");
@@ -551,6 +564,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("projectProtocol");
                 controller().show("billProtocol");
                 controller().show("checkProtocol");
+                controller().show("autoTender");
                 break;
             case 80:
                 controller().show("investor");
@@ -563,6 +577,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("projectProtocol");
                 controller().show("billProtocol");
                 controller().show("checkProtocol");
+                controller().show("autoTender");
                 break;
             case 90:
                 controller().show("investor");
@@ -577,6 +592,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("projectProtocol");
                 controller().show("billProtocol");
                 controller().show("checkProtocol");
+                controller().show("autoTender");
                 break;
             case 999:
                 controller().show("investor");
@@ -587,6 +603,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().hide("npass");
                 controller().hide("pass");
                 controller().hide("comments");
+                controller().show("autoTender");
                 break;
             case -1:
                 controller().show("auctions");

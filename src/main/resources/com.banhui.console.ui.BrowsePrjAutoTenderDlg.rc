@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="自动出借日志-"
+        height="450"
+        width="950"
+>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <options name="accelerate-date">
+        <option value="-1">快速选择日期</option>
+        <option value="1">最近一年</option>
+        <option value="3">最近三年</option>
+        <option value="5">最近五年</option>
+        <option value="0">今年</option>
+    </options>
+    <options name="status">
+        <option value="true">成功记录</option>
+        <option value="false">失败记录</option>
+    </options>
+    <options name="user-type">
+        <option value="1">个人</option>
+        <option value="2">机构</option>
+    </options>
+    <options name="type">
+        <option value="0">投标成功</option>
+        <option value="1">项目风险级别不匹配</option>
+        <option value="2">借款天数不匹配</option>
+        <option value="3">单笔最大出借额不匹配</option>
+        <option value="4">用户投资等级不匹配</option>
+        <option value="5">项目基本信息不配</option>
+        <option value="6">白名单验证不匹配</option>
+        <option value="7">新手标验证不匹配</option>
+        <option value="8">账户余额不足</option>
+        <option value="9">对项目实际可投资上限小于起投金额</option>
+        <option value="10">投标执行失败</option>
+        <option value="11">自动投标用户和项目信息</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="create-date">创建时间：</label>
+                    <text name="start-date" type="DATE"/>
+                    <literal>-</literal>
+                    <text name="end-date" type="DATE"/>
+                    <dropDown name="accelerate-date" optionsName="accelerate-date"/>
+                    <label for="status">类型:</label>
+                    <dropDown name="status" optionsName="status"/>
+                    <label for="key">关键字：</label>
+                    <text name="key"/>
+                    <button actionName="search" name="search"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
+                    <tableColumn name="auId" title="用户ID" type="TEXT" size="100"/>
+                    <tableColumn name="name" title="用户名称" type="TEXT" size="140"/>
+                    <tableColumn name="mobile" title="手机号" type="TEXT" size="140"/>
+                    <tableColumn name="userType" title="用户类型" type="TEXT" size="120" optionsName="user-type"/>
+                    <tableColumn name="remark" title="记录详情" type="TEXT" size="140"/>
+                    <tableColumn name="datepoint" title="记录时间" type="DATE_TIME" size="140"/>
+                    <tableColumn name="type" title="记录类型" type="TEXT" size="140" optionsName="type"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

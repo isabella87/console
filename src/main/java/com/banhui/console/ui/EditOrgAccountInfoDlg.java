@@ -45,6 +45,7 @@ public class EditOrgAccountInfoDlg
         controller().connect("commit-info", this::commitInfo);
         controller().connect("edit-acc-role", this::editAccRole);
         controller().connect("edit-acc-lvl", this::editAccLvl);
+        controller().connect("acc-auto-tender", this::accAutoTender);
         controller().connect("withdraw-list", this::BrowseWithdrawList);
         controller().connect("tender-list", this::BrowseTenderList);
         controller().connect("credit-assign-list", this::BrowseCreditAssignList);
@@ -73,6 +74,14 @@ public class EditOrgAccountInfoDlg
                 results[0].map(),
                 results[1].map()
         }).whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
+    }
+
+    private void accAutoTender(
+            ActionEvent actionEvent
+    ) {
+        BrowseAccAutoTenderDlg dlg = new BrowseAccAutoTenderDlg(id);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     @SuppressWarnings("unchecked")

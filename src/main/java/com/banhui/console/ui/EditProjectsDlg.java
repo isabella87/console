@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -99,9 +100,9 @@ public class EditProjectsDlg
         controller().disable("deleteBorOrg");
         controller().disable("deleteMortgage");
 
-        controller().connect("amt", "change", this::interestChange);
+        /*controller().connect("amt", "change", this::interestChange);
         controller().connect("rate", "change", this::interestChange);
-        controller().connect("borrow-days", "change", this::interestChange);
+        controller().connect("borrow-days", "change", this::interestChange);*/
         controller().connect("in-time", "change", this::inTimeChange);
         controller().connect("", "verify-error", MsgUtils::verifyError);
 
@@ -531,7 +532,7 @@ public class EditProjectsDlg
             params.put("rate", controller().getFloat("rate"));
             params.put("extension-rate", controller().getFloat("extension-rate"));
             params.put("time-out-rate", controller().getFloat("time-out-rate"));
-            //params.put("penalty-ratio", controller().getText("penalty-ratio").trim());
+            //params.put("interest", controller().getText("penalty-ratio").trim());
             params.put("borrow-days", controller().getNumber("borrow-days"));
             params.put("extension-days", controller().getNumber("extension-days"));
             params.put("in-time", controller().getDate("in-time"));
@@ -660,7 +661,7 @@ public class EditProjectsDlg
         controller().setDecimal("rate", decimalValue(data, "rate"));
         controller().setDecimal("extension-rate", decimalValue(data, "extensionRate"));
         controller().setDecimal("time-out-rate", decimalValue(data, "timeOutRate"));
-//        controller().setText("penalty-ratio", stringValue(data, "penaltyRatio"));
+
         controller().setNumber("borrow-days", longValue(data, "borrowDays"));
         controller().setNumber("extension-days", longValue(data, "extensionDays"));
         controller().setDate("in-time", dateValue(data, "inTime"));
@@ -672,6 +673,7 @@ public class EditProjectsDlg
         controller().setDecimal("invest-max-amt", decimalValue(data, "investMaxAmt"));
         controller().setText("key", stringValue(data, "key"));
 //        controller().setText("visible", stringValue(data, "visible"));
+        controller().setDecimal("interest", decimalValue(data, "totalInterest"));
         controller().setText("water-mark", stringValue(data, "waterMark"));
         controller().setDecimal("per-invest-max-amt", decimalValue(data, "perInvestMaxAmt"));
         controller().setDecimal("fee-rate", decimalValue(data, "feeRate"));
@@ -756,7 +758,7 @@ public class EditProjectsDlg
             controller().readOnly("bonus-day", true);
             controller().setNumber("bonus-day", 1L);
         }
-        controller().setDecimal("interest", calInterest());
+//        controller().setDecimal("interest", calInterest());
     }
 
     private void checkboxInOutTime(
@@ -875,9 +877,8 @@ public class EditProjectsDlg
         BigDecimal amt = controller().getDecimal("amt");
         double rate = controller().getFloat("rate");
         long day = controller().getNumber("borrow-days");
-        double num = amt.doubleValue() * rate / 100 * day / 365;
-        final BigDecimal interest = new BigDecimal(num).setScale(2, BigDecimal.ROUND_HALF_UP);
-        return interest;
+        double num = amt.doubleValue() * rate / 100 * day / 360;
+        return new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
     }
 
     public Map<String, Object> getResultRow() {

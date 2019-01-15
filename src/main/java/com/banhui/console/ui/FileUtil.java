@@ -135,12 +135,9 @@ public class FileUtil {
             String filePath
     ) {
         boolean flag = false;
-
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new ByteArrayInputStream(buffer);
-            os = new FileOutputStream(filePath);
+        try (InputStream is = new ByteArrayInputStream(buffer);
+             OutputStream os = new FileOutputStream(filePath)
+        ) {
             byte[] by = new byte[1024];
             int rc;
             while ((rc = is.read(by, 0, by.length)) > 0) {
@@ -150,15 +147,6 @@ public class FileUtil {
 
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (is != null)
-                    is.close();
-                if (os != null)
-                    os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return flag;
     }

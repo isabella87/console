@@ -55,6 +55,8 @@
                     <tableColumn name="bpmpId" title="ID" type="TEXT" size="80"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="140"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
+                    <tableColumn name="qq" title="QQ" type="TEXT" size="140"/>
+                    <tableColumn name="linkmanRelation" title="借款人和联系人的关系" type="TEXT" size="200"/>
                     <tableColumn name="company" title="工作单位" type="TEXT" size="200"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
                     <tableColumn name="creator" title="创建人" type="TEXT" size="80"/>

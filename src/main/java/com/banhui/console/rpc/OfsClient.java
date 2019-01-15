@@ -182,11 +182,9 @@ public final class OfsClient
         final HttpGet request = new HttpGet(this.baseUrl + "/" + id + "/" + hash);
         final HttpResponse response = this.httpClient.execute(request);
         checkResponse(response);
-        InputStream is = null;
-        OutputStream os = null;
-        try {
-            is = new BufferedInputStream(response.getEntity().getContent());
-            os = new FileOutputStream(filePath);
+        try (InputStream is = new BufferedInputStream(response.getEntity().getContent());
+             OutputStream os = new FileOutputStream(filePath)
+        ) {
             byte[] by = new byte[1024];
             int rc;
             while ((rc = is.read(by, 0, by.length)) > 0) {
@@ -194,15 +192,6 @@ public final class OfsClient
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (is != null)
-                    is.close();
-                if (os != null)
-                    os.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

@@ -11,6 +11,7 @@
     <action name="bank-acc-info" title="查看银行账户信息"/>
     <action name="edit-acc-role" title="修改账户角色"/>
     <action name="edit-acc-lvl" title="修改账户级别"/>
+    <action name="acc-auto-tender" title="自动出借日志"/>
     <action name="recharge-list" title="查询充值指令"/>
     <action name="withdraw-list" title="查看提现指令"/>
     <action name="tender-list" title="查看投标指令"/>
@@ -197,6 +198,7 @@
             <row>
                 <cell>
                     <boxLayout>
+                        <button actionName="acc-auto-tender" name="acc-auto-tender"/>
                         <button actionName="recharge-list" name="recharge-list"/>
                         <button actionName="withdraw-list" name="withdraw-list"/>
                         <button actionName="tender-list" name="tender-list"/>

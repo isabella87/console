@@ -58,9 +58,7 @@ public class ExcelImportUtil {
         if (path == null) {
             return new ArrayList<>();
         }
-        InputStream is = null;
-        try {
-            is = new FileInputStream(path);
+        try (InputStream is = new FileInputStream(path)) {
             wb = WorkbookFactory.create(is);
             if (path.endsWith("xls")) {
                 fs = new POIFSFileSystem(is);
@@ -70,14 +68,6 @@ public class ExcelImportUtil {
             }
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         if (wb != null) {
             sheet = wb.getSheetAt(0);

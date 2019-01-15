@@ -75,6 +75,8 @@ public class EditBaPrjBorPerDlg
             params.put("fax", controller().getText("fax").trim());
             params.put("linkman-show-address", controller().getText("linkman-show-address").trim());
             params.put("linkman-show-name", controller().getText("linkman-show-name").trim());
+            params.put("qq", controller().getText("qq").trim());
+            params.put("linkman-relation", controller().getText("linkman-relation").trim());
             params.put("show-address", controller().getText("show-address").trim());
             params.put("industry", controller().getText("industry").trim());
             params.put("work-nature", controller().getText("work-nature").trim());
@@ -128,6 +130,8 @@ public class EditBaPrjBorPerDlg
         controller().setText("linkman-email", stringValue(data, "linkmanEmail"));
         controller().setText("linkman-wchat", stringValue(data, "linkmanWchat"));
         controller().setText("linkman-address", stringValue(data, "linkmanAddress"));
+        controller().setText("qq", stringValue(data, "qq"));
+        controller().setText("linkman-relation", stringValue(data, "linkmanRelation"));
         controller().setText("fax", stringValue(data, "fax"));
         controller().setText("linkman-show-address", stringValue(data, "linkmanShowAddress"));
         controller().setText("linkman-show-name", stringValue(data, "linkmanShowName"));

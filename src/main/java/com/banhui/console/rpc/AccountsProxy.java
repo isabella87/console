@@ -147,4 +147,9 @@ public class AccountsProxy
     public CompletableFuture<Result> bankPerInfo(long auId) {
         return super.http().get("mgr/accounts/persons/" + auId + "/jx-userinfo", null);
     }
+
+    //通过账户查看自动投标情况记录
+    public CompletableFuture<Result> accAutoTender(Map<String, Object> params) {
+        return super.http().get("mgr/accounts/acc-auto-tender-log" ,params);
+    }
 }

@@ -108,18 +108,18 @@ public class BrowseProjectsFrame
         this.userName = stringValue(user, "userName");
     }
 
-    private void creditProtocolSign(ActionEvent actionEvent) {
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
-            return;
-        }
-        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
-
-        CreditProtocolDlg dlg = new CreditProtocolDlg(pId);
-        showModel(null, dlg);
-
-    }
+//    private void creditProtocolSign(ActionEvent actionEvent) {
+//        final JTable table = controller().get(JTable.class, "list");
+//        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+//        if (table.getSelectedRow() < 0) {
+//            return;
+//        }
+//        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+//
+//        CreditProtocolDlg dlg = new CreditProtocolDlg(pId);
+//        showModel(null, dlg);
+//
+//    }
 
     private void top(
             ActionEvent actionEvent

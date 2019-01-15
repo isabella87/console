@@ -166,6 +166,20 @@
                             <text name="work-nature" optionsName="works" size="20"/>
                         </cell>
                     </row>
+                    <row>
+                        <cell>
+                            <label for="qq">借款人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="qq" size="24"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation">借款人和联系人关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation" size="20"/>
+                        </cell>
+                    </row>
                     <row stretch="100">
                         <cell verticalAlignment="FIRST">
                             <label for="other-info">其他信息：</label>

@@ -45,6 +45,7 @@ public class EditPerAccountInfoDlg
         controller().connect("bank-acc-info", this::BroseBankPerInfo);
         controller().connect("edit-acc-role", this::editAccRole);
         controller().connect("edit-acc-lvl", this::editAccLvl);
+        controller().connect("acc-auto-tender", this::accAutoTender);
         controller().connect("recharge-list", this::BrowseRechargeList);
         controller().connect("withdraw-list", this::BrowseWithdrawList);
         controller().connect("tender-list", this::BrowseTenderList);
@@ -85,6 +86,7 @@ public class EditPerAccountInfoDlg
         controller().readOnly("ts-tender-platform", false);
         controller().readOnly("borrow-record", false);
         controller().readOnly("check-registry", false);
+        controller().readOnly("acc-auto-tender", false);
     }
 
     private void BroseBankPerInfo(
@@ -94,6 +96,15 @@ public class EditPerAccountInfoDlg
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
+
+    private void accAutoTender(
+            ActionEvent actionEvent
+    ) {
+        BrowseAccAutoTenderDlg dlg = new BrowseAccAutoTenderDlg(id);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
 
     private void editAccLvl(
             ActionEvent actionEvent
@@ -228,7 +239,7 @@ public class EditPerAccountInfoDlg
     private void BrowseProtocol(
             ActionEvent actionEvent
     ) {
-        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47,2);
+        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47, 2);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }

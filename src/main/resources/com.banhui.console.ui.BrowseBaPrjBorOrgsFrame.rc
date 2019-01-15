@@ -60,6 +60,8 @@
                     <tableColumn name="legalPersonName" title="法人姓名" type="TEXT" size="100"/>
                     <tableColumn name="legalPersonShowName" title="法人展示姓名" type="TEXT" size="100"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="120"/>
+                    <tableColumn name="qq" title="QQ" type="TEXT" size="140"/>
+                    <tableColumn name="linkmanRelation" title="借款人和联系人的关系" type="TEXT" size="200"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
                     <tableColumn name="creator" title="创建人" type="TEXT" size="80"/>
                     <tableColumn name="updateTime" title="修改时间" type="DATE_TIME" size="180"/>

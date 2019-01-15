@@ -1,6 +1,6 @@
 package com.banhui.console.ui;
 
-import org.apache.logging.log4j.util.PropertiesUtil;
+import com.banhui.console.rpc.BaseVersionService;
 import org.xx.armory.swing.Application;
 import org.xx.armory.swing.MDIFrameUIController;
 import org.xx.armory.swing.UIControllers;
@@ -14,13 +14,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static javax.swing.BorderFactory.createMatteBorder;
 import static org.xx.armory.swing.ComponentUtils.combineBorders;
@@ -55,7 +52,7 @@ public final class MainFrame
         initUi();
 
         // 设置标题。
-        setTitle(getTitle() + " " + this.uiController.formatMessage("title-version", getBhtVersion()));
+        setTitle(getTitle() + " " + this.uiController.formatMessage("title-version", BaseVersionService.getBhtVersion()));
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(
@@ -82,10 +79,15 @@ public final class MainFrame
                     DialogUtils.inputText(null,"30天试用期已过，请填写注册码：",null);
 
                 }else{*/
-                final int result = showModel(MainFrame.this, new SignInDlg());
-                if (result == DialogPane.OK) {
-                    // 更新当前用户。
-                    //}
+                int compare = compareVersion();
+                if (compare == -1) {
+                    if (confirm(null, uiController.getMessage("find-update"))) {
+                        uiController.call("update");
+                    } else {
+                        SignIn();
+                    }
+                } else {
+                    SignIn();
                 }
             }
         });
@@ -140,14 +142,7 @@ public final class MainFrame
         this.uiController.connect("update", this::update);
 
         this.uiController.disable("exportExcel");
-        String lastedVersion = getLatestVersion("http://192.168.11.30/update/console/lasted");
-        String localeVersion = getBhtVersion();
-        int compare = compareVersion(localeVersion, lastedVersion);
-        if (compare == -1) {
-            this.uiController.enable("update");
-        } else {
-            this.uiController.disable("update");
-        }
+        initUpdateButton();
 //        JMenuBar bar = this.uiController.get(JMenuBar.class,"update");
 //        bar.removeAll();
         // 设置状态栏。
@@ -219,7 +214,7 @@ public final class MainFrame
                 showModel(null, dlg);
                 if (confirm(null, this.uiController.getMessage("update-confirm"))) {
                     Runtime.getRuntime().exec(dirPath); // 打开exe文件
-                    System.exit(0);
+                    this.uiController.call("exit");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -442,74 +437,25 @@ public final class MainFrame
         Application.current().shutdown();
     }
 
-    public static int compareVersion(
-            String v1,
-            String v2
-    ) {
-        if (v1.equals(v2)) {
-            return 0;
+    private void SignIn() {
+        final int result = showModel(MainFrame.this, new SignInDlg());
+        if (result == DialogPane.OK) {
+            // 更新当前用户。
+            //}
         }
-        String[] version1Array = v1.split("[._]");
-        String[] version2Array = v2.split("[._]");
-        int index = 0;
-        int minLen = Math.min(version1Array.length, version2Array.length);
-        long diff = 0;
+    }
 
-        while (index < minLen
-                && (diff = Long.parseLong(version1Array[index])
-                - Long.parseLong(version2Array[index])) == 0) {
-            index++;
-        }
-        if (diff == 0) {
-            for (int i = index; i < version1Array.length; i++) {
-                if (Long.parseLong(version1Array[i]) > 0) {
-                    return 1;
-                }
-            }
+    private int compareVersion() {
+        String lastedVersion = BaseVersionService.getLatestVersion("http://192.168.11.30/update/console/lasted");
+        String localeVersion = BaseVersionService.getBhtVersion();
+        return BaseVersionService.compareVersion(localeVersion, lastedVersion);
+    }
 
-            for (int i = index; i < version2Array.length; i++) {
-                if (Long.parseLong(version2Array[i]) > 0) {
-                    return -1;
-                }
-            }
-            return 0;
+    private void initUpdateButton() {
+        if (compareVersion() == -1) {
+            this.uiController.enable("update");
         } else {
-            return diff > 0 ? 1 : -1;
+            this.uiController.disable("update");
         }
-    }
-
-    public static String getLatestVersion(String urlStr) {
-        URL url;
-        BufferedReader in = null;
-        String str = null;
-        try {
-            url = new URL(urlStr);
-            in = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-            str = in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return str;
-    }
-
-    public static String getBhtVersion() {
-        String version = null;
-        Properties properties = new Properties();
-        InputStream in = PropertiesUtil.class.getResourceAsStream("/default-settings.properties");
-        try {
-            properties.load(in);
-            version = properties.getProperty("bht-version");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return version;
     }
 }

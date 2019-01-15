@@ -208,4 +208,9 @@ public class ProjectProxy
         return super.http().post("mgr/prj/protocol/" + objectId + "/create/" + index, params);
     }
 
+    //通过项目查看自动投标情况记录
+    public CompletableFuture<Result> prjAutoTender(Map<String, Object> params) {
+        return super.http().get("mgr/prj/loan-projs/prj-auto-tender-log" ,params);
+    }
+
 }

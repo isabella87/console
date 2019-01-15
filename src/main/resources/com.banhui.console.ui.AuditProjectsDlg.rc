@@ -34,6 +34,7 @@
     <action name="auctions" title="执行流标"/>
     <action name="investment" title="有效投资"/>
     <action name="completed" title="结清"/>
+    <action name="autoTender" title="自动出借日志"/>
 
     <action name="projectProtocol" title="生成工程贷协议"/>
     <action name="billProtocol" title="生成票据贷协议"/>
@@ -98,6 +99,7 @@
                 <boxLayout horizontalAlignment="CENTER">
                     <button actionName="pass" name="pass"/>
                     <button actionName="npass" name="npass"/>
+                    <button actionName="autoTender" name="autoTender"/>
                     <button actionName="auctionsPass" name="auctionsPass"/>
                     <button actionName="investor" name="investor"/>
                     <button actionName="tender" name="tender"/>

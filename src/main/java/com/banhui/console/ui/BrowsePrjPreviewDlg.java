@@ -7,6 +7,7 @@ import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +43,9 @@ public class BrowsePrjPreviewDlg extends DialogPane {
     ) {
         final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
         final Map<String, Object> params = new HashMap<>();
-        BigDecimal total = new BigDecimal(0);
+        BigDecimal total = new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP);
         for (final Map<String, Object> map : c) {
-            final BigDecimal amt = decimalValue(map, "amt");
+            final BigDecimal amt = decimalValue(map, "amt").setScale(2, RoundingMode.HALF_UP);
             if (amt != null) {
                 total = total.add(amt);
             }

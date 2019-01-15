@@ -75,6 +75,8 @@ public class EditBaPrjBorOrgDlg
             params.put("linkman-address", controller().getText("linkman-address").trim());
             params.put("linkman-show-address", controller().getText("linkman-show-address").trim());
             params.put("linkman-show-name", controller().getText("linkman-show-name").trim());
+            params.put("qq", controller().getText("qq").trim());
+            params.put("linkman-relation", controller().getText("linkman-relation").trim());
             params.put("social-credit-code", controller().getText("social-credit-code").trim());
             params.put("show-social-credit-code", controller().getText("show-social-credit-code").trim());
             params.put("industry", controller().getText("industry").trim());
@@ -125,6 +127,8 @@ public class EditBaPrjBorOrgDlg
         controller().setText("show-address", stringValue(data, "showAddress"));
         controller().setText("fax", stringValue(data, "fax"));
         controller().setText("wchat", stringValue(data, "wchat"));
+        controller().setText("qq", stringValue(data, "qq"));
+        controller().setText("linkman-relation", stringValue(data, "linkmanRelation"));
         controller().setText("linkman-name", stringValue(data, "linkmanName"));
         controller().setText("linkman-id-card", stringValue(data, "linkmanIdCard"));
         controller().setText("linkman-mobile", stringValue(data, "linkmanMobile"));
