@@ -50,12 +50,12 @@ public class CreatePrjMortgageDlg
     ) {
         if (result == OK) {
             if (controller().getText("name") == null) {
-                        String mortgageBlank = controller().formatMessage("mortgage-blank");
-                        fail(getOwner(), mortgageBlank);
-            } else if(this.ids.contains(this.bpmId)){
+                String mortgageBlank = controller().formatMessage("mortgage-blank");
+                fail(getOwner(), mortgageBlank);
+            } else if (this.ids.contains(this.bpmId)) {
                 String repeatText = controller().formatMessage("repeat-text");
                 fail(getOwner(), repeatText);
-            }else {
+            } else {
                 controller().disable("ok");
                 final Map<String, Object> params = new HashMap<>();
 
@@ -66,12 +66,11 @@ public class CreatePrjMortgageDlg
                 params.put("visible", controller().getNumber("visible"));
                 params.put("guara-high-credit-amt", controller().getDecimal("guara-high-credit-amt"));
                 params.put("order-no", controller().getNumber("order-no"));
-                        params.put("bpm-Id", this.bpmId);
-                        new ProjectProxy().createMortgage(params)
-                                          .thenApplyAsync(Result::map)
-                                          .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                          .exceptionally(ErrorHandler::handle)
-                                          .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
+                params.put("bpm-Id", this.bpmId);
+                new ProjectProxy().createMortgage(params)
+                                  .thenApplyAsync(Result::map)
+                                  .whenCompleteAsync(this::saveCallback, UPDATE_UI)
+                                  .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
             }
         } else {
             super.done(result);
@@ -79,10 +78,15 @@ public class CreatePrjMortgageDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

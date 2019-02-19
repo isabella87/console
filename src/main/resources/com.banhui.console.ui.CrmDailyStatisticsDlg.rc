@@ -31,8 +31,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="auId" title="ID" type="TEXT" size="140"/>
+                    <tableColumn name="auId" title="ID" type="NUMBER_TEXT" size="140"/>
                     <tableColumn name="name" title="客户名称" type="TEXT" size="140"/>
                     <tableColumn name="mobile" title="手机号" type="TEXT" size="140"/>
                     <tableColumn name="investAmt" title="投资总金额" type="CURRENCY" size="140"/>
@@ -42,8 +41,8 @@
                     <tableColumn name="bindCount" title="当日是否绑卡" type="TEXT" size="100" optionsName="yes-no"/>
                     <tableColumn name="firstInvest" title="首次是否投资" type="TEXT" size="100" optionsName="yes-no"/>
                     <tableColumn name="isInvest" title="是否投资" type="TEXT" size="100" optionsName="yes-no"/>
-                    <tableColumn name="investCount" title="日投资总次数" type="TEXT" size="100"/>
-                    <tableColumn name="creditAssignCount" title="日债权转入总次数" type="TEXT" size="100"/>
+                    <tableColumn name="investCount" title="日投资总次数" type="NUMBER" size="100"/>
+                    <tableColumn name="creditAssignCount" title="日债权转入总次数" type="NUMBER" size="100"/>
                     <tableColumn name="incomeAmt" title="平台收入" type="CURRENCY" size="140"/>
                 </table>
             </cell>

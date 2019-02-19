@@ -102,16 +102,14 @@ public class CreatePrjGuaranteeDlg
                         params.put("bgp-id", this.bgpId);
                         new ProjectProxy().createPrjGuaranteePerson(params)
                                           .thenApplyAsync(Result::map)
-                                          .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                          .exceptionally(ErrorHandler::handle)
+                                          .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                           .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
                         break;
                     case 2:
                         params.put("bgo-id", this.bgoId);
                         new ProjectProxy().createPrjGuaranteeOrg(params)
                                           .thenApplyAsync(Result::map)
-                                          .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                          .exceptionally(ErrorHandler::handle)
+                                          .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                           .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
                 }
 
@@ -122,10 +120,15 @@ public class CreatePrjGuaranteeDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

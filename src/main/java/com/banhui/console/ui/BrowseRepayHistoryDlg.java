@@ -37,8 +37,9 @@ public class BrowseRepayHistoryDlg
         if (confirm(this.getOwner(), confirmDeleteText, confirmText)) {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long trhId = tableModel.getNumberByName(table.getSelectedRow(), "trhId");
-            final long batch = tableModel.getNumberByName(table.getSelectedRow(), "batch");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long trhId = tableModel.getNumberByName(selectedRow1, "trhId");
+            final long batch = tableModel.getNumberByName(selectedRow1, "batch");
             final Map<String, Object> params = new HashMap<>();
             params.put("trh-id", trhId);
             params.put("batch", batch);
@@ -92,7 +93,8 @@ public class BrowseRepayHistoryDlg
         int[] selectedRows = table.getSelectedRows();
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         if (table.getSelectedRow() > -1) {
-            long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            long status = tableModel.getNumberByName(selectedRow1, "status");
             if (selectedRows.length == 1 && status == -1) {
                 controller().enable("delete");
             } else if (selectedRows.length > 1) {

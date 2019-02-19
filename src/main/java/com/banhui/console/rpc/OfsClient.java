@@ -1,5 +1,6 @@
 package com.banhui.console.rpc;
 
+import com.banhui.console.ui.ErrorHandler;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -18,6 +19,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.StandardHttpRequestRetryHandler;
+import org.xx.armory.swing.Application;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -68,9 +70,7 @@ public final class OfsClient
                                            .setSSLContext(ignoreCert())
                                            .setRedirectStrategy(DefaultRedirectStrategy.INSTANCE)
                                            .build();
-        String baseUrl = "http://192.168.11.30/p2psrv/"; //test获取文件服务配置地址
-
-//        String baseUrl = Application.settings().getProperty("rpc-base-uri"); //获取文件服务配置地址
+        String baseUrl = Application.settings().getProperty("rpc-base-uri"); //获取文件服务配置地址
 
         if (baseUrl.contains("p2psrv")) {
             baseUrl = baseUrl.replace("p2psrv", "ofs");
@@ -102,17 +102,22 @@ public final class OfsClient
     ) {
         final StatusLine statusLine = response.getStatusLine();
         if (statusLine == null) {
+            ErrorHandler.handle(new IllegalStateException("cannot get status"));
             throw new IllegalStateException("cannot get status");
         }
         final int statusCode = statusLine.getStatusCode();
         final String reasonPhrase = statusLine.getReasonPhrase();
         if (statusCode < 200) {
+            ErrorHandler.handle(new IllegalStateException("illegal status code: " + statusCode));
             throw new IllegalStateException("illegal status code: " + statusCode);
         } else if (statusCode > 299 && statusCode < 400) {
+            ErrorHandler.handle(new IllegalStateException("illegal status code: " + statusCode));
             throw new IllegalStateException("illegal status code: " + statusCode);
         } else if (statusCode > 399 && statusCode < 500) {
+            ErrorHandler.handle(new IllegalStateException("cannot read response: " + statusCode + ", " + reasonPhrase));
             throw new IllegalStateException("cannot read response: " + statusCode + ", " + reasonPhrase);
         } else if (statusCode > 499) {
+            ErrorHandler.handle(new IllegalStateException("ofs server error: " + statusCode + ", " + reasonPhrase));
             throw new IllegalStateException("ofs server error: " + statusCode + ", " + reasonPhrase);
         }
     }

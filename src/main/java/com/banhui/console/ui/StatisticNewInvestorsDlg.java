@@ -38,49 +38,53 @@ public class StatisticNewInvestorsDlg
 
         new StatisticProxy().newInvestors(params)
                             .thenApplyAsync(Result::list)
-                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                            .exceptionally(ErrorHandler::handle)
+                            .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                             .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final JTextPane textPane = controller().get(JTextPane.class, "list");
-        textPane.setContentType("text/html");
-        textPane.setEditable(false);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final JTextPane textPane = controller().get(JTextPane.class, "list");
+            textPane.setContentType("text/html");
+            textPane.setEditable(false);
 
-        StringBuffer html = new StringBuffer();
-        html.append(controller().getMessage("css"));
-        html.append(controller().getMessage("title"));
-        if (c.size() == 0) {
-            html.append("</table></body></html>");
+            StringBuffer html = new StringBuffer();
+            html.append(controller().getMessage("css"));
+            html.append(controller().getMessage("title"));
+            if (c.size() == 0) {
+                html.append("</table></body></html>");
+                textPane.setText(html.toString());
+                prompt(this.getOwner(), controller().getMessage("null-text"));
+                return;
+            }
+            for (Map<String, Object> data : c) {
+                html.append("<tr><td>");
+                html.append(intValue(data, "auId"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "loginName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "realName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "mobile"));
+                html.append("</td><td>");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                html.append(sdf.format(dateValue(data, "datepoint")));
+                html.append("</td><td>");
+                html.append(decimalValue(data, "amt"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "recommendRealName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "recommendMobile"));
+                html.append("</td><td>");
+                html.append(decimalValue(data, "recommendAmt"));
+            }
+            html.append("</td></tr></table></body></html>");
             textPane.setText(html.toString());
-            prompt(this.getOwner(), controller().getMessage("null-text"));
-            return;
         }
-        for (Map<String, Object> data : c) {
-            html.append("<tr><td>");
-            html.append(intValue(data, "auId"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "loginName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "realName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "mobile"));
-            html.append("</td><td>");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            html.append(sdf.format(dateValue(data, "datepoint")));
-            html.append("</td><td>");
-            html.append(decimalValue(data, "amt"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "recommendRealName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "recommendMobile"));
-            html.append("</td><td>");
-            html.append(decimalValue(data, "recommendAmt"));
-        }
-        html.append("</td></tr></table></body></html>");
-        textPane.setText(html.toString());
     }
 }

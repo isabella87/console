@@ -86,15 +86,15 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="pId" title="项目ID" type="TEXT" size="80"/>
+                    <tableColumn name="pId" title="项目ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="itemNo" title="转让编号" type="TEXT" size="120"/>
-                    <tableColumn name="itemName" title="转让项目名称" type="TEXT" size="120"/>
+                    <tableColumn name="itemName" title="转让项目名称" type="TEXT" size="140"/>
                     <tableColumn name="pyeRealName" title="转让人" type="TEXT" size="120"/>
                     <tableColumn name="pType" title="项目类型" type="TEXT" size="120" optionsName="prj-type"/>
                     <tableColumn name="status" title="项目状态" type="TEXT" size="120" optionsName="transfer-status"/>
-                    <tableColumn name="totalTranNo" title="总期数" type="NUMBER" size="120"/>
-                    <tableColumn name="unpaidTranNo" title="剩余期数" type="NUMBER" size="120"/>
+                    <tableColumn name="totalTranNo" title="总期数" type="NUMBER_TEXT" size="120"/>
+                    <tableColumn name="paidTranNo" title="已付期数" type="NUMBER_TEXT" size="120"/>
+                    <tableColumn name="unpaidTranNo" title="剩余期数" type="NUMBER_TEXT" size="120"/>
                     <tableColumn name="assignAmt" title="转让标价" type="CURRENCY" size="120"/>
                     <tableColumn name="creditAmount" title="债权本金" type="CURRENCY" size="120"/>
                     <tableColumn name="priceDifference" title="标价差额" type="CURRENCY" size="120"/>

@@ -6,11 +6,13 @@ import org.xx.armory.swing.MDIFrameUIController;
 import org.xx.armory.swing.UIControllers;
 import org.xx.armory.swing.components.AboutDialog;
 import org.xx.armory.swing.components.DialogPane;
+import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.StatusBar;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,12 +26,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import static javax.swing.BorderFactory.createMatteBorder;
 import static org.xx.armory.swing.ComponentUtils.combineBorders;
 import static org.xx.armory.swing.ComponentUtils.showModel;
+import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.DialogUtils.confirm;
 
@@ -37,16 +39,6 @@ import static org.xx.armory.swing.DialogUtils.confirm;
 public final class MainFrame
         extends JFrame {
     private MDIFrameUIController uiController;
-    private static String tableTitle;
-    private static TypedTableModel tableModel;
-
-    public static void setTableTitleAndTableModel(
-            String thisExportTableTile,
-            TypedTableModel thisExportTableModel
-    ) {
-        tableTitle = thisExportTableTile;
-        tableModel = thisExportTableModel;
-    }
 
     public MainFrame() {
         initUi();
@@ -60,25 +52,7 @@ public final class MainFrame
             ) {
                 super.windowOpened(event);
                 MainFrame.this.toFront();
-//
-                Boolean flag = false;
-                Boolean timeout = false;
-                String fudStr = Application.settings().getProperty("first-used-date");
-                if (fudStr == null || fudStr.isEmpty()) {
-                    Application.settings().setProperty("first-used-date", String.valueOf(new Date().getTime()));
-                } else {
-                    long fudLong = Long.valueOf(fudStr);
-                    Date now = new Date();
-                    if ((now.getTime() - fudLong) / 1000 > 10) {
-                        timeout = true;
-                    }
-                }
 
-                /*if (!flag && timeout) {
-                    //TODO 试用期已过，弹出注册框
-                    DialogUtils.inputText(null,"30天试用期已过，请填写注册码：",null);
-
-                }else{*/
                 int compare = compareVersion();
                 if (compare == -1) {
                     if (confirm(null, uiController.getMessage("find-update"))) {
@@ -106,6 +80,7 @@ public final class MainFrame
         this.uiController.connect("monthStatistic", this::monthStatistic);
         this.uiController.connect("firstInvestor", this::firstInvestor);
         this.uiController.connect("vipInvestor", this::vipInvestor);
+        this.uiController.connect("infoDisclosure", this::infoDisclosure);
 
         this.uiController.connect("browseBaPrjEngineers", this::browseBaPrjEngineers);
         this.uiController.connect("browseBaPrjCtors", this::browseBaPrjCtors);
@@ -137,88 +112,96 @@ public final class MainFrame
         this.uiController.connect("exportExcel", this::exportExcel);
         this.uiController.connect("editSettings", this::editSettings);
         this.uiController.connect("exit", this::exit);
+        this.uiController.connect("resign", this::resign);
         this.uiController.connect("about", this::about);
         this.uiController.connect("manual", this::downloadManual);
-        this.uiController.connect("update", this::update);
+        this.uiController.connect("update", this::checkAndupdate);
 
-        this.uiController.disable("exportExcel");
-        initUpdateButton();
-//        JMenuBar bar = this.uiController.get(JMenuBar.class,"update");
-//        bar.removeAll();
-        // 设置状态栏。
-//        initStatusBar();
     }
 
-    private void update(
+    private void resign(ActionEvent actionEvent) {
+        SignIn();
+    }
+
+    private void checkAndupdate(
             ActionEvent actionEvent
     ) {
-        FileUtil fileUtil = new FileUtil(null);
-        String dirPath = fileUtil.choiceDirToSave("setup.exe");
-        if (dirPath != null && !dirPath.isEmpty()) {
-            try {
-                URL url = new URL("http://192.168.11.30/update/console/setup.exe");
-                HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
-                urlCon.setConnectTimeout(3000);
-                urlCon.setReadTimeout(3000);
-                int code = urlCon.getResponseCode();
-                if (code != HttpURLConnection.HTTP_OK) {
-                    throw new Exception("文件读取失败");
-                }
-                InputStream is = new DataInputStream(urlCon.getInputStream());
-                OutputStream os = new DataOutputStream(new FileOutputStream(dirPath));
-                byte[] buffer = new byte[1024];
-                final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Long>() {
 
-                    @Override
-                    public String getTitle() {
-                        return "下载最新文件";
+        if (compareVersion() == -1) {
+            this.uiController.disable("update");
+            FileUtil fileUtil = new FileUtil(null);
+            String dirPath = fileUtil.choiceDirToSave("setup.exe");
+            if (dirPath != null && !dirPath.isEmpty()) {
+                try {
+                    URL url = new URL("http://192.168.11.30/update/console/setup.exe");
+                    HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
+                    urlCon.setConnectTimeout(3000);
+                    urlCon.setReadTimeout(3000);
+                    int code = urlCon.getResponseCode();
+                    if (code != HttpURLConnection.HTTP_OK) {
+                        throw new Exception("文件读取失败");
                     }
+                    InputStream is = new DataInputStream(urlCon.getInputStream());
+                    OutputStream os = new DataOutputStream(new FileOutputStream(dirPath));
+                    byte[] buffer = new byte[1024];
+                    final ProgressDialog dlg = new ProgressDialog(new ProgressDialog.ProgressRunner<Long>() {
 
-                    @Override
-                    protected Collection<Long> load() {
-                        List<Long> retList = new ArrayList<>();
-                        try {
-                            int rc;
-                            while ((rc = is.read(buffer, 0, buffer.length)) > 0) {
-                                retList.add((long) rc);
-                                os.write(buffer, 0, rc);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } finally {
+                        @Override
+                        public String getTitle() {
+                            return "下载最新文件";
+                        }
+
+                        @Override
+                        protected Collection<Long> load() {
+                            List<Long> retList = new ArrayList<>();
                             try {
-                                is.close();
-                                os.close();
+                                int rc;
+                                while ((rc = is.read(buffer, 0, buffer.length)) > 0) {
+                                    retList.add((long) rc);
+                                    os.write(buffer, 0, rc);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
+                            } finally {
+                                try {
+                                    is.close();
+                                    os.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                            return retList;
                         }
-                        return retList;
-                    }
 
-                    @Override
-                    protected String getCurrent(
-                            int i,
-                            Long rc
-                    ) {
-                        return "下载协议中:";
-                    }
+                        @Override
+                        protected String getCurrent(
+                                int i,
+                                Long rc
+                        ) {
+                            return "下载文件中:";
+                        }
 
-                    @Override
-                    protected void execute(
-                            int i,
-                            Long rc
-                    ) {
+                        @Override
+                        protected void execute(
+                                int i,
+                                Long rc
+                        ) {
+                        }
+                    });
+                    showModel(null, dlg);
+                    if (confirm(null, this.uiController.getMessage("update-confirm"))) {
+                        Runtime.getRuntime().exec(dirPath); // 打开exe文件
+                        this.uiController.call("exit");
                     }
-                });
-                showModel(null, dlg);
-                if (confirm(null, this.uiController.getMessage("update-confirm"))) {
-                    Runtime.getRuntime().exec(dirPath); // 打开exe文件
-                    this.uiController.call("exit");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            this.uiController.enable("update");
+        } else if (compareVersion() == 99) {
+            prompt(null, "访问版本服务暂停，请稍后再试！");
+        } else {
+            prompt(null, "当前已是最新版本");
         }
     }
 
@@ -233,13 +216,26 @@ public final class MainFrame
     private void exportExcel(
             ActionEvent actionEvent
     ) {
-        if (tableModel != null && tableModel.getRowCount() != 0 && tableTitle != null) {
-            this.uiController.disable("exportExcel");
-            new ExcelExportUtil(tableTitle, tableModel).choiceDirToSave();
-            this.uiController.enable("exportExcel");
+        InternalFramePane internalFramePane = this.uiController.getSelectedChild();
+        if (internalFramePane instanceof BaseFramePane) {
+            BaseFramePane baseFramePane = (BaseFramePane) internalFramePane;
+
+            String titile = baseFramePane.getExport_title();
+            TypedTableModel typedTableModel = baseFramePane.getTypedTableModel();
+            if (typedTableModel != null && typedTableModel.getRowCount() != 0 && titile != null) {
+                this.uiController.disable("exportExcel");
+
+                baseFramePane.export();
+
+                this.uiController.enable("exportExcel");
+            } else {
+                warn(null, "导出内容为空！");
+            }
         } else {
             warn(null, "导出内容为空！");
         }
+
+
     }
 
     private void createQrCode(ActionEvent actionEvent) {
@@ -299,6 +295,11 @@ public final class MainFrame
 
     }
 
+    private void infoDisclosure(ActionEvent actionEvent) {
+        this.uiController.openChild("infoDisclosure", BrowseInfoDisclosureFrame::new);
+    }
+
+
     private void browsePerson(ActionEvent actionEvent) {
         this.uiController.openChild("browsePerson", BrowsePerAccountFrame::new);
     }
@@ -325,7 +326,7 @@ public final class MainFrame
         this.uiController.openChild("browseYiMeiMessage", BrowseYiMeiMessageFrame::new);
     }
 
-    private void initStatusBar() {
+    private void initStatusBar(String curUserName) {
         final StatusBar statusBar = this.uiController.getStatusBar();
         statusBar.setBorder(combineBorders(createMatteBorder(2, 0, 0, 0, getBackground().brighter()), statusBar.getBorder()));
 
@@ -333,15 +334,24 @@ public final class MainFrame
         toolTipLabel.setText("就绪");
 
         final JProgressBar progressBar = new JProgressBar();
-        progressBar.setBorderPainted(true);
+        progressBar.setBorderPainted(false);
         progressBar.setOrientation(JProgressBar.HORIZONTAL);
+        progressBar.setBackground(new Color(180,160,120));
+//        progressBar.setForeground(Color.red);
 
         final JButton showRpcHistory = new JButton();
-        showRpcHistory.setText(Application.settings().getProperty("last-signed-user"));
+        showRpcHistory.setText("当前用户为："+curUserName);
 
-        statusBar.add(toolTipLabel);
-        statusBar.add(progressBar);
-        statusBar.add(showRpcHistory);
+        final JLabel curUserLabel = new JLabel();
+        curUserLabel.setText("当前用户为："+curUserName+"    ");
+
+        JPanel hPanel = new JPanel();
+        int width = statusBar.getWidth();
+        hPanel.setSize(width-20,20);
+
+//        statusBar.add(toolTipLabel);
+        statusBar.add(hPanel);
+        statusBar.add(curUserLabel);
     }
 
     private void browseProjects(
@@ -438,24 +448,30 @@ public final class MainFrame
     }
 
     private void SignIn() {
-        final int result = showModel(MainFrame.this, new SignInDlg());
-        if (result == DialogPane.OK) {
+        SignInDlg dlg = new SignInDlg();
+        dlg.setFixedSize(false);
+        if (showModel(MainFrame.this, dlg)== DialogPane.OK) {
             // 更新当前用户。
-            //}
+            String curUserName = dlg.getCurUserName();
+            if(curUserName != null && !curUserName.isEmpty()){
+                initStatusBar(curUserName);
+            }
         }
     }
 
+    /**
+     * 返回99不能访问最新版本地址，或者获取版本信息出错
+     *
+     * @return
+     */
     private int compareVersion() {
         String lastedVersion = BaseVersionService.getLatestVersion("http://192.168.11.30/update/console/lasted");
         String localeVersion = BaseVersionService.getBhtVersion();
-        return BaseVersionService.compareVersion(localeVersion, lastedVersion);
-    }
-
-    private void initUpdateButton() {
-        if (compareVersion() == -1) {
-            this.uiController.enable("update");
+        if (lastedVersion != null && !lastedVersion.isEmpty()) {
+            return BaseVersionService.compareVersion(localeVersion.trim(), lastedVersion.trim());
         } else {
-            this.uiController.disable("update");
+            return 99;
         }
     }
+
 }

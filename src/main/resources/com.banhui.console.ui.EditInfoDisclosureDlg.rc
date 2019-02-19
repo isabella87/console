@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="-信息披露概况记录">
+    <message name="month-null"><![CDATA[请选择月份！]]></message>
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <options name="info-type">
+        <option value="0">月信息披露</option>
+        <option value="1">年信息披露</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <column/><!--两端拉升 -->
+        <row>
+            <cell>
+                <label for="year">年份：</label>
+            </cell>
+            <cell>
+                <text name="year" required="true"/>
+            </cell>
+            <cell>
+                <label for="month">月份：</label>
+            </cell>
+            <cell>
+                <text name="month"/>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label for="type">类型：</label>
+            </cell>
+            <cell>
+                <dropDown name="type" optionsName="info-type"/>
+            </cell>
+            <cell>
+                <label for="name">名称：</label>
+            </cell>
+            <cell>
+                <text name="name"/>
+            </cell>
+        </row>
+
+        <row>
+            <cell columnSpan="4" horizontalAlignment="BOTH">
+                <boxLayout horizontalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

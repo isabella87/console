@@ -62,12 +62,12 @@ public class ChoosePrjMortgageDlg
     ) {
         if (result == OK) {
             controller().disable("ok");
-            JTable table1 = controller().get(JTable.class, listName);
-            TypedTableModel tableModel1 = (TypedTableModel) table1.getModel();
-            final int selectedRow = table1.getSelectedRow();
-            this.bpmId = tableModel1.getNumberByName(selectedRow, "bpmId");
-            this.name = tableModel1.getStringByName(selectedRow, "ownerName");
-            this.showName = tableModel1.getStringByName(selectedRow, "ownerShowName");
+            JTable table = controller().get(JTable.class, listName);
+            TypedTableModel tableModel1 = (TypedTableModel) table.getModel();
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            this.bpmId = tableModel1.getNumberByName(selectedRow1, "bpmId");
+            this.name = tableModel1.getStringByName(selectedRow1, "ownerName");
+            this.showName = tableModel1.getStringByName(selectedRow1, "ownerShowName");
             super.done(OK);
         } else {
             super.done(result);

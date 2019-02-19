@@ -85,4 +85,16 @@ public class BaseVersionService {
         }
         return version;
     }
+
+    public static void main(String[] args){
+        String lasted = "4.19.7.431";
+        String loc = "4.19.6.431";
+
+       int flag =  compareVersion(loc,lasted);
+       if(flag == -1){
+           System.out.println("更新");
+       }else{
+           System.out.println("不更新");
+       }
+    }
 }

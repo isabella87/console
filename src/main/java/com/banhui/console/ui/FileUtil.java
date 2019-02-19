@@ -34,6 +34,7 @@ public class FileUtil {
 
     public String chooseFile() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:/Users/Administrator/Desktop/"));
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         FileFilter imageFilter = new FileNameExtensionFilter("图片文件 files(*.jpg;*.png;*.jpeg;*.gif)", "jpg", "png", "jpeg", "gif");
         FileFilter pdfFilter = new FileNameExtensionFilter("PDF文档 file(*.pdf)", "pdf");
@@ -106,6 +107,7 @@ public class FileUtil {
     public String choiceDirToSave(String fileName) {
 
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:/Users/Administrator/Desktop/"));
         fileChooser.setDialogTitle("另存为");
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
         fileChooser.setSelectedFile(new File(fileName));

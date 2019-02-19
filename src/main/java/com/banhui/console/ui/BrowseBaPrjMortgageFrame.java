@@ -26,7 +26,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseBaPrjMortgageFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(BrowseBaPrjMortgageFrame.class);
 
@@ -46,7 +46,8 @@ public class BrowseBaPrjMortgageFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
+        showTipLabel();
     }
 
     private void search(
@@ -65,16 +66,20 @@ public class BrowseBaPrjMortgageFrame
         controller().disable("search");
         new BaPrjMortgageProxy().all(params)
                                 .thenApplyAsync(Result::list)
-                                .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle)
+                                .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                                 .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void create(
@@ -99,15 +104,15 @@ public class BrowseBaPrjMortgageFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "bpmId");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "bpmId");
         final EditBaPrjMortgageDlg dlg = new EditBaPrjMortgageDlg(id);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
-                tableModel.setRow(selectedRow, row);
+                tableModel.setRow(selectedRow1, row);
             }
         }
     }
@@ -121,10 +126,11 @@ public class BrowseBaPrjMortgageFrame
 
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long bpmId = tableModel.getNumberByName(table.getSelectedRow(), "bpmId");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long bpmId = tableModel.getNumberByName(selectedRow1, "bpmId");
             new BaPrjMortgageProxy().del(bpmId)
-                                   .thenApplyAsync(Result::map)
-                                   .whenCompleteAsync(this::delCallback, UPDATE_UI);
+                                    .thenApplyAsync(Result::map)
+                                    .whenCompleteAsync(this::delCallback, UPDATE_UI);
 
         }
     }

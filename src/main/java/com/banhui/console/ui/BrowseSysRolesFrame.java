@@ -21,7 +21,7 @@ import static org.xx.armory.swing.UIUtils.UPDATE_UI;
  * 浏览后台帐户的窗口。
  */
 public class BrowseSysRolesFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     public BrowseSysRolesFrame() {
         controller().connect("search", this::search);
         controller().connect("create", this::create);
@@ -38,16 +38,16 @@ public class BrowseSysRolesFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
 
     }
 
     private void perm(ActionEvent actionEvent) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        String roleName = tableModel.getStringByName(selectedRow, "name");
-        String title = tableModel.getStringByName(selectedRow, "title");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        String roleName = tableModel.getStringByName(selectedRow1, "name");
+        String title = tableModel.getStringByName(selectedRow1, "title");
         final EditSysRolePermDlg dlg = new EditSysRolePermDlg(roleName, title);
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -109,20 +109,18 @@ public class BrowseSysRolesFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final String name = tableModel.getStringByName(selectedRow, "name");
-
+        final String name = tableModel.getStringByName(selectedRow1, "name");
         final EditSysRoleDlg dlg = new EditSysRoleDlg(name);
         dlg.setFixedSize(false);
-
         if (showModel(null, dlg) == DialogPane.OK) {
             final Map<String, Object> row = dlg.getResultObj();
 
             if (row != null && !row.isEmpty()) {
-                tableModel.setRow(selectedRow, row);
+                tableModel.setRow(selectedRow1, row);
             }
         }
     }
@@ -132,11 +130,11 @@ public class BrowseSysRolesFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final String name = tableModel.getStringByName(selectedRow, "name");
+        final String name = tableModel.getStringByName(selectedRow1, "name");
 
         final String message = controller().formatMessage("confirm-delete", name);
         final String expectedValue = controller().getMessage("confirm-delete-expected");

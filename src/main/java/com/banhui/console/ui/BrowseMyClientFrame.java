@@ -22,7 +22,7 @@ import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 public class BrowseMyClientFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     private volatile Object[] ids;
     private volatile List<Map<String, Object>> lists;
     private volatile int size;
@@ -41,7 +41,7 @@ public class BrowseMyClientFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void chooseManager(
@@ -62,9 +62,9 @@ public class BrowseMyClientFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        long id = tableModel.getNumberByName(selectedRow, "auId");
-        long type = tableModel.getNumberByName(selectedRow, "userType");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        long id = tableModel.getNumberByName(selectedRow1, "auId");
+        long type = tableModel.getNumberByName(selectedRow1, "userType");
         if (type == 1) {
             EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, 0);
             dlg.setFixedSize(false);
@@ -109,22 +109,26 @@ public class BrowseMyClientFrame
         controller().disable("search");
         new CrmProxy().myRegUsers(params)
                       .thenApplyAsync(Result::array)
-                      .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle);
+                      .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            Object[] obj
+            Object[] obj,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(null);
-        ids = obj;
-        lists = new ArrayList<>();
-        size = obj.length;
-        if (size > 0) {
-            searchCallback2(null);
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            controller().enable("search");
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(null);
+            ids = obj;
+            lists = new ArrayList<>();
+            size = obj.length;
+            if (size > 0) {
+                searchCallback2(null);
+            } else {
+                controller().enable("search");
+            }
         }
     }
 
@@ -167,70 +171,75 @@ public class BrowseMyClientFrame
                 setIndex(i);
                 new CrmProxy().myRegUsersById(params)
                               .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::searchCallback2, UPDATE_UI).join();
+                              .whenCompleteAsync(this::searchCallback2, UPDATE_UI).join();
             }
 
             private void searchCallback2(
-                    Map<String, Object> map
+                    Map<String, Object> map,
+                    Throwable t
             ) {
-                final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-                tableModel.addRow(map);
-                if (getIndex() == size - 1) {
-                    BigDecimal total1 = new BigDecimal(0);
-                    BigDecimal total2 = new BigDecimal(0);
-                    BigDecimal total3 = new BigDecimal(0);
-                    BigDecimal total4 = new BigDecimal(0);
-                    BigDecimal total5 = new BigDecimal(0);
-                    Long total6 = 0L;
-                    BigDecimal total7 = new BigDecimal(0);
-                    final Map<String, Object> params = new HashMap<>();
-                    for (int i = 0; i < tableModel.getRowCount(); i++) {
-                        BigDecimal amt1 = tableModel.getBigDecimalByName(i, "todayInvestAmt");
-                        if (amt1 == null) {
-                            amt1 = new BigDecimal(0);
+                if (t != null) {
+                    ErrorHandler.handle(t);
+                } else {
+                    final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+                    tableModel.addRow(map);
+                    if (getIndex() == size - 1) {
+                        BigDecimal total1 = new BigDecimal(0);
+                        BigDecimal total2 = new BigDecimal(0);
+                        BigDecimal total3 = new BigDecimal(0);
+                        BigDecimal total4 = new BigDecimal(0);
+                        BigDecimal total5 = new BigDecimal(0);
+                        Long total6 = 0L;
+                        BigDecimal total7 = new BigDecimal(0);
+                        final Map<String, Object> params = new HashMap<>();
+                        for (int i = 0; i < tableModel.getRowCount(); i++) {
+                            BigDecimal amt1 = tableModel.getBigDecimalByName(i, "todayInvestAmt");
+                            if (amt1 == null) {
+                                amt1 = new BigDecimal(0);
+                            }
+                            total1 = total1.add(amt1);
+                            BigDecimal amt2 = tableModel.getBigDecimalByName(i, "todayWithdrawAmt");
+                            if (amt2 == null) {
+                                amt2 = new BigDecimal(0);
+                            }
+                            total2 = total2.add(amt2);
+                            BigDecimal amt3 = tableModel.getBigDecimalByName(i, "todayRechargeAmt");
+                            if (amt3 == null) {
+                                amt3 = new BigDecimal(0);
+                            }
+                            total3 = total3.add(amt3);
+                            BigDecimal amt4 = tableModel.getBigDecimalByName(i, "todayRepayCapitalAmt");
+                            if (amt4 == null) {
+                                amt4 = new BigDecimal(0);
+                            }
+                            total4 = total4.add(amt4);
+                            BigDecimal amt5 = tableModel.getBigDecimalByName(i, "investRemainAmt");
+                            if (amt5 == null) {
+                                amt5 = new BigDecimal(0);
+                            }
+                            total5 = total5.add(amt5);
+                            Long amt6 = tableModel.getNumberByName(i, "investCount");
+                            if (amt6 == null) {
+                                amt6 = 0L;
+                            }
+                            total6 = total6 + amt6;
+                            BigDecimal amt7 = tableModel.getBigDecimalByName(i, "sumInvestAmt");
+                            if (amt7 == null) {
+                                amt7 = new BigDecimal(0);
+                            }
+                            total7 = total7.add(amt7);
                         }
-                        total1 = total1.add(amt1);
-                        BigDecimal amt2 = tableModel.getBigDecimalByName(i, "todayWithdrawAmt");
-                        if (amt2 == null) {
-                            amt2 = new BigDecimal(0);
-                        }
-                        total2 = total2.add(amt2);
-                        BigDecimal amt3 = tableModel.getBigDecimalByName(i, "todayRechargeAmt");
-                        if (amt3 == null) {
-                            amt3 = new BigDecimal(0);
-                        }
-                        total3 = total3.add(amt3);
-                        BigDecimal amt4 = tableModel.getBigDecimalByName(i, "todayRepayCapitalAmt");
-                        if (amt4 == null) {
-                            amt4 = new BigDecimal(0);
-                        }
-                        total4 = total4.add(amt4);
-                        BigDecimal amt5 = tableModel.getBigDecimalByName(i, "investRemainAmt");
-                        if (amt5 == null) {
-                            amt5 = new BigDecimal(0);
-                        }
-                        total5 = total5.add(amt5);
-                        Long amt6 = tableModel.getNumberByName(i, "investCount");
-                        if (amt6 == null) {
-                            amt6 = 0L;
-                        }
-                        total6 = total6 + amt6;
-                        BigDecimal amt7 = tableModel.getBigDecimalByName(i, "sumInvestAmt");
-                        if (amt7 == null) {
-                            amt7 = new BigDecimal(0);
-                        }
-                        total7 = total7.add(amt7);
+                        params.put("loginName", "<总计>");
+                        params.put("todayInvestAmt", total1);
+                        params.put("todayWithdrawAmt", total2);
+                        params.put("todayRechargeAmt", total3);
+                        params.put("todayRepayCapitalAmt", total4);
+                        params.put("investRemainAmt", total5);
+                        params.put("investCount", total6);
+                        params.put("sumInvestAmt", total7);
+                        tableModel.addRow(params);
+                        controller().enable("search");
                     }
-                    params.put("loginName", "<总计>");
-                    params.put("todayInvestAmt", total1);
-                    params.put("todayWithdrawAmt", total2);
-                    params.put("todayRechargeAmt", total3);
-                    params.put("todayRepayCapitalAmt", total4);
-                    params.put("investRemainAmt", total5);
-                    params.put("investCount", total6);
-                    params.put("sumInvestAmt", total7);
-                    tableModel.addRow(params);
-                    controller().enable("search");
                 }
             }
         });
@@ -244,8 +253,8 @@ public class BrowseMyClientFrame
         int[] selectedRows = controller().get(JTable.class, "list").getSelectedRows();
         if (selectedRows.length == 1) {
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final int selectedRow = table.getSelectedRow();
-            final String uName = tableModel.getStringByName(selectedRow, "loginName");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final String uName = tableModel.getStringByName(selectedRow1, "loginName");
             if (!uName.equals("<总计>")) {
                 controller().enable("acc-info");
             } else {

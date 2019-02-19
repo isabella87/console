@@ -4,7 +4,6 @@ import com.banhui.console.rpc.CreditAssignmentsProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
@@ -29,7 +28,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseCreditAssignmentsFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     /**
      * {@inheritDoc}
      */
@@ -59,7 +58,7 @@ public class BrowseCreditAssignmentsFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void search(
@@ -86,11 +85,9 @@ public class BrowseCreditAssignmentsFrame
         params.put("key", key);
         params.put("key-type", keyType);
         controller().disable("search");
-
         new CreditAssignmentsProxy().queryAll(params)
                                     .thenApplyAsync(Result::list)
-                                    .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                    .exceptionally(ErrorHandler::handle)
+                                    .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                                     .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -99,15 +96,17 @@ public class BrowseCreditAssignmentsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
-        final String itemName = tableModel.getStringByName(table.getSelectedRow(), "itemName");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
+        final String itemName = tableModel.getStringByName(selectedRow1, "itemName");
 
         String confirmDeleteText = controller().formatMessage("confirm-delete-text", itemName);
         if (confirm(null, confirmDeleteText)) {
             controller().disable("advance-revoke");
             new CreditAssignmentsProxy().revoke(pid)
                                         .thenApplyAsync(Result::booleanValue)
-                                        .whenCompleteAsync(this::revokeCallback, UPDATE_UI);
+                                        .whenCompleteAsync(this::revokeCallback, UPDATE_UI)
+                                        .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
         }
     }
 
@@ -130,11 +129,11 @@ public class BrowseCreditAssignmentsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectRow = table.getSelectedRow();
-        if (selectRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long tiId = tableModel.getNumberByName(selectRow, "tiId");
+        final long tiId = tableModel.getNumberByName(selectedRow1, "tiId");
         ChooseProtocolDlg dlg = new ChooseProtocolDlg(tiId, 48, 2);
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -146,10 +145,11 @@ public class BrowseCreditAssignmentsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         new ProjectProxy().goTop(pid);
         controller().call("search");
     }
@@ -159,27 +159,42 @@ public class BrowseCreditAssignmentsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         new ProjectProxy().revokeTop(pid);
         controller().call("search");
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                if (tableModel.getDateByName(i, "topTime") != null) {
+                    tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 2);
+                }
+                //priceDifference 计算标价差额
+                BigDecimal creditAmount = tableModel.getBigDecimalByName(i, "creditAmount");
+                BigDecimal assignAmt = tableModel.getBigDecimalByName(i, "assignAmt");
+                tableModel.setValueAt(creditAmount.subtract(assignAmt), i, 11);
 
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            if (tableModel.getDateByName(i, "topTime") != null) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 3);
+                //REAL_AMOUNT 计算实收金额
+                BigDecimal fee = tableModel.getBigDecimalByName(i, "fee");
+                tableModel.setValueAt(assignAmt.subtract(fee), i, 13);
+
+                //UNPAID_TRAN_NO 计算剩余期数
+                long totalTranNo = tableModel.getNumberByName(i, "totalTranNo");
+                long paidTranNo = tableModel.getNumberByName(i, "paidTranNo");
+                tableModel.setValueAt(totalTranNo - paidTranNo, i, 8);
             }
-            BigDecimal creditAmount = tableModel.getBigDecimalByName(i, "creditAmount");
-            BigDecimal assignAmt = tableModel.getBigDecimalByName(i, "assignAmt");
-            tableModel.setValueAt(creditAmount.subtract(assignAmt), i, 11);
         }
     }
 
@@ -211,9 +226,9 @@ public class BrowseCreditAssignmentsFrame
         int[] selectedRows = table.getSelectedRows();
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         if (table.getSelectedRow() > -1) {
-            int selectRow = table.getSelectedRow();
-            final long status = tableModel.getNumberByName(selectRow, "status");
-            final Date topTime = tableModel.getDateByName(selectRow, "topTime");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long status = tableModel.getNumberByName(selectedRow1, "status");
+            final Date topTime = tableModel.getDateByName(selectedRow1, "topTime");
             if (selectedRows.length == 1) {
                 if (topTime != null) {
                     controller().show("cancel-top");

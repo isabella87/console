@@ -180,7 +180,7 @@
                                                     <checkBox name="60064" text="评委会秘书审批"/>
                                                     <checkBox name="60065" text="业务副总批准上线"/>
                                                     <checkBox name="60066" text="业务副总确认满标"/>
-                                                    <checkBox name="60067" text="财务核收服务费"/>
+                                                    <checkBox name="60067" text="风控复核"/>
                                                 </boxLayout>
                                             </cell>
                                         </row>
@@ -734,15 +734,6 @@
                                                 </boxLayout>
                                             </cell>
                                         </row>
-                                        <!--<row>-->
-                                            <!--<cell>-->
-                                                <!--<boxLayout>-->
-                                                    <!--<checkBox name="20507" text="查询三部超时注册用户列表"/>-->
-                                                    <!--<checkBox name="20506" text="查询三部转二部注册用户列表"/>-->
-                                                    <!--<checkBox name="20505" text="查询二部转一部注册用户列表"/>-->
-                                                <!--</boxLayout>-->
-                                            <!--</cell>-->
-                                        <!--</row>-->
                                     </gridLayout>
                                 </cell>
                             </row>

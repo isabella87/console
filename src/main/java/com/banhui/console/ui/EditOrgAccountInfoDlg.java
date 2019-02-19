@@ -107,15 +107,20 @@ public class EditOrgAccountInfoDlg
         params.put("enable", false);
         new AccountsProxy().lock(params)
                            .thenApplyAsync(Result::booleanValue)
-                           .thenAcceptAsync(this::unLockCallBack, UPDATE_UI);
+                           .whenCompleteAsync(this::unLockCallBack, UPDATE_UI);
     }
 
     private void unLockCallBack(
-            Boolean unlock
+            Boolean unlock,
+            Throwable t
     ) {
-        if (unlock) {
-            controller().show("lock-account");
-            controller().hide("unlock-account");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (unlock) {
+                controller().show("lock-account");
+                controller().hide("unlock-account");
+            }
         }
     }
 
@@ -129,15 +134,20 @@ public class EditOrgAccountInfoDlg
         params.put("enable", true);
         new AccountsProxy().lock(params)
                            .thenApplyAsync(Result::booleanValue)
-                           .thenAcceptAsync(this::lockCallBack, UPDATE_UI);
+                           .whenCompleteAsync(this::lockCallBack, UPDATE_UI);
     }
 
     private void lockCallBack(
-            Boolean lock
+            Boolean lock,
+            Throwable t
     ) {
-        if (lock) {
-            controller().hide("lock-account");
-            controller().show("unlock-account");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (lock) {
+                controller().hide("lock-account");
+                controller().show("unlock-account");
+            }
         }
     }
 
@@ -262,7 +272,7 @@ public class EditOrgAccountInfoDlg
     private void BrowseProtocol(
             ActionEvent actionEvent
     ) {
-        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47,2);
+        ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 47, 2);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -378,18 +388,22 @@ public class EditOrgAccountInfoDlg
 
         new AccountsProxy().updateOrgInfo(params)
                            .thenApplyAsync(Result::booleanValue)
-                           .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
+                           .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                            .thenAcceptAsync(v -> controller().enable("commit-info"), UPDATE_UI);
     }
 
     private void saveCallback(
-            Boolean flag
+            Boolean flag,
+            Throwable t
     ) {
-        if (flag) {
-            prompt(null, controller().getMessage("commit-success"));
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            prompt(null, controller().getMessage("commit-fail"));
+            if (flag) {
+                prompt(null, controller().getMessage("commit-success"));
+            } else {
+                prompt(null, controller().getMessage("commit-fail"));
+            }
         }
     }
 }

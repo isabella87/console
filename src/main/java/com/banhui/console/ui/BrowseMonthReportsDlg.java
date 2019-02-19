@@ -24,14 +24,18 @@ public class BrowseMonthReportsDlg
         }
         new AccountsProxy().monthReports(id)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle);
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 }

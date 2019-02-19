@@ -40,8 +40,7 @@ public class EditAccLvlDlg
             params.put("lev", lev);
             new AccountsProxy().updateLevel(params)
                                .thenApplyAsync(Result::longValue)
-                               .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                               .exceptionally(ErrorHandler::handle)
+                               .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -49,14 +48,19 @@ public class EditAccLvlDlg
     }
 
     private void saveCallback(
-            Long a
+            Long a,
+            Throwable t
     ) {
-        if (a > 0) {
-            prompt(null, controller().getMessage("edit-success"));
-            this.lev = controller().getInteger("lev");
-            super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            prompt(null, controller().getMessage("edit-fail"));
+            if (a > 0) {
+                prompt(null, controller().getMessage("edit-success"));
+                this.lev = controller().getInteger("lev");
+                super.done(OK);
+            } else {
+                prompt(null, controller().getMessage("edit-fail"));
+            }
         }
     }
 

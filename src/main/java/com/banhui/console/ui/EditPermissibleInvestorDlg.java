@@ -75,7 +75,8 @@ public class EditPermissibleInvestorDlg
             controller().disable("delete");
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long auId = tableModel.getNumberByName(table.getSelectedRow(), "auId");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long auId = tableModel.getNumberByName(selectedRow1, "auId");
             params.put("au-id", auId);
             new ProjectProxy().deletePermissible(params)
                               .thenApplyAsync(Result::longValue)

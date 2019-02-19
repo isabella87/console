@@ -75,8 +75,7 @@ public class EditBaPrjCtorDlg
             }
             (this.id == 0 ? new BaPrjCtrosProxy().add(params) : new BaPrjCtrosProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -92,36 +91,45 @@ public class EditBaPrjCtorDlg
 
         new BaPrjCtrosProxy().query(this.id)
                              .thenApplyAsync(Result::map)
-                             .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                             .exceptionally(ErrorHandler::handle);
+                             .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("name", stringValue(data, "name"));
-        controller().setText("show-name", stringValue(data, "showName"));
-        controller().setText("ent-nature", stringValue(data, "entNature"));
-        controller().setText("ent-quality", stringValue(data, "entQuality"));
-        controller().setText("ent-strength", stringValue(data, "entStrength"));
-        controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setNumber("reg-years", longValue(data, "regYears"));
-        controller().setText("show-reg-years", stringValue(data, "showRegYears"));
-        controller().setDecimal("reg-funds", decimalValue(data, "regFunds"));
-        controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
-        controller().setDecimal("lasted-area", decimalValue(data, "lastedArea"));
-        controller().setDecimal("lasted-output", decimalValue(data, "lastedOutput"));
-        controller().setText("qualification", stringValue(data, "qualification"));
-        controller().setNumber("nation-prize-count", longValue(data, "nationPrizeCount"));
-        controller().setNumber("provin-prize-count", longValue(data, "provinPrizeCount"));
-        controller().setText("intro", stringValue(data, "intro"));
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("name", stringValue(data, "name"));
+            controller().setText("show-name", stringValue(data, "showName"));
+            controller().setText("ent-nature", stringValue(data, "entNature"));
+            controller().setText("ent-quality", stringValue(data, "entQuality"));
+            controller().setText("ent-strength", stringValue(data, "entStrength"));
+            controller().setDate("registered-date", dateValue(data, "registeredDate"));
+            controller().setNumber("reg-years", longValue(data, "regYears"));
+            controller().setText("show-reg-years", stringValue(data, "showRegYears"));
+            controller().setDecimal("reg-funds", decimalValue(data, "regFunds"));
+            controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
+            controller().setDecimal("lasted-area", decimalValue(data, "lastedArea"));
+            controller().setDecimal("lasted-output", decimalValue(data, "lastedOutput"));
+            controller().setText("qualification", stringValue(data, "qualification"));
+            controller().setNumber("nation-prize-count", longValue(data, "nationPrizeCount"));
+            controller().setNumber("provin-prize-count", longValue(data, "provinPrizeCount"));
+            controller().setText("intro", stringValue(data, "intro"));
+        }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

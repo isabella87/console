@@ -26,7 +26,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseBaPrjGuaranteePersFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(BrowseBaPrjGuaranteePersFrame.class);
 
@@ -48,7 +48,9 @@ public class BrowseBaPrjGuaranteePersFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
+
+        showTipLabel();
     }
 
     private void search(
@@ -70,16 +72,20 @@ public class BrowseBaPrjGuaranteePersFrame
 //串行异步，链式异步
         new BaPrjGuaranteePersProxy().all(params)
                                      .thenApplyAsync(Result::list)
-                                     .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                                     .exceptionally(ErrorHandler::handle)
+                                     .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                                      .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void create(
@@ -103,15 +109,15 @@ public class BrowseBaPrjGuaranteePersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "bgpId");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "bgpId");
         final EditBaPrjGuaranteePerDlg dlg = new EditBaPrjGuaranteePerDlg(id);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
-                tableModel.setRow(selectedRow, row);
+                tableModel.setRow(selectedRow1, row);
             }
         }
     }
@@ -124,8 +130,8 @@ public class BrowseBaPrjGuaranteePersFrame
             controller().disable("delete");
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bgpId");
-
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long bpeId = tableModel.getNumberByName(selectedRow1, "bgpId");
             new BaPrjGuaranteePersProxy().del(bpeId)
                                          .thenApplyAsync(Result::map)
                                          .whenCompleteAsync(this::delCallback, UPDATE_UI);
@@ -150,12 +156,12 @@ public class BrowseBaPrjGuaranteePersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectRow = table.getSelectedRow();
-        if (selectRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long id = tableModel.getNumberByName(selectRow, "bgpId");
-        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 22,1);
+        final long id = tableModel.getNumberByName(selectedRow1, "bgpId");
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 22, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }

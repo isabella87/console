@@ -21,7 +21,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseOrgAccountFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
 
     public BrowseOrgAccountFrame() {
         controller().disable("account-info");
@@ -33,7 +33,7 @@ public class BrowseOrgAccountFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void accountInfo(
@@ -41,8 +41,8 @@ public class BrowseOrgAccountFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "auId");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "auId");
 
         final EditOrgAccountInfoDlg dlg = new EditOrgAccountInfoDlg(id);
         dlg.setFixedSize(false);
@@ -80,18 +80,21 @@ public class BrowseOrgAccountFrame
 
         new AccountsProxy().queryAccOrgInfo(params)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                            .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
-
 
     private void accelerateDate(
             Object event

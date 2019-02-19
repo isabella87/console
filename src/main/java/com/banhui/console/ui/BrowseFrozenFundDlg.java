@@ -43,8 +43,8 @@ public class BrowseFrozenFundDlg
         controller().disable("cancel-frozen");
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final String orderId = tableModel.getStringByName(selectedRow, "orderId");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final String orderId = tableModel.getStringByName(selectedRow1, "orderId");
         final Map<String, Object> params = new HashMap<>();
         if (orderId != null) {
             params.put("old-order-id", orderId);

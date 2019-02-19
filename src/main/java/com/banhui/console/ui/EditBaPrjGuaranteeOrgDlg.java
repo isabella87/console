@@ -86,36 +86,39 @@ public class EditBaPrjGuaranteeOrgDlg
 
     private void updateData() {
         assertUIThread();
-
         new BaPrjGuaranteeOrgsProxy().query(this.id)
                                      .thenApplyAsync(Result::map)
-                                     .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                     .exceptionally(ErrorHandler::handle);
+                                     .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("name", stringValue(data, "name"));
-        controller().setText("show-name", stringValue(data, "showName"));
-        controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setNumber("reg-years", longValue(data, "regYears"));
-        controller().setNumber("reg-funds", longValue(data, "regFunds"));
-        controller().setText("reg-address", stringValue(data, "regAddress"));
-        controller().setText("show-reg-address", stringValue(data, "showRegAddress"));
-        controller().setText("postcode", stringValue(data, "postcode"));
-        controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
-        controller().setText("legal-person-name", stringValue(data, "legalPersonName"));
-        controller().setText("legal-person-show-name", stringValue(data, "legalPersonShowName"));
-        controller().setText("linkman", stringValue(data, "linkman"));
-        controller().setText("mobile", stringValue(data, "mobile"));
-        controller().setNumber("ranking", longValue(data, "ranking"));
-        controller().setText("qualification", stringValue(data, "qualification"));
-        controller().setText("social-credit-code", stringValue(data, "socialCreditCode"));
-        controller().setText("show-social-credit-code", stringValue(data, "showSocialCreditCode"));
-        controller().setText("get-prize", stringValue(data, "getPrize"));
-        controller().setText("org-web-site", stringValue(data, "orgWebSite"));
-        controller().setText("intro", stringValue(data, "intro"));
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("name", stringValue(data, "name"));
+            controller().setText("show-name", stringValue(data, "showName"));
+            controller().setDate("registered-date", dateValue(data, "registeredDate"));
+            controller().setNumber("reg-years", longValue(data, "regYears"));
+            controller().setNumber("reg-funds", longValue(data, "regFunds"));
+            controller().setText("reg-address", stringValue(data, "regAddress"));
+            controller().setText("show-reg-address", stringValue(data, "showRegAddress"));
+            controller().setText("postcode", stringValue(data, "postcode"));
+            controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
+            controller().setText("legal-person-name", stringValue(data, "legalPersonName"));
+            controller().setText("legal-person-show-name", stringValue(data, "legalPersonShowName"));
+            controller().setText("linkman", stringValue(data, "linkman"));
+            controller().setText("mobile", stringValue(data, "mobile"));
+            controller().setNumber("ranking", longValue(data, "ranking"));
+            controller().setText("qualification", stringValue(data, "qualification"));
+            controller().setText("social-credit-code", stringValue(data, "socialCreditCode"));
+            controller().setText("show-social-credit-code", stringValue(data, "showSocialCreditCode"));
+            controller().setText("get-prize", stringValue(data, "getPrize"));
+            controller().setText("org-web-site", stringValue(data, "orgWebSite"));
+            controller().setText("intro", stringValue(data, "intro"));
+        }
     }
 
     private void saveCallback(

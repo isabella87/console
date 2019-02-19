@@ -24,7 +24,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowsePlatformMessageFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
 
     private final Logger logger = LoggerFactory.getLogger(BrowsePlatformMessageFrame.class);
 
@@ -42,7 +42,7 @@ public class BrowsePlatformMessageFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void accelerateDate(
@@ -114,15 +114,15 @@ public class BrowsePlatformMessageFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "amId");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "amId");
         final EditPlatformMessageDlg dlg = new EditPlatformMessageDlg(id);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
 
             if (row != null && !row.isEmpty()) {
-                tableModel.setRow(selectedRow, row);
+                tableModel.setRow(selectedRow1, row);
             }
         }
     }

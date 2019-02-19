@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="-信息披露详情记录">
+    <message name="detail-null"><![CDATA[您还未输入内容，请输入内容！]]></message>
+    <message name="create">创建</message>
+    <message name="edit">编辑</message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <boxLayout>
+        <tabbedPane>
+            <tab title="运营总体情况">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="101">累计借款金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="101"/>
+                        </cell>
+                        <cell>
+                            <label for="102">累计借贷笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="102"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="103">借贷余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="103"/>
+                        </cell>
+                        <cell>
+                            <label for="104">借贷余额笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="104"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="105">利息余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="105"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="106">累计出借人数量(人)：</label>
+                        </cell>
+                        <cell>
+                            <text name="106"/>
+                        </cell>
+                        <cell>
+                            <label for="107">累计借款人数量(人)：</label>
+                        </cell>
+                        <cell>
+                            <text name="107"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="108">当前出借人数量(人)：</label>
+                        </cell>
+                        <cell>
+                            <text name="108"/>
+                        </cell>
+                        <cell>
+                            <label for="109">当前借款人数量(人)：</label>
+                        </cell>
+                        <cell>
+                            <text name="109"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="110">前十大借款人待还金额占比(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="110"/>
+                        </cell>
+                        <cell>
+                            <label for="111">最大单一借款人待还金额占比(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="111"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="112">关联关系借款余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="112"/>
+                        </cell>
+                        <cell>
+                            <label for="113">关联关系借款笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="113"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="114">逾期金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="114"/>
+                        </cell>
+                        <cell>
+                            <label for="115">逾期笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="115"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="116">逾期90天(不含)以上金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="116"/>
+                        </cell>
+                        <cell>
+                            <label for="117">逾期90天(不含)以上笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="117"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="118">累计代偿金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="118"/>
+                        </cell>
+                        <cell>
+                            <label for="119">累计代偿笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="119"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="120">收费标准：</label>
+                        </cell>
+                        <cell>
+                            <text name="120"/>
+                        </cell>
+                        <cell/>
+                        <cell/>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="121">项目逾期率(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="121"/>
+                        </cell>
+                        <cell>
+                            <label for="122">金额逾期率(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="122"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="123">人均累计借款金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="123"/>
+                        </cell>
+                        <cell>
+                            <label for="124">人均累计出借金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="124"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="125">最大单户出借余额占比(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="125"/>
+                        </cell>
+                        <cell>
+                            <label for="126">最大十户出借余额占比(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="126"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="127">项目分级逾期率(90天)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="127"/>
+                        </cell>
+                        <cell>
+                            <label for="128">项目分级逾期率(91-180天)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="128"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="129">项目分级逾期率(181天以上)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="129"/>
+                        </cell>
+                        <cell>
+                            <label for="130">金额分级逾期率(90天)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="130"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="131">金额分级逾期率(91-180天)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="131"/>
+                        </cell>
+                        <cell>
+                            <label for="132">金额分级逾期率(181天以上)(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="132"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="133">注册用户数：</label>
+                        </cell>
+                        <cell>
+                            <text name="133"/>
+                        </cell>
+                        <cell>
+                            <label for="134">开通银行存管账户数：</label>
+                        </cell>
+                        <cell>
+                            <text name="134"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="135">个人最大借款余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="135"/>
+                        </cell>
+                        <cell>
+                            <label for="136">机构最大借款余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="136"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="137">企业借贷余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="137"/>
+                        </cell>
+                        <cell>
+                            <label for="138">自然人借贷余额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="138"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="139">平均借款期限(天)：</label>
+                        </cell>
+                        <cell>
+                            <text name="139"/>
+                        </cell>
+                        <cell>
+                            <label for="140">平均借款利率(%)：</label>
+                        </cell>
+                        <cell>
+                            <text name="140"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="141">第三方担保金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="141"/>
+                        </cell>
+                        <cell>
+                            <label for="142">从业机构累计购买债权金额(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="142"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="143">从业机构累计购买债权笔数(笔)：</label>
+                        </cell>
+                        <cell>
+                            <text name="143"/>
+                        </cell>
+                        <cell/>
+                        <cell/>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="业务种类">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="201">个体网络借贷(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="201"/>
+                        </cell>
+                        <cell>
+                            <label for="202">网络小额贷款(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="202"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="203">互联网其他债权类融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="203"/>
+                        </cell>
+                        <cell>
+                            <label name="204">互联网金融产品转让融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="204"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="205">互联网金融产品收益权转让融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="205"/>
+                        </cell>
+                        <cell>
+                            <label name="206">债权转让(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="206"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="207">债权收益权转让(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="207"/>
+                        </cell>
+                        <cell>
+                            <label name="208">其他金融产品及收益权转让(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="208"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="209">互联网第三方金融产品投资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="209"/>
+                        </cell>
+                        <cell>
+                            <label name="210">互联网金融产品发售(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="210"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="211">股权众筹融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="211"/>
+                        </cell>
+                        <cell>
+                            <label name="212">互联网实物众筹融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="212"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="213">与银行业金融机构合作业务(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="213"/>
+                        </cell>
+                        <cell>
+                            <label name="214">其他互联网融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="214"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="借款用途">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label name="301">流动性资金需求(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="301"/>
+                        </cell>
+                        <cell>
+                            <label name="302">消费性资金需求(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="302"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="303">校园网贷(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="303"/>
+                        </cell>
+                        <cell>
+                            <label name="304">房地产配资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="304"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label name="305">高风险融资(元)：</label>
+                        </cell>
+                        <cell>
+                            <text name="305"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+        </tabbedPane>
+    </boxLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok" default="true"/>
+        <button actionName="cancel"/>
+    </boxLayout>
+</ui>

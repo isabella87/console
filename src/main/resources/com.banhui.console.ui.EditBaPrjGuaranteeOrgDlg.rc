@@ -89,7 +89,7 @@
                 <label for="legal-person-show-name">法人展示名：</label>
             </cell>
             <cell>
-                <text name="legal-person-show-name" pattern="\w{2,}" required="true"/>
+                <text name="legal-person-show-name" pattern=".{2,}" required="true"/>
             </cell>
         </row>
         <row>

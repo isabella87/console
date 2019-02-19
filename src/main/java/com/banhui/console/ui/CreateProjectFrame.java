@@ -37,7 +37,7 @@ public class CreateProjectFrame
             final Map<String, Object> params = new HashMap<>();
 
             params.put("item-name", controller().getText("item-name").trim());
-            params.put("type", controller().getText("type").trim());
+            params.put("type", controller().getNumber("type"));
             params.put("amt", 1000);
             params.put("borrow-days", 180);
             params.put("per-invest-min-amt", 100);
@@ -58,19 +58,23 @@ public class CreateProjectFrame
 
             new ProjectProxy().createPrjLoan(params)
                               .thenApplyAsync(Result::map, UPDATE_UI)
-                              .thenAcceptAsync(this::saveCallback)
-                              .exceptionally(ErrorHandler::handle);
+                              .whenCompleteAsync(this::saveCallback);
         } else {
             super.done(result);
         }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        Integer pId = (Integer) row.get("pId");
-        this.pId = pId;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            Integer pId = (Integer) row.get("pId");
+            this.pId = pId;
+            super.done(OK);
+        }
     }
 
 

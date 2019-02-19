@@ -141,7 +141,7 @@ public abstract class AbstractHttp
      * @throws IllegalArgumentException
      *         如果参数{@code baseUri}是{@code null}，或者不是绝对URI。
      */
-    public final void setBaseUri(
+    public void setBaseUri(
             URI baseUri
     ) {
         notNull(baseUri, "baseUri");

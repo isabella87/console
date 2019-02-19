@@ -6,7 +6,7 @@
         width="800"
         height="400">
     <message name="borPer">选择借款人账户</message>
-    <message name="bondsMan">选择代偿账户</message>
+    <message name="bondsMan">选择担保账户</message>
     <standardAction value="ok"/>
     <standardAction value="cancel"/>
     <action name="search" title="搜索（S）" mnemonic="S" smallIcon="search.png"/>
@@ -23,9 +23,9 @@
         <row>
             <cell>
                 <boxLayout horizontalAlignment="FIRST">
-                    <label for="user-type">类型</label>
+                    <label for="user-type">类型：</label>
                     <dropDown name="user-type" optionsName="userType" includeAll="true"/>
-                    <label for="key">关键字（K）</label>
+                    <label for="key">关键字（K）：</label>
                     <text name="key"/>
                     <button actionName="search" name="search"/>
                 </boxLayout>
@@ -34,7 +34,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="auId" title="ID" type="NUMBER" size="100"/>
+                    <tableColumn name="auId" title="ID" type="NUMBER_TEXT" size="100"/>
                     <tableColumn name="loginName" title="用户名" type="TEXT" size="120"/>
                     <tableColumn name="userType" title="类型" type="TEXT" size="100" optionsName="userType"/>
                     <tableColumn name="status" title="状态" type="TEXT" size="120" optionsName="status"/>

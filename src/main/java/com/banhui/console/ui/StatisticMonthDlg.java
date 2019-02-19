@@ -57,8 +57,9 @@ public class StatisticMonthDlg
         html.append(controller().getMessage("unit"));
         html.append("<table><tr><td width='240'>新增投资人数</td><td width='90'>");
         html.append(statistic2.get("newInvestCount"));
-        html.append("</td><td width='240'></td><td width='90'></td></tr>");
-        html.append("<tr><td>当月注册人数</td><td>");
+        html.append("</td><td width='240'>有效投资人数</td><td width='90'>");
+        html.append(statistic2.get("validInvestCount"));
+        html.append("</td></tr><tr><td>当日注册人数</td><td>");
         html.append(statistic2.get("newRegCount"));
         html.append("</td><td>总注册人数</td><td>");
         html.append(statistic2.get("totalRegCount"));
@@ -156,6 +157,7 @@ public class StatisticMonthDlg
     private void search(
             ActionEvent actionEvent
     ) {
+        controller().disable("search");
         assertUIThread();
         final Map<String, Object> params = new HashMap<>();
         Date datepoint = controller().getDate("datepoint");
@@ -183,7 +185,8 @@ public class StatisticMonthDlg
                 results[6].map(),
                 results[7].map(),
                 results[8].map()
-        }).whenCompleteAsync(this::searchCallback, UPDATE_UI);
+        }).whenCompleteAsync(this::searchCallback, UPDATE_UI)
+         .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     @SuppressWarnings("unchecked")
@@ -202,6 +205,7 @@ public class StatisticMonthDlg
 
             final Map<String, Object> result1 = (Map<String, Object>) results[1];
             statistic2.put("newRegCount", intValue(result1, "newRegCount"));
+            statistic2.put("validInvestCount", intValue(result1, "validInvestCount"));
             statistic2.put("totalRegCount", intValue(result1, "totalRegCount"));
             statistic2.put("newInvestCount", intValue(result1, "newInvestCount"));
             statistic2.put("investCount", intValue(result1, "investCount"));
@@ -218,27 +222,27 @@ public class StatisticMonthDlg
             final Map<String, Object> result3 = (Map<String, Object>) results[3];
             statistic4.put("totalRechargeCountInvestor", intValue(result3, "totalRechargeCountInvestor"));
             statistic4.put("totalRechargeCountOther", intValue(result3, "totalRechargeCountOther"));
-            statistic4.put("totalRechargeAmtInvestor", to2Scale(result3,"totalRechargeAmtInvestor"));
-            statistic4.put("totalRechargeAmtOther", to2Scale(result3,"totalRechargeAmtOther"));
+            statistic4.put("totalRechargeAmtInvestor", to2Scale(result3, "totalRechargeAmtInvestor"));
+            statistic4.put("totalRechargeAmtOther", to2Scale(result3, "totalRechargeAmtOther"));
 
             final Map<String, Object> result4 = (Map<String, Object>) results[4];
-            statistic5.put("loanBalanceAmt", to2Scale(result4,"loanBalanceAmt"));
-            statistic5.put("repayFeeAmt", to2Scale(result4,"repayFeeAmt"));
-            statistic5.put("totalRepayFeeAmt", to2Scale(result4,"totalRepayFeeAmt"));
-            statistic5.put("creditFeeAmt", to2Scale(result4,"creditFeeAmt"));
-            statistic5.put("totalCreditFeeAmt", to2Scale(result4,"creditFeeAmt"));
+            statistic5.put("loanBalanceAmt", to2Scale(result4, "loanBalanceAmt"));
+            statistic5.put("repayFeeAmt", to2Scale(result4, "repayFeeAmt"));
+            statistic5.put("totalRepayFeeAmt", to2Scale(result4, "totalRepayFeeAmt"));
+            statistic5.put("creditFeeAmt", to2Scale(result4, "creditFeeAmt"));
+            statistic5.put("totalCreditFeeAmt", to2Scale(result4, "creditFeeAmt"));
 
             final Map<String, Object> result5 = (Map<String, Object>) results[5];
             statistic6.put("withdrawCountInvestor", intValue(result5, "withdrawCountInvestor"));
             statistic6.put("withdrawCountOther", intValue(result5, "withdrawCountOther"));
-            statistic6.put("withdrawAmtInvestor", to2Scale(result5,"withdrawAmtInvestor"));
-            statistic6.put("withdrawAmtOther", to2Scale(result5,"withdrawAmtOther"));
+            statistic6.put("withdrawAmtInvestor", to2Scale(result5, "withdrawAmtInvestor"));
+            statistic6.put("withdrawAmtOther", to2Scale(result5, "withdrawAmtOther"));
 
             final Map<String, Object> result6 = (Map<String, Object>) results[6];
             statistic7.put("totalWithdrawCountInvestor", intValue(result6, "totalWithdrawCountInvestor"));
             statistic7.put("totalWithdrawCountOther", intValue(result6, "totalWithdrawCountOther"));
-            statistic7.put("totalWithdrawAmtInvestor", to2Scale(result6,"totalWithdrawAmtInvestor"));
-            statistic7.put("totalWithdrawAmtOther", to2Scale(result6,"totalWithdrawAmtOther"));
+            statistic7.put("totalWithdrawAmtInvestor", to2Scale(result6, "totalWithdrawAmtInvestor"));
+            statistic7.put("totalWithdrawAmtOther", to2Scale(result6, "totalWithdrawAmtOther"));
 
             final Map<String, Object> result7 = (Map<String, Object>) results[7];
             statistic8.put("averageBorrowDays", intValue(result7, "averageBorrowDays"));
@@ -283,6 +287,7 @@ public class StatisticMonthDlg
 
         statistic2 = new HashMap<>();
         statistic2.put("newInvestCount", "");
+        statistic2.put("validInvestCount", "");
         statistic2.put("investCount", "");
         statistic2.put("newRegCount", "");
         statistic2.put("totalRegCount", "");

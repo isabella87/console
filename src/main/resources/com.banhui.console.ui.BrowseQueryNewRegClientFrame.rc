@@ -20,8 +20,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="auId" title="客户ID" type="TEXT" size="80"/>
+                    <tableColumn name="auId" title="客户ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="100"/>
                     <tableColumn name="mobile" title="手机号码" type="TEXT" size="160"/>
                     <tableColumn name="company" title="工作单位" type="TEXT" size="100"/>

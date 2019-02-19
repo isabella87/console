@@ -34,6 +34,8 @@
                     <label mnemonic="K" for="search-key">关键字(K)：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
+                    <label name="tip" visible="false"><![CDATA[<html><font color="gray">
+                        (内容，姓名，手机号精确匹配，创建人，更新人)</font></html>]]></label>
                 </boxLayout>
             </cell>
         </row>
@@ -49,15 +51,14 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="bpmId" title="ID" type="TEXT" size="60"/>
-                    <tableColumn name="content" title="抵押/质押物内容" type="TEXT" size="140"/>
+                    <tableColumn name="bpmId" title="ID" type="NUMBER_TEXT" size="60"/>
                     <tableColumn name="mType" title="类型" type="TEXT" size="100" optionsName="type"/>
                     <tableColumn name="ownerName" title="姓名/机构名称" type="TEXT" size="200"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="160"/>
                     <tableColumn name="creator" title="创建人" type="TEXT" size="80"/>
                     <tableColumn name="updateTime" title="修改时间" type="DATE_TIME" size="160"/>
                     <tableColumn name="updater" title="修改人" type="TEXT" size="80"/>
+                    <tableColumn name="content" title="抵押/质押物内容" type="TEXT" size="180"/>
                 </table>
             </cell>
         </row>

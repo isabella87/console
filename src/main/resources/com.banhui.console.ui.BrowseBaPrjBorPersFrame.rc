@@ -33,6 +33,8 @@
                     <label mnemonic="K" for="search-key">关键字(K)：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
+                    <label name="tip" visible="false"><![CDATA[<html><font color="gray">
+                        (真实姓名，手机号，公司，创建人，更新人)</font></html>]]></label>
                 </boxLayout>
             </cell>
         </row>
@@ -51,8 +53,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="bpmpId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="bpmpId" title="ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="140"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
                     <tableColumn name="qq" title="QQ" type="TEXT" size="140"/>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="信息披露数据"
+        width="800"
+        height="600">
+    <message name="confirm-delete-text"><![CDATA[确定删除吗？]]></message>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="create" title="创建(C)" mnemonic="C"/>
+    <action name="edit" title="编辑(E)" mnemonic="E" smallIcon="edit.png"/>
+    <action name="delete" title="删除(D)" mnemonic="D" smallIcon="delete.png"/>
+    <action name="detail" title="编辑信息披露详情"/>
+    <action name="createDetail" title="创建信息披露详情"/>
+    <options name="info-type">
+        <option value="0">月信息披露</option>
+        <option value="1">年信息披露</option>
+    </options>
+    <options name="exist">
+        <option value="true">是</option>
+        <option value="false">否</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="year">搜索年份：</label>
+                    <text name="year" type="NUMBER"/>
+                    <label for="month">月份：</label>
+                    <text name="month" type="NUMBER"/>
+                    <dropDown name="type" optionsName="info-type"/>
+                    <button actionName="search" default="true"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="create"/>
+                    <button actionName="edit"/>
+                    <button actionName="delete"/>
+                    <button actionName="detail"/>
+                    <button actionName="createDetail"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="adrId" title="ID" type="NUMBER_TEXT" size="80"/>
+                    <tableColumn name="year" title="年份" type="NUMBER_TEXT" size="120"/>
+                    <tableColumn name="month" title="月份" type="NUMBER_TEXT" size="100"/>
+                    <tableColumn name="type" title="类型" type="TEXT" size="120" optionsName="info-type"/>
+                    <tableColumn name="name" title="名称" type="TEXT" size="180"/>
+                    <tableColumn name="creater" title="创建者" type="TEXT" size="120"/>
+                    <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
+                    <tableColumn name="updater" title="修改者" type="TEXT" size="120"/>
+                    <tableColumn name="updaterTime" title="更新时间" type="DATE_TIME" size="180"/>
+                    <tableColumn name="detailExist" title="详细信息是否存在" type="TEXT" size="140" optionsName="exist"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+</ui>

@@ -23,7 +23,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseAssignRegClientFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
 
     public BrowseAssignRegClientFrame() {
         controller().readOnly("u-name", true);
@@ -43,7 +43,7 @@ public class BrowseAssignRegClientFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void chooseManager(
@@ -65,8 +65,9 @@ public class BrowseAssignRegClientFrame
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
-        long id = tableModel.getNumberByName(selectedRow, "auId");
-        String name = tableModel.getStringByName(selectedRow, "realName");
+        final int selectedRow1 = table.convertRowIndexToModel(selectedRow);
+        long id = tableModel.getNumberByName(selectedRow1, "auId");
+        String name = tableModel.getStringByName(selectedRow1, "realName");
         CrmResetManagerDlg dlg = new CrmResetManagerDlg(id, name);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
@@ -114,7 +115,8 @@ public class BrowseAssignRegClientFrame
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
-        long id = tableModel.getNumberByName(selectedRow, "auId");
+        final int selectedRow1 = table.convertRowIndexToModel(selectedRow);
+        long id = tableModel.getNumberByName(selectedRow1, "auId");
         EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, 0);
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -155,16 +157,20 @@ public class BrowseAssignRegClientFrame
         controller().disable("search");
         new CrmProxy().queryRegUsers(params)
                       .thenApplyAsync(Result::list)
-                      .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle)
+                      .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                       .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void accelerateDate(

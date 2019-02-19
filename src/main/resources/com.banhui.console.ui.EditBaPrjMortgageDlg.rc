@@ -21,14 +21,8 @@
             <cell>
                 <label for="content">抵押/质押物内容：</label>
             </cell>
-            <cell>
-                <text name="content" required="true" pattern="\w{2,}"/>
-            </cell>
-            <cell>
-                <label for="evaluation">抵押/质押物估值：</label>
-            </cell>
-            <cell>
-                <text name="evaluation" required="true" type="CURRENCY"/>
+            <cell columnSpan="3">
+                <text name="content" required="true" pattern=".{2,}"/>
             </cell>
         </row>
         <row>
@@ -37,6 +31,12 @@
             </cell>
             <cell>
                 <dropDown name="m-type" optionsName="type"/>
+            </cell>
+            <cell>
+                <label for="evaluation">抵押/质押物估值：</label>
+            </cell>
+            <cell>
+                <text name="evaluation" required="true" type="CURRENCY"/>
             </cell>
         </row>
         <row>

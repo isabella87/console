@@ -33,7 +33,6 @@
         <row stretch="1">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="60"/>
                     <tableColumn name="productId" title="产品编号" type="TEXT" size="120"/>
                     <tableColumn name="orderId" title="订单号" type="TEXT" size="250"/>
                     <tableColumn name="buyDate" title="投标日期" type="DATE" size="160"/>

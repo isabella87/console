@@ -27,7 +27,6 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn title="ID" size="80" type="TEXT" name="auId"/>
                     <tableColumn title="登录名" size="140" type="TEXT" name="loginName"/>
                     <tableColumn title="手机号" size="140" type="TEXT" name="mobile"/>

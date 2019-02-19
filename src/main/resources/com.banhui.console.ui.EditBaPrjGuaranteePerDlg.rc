@@ -28,7 +28,7 @@
                 <label for="show-name">展示姓名：</label>
             </cell>
             <cell>
-                <text name="show-name" required="true" pattern="\w{2,}"/>
+                <text name="show-name" required="true" pattern=".{2,}"/>
             </cell>
         </row>
         <row>

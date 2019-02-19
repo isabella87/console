@@ -37,7 +37,7 @@
     <action name="deleteMortgage" title="删除(M)" />
     <options name="project-type">
         <option value="10">企业贷</option>
-        <option value="5">票据贷</option>
+        <option value="9">个人贷</option>
     </options>
     <options name="repayment">
         <option value="1">每月固定日还款（放款30天作为首次还款日）</option>
@@ -83,13 +83,13 @@
                             <label for="item-name">融资项目名称：</label>
                         </cell>
                         <cell horizontalAlignment="BOTH">
-                            <text name="item-name" required="true" pattern="\w{2,}"/>
+                            <text name="item-name" required="true" pattern=".{2,}"/>
                         </cell>
                         <cell>
                             <label for="item-show-name">展示名称：</label>
                         </cell>
                         <cell horizontalAlignment="BOTH">
-                            <text name="item-show-name"/>
+                            <text name="item-show-name" required="true" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -257,7 +257,7 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="invest-max-amt-ratio">投资限额：</label>
+                            <label for="invest-max-amt">投资限额：</label>
                         </cell>
                         <cell>
                             <text name="invest-max-amt" type="NUMBER" size="10" suffix=" 元 "/>
@@ -265,7 +265,7 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="invest-max-amt">单笔投资上限额：</label>
+                            <label for="per-invest-max-amt">单笔投资上限额：</label>
                         </cell>
                         <cell columnSpan="2">
                             <boxLayout horizontalAlignment="FIRST">
@@ -432,7 +432,7 @@
                                     <cell>
                                         <boxLayout horizontalAlignment="BOTH">
                                             <label for="prj-risk-assess">项目风险评估：</label>
-                                            <text name="prj-risk-assess" required="true"/>
+                                            <text name="prj-risk-assess" type="TEXT_AREA" required="true" rowSize="5"/>
                                         </boxLayout>
                                     </cell>
                                 </row>
@@ -468,8 +468,7 @@
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="guaranteePersons">
-                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                                            <tableColumn name="pgpId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="pgpId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
                                             <tableColumn name="name" title="名称" type="TEXT" size="100"/>
                                             <tableColumn name="showName" title="展示名称" type="TEXT" size="100"/>
@@ -505,8 +504,7 @@
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="guaranteeOrg">
-                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                                            <tableColumn name="pgoId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="pgoId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
                                             <tableColumn name="name" title="名称" type="TEXT" size="100"/>
                                             <tableColumn name="showName" title="展示名称" type="TEXT" size="100"/>
@@ -519,7 +517,7 @@
                                             <tableColumn name="guaranteeRightMan" title="担保权人" type="TEXT" size="100"/>
                                             <tableColumn name="guaranteeRightManNo" title="担保权人统一社会信用代码" type="TEXT"
                                                          size="100"/>
-                                            <tableColumn name="visible" title="协议可见" type="NUMBER" size="80"
+                                            <tableColumn name="visible" title="协议可见" type="TEXT" size="80"
                                                          optionsName="visible"/>
                                         </table>
                                     </cell>
@@ -547,8 +545,7 @@
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="borPersons">
-                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                                            <tableColumn name="bpmpId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="bpmpId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
                                             <tableColumn name="name" title="借款人" type="TEXT" size="100"/>
                                             <tableColumn name="visible" title="协议可见" type="TEXT" size="100"
@@ -575,8 +572,7 @@
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="borOrgs">
-                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                                            <tableColumn name="bpmoId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="bpmoId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
                                             <tableColumn name="orgName" title="借款机构" type="TEXT" size="100"/>
                                             <tableColumn name="legalPersonName" title="法定代表人" type="TEXT" size="100"/>
@@ -610,8 +606,7 @@
                                 <row stretch="100">
                                     <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                         <table name="mortgages">
-                                            <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                                            <tableColumn name="pmId" title="ID" type="TEXT" size="60"/>
+                                            <tableColumn name="pmId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="ownerName" title="姓名或者机构名称" type="TEXT" size="200"/>
                                             <tableColumn name="mType" title="类型" type="TEXT" size="160" optionsName="mType"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>

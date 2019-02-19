@@ -65,8 +65,7 @@ public class EditBaPrjOwnerDlg
 
             (this.id == 0 ? new BaPrjOwnersProxy().add(params) : new BaPrjOwnersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -82,31 +81,40 @@ public class EditBaPrjOwnerDlg
 
         new BaPrjOwnersProxy().query(this.id)
                               .thenApplyAsync(Result::map)
-                              .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle);
+                              .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("owner-name", stringValue(data, "ownerName"));
-        controller().setText("show-owner-name", stringValue(data, "ownerShowName"));
-        controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setInteger("reg-years", intValue(data, "regYears"));
-        controller().setNumber("reg-funds", longValue(data, "regFunds"));
-        controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
-        controller().setText("ent-industry", stringValue(data, "entIndustry"));
-        controller().setText("owner-nature", stringValue(data, "ownerNature"));
-        controller().setText("owner-strength", stringValue(data, "ownerStrength"));
-        controller().setText("owner-quality", stringValue(data, "ownerQuality"));
-        controller().setText("intro", stringValue(data, "intro"));
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("owner-name", stringValue(data, "ownerName"));
+            controller().setText("show-owner-name", stringValue(data, "ownerShowName"));
+            controller().setDate("registered-date", dateValue(data, "registeredDate"));
+            controller().setInteger("reg-years", intValue(data, "regYears"));
+            controller().setNumber("reg-funds", longValue(data, "regFunds"));
+            controller().setNumber("show-reg-funds", longValue(data, "showRegFunds"));
+            controller().setText("ent-industry", stringValue(data, "entIndustry"));
+            controller().setText("owner-nature", stringValue(data, "ownerNature"));
+            controller().setText("owner-strength", stringValue(data, "ownerStrength"));
+            controller().setText("owner-quality", stringValue(data, "ownerQuality"));
+            controller().setText("intro", stringValue(data, "intro"));
+        }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

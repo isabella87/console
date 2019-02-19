@@ -44,21 +44,26 @@ public class EditAccRoleDlg extends DialogPane {
             params.put("allow-commutate", controller().getBoolean("commutate"));
             new AccountsProxy().setAllowRoles(params)
                                .thenApplyAsync(Result::booleanValue)
-                               .thenAcceptAsync(this::saveCallback, UPDATE_UI);
+                               .whenCompleteAsync(this::saveCallback, UPDATE_UI);
         } else {
             super.done(result);
         }
     }
 
     private void saveCallback(
-            Boolean flag
+            Boolean flag,
+            Throwable t
     ) {
-        if (flag) {
-            rollParams = new HashMap<>();
-            rollParams.put("allowInvest", controller().getBoolean("invest"));
-            rollParams.put("allowBorrow", controller().getBoolean("borrow"));
-            rollParams.put("allowCommutate", controller().getBoolean("commutate"));
-            super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (flag) {
+                rollParams = new HashMap<>();
+                rollParams.put("allowInvest", controller().getBoolean("invest"));
+                rollParams.put("allowBorrow", controller().getBoolean("borrow"));
+                rollParams.put("allowCommutate", controller().getBoolean("commutate"));
+                super.done(OK);
+            }
         }
     }
 

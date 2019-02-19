@@ -58,7 +58,7 @@
                 <label for="show-owner-name">展示名称：</label>
             </cell>
             <cell>
-                <text name="show-owner-name"/>
+                <text name="show-owner-name" pattern=".{2,}"/>
             </cell>
         </row>
         <row>

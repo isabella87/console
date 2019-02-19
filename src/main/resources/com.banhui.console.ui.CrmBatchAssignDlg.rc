@@ -27,7 +27,6 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="realName" title="姓名" type="TEXT" size="140"/>
                     <tableColumn name="mobile" title="手机" type="TEXT" size="140"/>
                     <tableColumn name="uName" title="客户经理" type="TEXT" size="140"/>

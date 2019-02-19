@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="修改担保账户-"
+>
+    <message name="confirm-text"><![CDATA[将项目 <b>{}</b> 的代偿帐户从 {} 变更为 <b>{}</b>， 此操作不可恢复！是否继续？]]></message>
+    <message name="pwd-text"><![CDATA[操作人员身份验证：输入登录密码]]></message>
+    <message name="pwd-fail"><![CDATA[密码错误，禁止操作！]]></message>
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+    <action name="chooseBondsMan" title="选择"/>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <column stretch="0"/>
+        <row>
+            <cell>
+                <label for="bondsman_au">当前担保账户：</label>
+            </cell>
+            <cell>
+                <text name="bondsman_au"/>
+            </cell>
+            <cell/>
+        </row>
+        <row>
+            <cell>
+                <label for="bondsman_select">选择担保账户：</label>
+            </cell>
+            <cell>
+                <text name="bondsman_select"/>
+            </cell>
+            <cell>
+                <button actionName="chooseBondsMan"/>
+            </cell>
+        </row>
+    </gridLayout>
+    <boxLayout horizontalAlignment="CENTER">
+        <button actionName="ok" default="true" name="ok"/>
+        <button actionName="cancel" name="cancel"/>
+    </boxLayout>
+</ui>

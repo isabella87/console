@@ -389,7 +389,7 @@ public final class ResultUtils {
         key = notBlank(key, "key").trim();
 
         final Object value = map.get(key);
-        if (value == null) {
+        if (value == null || value.equals("null")) {
             return null;
         } else if (value instanceof String) {
             return decimalValue((String) value);

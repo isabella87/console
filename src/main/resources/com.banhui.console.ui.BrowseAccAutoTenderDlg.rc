@@ -53,8 +53,7 @@
         <row stretch="1">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="pId" title="项目id" type="TEXT" size="100"/>
+                    <tableColumn name="pId" title="项目id" type="NUMBER_TEXT" size="100"/>
                     <tableColumn name="itemName" title="项目名称" type="TEXT" size="140"/>
                     <tableColumn name="itemNo" title="项目编号" type="TEXT" size="140"/>
                     <tableColumn name="remark" title="记录详情" type="TEXT" size="140"/>

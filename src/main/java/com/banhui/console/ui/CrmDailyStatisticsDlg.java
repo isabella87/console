@@ -43,9 +43,8 @@ public class CrmDailyStatisticsDlg
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "auId");
-
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "auId");
         BrowseHistoryInvestsDlg dlg = new BrowseHistoryInvestsDlg(id);
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -60,17 +59,21 @@ public class CrmDailyStatisticsDlg
         params.put("datepoint", datepoint);
         new CrmProxy().queryUserDailyByName(params)
                       .thenApplyAsync(Result::list)
-                      .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle)
+                      .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                       .thenAcceptAsync(v -> controller().enable("statistics"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final JTable table = controller().get(JTable.class, "list");
-        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void excel(
@@ -78,7 +81,7 @@ public class CrmDailyStatisticsDlg
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     private void listChanged(

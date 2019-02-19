@@ -52,7 +52,7 @@ public class PermissionLeadInDlg
     ) {
         if (t != null) {
             controller().enable("ok");
-            fail(this.getOwner(), t.getCause().getMessage());
+//            fail(this.getOwner(), t.getCause().getMessage());
             ErrorHandler.handle(t);
         } else {
             this.row = row;

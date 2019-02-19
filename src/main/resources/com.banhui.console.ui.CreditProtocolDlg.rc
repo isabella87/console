@@ -35,7 +35,7 @@
         <row>
             <cell>
                 <table name="list">
-                    <tableColumn name="fileId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="fileId" title="ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="fileName" title="合同名称" type="TEXT" size="160"/>
                     <tableColumn name="category" title="类型" type="TEXT" size="80"/>
                     <tableColumn name="signStatus" title="签章状态" type="TEXT" optionsName="signStatus" size="80"/>

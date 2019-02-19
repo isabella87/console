@@ -202,15 +202,20 @@ public class EditPerAccountInfoDlg
         params.put("enable", false);
         new AccountsProxy().lock(params)
                            .thenApplyAsync(Result::booleanValue)
-                           .thenAcceptAsync(this::unLockCallBack, UPDATE_UI);
+                           .whenCompleteAsync(this::unLockCallBack, UPDATE_UI);
     }
 
     private void unLockCallBack(
-            Boolean unlock
+            Boolean unlock,
+            Throwable t
     ) {
-        if (unlock) {
-            controller().show("lock-account");
-            controller().hide("unlock-account");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (unlock) {
+                controller().show("lock-account");
+                controller().hide("unlock-account");
+            }
         }
     }
 
@@ -224,15 +229,20 @@ public class EditPerAccountInfoDlg
         params.put("enable", true);
         new AccountsProxy().lock(params)
                            .thenApplyAsync(Result::booleanValue)
-                           .thenAcceptAsync(this::lockCallBack, UPDATE_UI);
+                           .whenCompleteAsync(this::lockCallBack, UPDATE_UI);
     }
 
     private void lockCallBack(
-            Boolean lock
+            Boolean lock,
+            Throwable t
     ) {
-        if (lock) {
-            controller().hide("lock-account");
-            controller().show("unlock-account");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (lock) {
+                controller().hide("lock-account");
+                controller().show("unlock-account");
+            }
         }
     }
 

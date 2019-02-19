@@ -1,6 +1,11 @@
 package com.banhui.console.rpc;
 
 
+import com.banhui.console.rpc.impl.DefaultHttp;
+import org.xx.armory.bindings.Param;
+import org.xx.armory.swing.Application;
+
+import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -12,6 +17,11 @@ import static org.xx.armory.commons.Validators.notEmpty;
 public final class AuthenticationProxy
         extends AbstractProxy
         implements Proxy {
+
+    public void resetHttpBaseUrl(){
+        DefaultHttp defaultHttp = ((DefaultHttp)http());
+        defaultHttp.setBaseUri(URI.create(Application.settings().getProperty("rpc-base-uri")));
+    }
     /**
      * 登录到后台系统。
      *
@@ -22,9 +32,14 @@ public final class AuthenticationProxy
     public CompletableFuture<Result> signIn(
             Map<String, Object> params
     ) {
+        String aa = Application.settings().getProperty("rpc-base-uri");
+        System.out.println("***********************************"+aa);
         return http().post("security/signin", params);
     }
 
+    public CompletableFuture<Result> signOut(){
+        return http().post("security/signOut",null);
+    }
     public CompletableFuture<byte[]> captchaImage() {
         return http().getRaw("security/captcha-image", null);
     }
@@ -40,12 +55,25 @@ public final class AuthenticationProxy
 
     /**
      * 修改当前登录用户的密码。
-     * @param params 修改密码的参数。
+     *
+     * @param params
+     *         修改密码的参数。
      * @return 响应结果。
      */
     public CompletableFuture<Result> changePassword(
             Map<String, Object> params
     ) {
         return http().post("security/change-pwd", params);
+    }
+
+    /**
+     * 检查当前登录用户的口令是否匹配
+     *
+     * @return 登录名和口令是否匹配, 如果不存在当前登录用户那么也不匹配
+     */
+    public CompletableFuture<Result> validateUser(
+            Map<String, Object> params
+    ) {
+        return http().get("security/validate-user", params);
     }
 }

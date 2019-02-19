@@ -42,47 +42,51 @@ public class StatisticVipDlg
         params.put("limit-amt", limitAmt);
         new StatisticProxy().dataOfVip(params)
                             .thenApplyAsync(Result::list)
-                            .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                            .exceptionally(ErrorHandler::handle)
+                            .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                             .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final JTextPane textPane = controller().get(JTextPane.class, "list");
-        textPane.setContentType("text/html");
-        textPane.setEditable(false);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final JTextPane textPane = controller().get(JTextPane.class, "list");
+            textPane.setContentType("text/html");
+            textPane.setEditable(false);
 
-        StringBuffer html = new StringBuffer();
-        html.append(controller().getMessage("css"));
-        html.append(controller().getMessage("title"));
-        if (c.size() == 0) {
-            html.append("</table></body></html>");
+            StringBuffer html = new StringBuffer();
+            html.append(controller().getMessage("css"));
+            html.append(controller().getMessage("title"));
+            if (c.size() == 0) {
+                html.append("</table></body></html>");
+                textPane.setText(html.toString());
+                prompt(this.getOwner(), controller().getMessage("null-text"));
+                return;
+            }
+            for (Map<String, Object> data : c) {
+                html.append("<tr><td>");
+                html.append(intValue(data, "auId"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "loginName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "realName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "uName"));
+                html.append("</td><td>");
+                html.append(stringValue(data, "mobile"));
+                html.append("</td><td>");
+                html.append(to2Scale(data, "monthSumAmt"));
+                html.append("</td><td>");
+                html.append(to2Scale(data, "blanceAmt"));
+                html.append("</td><td>");
+                html.append(to2Scale(data, "monthSumCredit"));
+            }
+            html.append("</td></tr></table></body></html>");
             textPane.setText(html.toString());
-            prompt(this.getOwner(), controller().getMessage("null-text"));
-            return;
         }
-        for (Map<String, Object> data : c) {
-            html.append("<tr><td>");
-            html.append(intValue(data, "auId"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "loginName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "realName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "uName"));
-            html.append("</td><td>");
-            html.append(stringValue(data, "mobile"));
-            html.append("</td><td>");
-            html.append(to2Scale(data, "monthSumAmt"));
-            html.append("</td><td>");
-            html.append(to2Scale(data, "blanceAmt"));
-            html.append("</td><td>");
-            html.append(to2Scale(data, "monthSumCredit"));
-        }
-        html.append("</td></tr></table></body></html>");
-        textPane.setText(html.toString());
     }
 
     private BigDecimal to2Scale(

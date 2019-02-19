@@ -62,8 +62,7 @@ public class EditBaPrjGuaranteePerDlg
 
             (this.id == 0 ? new BaPrjGuaranteePersProxy().add(params) : new BaPrjGuaranteePersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -76,36 +75,42 @@ public class EditBaPrjGuaranteePerDlg
 
     private void updateData() {
         assertUIThread();
-
         new BaPrjGuaranteePersProxy().query(this.id)
                                      .thenApplyAsync(Result::map)
-                                     .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                     .exceptionally(ErrorHandler::handle);
+                                     .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("name", stringValue(data, "name"));
-        controller().setText("show-name", stringValue(data, "showName"));
-        controller().setInteger("age", intValue(data, "age"));
-        controller().setInteger("show-age", intValue(data, "showAge"));
-        controller().setText("id-card", stringValue(data, "idCard"));
-        controller().setText("gender", stringValue(data, "gender"));
-        controller().setText("address", stringValue(data, "address"));
-        controller().setText("show-address", stringValue(data, "showAddress"));
-        controller().setText("mobile", stringValue(data, "mobile"));
-        controller().setText("postcode", stringValue(data, "postcode"));
-        controller().setText("intro", stringValue(data, "intro"));
-
-
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("name", stringValue(data, "name"));
+            controller().setText("show-name", stringValue(data, "showName"));
+            controller().setInteger("age", intValue(data, "age"));
+            controller().setInteger("show-age", intValue(data, "showAge"));
+            controller().setText("id-card", stringValue(data, "idCard"));
+            controller().setText("gender", stringValue(data, "gender"));
+            controller().setText("address", stringValue(data, "address"));
+            controller().setText("show-address", stringValue(data, "showAddress"));
+            controller().setText("mobile", stringValue(data, "mobile"));
+            controller().setText("postcode", stringValue(data, "postcode"));
+            controller().setText("intro", stringValue(data, "intro"));
+        }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

@@ -71,6 +71,6 @@ public class BrowsePaymentDepositDlg
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 }

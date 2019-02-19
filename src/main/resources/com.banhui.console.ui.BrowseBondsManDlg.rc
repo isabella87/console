@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="查询担保户历史变更记录"
+        width="800"
+        height="400"
+>
+    <action name="search" title="搜索(S)" mnemonic="S" smallIcon="search.png"/>
+    <action name="excel" title="导出Excel"/>
+    <options name="status">
+        <option value="1">已完成</option>
+        <option value="0">未完成</option>
+    </options>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <label for="status">状态：</label>
+                    <dropDown name="status" includeAll="true" optionsName="status"/>
+                    <label mnemonic="K" for="search-key">关键字(K)：</label>
+                    <text name="search-key" type="TEXT"/>
+                    <button actionName="search" name="search" default="true"/>
+                    <button actionName="excel" name="excel"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="1">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="tmbId" title="业务ID" type="NUMBER_TEXT" size="120"/>
+                    <tableColumn name="pId" title="项目ID" type="NUMBER_TEXT" size="100"/>
+                    <tableColumn name="itemNo" title="项目编号NO" type="TEXT" size="160"/>
+                    <tableColumn name="itemName" title="项目名称" type="TEXT" size="160"/>
+                    <tableColumn name="newBondsman" title="新担保人" type="TEXT" size="140"/>
+                    <tableColumn name="oldBondsman" title="原担保人" type="TEXT" size="140"/>
+                    <tableColumn name="status" title="状态" type="TEXT" size="120" optionsName="status"/>
+                    <tableColumn name="datepoint" title="修改时间" type="DATE_TIME" size="160"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

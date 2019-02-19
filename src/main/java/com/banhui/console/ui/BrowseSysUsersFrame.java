@@ -12,7 +12,6 @@ import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +29,7 @@ import static org.xx.armory.swing.UIUtils.assertUIThread;
  * 浏览后台帐户的窗口。
  */
 public class BrowseSysUsersFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     public BrowseSysUsersFrame() {
         controller().connect("search", this::search);
         controller().connect("create", this::create);
@@ -47,24 +46,27 @@ public class BrowseSysUsersFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
 
         new SysProxy().allRoles(null)
                       .thenApplyAsync(Result::list)
-                      .thenAcceptAsync(this::updateRoles, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle);
+                      .whenCompleteAsync(this::updateRoles, UPDATE_UI);
     }
 
     @SuppressWarnings("unchecked")
     private void updateRoles(
-            List<Map<String, Object>> data
+            List<Map<String, Object>> data,
+            Throwable t
     ) {
-        assertUIThread();
-
-        final JComboBox<ListItem> roleName = controller().get(JComboBox.class, "role-name");
-        updateDropDown(roleName, data.stream()
-                                     .map(m -> new ListItem(m.get("title").toString(), m.get("name")))
-                                     .toArray(ListItem[]::new));
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            assertUIThread();
+            final JComboBox<ListItem> roleName = controller().get(JComboBox.class, "role-name");
+            updateDropDown(roleName, data.stream()
+                                         .map(m -> new ListItem(m.get("title").toString(), m.get("name")))
+                                         .toArray(ListItem[]::new));
+        }
     }
 
     private void search(
@@ -125,11 +127,11 @@ public class BrowseSysUsersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final String userName = tableModel.getStringByName(selectedRow, "userName");
+        final String userName = tableModel.getStringByName(selectedRow1, "userName");
 
         final EditSysUserDlg dlg = new EditSysUserDlg(userName);
         dlg.setFixedSize(false);
@@ -138,7 +140,7 @@ public class BrowseSysUsersFrame
             final Map<String, Object> row = dlg.getResultObj();
 
             if (row != null && !row.isEmpty()) {
-                tableModel.setRow(selectedRow, row);
+                tableModel.setRow(selectedRow1, row);
             }
         }
     }
@@ -148,11 +150,11 @@ public class BrowseSysUsersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final String userName = tableModel.getStringByName(selectedRow, "userName");
+        final String userName = tableModel.getStringByName(selectedRow1, "userName");
 
         final String message = controller().formatMessage("confirm-reset-password", userName);
         if (confirm(null, message)) {
@@ -179,7 +181,7 @@ public class BrowseSysUsersFrame
                 final TypedTableModel tableModel = (TypedTableModel) table.getModel();
                 final int[] selectedRows = table.getSelectedRows();
                 return stream(selectedRows)
-                        .mapToObj(row -> tableModel.getStringByName(row, "userName"))
+                        .mapToObj(row -> tableModel.getStringByName(table.convertRowIndexToModel(row), "userName"))
                         .collect(Collectors.toList());
             }
 
@@ -225,11 +227,11 @@ public class BrowseSysUsersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final String userName = tableModel.getStringByName(selectedRow, "userName");
+        final String userName = tableModel.getStringByName(selectedRow1, "userName");
 
         final String message = controller().formatMessage("confirm-delete", userName);
         final String expectedValue = controller().getMessage("confirm-delete-expected");

@@ -60,8 +60,7 @@ public class EditBaPrjMortgageDlg
 
             (this.id == 0 ? new BaPrjMortgageProxy().add(params) : new BaPrjMortgageProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -76,30 +75,39 @@ public class EditBaPrjMortgageDlg
         assertUIThread();
         new BaPrjMortgageProxy().query(this.id)
                                 .thenApplyAsync(Result::map)
-                                .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                .exceptionally(ErrorHandler::handle);
+                                .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setNumber("m-type", longValue(data, "mType"));
-        controller().setText("content", stringValue(data, "content"));
-        controller().setDecimal("evaluation", decimalValue(data, "evaluation"));
-        controller().setText("owner-name", stringValue(data, "ownerName"));
-        controller().setText("owner-show-name", stringValue(data, "ownerShowName"));
-        controller().setText("owner-id-no", stringValue(data, "ownerIdNo"));
-        controller().setText("link-man", stringValue(data, "linkMan"));
-        controller().setText("link-mobile", stringValue(data, "linkMobile"));
-        controller().setText("link-address", stringValue(data, "linkAddress"));
-        controller().setText("remark", stringValue(data, "remark"));
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setNumber("m-type", longValue(data, "mType"));
+            controller().setText("content", stringValue(data, "content"));
+            controller().setDecimal("evaluation", decimalValue(data, "evaluation"));
+            controller().setText("owner-name", stringValue(data, "ownerName"));
+            controller().setText("owner-show-name", stringValue(data, "ownerShowName"));
+            controller().setText("owner-id-no", stringValue(data, "ownerIdNo"));
+            controller().setText("link-man", stringValue(data, "linkMan"));
+            controller().setText("link-mobile", stringValue(data, "linkMobile"));
+            controller().setText("link-address", stringValue(data, "linkAddress"));
+            controller().setText("remark", stringValue(data, "remark"));
+        }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

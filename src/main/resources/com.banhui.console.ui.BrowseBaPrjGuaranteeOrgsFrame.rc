@@ -31,6 +31,8 @@
                     <label mnemonic="K" for="search-key">关键字(K)：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
+                    <label name="tip" visible="false"><![CDATA[<html><font color="gray">
+                        (企业名称，联系人，法人代表姓名，创建人，更新人)</font></html>]]></label>
                 </boxLayout>
             </cell>
         </row>
@@ -47,12 +49,11 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="bgoId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="bgoId" title="ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="name" title="企业名称" type="TEXT" size="200"/>
-                    <tableColumn name="regYears" title="注册年限（年）" type="TEXT" size="140"/>
+                    <tableColumn name="regYears" title="注册年限（年）" type="NUMBER_TEXT" size="140"/>
                     <tableColumn name="regAddress" title="注册地址" type="TEXT" size="200"/>
-                    <tableColumn name="regFunds" title="注册资本金（万元）" type="CURRENCY" size="160"/>
+                    <tableColumn name="regFunds" title="注册资本金（万元）" type="NUMBER" size="160"/>
                     <tableColumn name="ranking" title="行业排名" type="NUMBER" size="160"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
                 </table>

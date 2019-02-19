@@ -37,8 +37,7 @@ public class CrmFastAssignDlg
         params.put("if-self", false);
         new CrmProxy().getAllMgrRelations(params)
                       .thenApplyAsync(Result::list)
-                      .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle);
+                      .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
 
@@ -56,8 +55,8 @@ public class CrmFastAssignDlg
             protected Collection<Map<String, Object>> load() {
                 final JTable table = controller().get(JTable.class, "list");
                 final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-                final int selectedRow = table.getSelectedRow();
-                String uName = tableModel.getStringByName(selectedRow, "uName");
+                final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+                String uName = tableModel.getStringByName(selectedRow1, "uName");
                 if (uName.equals("我自己")) {
                     uName = "+";
                 }
@@ -103,13 +102,18 @@ public class CrmFastAssignDlg
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("uName", "我自己");
-        c.add(params);
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final Map<String, Object> params = new HashMap<>();
+            params.put("uName", "我自己");
+            c.add(params);
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void listChanged(

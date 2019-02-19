@@ -22,6 +22,7 @@ import java.util.Objects;
 import static com.banhui.console.rpc.ResultUtils.allDone;
 import static com.banhui.console.rpc.ResultUtils.dateValue;
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
+import static com.banhui.console.rpc.ResultUtils.doubleValue;
 import static com.banhui.console.rpc.ResultUtils.intValue;
 import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
@@ -47,6 +48,8 @@ public class EditProjectsDlg
     private volatile Long nominalAuId;
     private volatile Long bondsmanAuId;
     private volatile Long financierId;
+    private volatile String financierName;
+    private volatile String bondsName;
     private String listName;
     private String idName;
 
@@ -56,13 +59,10 @@ public class EditProjectsDlg
     ) {
         controller().readOnly("item-no", true);
         controller().readOnly("type", true);
-        controller().readOnly("out-time", true);
         controller().readOnly("financier_cu", true);
         controller().readOnly("nominal_au", true);
         controller().readOnly("bondsman_au", true);
         controller().readOnly("interest", true);
-
-        controller().setBoolean("for-in-time", true);
 
         controller().connect("guaranteePersons", "change", this::listChanged);
         controller().connect("guaranteeOrg", "change", this::listChanged2);
@@ -106,6 +106,8 @@ public class EditProjectsDlg
         controller().connect("in-time", "change", this::inTimeChange);
         controller().connect("", "verify-error", MsgUtils::verifyError);
 
+        JTextArea jTextArea = controller().get(JTextArea.class, "prj-risk-assess");
+        jTextArea.setLineWrap(true);
         this.id = id;
         if (this.id == 0) {
             setTitle(controller().getMessage("create") + getTitle() + id);
@@ -189,7 +191,8 @@ public class EditProjectsDlg
         idName = "pgpId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pgpId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long pgpId = tableModel.getNumberByName(selectedRow1, idName);
 
         String confirmDeleteText = controller().formatMessage("delete-guaPer", pgpId);
         if (confirm(null, confirmDeleteText)) {
@@ -229,7 +232,8 @@ public class EditProjectsDlg
         idName = "pgoId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pgoId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long pgoId = tableModel.getNumberByName(selectedRow1, idName);
 
         String confirmDeleteText = controller().formatMessage("delete-guaOrg", pgoId);
         if (confirm(null, confirmDeleteText)) {
@@ -273,7 +277,8 @@ public class EditProjectsDlg
         idName = "bpmpId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long bpmpId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long bpmpId = tableModel.getNumberByName(selectedRow1, idName);
 
         String confirmDeleteText = controller().formatMessage("delete-borPer", bpmpId);
         if (confirm(null, confirmDeleteText)) {
@@ -316,7 +321,8 @@ public class EditProjectsDlg
         idName = "bpmoId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long bpmoId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long bpmoId = tableModel.getNumberByName(selectedRow1, idName);
 
         String confirmDeleteText = controller().formatMessage("delete-borOrg", bpmoId);
         if (confirm(null, confirmDeleteText)) {
@@ -359,7 +365,8 @@ public class EditProjectsDlg
         idName = "pmId";
         final JTable table = controller().get(JTable.class, listName);
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long pmId = tableModel.getNumberByName(table.getSelectedRow(), idName);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long pmId = tableModel.getNumberByName(selectedRow1, idName);
 
         String confirmDeleteText = controller().formatMessage("delete-mortgage", pmId);
         if (confirm(null, confirmDeleteText)) {
@@ -399,7 +406,7 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         long allowRole = 2;
-        final ChoosePrjAccountDlg dlg = new ChoosePrjAccountDlg(allowRole);
+        final ChoosePrjAccountDlg dlg = new ChoosePrjAccountDlg(allowRole, this.financierName);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             if (dlg.getAuId() != 0) {
@@ -413,7 +420,7 @@ public class EditProjectsDlg
             ActionEvent actionEvent
     ) {
         long allowRole = 3;
-        final ChoosePrjAccountDlg dlg = new ChoosePrjAccountDlg(allowRole);
+        final ChoosePrjAccountDlg dlg = new ChoosePrjAccountDlg(allowRole, this.bondsName);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             if (dlg.getAuId() != 0) {
@@ -498,9 +505,11 @@ public class EditProjectsDlg
             List<Map<String, Object>> maps
     ) {
         if (maps != null && !maps.isEmpty()) {
-            controller().setText("financier_cu", userType(stringValue(maps.get(0), "userType")) + stringValue(maps.get(0), "realName"));
+            this.financierName = stringValue(maps.get(0), "realName");
+            this.bondsName = stringValue(maps.get(2), "realName");
+            controller().setText("financier_cu", userType(stringValue(maps.get(0), "userType")) + this.financierName);
             controller().setText("nominal_au", userType(stringValue(maps.get(1), "userType")) + stringValue(maps.get(1), "realName"));
-            controller().setText("bondsman_au", userType(stringValue(maps.get(2), "userType")) + stringValue(maps.get(2), "realName"));
+            controller().setText("bondsman_au", userType(stringValue(maps.get(2), "userType")) + this.bondsName);
             this.setNominalAuId(longValue(maps.get(1), "auId"));
             this.setBondsmanAuId(longValue(maps.get(2), "auId"));
             this.setFinancierId(longValue(maps.get(0), "auId"));
@@ -664,19 +673,28 @@ public class EditProjectsDlg
 
         controller().setNumber("borrow-days", longValue(data, "borrowDays"));
         controller().setNumber("extension-days", longValue(data, "extensionDays"));
-        controller().setDate("in-time", dateValue(data, "inTime"));
-        controller().setDate("out-time", dateValue(data, "outTime"));
+
+        Date inTime = dateValue(data, "inTime");
+        Date outTime = dateValue(data, "outTime");
+        if (inTime.getTime() == outTime.getTime()) {
+            controller().setBoolean("for-in-time", true);
+        } else {
+            controller().setBoolean("for-in-time", false);
+        }
+        controller().setDate("in-time", inTime);
+        controller().setDate("out-time", outTime);
+
         controller().setNumber("financing-days", longValue(data, "financingDays"));
         controller().setDate("expected-borrow-time", dateValue(data, "expectedBorrowTime"));
         controller().setDecimal("per-invest-min-amt", decimalValue(data, "perInvestMinAmt"));
         controller().setDecimal("per-invest-amt", decimalValue(data, "perInvestAmt"));
         controller().setDecimal("invest-max-amt", decimalValue(data, "investMaxAmt"));
         controller().setText("key", stringValue(data, "key"));
-//        controller().setText("visible", stringValue(data, "visible"));
-        controller().setDecimal("interest", decimalValue(data, "totalInterest"));
+//        controller().setText("visible", stringValue(data, "visible"));c
+        controller().setDecimal("interest", nullToZero(decimalValue(data, "totalInterest")));
         controller().setText("water-mark", stringValue(data, "waterMark"));
         controller().setDecimal("per-invest-max-amt", decimalValue(data, "perInvestMaxAmt"));
-        controller().setDecimal("fee-rate", decimalValue(data, "feeRate"));
+        controller().setFloat("fee-rate", doubleValue(data, "feeRate"));
         controller().setDecimal("cost-fee", decimalValue(data, "costFee"));
 //        controller().setText("sold-fee", stringValue(data, "soldFee"));
         controller().setText("out-proxy", stringValue(data, "outProxy"));
@@ -685,7 +703,7 @@ public class EditProjectsDlg
         controller().setText("src", stringValue(data, "src"));
         controller().setText("remark", stringValue(data, "remark"));
         controller().setText("financier", stringValue(data, "financier"));
-        controller().setDecimal("deposit-ratio", decimalValue(data, "depositRatio"));
+        controller().setDecimal("deposit-ratio", nullToZero(decimalValue(data, "depositRatio")));
         controller().setText("loan-purposes", stringValue(data, "loanPurposes"));
         controller().setText("core-guara-name", stringValue(data, "coreGuaraName"));
         controller().setInteger("bonus-day", intValue(data, "bonusDay"));
@@ -879,6 +897,13 @@ public class EditProjectsDlg
         long day = controller().getNumber("borrow-days");
         double num = amt.doubleValue() * rate / 100 * day / 360;
         return new BigDecimal(num).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal nullToZero(Object dec) {
+        if (dec == null || dec == "") {
+            dec = BigDecimal.ZERO;
+        }
+        return (BigDecimal) dec;
     }
 
     public Map<String, Object> getResultRow() {

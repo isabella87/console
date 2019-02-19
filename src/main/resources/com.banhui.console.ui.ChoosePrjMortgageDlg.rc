@@ -24,7 +24,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="listMortgage">
-                    <tableColumn title="ID" size="80" type="TEXT" name="bpmId"/>
+                    <tableColumn title="ID" size="80" type="NUMBER_TEXT" name="bpmId"/>
                     <tableColumn title="抵押/质押人" size="160" type="TEXT" name="ownerName"/>
                     <tableColumn title="抵押物估值" size="160" type="TEXT" name="evaluation"/>
                     <tableColumn title="联系人手机号码" size="160" type="TEXT" name="linkMobile"/>

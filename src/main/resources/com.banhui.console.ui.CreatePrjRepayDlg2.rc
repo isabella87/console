@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="确认还款信息"
+>
+
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+
+    <options name="pay-type">
+        <option value="1">正常</option>
+        <option value="2">保证金</option>
+        <option value="3">名义借款人</option>
+        <option value="99">其他</option>
+    </options>
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <!--<column stretch="0"/>
+        <column/>-->
+        <row>
+            <cell>
+                <label>本次还款金额:</label>
+            </cell>
+            <cell>
+                <text name="amt" suffix="元" size="14" type="CURRENCY"/>
+            </cell>
+            <!--<cell>
+                <label>计划还款金额:</label>
+            </cell>
+            <cell>
+                <text name="unpaid-amt" suffix="元" size="14" type="CURRENCY"/>
+            </cell>-->
+        </row>
+        <row>
+            <cell>
+                <label>还款来源:</label>
+            </cell>
+            <cell>
+                <dropDown name="pay-type" optionsName="pay-type" size="4"/>
+            </cell>
+           <!-- <cell>
+                <label>差额:</label>
+            </cell>
+            <cell>
+                <text name="sub-amt" suffix="元" size="14" type="CURRENCY"/>
+            </cell>-->
+        </row>
+        <row>
+            <cell>
+                <label>实际还款日期:</label>
+            </cell>
+            <cell>
+                <text name="real-paid-time" type="DATE"/>
+            </cell>
+           <!-- <cell>
+                <label>计划还款日期:</label>
+            </cell>
+            <cell>
+                <text name="pay-time" type="DATE"/>
+            </cell>-->
+        </row>
+        <row>
+            <cell>
+                <label>按时还款:</label>
+            </cell>
+            <cell>
+                <checkBox name="is-on-time-repay"/>
+            </cell>
+
+        </row>
+
+        <row>
+            <cell verticalAlignment="FIRST" horizontalAlignment="BOTH">
+                <label>备注:</label>
+            </cell>
+            <cell horizontalAlignment="BOTH">
+                <text name="remark" type="TEXT_AREA" rowSize="3"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="BOTH">
+                <ruler/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="LAST" verticalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

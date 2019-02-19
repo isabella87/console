@@ -45,8 +45,7 @@
         <row stretch="1">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="jciId" title="债权转让ID" type="TEXT" size="100"/>
+                    <tableColumn name="jciId" title="债权转让ID" type="NUMBER_TEXT" size="100"/>
                     <tableColumn name="done" title="状态" type="TEXT" size="80" optionsName="done-status"/>
                     <tableColumn name="seqno" title="流水号" type="TEXT" size="180"/>
                     <tableColumn name="datepoint" title="交易日期" type="DATE_TIME" size="160"/>

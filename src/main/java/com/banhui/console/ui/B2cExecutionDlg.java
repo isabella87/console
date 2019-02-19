@@ -53,9 +53,9 @@ public class B2cExecutionDlg
         final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
         Collection<Map<String, Object>> child = new ArrayList<>();
 
-        int selectedRow = table.getSelectedRow();
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
         if (table.getSelectedRow() > -1) {
-            long tvId = tableModel.getNumberByName(selectedRow, "tvId");
+            long tvId = tableModel.getNumberByName(selectedRow1, "tvId");
             for (Map<String, Object> item : children) {
                 if (Long.valueOf(item.get("tsId").toString()) == tvId) {
                     child.add(item);

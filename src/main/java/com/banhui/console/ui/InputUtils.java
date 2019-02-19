@@ -4,6 +4,8 @@ import org.xx.armory.commons.DateRange;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.apache.commons.lang3.time.DateUtils.addDays;
 import static org.apache.commons.lang3.time.DateUtils.addMonths;
@@ -20,6 +22,23 @@ import static org.xx.armory.swing.UIUtils.floorOfDay;
  */
 public final class InputUtils {
     private static final int DAYS_OF_WEEK = 7;
+
+    private static Map<Integer, Integer> monthLastDay = new HashMap<>();
+
+    static {
+        monthLastDay.put(0, 31);
+        monthLastDay.put(1, 28);
+        monthLastDay.put(2, 31);
+        monthLastDay.put(3, 30);
+        monthLastDay.put(4, 31);
+        monthLastDay.put(5, 30);
+        monthLastDay.put(6, 31);
+        monthLastDay.put(7, 31);
+        monthLastDay.put(8, 30);
+        monthLastDay.put(9, 31);
+        monthLastDay.put(10, 30);
+        monthLastDay.put(11, 31);
+    }
 
     /**
      * 禁止构造工具类。
@@ -308,5 +327,221 @@ public final class InputUtils {
         day = addDays(day, -1);
 
         return new DateRange(day, day);
+    }
+
+    /**
+     * 返回当前日期的前N周日期，以周一到周天为一个自然周。例如当前2019年1月23日，当前日期的前2周日期的始末分别是2019年1月7号，和2019年1月20号
+     * 注意：为了界面展示效果，对于结束日期没有写成ceilingOfDay形式，但在外围传入后台的时候要取出该值用ceilingOfDay函数包装。
+     *
+     * @param date
+     * @param n
+     * @return
+     */
+    public static DateRange latestNweeks(
+            Date date,
+            int n
+    ) {
+        Date d1;
+        Date d2;
+        Calendar curCal = Calendar.getInstance();
+        curCal.setTime(date);
+        System.out.println("cur Day of week:" + curCal.get(Calendar.DAY_OF_WEEK));
+        if (n == 0) {
+            curCal.add(Calendar.DAY_OF_YEAR, -(curCal.get(Calendar.DAY_OF_WEEK) - 2));
+            d1 = curCal.getTime();
+            curCal.add(Calendar.DAY_OF_YEAR, (7 - (curCal.get(Calendar.DAY_OF_WEEK)) + 1));
+            d2 = curCal.getTime();
+        } else if (n > 0) {
+            curCal.add(Calendar.DAY_OF_YEAR, -(curCal.get(Calendar.DAY_OF_WEEK) - 1));
+            d2 = curCal.getTime();
+            curCal.add(Calendar.DAY_OF_YEAR, -(n * 7 - 1));
+            d1 = curCal.getTime();
+        } else {
+            curCal.add(Calendar.DAY_OF_YEAR, (7 - (curCal.get(Calendar.DAY_OF_WEEK)) + 2));
+            d1 = curCal.getTime();
+            curCal.add(Calendar.DAY_OF_YEAR, -n * 7 + 1 - curCal.get(Calendar.DAY_OF_WEEK));
+            d2 = curCal.getTime();
+        }
+        return new DateRange(floorOfDay(d1), floorOfDay(d2));
+
+    }
+
+    /**
+     * 返回当前日期的前N月日期的1号，以自然月计算。例如当前2019年1月23日，当前日期的前2月日期为2018年11月1日
+     *
+     * @param date
+     * @param n
+     * @return
+     */
+    private static Date getFirstDateOfReduceLatestNmonth(
+            Date date,
+            int n
+    ) {
+        Calendar curCal = Calendar.getInstance();
+        curCal.setTime(date);
+        int curMonth = curCal.get(Calendar.MONTH);
+        int reduceN;
+        int redYear = 0;
+        int monthVal1 = 0;
+
+        if (curMonth >= n) {
+            reduceN = 0;
+            monthVal1 = curMonth - n;
+        } else {
+            reduceN = n - curMonth;
+        }
+        while (reduceN > 0) {
+            redYear++;
+            if (12 >= reduceN) {
+                monthVal1 = 12 - reduceN;
+                reduceN = 0;
+            } else {
+                reduceN = reduceN - 12;
+            }
+        }
+        curCal.add(Calendar.YEAR, -redYear);
+        curCal.set(Calendar.MONTH, monthVal1);
+        curCal.set(Calendar.DAY_OF_MONTH, 1);
+
+        return curCal.getTime();
+
+    }
+
+    private static Date getFirstDateOfAddLatestNmonth(
+            Date date,
+            int n
+    ) {
+        Calendar curCalendar = Calendar.getInstance();
+        curCalendar.setTime(date);
+        int curMonth = curCalendar.get(Calendar.MONTH);
+
+        int addMonthNum = 0;
+        int addYearNum = 0;
+        int monthVal = 0;
+        if ((11 - curMonth) >= -n) {
+            addMonthNum = -n;
+            monthVal = curMonth - n;
+        } else {
+            addMonthNum = 11 - curMonth;
+        }
+        while (addMonthNum < -n) {
+            addYearNum++;
+            if ((-n - addMonthNum) <= 12) {
+                monthVal = (-n - addMonthNum) - 1;
+                addMonthNum = -n;
+            } else {
+                addMonthNum += 12;
+            }
+        }
+        curCalendar.add(Calendar.YEAR, addYearNum);
+        curCalendar.set(Calendar.MONTH, monthVal);
+        curCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        return curCalendar.getTime();
+    }
+
+    /**
+     * 返回当前日期的前N月日期，以自然月计算。例如当前2019年1月23日，当前日期的前2月日期的始末分别是2018年11月1号，和2018年12月31号
+     * 注意：为了界面展示效果，对于结束日期没有写成ceilingOfDay形式，但在外围传入后台的时候要取出该值用ceilingOfDay函数包装。
+     *
+     * @param date
+     * @param n
+     * @return
+     */
+    public static DateRange latestNmonths(
+            Date date,
+            int n
+    ) {
+        Date startDate = null;
+        Date endDate = null;
+        Calendar endCalendar;
+        if (n >= 0) {
+            startDate = getFirstDateOfReduceLatestNmonth(date, n);
+            endCalendar = Calendar.getInstance();
+            endCalendar.setTime(n == 0 ? date : getFirstDateOfReduceLatestNmonth(date, 1));
+            endCalendar.set(Calendar.DAY_OF_MONTH, monthLastDay.get(endCalendar.get(Calendar.MONTH)));
+            endDate = endCalendar.getTime();
+        } else {  //n < 0
+
+            startDate = getFirstDateOfAddLatestNmonth(date, -1);
+
+            endCalendar = Calendar.getInstance();
+            endCalendar.setTime(getFirstDateOfAddLatestNmonth(date, n));
+            endCalendar.set(Calendar.DAY_OF_MONTH, monthLastDay.get(endCalendar.get(Calendar.MONTH)));
+            endDate = endCalendar.getTime();
+        }
+
+        return new DateRange(floorOfDay(startDate), floorOfDay(endDate));
+
+    }
+
+    public static DateRange latestNyears(
+            Date date,
+            int n
+    ) {
+        Date startDate = null;
+        Date endDate = null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if (n == 0) {
+            int yearNum = calendar.get(Calendar.YEAR);
+            calendar.set(yearNum, 0, 1);
+            startDate = calendar.getTime();
+            calendar.set(yearNum, 11, 31);
+            endDate = calendar.getTime();
+        } else if (n > 0) {
+            int yearNum = calendar.get(Calendar.YEAR);
+            calendar.set(yearNum - 1, 11, 31);
+            endDate = calendar.getTime();
+
+            calendar.set(yearNum - 1 * n, 0, 1);
+            startDate = calendar.getTime();
+        } else {     // n < 0
+            int yearNum = calendar.get(Calendar.YEAR);
+            calendar.set(yearNum + 1, 0, 1);
+            startDate = calendar.getTime();
+
+            calendar.set(yearNum - n, 11, 31);
+            endDate = calendar.getTime();
+        }
+
+        return new DateRange(floorOfDay(startDate), floorOfDay(endDate));
+
+    }
+
+    public static DateRange latestNdays(
+            Date date,
+            int n
+    ) {
+        notNull(date, "day");
+
+        Date firstDay;
+        Date endDate;
+        if (n == 0) {
+            firstDay = endDate = date;
+        } else if (n > 0) {
+            firstDay = addDays(date, -n);
+            endDate = addDays(date, -1);
+        } else {
+            firstDay = addDays(date, 1);
+            endDate = addDays(date, -n);
+        }
+
+        return truncateRange(firstDay, endDate);
+    }
+
+    public static void main(String[] args) {
+        Calendar cur = Calendar.getInstance();
+        cur.add(Calendar.DAY_OF_YEAR, 1);
+        /*System.out.println("curDate:" + cur.getTime());
+        DateRange dateRange = lastedNweeks(cur.getTime(), -3);
+        System.out.println("weeks:" + 0);
+        System.out.println("start: " + dateRange.getStart());
+        System.out.println("end:   " + dateRange.getEnd());
+        System.out.println("end:   " + ceilingOfDay(dateRange.getEnd()));*/
+
+        DateRange dateRange = latestNweeks(cur.getTime(), 0);
+        System.out.println("start: " + dateRange.getStart());
+        System.out.println("end:   " + dateRange.getEnd());
+
     }
 }

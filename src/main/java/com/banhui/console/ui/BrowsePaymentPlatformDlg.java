@@ -56,8 +56,7 @@ public class BrowsePaymentPlatformDlg
         params.put("end-date", endDate);
         new AccountsProxy().historyFundsPlatform(params)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                            .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -66,22 +65,27 @@ public class BrowsePaymentPlatformDlg
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        for (Map<String,Object> map : c) {
-            BigDecimal creditAmt = decimalValue(map, "creditAmt");
-            BigDecimal unfrzAmt = decimalValue(map, "unfrzAmt");
-            BigDecimal debitAmt = decimalValue(map, "debitAmt");
-            BigDecimal frzAmt = decimalValue(map, "frzAmt");
-            BigDecimal amt = creditAmt.add(unfrzAmt).subtract(debitAmt).subtract(frzAmt);
-            map.put("amt", amt);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            for (Map<String, Object> map : c) {
+                BigDecimal creditAmt = decimalValue(map, "creditAmt");
+                BigDecimal unfrzAmt = decimalValue(map, "unfrzAmt");
+                BigDecimal debitAmt = decimalValue(map, "debitAmt");
+                BigDecimal frzAmt = decimalValue(map, "frzAmt");
+                BigDecimal amt = creditAmt.add(unfrzAmt).subtract(debitAmt).subtract(frzAmt);
+                map.put("amt", amt);
+            }
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
         }
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
     }
 
     private void accelerateDate(

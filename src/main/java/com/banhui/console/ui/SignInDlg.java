@@ -29,6 +29,12 @@ public class SignInDlg
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(SignInDlg.class);
 
+    public String getCurUserName() {
+        return curUserName;
+    }
+
+    private String curUserName;
+
     public SignInDlg() {
         super();
 
@@ -61,6 +67,7 @@ public class SignInDlg
             params.put("password", password);
             params.put("captcha-code", captchaCode);
 
+            this.curUserName = loginName;
             controller().disable("ok");
 
             new AuthenticationProxy().signIn(params)
@@ -80,33 +87,41 @@ public class SignInDlg
     private void updateData() {
         CompletableFuture.supplyAsync(() -> Application.settings().getProperty("last-signed-user"))
                          .thenApplyAsync(StringUtils::trimToEmpty)
-                         .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                         .exceptionally(ErrorHandler::handle);
+                         .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            String lastSignedUser
+            String lastSignedUser,
+            Throwable t
     ) {
-        if (!lastSignedUser.isEmpty()) {
-            controller().setText("login-name", lastSignedUser);
-            focusInWindow(controller().get(JComponent.class, "password"));
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            focusInWindow(controller().get(JComponent.class, "login-name"));
+            if (!lastSignedUser.isEmpty()) {
+                controller().setText("login-name", lastSignedUser);
+                focusInWindow(controller().get(JComponent.class, "password"));
+            } else {
+                focusInWindow(controller().get(JComponent.class, "login-name"));
+            }
         }
     }
 
     private void updateCaptchaImage() {
         new AuthenticationProxy().captchaImage()
                                  .thenApplyAsync(ResultUtils::readImage)
-                                 .thenAcceptAsync(this::updateCaptchaImageCallback, UPDATE_UI)
-                                 .exceptionally(ErrorHandler::handle);
+                                 .whenCompleteAsync(this::updateCaptchaImageCallback, UPDATE_UI);
     }
 
     private void updateCaptchaImageCallback(
-            Image image
+            Image image,
+            Throwable t
     ) {
-        controller().get(ImageBox.class, "captcha-image").setData(image);
-        pack();
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().get(ImageBox.class, "captcha-image").setData(image);
+            pack();
+        }
     }
 
     private void signInCallback(
@@ -117,7 +132,6 @@ public class SignInDlg
             ErrorHandler.handle(throwable);
         } else {
             if (result) {
-                Application.settings().setProperty("last-signed-user", controller().getText("login-name").trim());
                 super.done(OK);
             } else {
                 fail(this.getOwner(), controller().getMessage("fail"));

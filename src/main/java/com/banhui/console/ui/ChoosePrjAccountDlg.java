@@ -21,7 +21,8 @@ public class ChoosePrjAccountDlg extends DialogPane {
     private volatile long allowRole;
 
     public ChoosePrjAccountDlg(
-            long allowRole
+            long allowRole,
+            String name
     ) {
         this.allowRole = allowRole;
         if (allowRole == 2) {
@@ -29,16 +30,10 @@ public class ChoosePrjAccountDlg extends DialogPane {
         } else if (allowRole == 3) {
             setTitle(controller().getMessage("bondsMan"));
         }
+        controller().setText("key", name);
         controller().connect("list", "change", this::listChanged);
         controller().connect("search", this::search);
         controller().disable("ok");
-
-        final Map<String, Object> params = new HashMap<>();
-        params.put("allow-role", allowRole);
-        new ProjectProxy().queryAll(params)
-                          .thenApplyAsync(Result::list)
-                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
-
     }
 
     private void search(
@@ -79,11 +74,10 @@ public class ChoosePrjAccountDlg extends DialogPane {
 
             JTable table = controller().get(JTable.class, "list");
             TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final int selectedRow = table.getSelectedRow();
-
-            final String realName = tableModel.getStringByName(selectedRow, "realName");
-            final long auId = Long.valueOf(tableModel.getStringByName(selectedRow, "auId"));
-            final String userType = tableModel.getStringByName(selectedRow, "userType");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final String realName = tableModel.getStringByName(selectedRow1, "realName");
+            final long auId = Long.valueOf(tableModel.getStringByName(selectedRow1, "auId"));
+            final String userType = tableModel.getStringByName(selectedRow1, "userType");
             this.setRealName(realName);
             this.setAuId(auId);
             this.setUserType(userType);

@@ -6,6 +6,7 @@ import com.banhui.console.rpc.HistoryManager;
 import com.banhui.console.rpc.Http;
 import com.banhui.console.rpc.Result;
 import com.banhui.console.rpc.RpcException;
+import com.banhui.console.ui.ErrorHandler;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -229,15 +230,19 @@ public final class DefaultHttp
                 return content;
             } else if (statusCode >= 400 && statusCode < 500) {
                 // 由于HTTP请求不正确造成的错误，权限不足，登录超时，服务URI错误等等。
+                ErrorHandler.handle(new RpcException(request.getMethod(), request.getURI(), statusCode, reasonPhrase));
                 throw new RpcException(request.getMethod(), request.getURI(), statusCode, reasonPhrase);
             } else if (statusCode >= 500 && statusCode < 600) {
                 // 后端的错误。
+                ErrorHandler.handle(new RpcException(request.getMethod(), request.getURI(), statusCode, content));
                 throw new RpcException(request.getMethod(), request.getURI(), statusCode, content);
             } else {
                 // 其它不应该出现的状态。
+                ErrorHandler.handle(new IllegalStateException("illegal status code: " + statusCode));
                 throw new IllegalStateException("illegal status code: " + statusCode);
             }
         } catch (IOException ex) {
+            ErrorHandler.handle(new UncheckedIOException(ex));
             throw new UncheckedIOException(ex);
         } finally {
             logger.trace(loggerBuffer.toString());

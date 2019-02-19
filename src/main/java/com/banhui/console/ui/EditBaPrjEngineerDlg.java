@@ -80,8 +80,7 @@ public class EditBaPrjEngineerDlg
 
             (this.id == 0 ? new BaPrjEngineersProxy().add(params) : new BaPrjEngineersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
-                    .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                    .exceptionally(ErrorHandler::handle)
+                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                     .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
         } else {
             super.done(result);
@@ -97,48 +96,55 @@ public class EditBaPrjEngineerDlg
 
         new BaPrjEngineersProxy().query(this.id)
                                  .thenApplyAsync(Result::map)
-                                 .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                                 .exceptionally(ErrorHandler::handle);
+                                 .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("name", stringValue(data, "name"));
-        controller().setText("address", stringValue(data, "address"));
-        controller().setDate("prj-start-time", dateValue(data, "prjStartTime"));
-        controller().setDate("prj-end-time", dateValue(data, "prjEndTime"));
-        controller().setText("eng-type", stringValue(data, "engType"));
-        controller().setDecimal("area", decimalValue(data, "area"));
-        controller().setText("all-org", stringValue(data, "allOrg"));
-        controller().setText("design-org", stringValue(data, "designOrg"));
-        controller().setText("mgr-org", stringValue(data, "mgrOrg"));
-        controller().setText("pro-intro", stringValue(data, "proIntro"));
-        controller().setText("eng-show-name", stringValue(data, "engShowName"));
-        controller().setText("eng-show-address", stringValue(data, "engShowAddress"));
-        controller().setText("show-mgr-org", stringValue(data, "showMgrOrg"));
-        controller().setText("show-design-org", stringValue(data, "showDesignOrg"));
-        controller().setText("show-area", stringValue(data, "showArea"));
-        controller().setText("design-org-level", stringValue(data, "designOrgLevel"));
-        controller().setText("mgr-org-level", stringValue(data, "mgrOrgLevel"));
-        controller().setText("mgr-org-level", stringValue(data, "mgrOrgLevel"));
-        controller().setText("show-all-org", stringValue(data, "showAllOrg"));
-        controller().setText("mgr-real-name", stringValue(data, "mgrRealName"));
-        controller().setText("mgr-show-name", stringValue(data, "mgrShowName"));
-        controller().setText("qualification", stringValue(data, "qualification"));
-        controller().setText("mgr-intro", stringValue(data, "mgrIntro"));
-        controller().setText("mgr-gender", stringValue(data, "mgrGender"));
-        controller().setNumber("mgr-age", longValue(data, "mgrAge"));
-        controller().setText("mgr-show-age", stringValue(data, "mgrShowAge"));
-
-
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("name", stringValue(data, "name"));
+            controller().setText("address", stringValue(data, "address"));
+            controller().setDate("prj-start-time", dateValue(data, "prjStartTime"));
+            controller().setDate("prj-end-time", dateValue(data, "prjEndTime"));
+            controller().setText("eng-type", stringValue(data, "engType"));
+            controller().setDecimal("area", decimalValue(data, "area"));
+            controller().setText("all-org", stringValue(data, "allOrg"));
+            controller().setText("design-org", stringValue(data, "designOrg"));
+            controller().setText("mgr-org", stringValue(data, "mgrOrg"));
+            controller().setText("pro-intro", stringValue(data, "proIntro"));
+            controller().setText("eng-show-name", stringValue(data, "engShowName"));
+            controller().setText("eng-show-address", stringValue(data, "engShowAddress"));
+            controller().setText("show-mgr-org", stringValue(data, "showMgrOrg"));
+            controller().setText("show-design-org", stringValue(data, "showDesignOrg"));
+            controller().setText("show-area", stringValue(data, "showArea"));
+            controller().setText("design-org-level", stringValue(data, "designOrgLevel"));
+            controller().setText("mgr-org-level", stringValue(data, "mgrOrgLevel"));
+            controller().setText("mgr-org-level", stringValue(data, "mgrOrgLevel"));
+            controller().setText("show-all-org", stringValue(data, "showAllOrg"));
+            controller().setText("mgr-real-name", stringValue(data, "mgrRealName"));
+            controller().setText("mgr-show-name", stringValue(data, "mgrShowName"));
+            controller().setText("qualification", stringValue(data, "qualification"));
+            controller().setText("mgr-intro", stringValue(data, "mgrIntro"));
+            controller().setText("mgr-gender", stringValue(data, "mgrGender"));
+            controller().setNumber("mgr-age", longValue(data, "mgrAge"));
+            controller().setText("mgr-show-age", stringValue(data, "mgrShowAge"));
+        }
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

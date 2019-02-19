@@ -59,9 +59,10 @@ public class ChooseProtocolDlg
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long fileId = tableModel.getNumberByName(table.getSelectedRow(), "id");
-        final String fileHash = tableModel.getStringByName(table.getSelectedRow(), "hash");
-        final String fileName = tableModel.getStringByName(table.getSelectedRow(), "name");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long fileId = tableModel.getNumberByName(selectedRow1, "id");
+        final String fileHash = tableModel.getStringByName(selectedRow1, "hash");
+        final String fileName = tableModel.getStringByName(selectedRow1, "name");
 
         OfsClient ofsClient = new OfsClient();
         String path = new FileUtil(null).choiceDirToSave(fileName);
@@ -85,6 +86,7 @@ public class ChooseProtocolDlg
         int[] selectedRows = table.getSelectedRows();
         StringBuilder fileName = new StringBuilder();
         for (int selectedRow : selectedRows) {
+            selectedRow = table.convertRowIndexToModel(selectedRow);
             final String name = tableModel.getStringByName(selectedRow, "name");
             fileName.append("、").append(name);
         }
@@ -93,6 +95,7 @@ public class ChooseProtocolDlg
         if (confirm(null, confirmDelete)) {
             boolean flag;
             for (int selectedRow : selectedRows) {
+                selectedRow = table.convertRowIndexToModel(selectedRow);
                 final long fileId = tableModel.getNumberByName(selectedRow, "id");
                 final String fileHash = tableModel.getStringByName(selectedRow, "hash");
                 OfsClient ofsClient = new OfsClient();
@@ -139,7 +142,7 @@ public class ChooseProtocolDlg
             }
             tableModel.setAllRows(list);
         } catch (IOException e) {
-            e.printStackTrace();
+            ErrorHandler.handle(e);
         }
     }
 

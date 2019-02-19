@@ -38,19 +38,23 @@ public class DelayFinancingDateDlg
             params.put("datepoint", controller().getDate("datepoint"));
             new ProjectProxy().delayFinancingDate(params)
                               .thenApplyAsync(Result::booleanValue)
-                              .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                              .exceptionally(ErrorHandler::handle);
+                              .whenCompleteAsync(this::saveCallback, UPDATE_UI);
         } else {
             super.done(result);
         }
     }
 
     private void saveCallback(
-            Boolean flag
+            Boolean flag,
+            Throwable t
     ) {
-        if (flag) {
-            datepoint = controller().getDate("datepoint");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (flag) {
+                datepoint = controller().getDate("datepoint");
+            }
+            super.done(OK);
         }
-        super.done(OK);
     }
 }

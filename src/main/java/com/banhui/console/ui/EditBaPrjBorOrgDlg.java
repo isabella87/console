@@ -66,17 +66,7 @@ public class EditBaPrjBorOrgDlg
             params.put("show-address", controller().getText("show-address").trim());
             params.put("fax", controller().getText("fax").trim());
             params.put("wchat", controller().getText("wchat").trim());
-            params.put("linkman-name", controller().getText("linkman-name").trim());
-            params.put("linkman-id-card", controller().getText("linkman-id-card").trim());
-            params.put("linkman-mobile", controller().getText("linkman-mobile").trim());
-            params.put("linkman-fax", controller().getText("linkman-fax").trim());
-            params.put("linkman-email", controller().getText("linkman-email").trim());
-            params.put("linkman-wchat", controller().getText("linkman-wchat").trim());
-            params.put("linkman-address", controller().getText("linkman-address").trim());
-            params.put("linkman-show-address", controller().getText("linkman-show-address").trim());
-            params.put("linkman-show-name", controller().getText("linkman-show-name").trim());
             params.put("qq", controller().getText("qq").trim());
-            params.put("linkman-relation", controller().getText("linkman-relation").trim());
             params.put("social-credit-code", controller().getText("social-credit-code").trim());
             params.put("show-social-credit-code", controller().getText("show-social-credit-code").trim());
             params.put("industry", controller().getText("industry").trim());
@@ -86,7 +76,22 @@ public class EditBaPrjBorOrgDlg
             params.put("show-shareholder-info", controller().getText("show-shareholder-info").trim());
             params.put("operate-area", controller().getText("operate-area").trim());
             params.put("other-info", controller().getText("other-info").trim());
-
+            for (int i = 1; i <= 6; i++) {
+                String num = "";
+                if (i != 1) {
+                    num = String.valueOf(i);
+                }
+                params.put("linkman-name" + num, controller().getText("linkman-name" + num).trim());
+                params.put("linkman-show-name" + num, controller().getText("linkman-show-name" + num).trim());
+                params.put("linkman-mobile" + num, controller().getText("linkman-mobile" + num).trim());
+                params.put("linkman-email" + num, controller().getText("linkman-email" + num).trim());
+                params.put("linkman-wchat" + num, controller().getText("linkman-wchat" + num).trim());
+                params.put("linkman-fax" + num, controller().getText("linkman-fax" + num).trim());
+                params.put("linkman-address" + num, controller().getText("linkman-address" + num).trim());
+                params.put("linkman-show-address" + num, controller().getText("linkman-show-address" + num).trim());
+                params.put("linkman-id-card" + num, controller().getText("linkman-id-card" + num).trim());
+                params.put("linkman-relation" + num, controller().getText("linkman-relation" + num).trim());
+            }
             (this.id == 0 ? new BaPrjBorOrgsProxy().add(params) : new BaPrjBorOrgsProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
                     .whenCompleteAsync(this::saveCallback, UPDATE_UI)
@@ -102,52 +107,60 @@ public class EditBaPrjBorOrgDlg
 
     private void updateData() {
         assertUIThread();
-
         new BaPrjBorOrgsProxy().query(this.id)
                                .thenApplyAsync(Result::map)
-                               .thenAcceptAsync(this::updateDataCallback, UPDATE_UI)
-                               .exceptionally(ErrorHandler::handle);
+                               .whenCompleteAsync(this::updateDataCallback, UPDATE_UI);
     }
 
     private void updateDataCallback(
-            Map<String, Object> data
+            Map<String, Object> data,
+            Throwable t
     ) {
-        controller().setText("org-name", stringValue(data, "orgName"));
-        controller().setText("show-org-name", stringValue(data, "showOrgName"));
-        controller().setNumber("registered-fund", longValue(data, "registeredFund"));
-        controller().setText("registered-show-fund", stringValue(data, "registeredShowFund"));
-        controller().setDate("registered-date", dateValue(data, "registeredDate"));
-        controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
-        controller().setText("legal-person-name", stringValue(data, "legalPersonName"));
-        controller().setText("legal-person-show-name", stringValue(data, "legalPersonShowName"));
-        controller().setText("mobile", stringValue(data, "mobile"));
-        controller().setText("email", stringValue(data, "email"));
-        controller().setText("address", stringValue(data, "address"));
-        controller().setText("intro", stringValue(data, "intro"));
-        controller().setText("show-address", stringValue(data, "showAddress"));
-        controller().setText("fax", stringValue(data, "fax"));
-        controller().setText("wchat", stringValue(data, "wchat"));
-        controller().setText("qq", stringValue(data, "qq"));
-        controller().setText("linkman-relation", stringValue(data, "linkmanRelation"));
-        controller().setText("linkman-name", stringValue(data, "linkmanName"));
-        controller().setText("linkman-id-card", stringValue(data, "linkmanIdCard"));
-        controller().setText("linkman-mobile", stringValue(data, "linkmanMobile"));
-        controller().setText("linkman-fax", stringValue(data, "linkmanFax"));
-        controller().setText("linkman-email", stringValue(data, "linkmanEmail"));
-        controller().setText("linkman-wchat", stringValue(data, "linkmanWchat"));
-        controller().setText("linkman-address", stringValue(data, "linkmanAddress"));
-        controller().setText("linkman-show-address", stringValue(data, "linkmanShowAddress"));
-        controller().setText("linkman-show-name", stringValue(data, "linkmanShowName"));
-        controller().setText("social-credit-code", stringValue(data, "socialCreditCode"));
-        controller().setText("show-social-credit-code", stringValue(data, "showSocialCreditCode"));
-        controller().setText("industry", stringValue(data, "industry"));
-        controller().setText("work-address", stringValue(data, "workAddress"));
-        controller().setText("show-work-address", stringValue(data, "showWorkAddress"));
-        controller().setText("shareholder-info", stringValue(data, "shareholderInfo"));
-        controller().setText("show-shareholder-info", stringValue(data, "showShareholderInfo"));
-        controller().setText("operate-area", stringValue(data, "operateArea"));
-        controller().setText("other-info", stringValue(data, "otherInfo"));
-
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            controller().setText("org-name", stringValue(data, "orgName"));
+            controller().setText("show-org-name", stringValue(data, "showOrgName"));
+            controller().setNumber("registered-fund", longValue(data, "registeredFund"));
+            controller().setText("registered-show-fund", stringValue(data, "registeredShowFund"));
+            controller().setDate("registered-date", dateValue(data, "registeredDate"));
+            controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
+            controller().setText("legal-person-name", stringValue(data, "legalPersonName"));
+            controller().setText("legal-person-show-name", stringValue(data, "legalPersonShowName"));
+            controller().setText("mobile", stringValue(data, "mobile"));
+            controller().setText("email", stringValue(data, "email"));
+            controller().setText("address", stringValue(data, "address"));
+            controller().setText("intro", stringValue(data, "intro"));
+            controller().setText("show-address", stringValue(data, "showAddress"));
+            controller().setText("fax", stringValue(data, "fax"));
+            controller().setText("wchat", stringValue(data, "wchat"));
+            controller().setText("qq", stringValue(data, "qq"));
+            controller().setText("social-credit-code", stringValue(data, "socialCreditCode"));
+            controller().setText("show-social-credit-code", stringValue(data, "showSocialCreditCode"));
+            controller().setText("industry", stringValue(data, "industry"));
+            controller().setText("work-address", stringValue(data, "workAddress"));
+            controller().setText("show-work-address", stringValue(data, "showWorkAddress"));
+            controller().setText("shareholder-info", stringValue(data, "shareholderInfo"));
+            controller().setText("show-shareholder-info", stringValue(data, "showShareholderInfo"));
+            controller().setText("operate-area", stringValue(data, "operateArea"));
+            controller().setText("other-info", stringValue(data, "otherInfo"));
+            for (int i = 1; i <= 6; i++) {
+                String num = "";
+                if (i != 1) {
+                    num = String.valueOf(i);
+                }
+                controller().setText("linkman-name" + num, stringValue(data, "linkmanName" + num));
+                controller().setText("linkman-show-name" + num, stringValue(data, "linkmanShowName" + num));
+                controller().setText("linkman-mobile" + num, stringValue(data, "linkmanMobile" + num));
+                controller().setText("linkman-email" + num, stringValue(data, "linkmanEmail" + num));
+                controller().setText("linkman-wchat" + num, stringValue(data, "linkmanWchat" + num));
+                controller().setText("linkman-fax" + num, stringValue(data, "linkmanFax" + num));
+                controller().setText("linkman-address" + num, stringValue(data, "linkmanAddress" + num));
+                controller().setText("linkman-show-address" + num, stringValue(data, "linkmanShowAddress" + num));
+                controller().setText("linkman-id-card" + num, stringValue(data, "linkmanIdCard" + num));
+                controller().setText("linkman-relation" + num, stringValue(data, "linkmanRelation" + num));
+            }
+        }
     }
 
     private void saveCallback(

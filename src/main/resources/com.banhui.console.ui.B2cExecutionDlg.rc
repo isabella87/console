@@ -40,9 +40,8 @@
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <splitPane axis="Y">
                     <table name="list">
-                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                        <tableColumn name="tvId" title="ID" type="TEXT" size="60"/>
-                        <tableColumn name="auId" title="AUID" type="TEXT" size="60"/>
+                        <tableColumn name="tvId" title="ID" type="NUMBER_TEXT" size="60"/>
+                        <tableColumn name="auId" title="AUID" type="NUMBER_TEXT" size="60"/>
                         <tableColumn name="forAccountId" title="转入电子账户" type="TEXT" size="160"/>
                         <tableColumn name="name" title="姓名" type="TEXT" size="100"/>
                         <tableColumn name="txamount" title="金额" type="CURRENCY" size="100"/>
@@ -50,8 +49,8 @@
                         <tableColumn name="datepoint" title="时间" type="DATE_TIME" size="160"/>
                     </table>
                     <table name="detail">
-                        <tableColumn name="jvpId" title="ID" type="TEXT" size="100"/>
-                        <tableColumn name="tsId" title="投资ID" type="TEXT" size="100"/>
+                        <tableColumn name="jvpId" title="ID" type="NUMBER_TEXT" size="100"/>
+                        <tableColumn name="tsId" title="投资ID" type="NUMBER_TEXT" size="100"/>
                         <tableColumn name="done" title="状态" type="TEXT" size="100" optionsName="done"/>
                         <tableColumn name="datepoint2" title="时间" type="DATE_TIME" size="200"/>
                         <tableColumn name="seqno" title="流水号" type="TEXT" size="180"/>

@@ -6,9 +6,9 @@ import java.util.List;
 public class Wages {
 
     private final static int Month= 12;
-    private final static double MonthWages= 100000;
-    private final static double SOCIAL_SECURITY_BASE=5000;   //社保基数
-    private final static double SOCIAL_SECURITY_COST=5000;        //1837.5;   //五险一金
+    private final static double MonthWages= 20000;
+    private final static double SOCIAL_SECURITY_BASE=11050;   //社保基数
+    private final static double SOCIAL_SECURITY_COST=1934.3;        //1934.3;   //五险一金
     private final static double CHILD_EDUCATION_COST=0;   //子女教育
     private final static double PARENT_SUPPORT_COST=1000;   //父母赡养
     private final static double CONTINUING_EDUCATION_COST=400;  //继续教育

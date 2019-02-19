@@ -42,7 +42,7 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     //执行流标
@@ -54,48 +54,62 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
         if (confirm(this.getOwner(), confirmCancelTenderText, confirmText)) {
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final int selectedRow = table.getSelectedRow();
-            final long tctId = tableModel.getNumberByName(selectedRow, "tctId");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long tctId = tableModel.getNumberByName(selectedRow1, "tctId");
             new AuditProxy().execute(tctId)
-                            .thenApplyAsync(Result::map)
-                            .thenAcceptAsync(v -> controller().enable("execute"), UPDATE_UI);
+                            .thenApplyAsync(Result::booleanValue)
+                            .whenCompleteAsync(this::executeCallBack, UPDATE_UI);
 
         }
     }
 
-    //刷新
+    private void executeCallBack(
+            Boolean flag,
+            Throwable t
+    ) {
+        if (t != null) {
+            ErrorHandler.handle(t.getCause());
+        } else {
+            controller().call("refresh");
+        }
+    }
+
     private void refresh(
             ActionEvent actionEvent
     ) {
+        controller().disable("execute");
         new AuditProxy().queryCancelTenders(id)
                         .thenApplyAsync(Result::map)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
-        controller().disable("execute");
+                        .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     @SuppressWarnings("unchecked")
     private void searchCallback(
-            Map<String, Object> map
+            Map<String, Object> map,
+            Throwable t
     ) {
-        Collection<Map<String, Object>> items = (Collection<Map<String, Object>>) map.get("items");
-        children = (Collection<Map<String, Object>>) map.get("children");
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(items);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            Collection<Map<String, Object>> items = (Collection<Map<String, Object>>) map.get("items");
+            children = (Collection<Map<String, Object>>) map.get("children");
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(items);
 
-        double sum1 = 0D;
-        double sum2 = 0D;
-        for (int i = 0; i < items.size(); i++) {
-            double status = tableModel.getNumberByName(i, "status");
-            if (status == 0) {
-                double execute = tableModel.getNumberByName(i, "amt");
-                sum1 = sum1 + execute;
-            } else {
-                double execute = tableModel.getNumberByName(i, "amt");
-                sum2 = sum2 + execute;
+            double sum1 = 0D;
+            double sum2 = 0D;
+            for (int i = 0; i < items.size(); i++) {
+                double status = tableModel.getNumberByName(i, "status");
+                if (status == 0) {
+                    double execute = tableModel.getNumberByName(i, "amt");
+                    sum1 = sum1 + execute;
+                } else {
+                    double execute = tableModel.getNumberByName(i, "amt");
+                    sum2 = sum2 + execute;
+                }
             }
+            controller().setText("progress", controller().formatMessage("progress-text", sum2, (sum1 + sum2)));
         }
-        controller().setText("progress", controller().formatMessage("progress-text", sum2, (sum1 + sum2)));
     }
 
     private void listChanged(
@@ -111,9 +125,10 @@ public class BrowsePrjCancelTendersDlg extends DialogPane {
         final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
         Collection<Map<String, Object>> child = new ArrayList<>();
 
-        int selectedRow = table.getSelectedRow();
-        if (table.getSelectedRow() > -1) {
-            long tctId = tableModel.getNumberByName(selectedRow, "tctId");
+        int selectedRow1 = table.getSelectedRow();
+        if (selectedRow1 > -1) {
+            selectedRow1 = table.convertRowIndexToModel(selectedRow1);
+            long tctId = tableModel.getNumberByName(selectedRow1, "tctId");
             for (Map<String, Object> item : children) {
                 if (Long.valueOf(item.get("tsId").toString()) == tctId) {
                     child.add(item);

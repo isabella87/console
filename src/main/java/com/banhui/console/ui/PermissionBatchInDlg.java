@@ -94,7 +94,7 @@ public class PermissionBatchInDlg
                 } else {
                     ctx = controller().getMessage("success");
                 }
-                tableModel.setValueAt(ctx, row, 3);
+                tableModel.setValueAt(ctx, row, 2);
             }
         });
         showModel(null, dlg);
@@ -107,7 +107,8 @@ public class PermissionBatchInDlg
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         int selectedRow = table.getSelectedRow();
-        tableModel.removeRow(selectedRow);
+        int modelSelectRow = table.convertRowIndexToModel(selectedRow);
+        tableModel.removeRow(modelSelectRow);
     }
 
     private void load(

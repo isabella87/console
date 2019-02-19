@@ -210,7 +210,16 @@ public class ProjectProxy
 
     //通过项目查看自动投标情况记录
     public CompletableFuture<Result> prjAutoTender(Map<String, Object> params) {
-        return super.http().get("mgr/prj/loan-projs/prj-auto-tender-log" ,params);
+        return super.http().get("mgr/prj/loan-projs/prj-auto-tender-log", params);
+    }
+
+    public CompletableFuture<Result> bondsmanList(Map<String, Object> params) {
+        return super.http().get("mgr/prj/modify-bondsman", params);
+    }
+
+    public CompletableFuture<Result> modifyBondsman(Map<String, Object> params) {
+        long pId = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/modify-bondsman/" + pId, params);
     }
 
 }

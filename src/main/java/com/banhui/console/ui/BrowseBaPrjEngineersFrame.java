@@ -6,11 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.DialogPane;
-import org.xx.armory.swing.components.InternalFramePane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseBaPrjEngineersFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     @SuppressWarnings("unused")
     private final Logger logger = LoggerFactory.getLogger(BrowseBaPrjEngineersFrame.class);
 
@@ -50,7 +51,9 @@ public class BrowseBaPrjEngineersFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
+
+        showTipLabel();
     }
 
     private void search(
@@ -66,7 +69,6 @@ public class BrowseBaPrjEngineersFrame
         params.put("start-time", startDate);
         params.put("end-time", endDate);
         params.put("key", key);
-
 
         controller().disable("search");
         new BaPrjEngineersProxy().all(params)
@@ -95,7 +97,6 @@ public class BrowseBaPrjEngineersFrame
         final int selectedRow = 0;
         final EditBaPrjEngineerDlg dlg = new EditBaPrjEngineerDlg(0);
         dlg.setFixedSize(false);
-
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
             if (row != null && !row.isEmpty()) {
@@ -112,17 +113,16 @@ public class BrowseBaPrjEngineersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-
-        final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bpeId");
+        final long bpeId = tableModel.getNumberByName(selectedRow1, "bpeId");
         final EditBaPrjEngineerDlg dlg = new EditBaPrjEngineerDlg(bpeId);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
-            tableModel.setRow(selectedRow, row);
+            tableModel.setRow(selectedRow1, row);
         }
     }
 
@@ -135,8 +135,8 @@ public class BrowseBaPrjEngineersFrame
 
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long bpeId = tableModel.getNumberByName(table.getSelectedRow(), "bpeId");
-
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long bpeId = tableModel.getNumberByName(selectedRow1, "bpeId");
             new BaPrjEngineersProxy().del(bpeId)
                                      .thenApplyAsync(Result::map)
                                      .whenCompleteAsync(this::delCallback, UPDATE_UI);
@@ -161,11 +161,11 @@ public class BrowseBaPrjEngineersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectRow = table.getSelectedRow();
-        if (selectRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long id = tableModel.getNumberByName(selectRow, "bpeId");
+        final long id = tableModel.getNumberByName(selectedRow1, "bpeId");
         final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 24, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
@@ -176,11 +176,11 @@ public class BrowseBaPrjEngineersFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectRow = table.getSelectedRow();
-        if (selectRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long id = tableModel.getNumberByName(selectRow, "bpeId");
+        final long id = tableModel.getNumberByName(selectedRow1, "bpeId");
         final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 27, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);

@@ -37,7 +37,6 @@
         <row stretch="1">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="tranno" title="交易流水号" type="TEXT" size="120"/>
                     <tableColumn name="amount" title="金额" type="CURRENCY" size="120"/>
                     <tableColumn name="transtype" title="类型" type="TEXT" size="100" optionsName="trans-type"/>

@@ -47,8 +47,9 @@ public class BrowseLoanHistoryDlg
 
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long tlhId = tableModel.getNumberByName(table.getSelectedRow(), "tlhId");
-            final long batch = tableModel.getNumberByName(table.getSelectedRow(), "batch");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long tlhId = tableModel.getNumberByName(selectedRow1, "tlhId");
+            final long batch = tableModel.getNumberByName(selectedRow1, "batch");
             final Map<String, Object> params = new HashMap<>();
             params.put("tlh-id", tlhId);
             params.put("batch", batch);
@@ -95,7 +96,8 @@ public class BrowseLoanHistoryDlg
         int[] selectedRows = table.getSelectedRows();
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         if (table.getSelectedRow() > -1) {
-            long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            long status = tableModel.getNumberByName(selectedRow1, "status");
             if (selectedRows.length == 1 && status == -1) {
                 controller().enable("delete");
             } else if (selectedRows.length > 1) {

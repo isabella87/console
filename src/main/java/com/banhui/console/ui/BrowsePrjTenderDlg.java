@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
@@ -24,22 +25,27 @@ public class BrowsePrjTenderDlg extends DialogPane {
 
     public BrowsePrjTenderDlg(
             long id,
-            int role
+            int role,
+            boolean lockStatus
     ) {
         controller().disable("revoke");
         controller().connect("list", "change", this::listChanged);
 
-        controller().connect("revoke", this::revoke);//撤销投标
-        controller().connect("refresh", this::refresh);//刷新
-        controller().connect("midway", this::midway);//中途流标
+        controller().connect("revoke", this::revoke);
+        controller().connect("refresh", this::refresh);
+        controller().connect("midway", this::midway);
+        controller().connect("check", this::check);
         controller().connect("excel", this::excel);
 
         this.id = id;
         this.role = role;
         setTitle(getTitle() + id);
-
         controller().call("refresh");
-
+        if (lockStatus) {
+            controller().hide("midway");
+            controller().hide("revoke");
+            controller().hide("check");
+        }
         if (role == 60 || role == 70 || role == 80 || role == 90 || role == 999) {
             controller().hide("midway");
         }
@@ -50,12 +56,18 @@ public class BrowsePrjTenderDlg extends DialogPane {
 
     }
 
+    private void check(ActionEvent actionEvent) {
+        final BrowseCheckTenderDlg dlg = new BrowseCheckTenderDlg(id);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
     private void excel(
             ActionEvent actionEvent
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     //中途流标
@@ -72,8 +84,7 @@ public class BrowsePrjTenderDlg extends DialogPane {
             params.put("comments", null);
             new AuditProxy().busVpStopRaising(params)
                             .thenApplyAsync(Result::map)
-                            .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                            .exceptionally(ErrorHandler::handle)
+                            .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                             .thenAcceptAsync(v -> controller().enable("auctions"), UPDATE_UI);
         }
     }
@@ -90,7 +101,8 @@ public class BrowsePrjTenderDlg extends DialogPane {
             params.put("remark", null);
             final JTable table = controller().get(JTable.class, "list");
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final long ttId = tableModel.getNumberByName(table.getSelectedRow(), "ttId");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final long ttId = tableModel.getNumberByName(selectedRow1, "ttId");
             params.put("tt-id", ttId);
             new AuditProxy().createTsCancelTender(params)
                             .thenApplyAsync(Result::map)
@@ -103,11 +115,10 @@ public class BrowsePrjTenderDlg extends DialogPane {
     private void refresh(
             ActionEvent actionEvent
     ) {
+        controller().disable("revoke");
         new AuditProxy().queryTenders(id)
                         .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
-        controller().disable("revoke");
+                        .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void listChanged(
@@ -120,10 +131,15 @@ public class BrowsePrjTenderDlg extends DialogPane {
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void delCallback(
@@ -140,9 +156,14 @@ public class BrowsePrjTenderDlg extends DialogPane {
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 }

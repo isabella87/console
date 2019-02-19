@@ -52,7 +52,7 @@
                 <label for="show-name">展示名称：</label>
             </cell>
             <cell>
-                <text name="show-name" required="true"/>
+                <text name="show-name" required="true" pattern=".{2,}"/>
             </cell>
         </row>
         <row>
@@ -96,7 +96,7 @@
             </cell>
             <cell>
                 <boxLayout>
-                    <text name="show-reg-years" size="10" required="true"/>
+                    <text name="show-reg-years" size="10" required="true" pattern=".{2,}"/>
                     <label>年</label>
                 </boxLayout>
             </cell>

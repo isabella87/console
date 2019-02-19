@@ -64,7 +64,7 @@ public class EditBonusDetailRepaysDlg extends DialogPane {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
 
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
 
         controller().enable("export");
 
@@ -181,7 +181,8 @@ public class EditBonusDetailRepaysDlg extends DialogPane {
             JTable table = controller().get(JTable.class, "list");
             TypedTableModel tableModel = (TypedTableModel) table.getModel();
             int selectedRow = table.getSelectedRow();
-            long trId = tableModel.getNumberByName(selectedRow, "trId");
+            int modelSelectRow = table.convertRowIndexToModel(selectedRow);
+            long trId = tableModel.getNumberByName(modelSelectRow, "trId");
 
             final TypedTableModel detailTableModel = (TypedTableModel) controller().get(JTable.class, "detail").getModel();
             Collection<Map<String, Object>> child = new ArrayList<>();

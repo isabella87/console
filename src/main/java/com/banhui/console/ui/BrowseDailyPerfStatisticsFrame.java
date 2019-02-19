@@ -31,7 +31,7 @@ import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static com.banhui.console.ui.InputUtils.yesterday;
 
 public class BrowseDailyPerfStatisticsFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     private List<DefaultMutableTreeNode> selectTreeNodes;
 
     public BrowseDailyPerfStatisticsFrame() {
@@ -47,7 +47,7 @@ public class BrowseDailyPerfStatisticsFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void userDaily(
@@ -55,8 +55,8 @@ public class BrowseDailyPerfStatisticsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final String uName = tableModel.getStringByName(selectedRow, "uName");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final String uName = tableModel.getStringByName(selectedRow1, "uName");
         final Date datepoint = controller().getDate("datepoint");
 
         CrmDailyStatisticsDlg dlg = new CrmDailyStatisticsDlg(uName, datepoint);
@@ -219,39 +219,43 @@ public class BrowseDailyPerfStatisticsFrame
         params.put("if-self", false);
         new CrmProxy().getAllMgrRelations(params)
                       .thenApplyAsync(Result::list)
-                      .thenAcceptAsync(this::searchUserBack, UPDATE_UI)
-                      .exceptionally(ErrorHandler::handle);
+                      .whenCompleteAsync(this::searchUserBack, UPDATE_UI);
     }
 
     private void searchUserBack(
-            List<Map<String, Object>> maps
+            List<Map<String, Object>> maps,
+            Throwable t
     ) {
-        final Map<String, Object> params = new HashMap<>();
-        params.put("uName", "我自己");
-        maps.add(params);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final Map<String, Object> params = new HashMap<>();
+            params.put("uName", "我自己");
+            maps.add(params);
 
-        JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
-        mgrJTree.setModel(new DefaultTreeModel(null));
-        mgrJTree.setRootVisible(false);
-        mgrJTree.setModel(new DefaultTreeModelSuffixUtil(maps, "uName", "pName", "department").getDefaultTreeModel());
-        mgrJTree.setExpandsSelectedPaths(true);
+            JTree mgrJTree = controller().get(JTree.class, "mgrJTree");
+            mgrJTree.setModel(new DefaultTreeModel(null));
+            mgrJTree.setRootVisible(false);
+            mgrJTree.setModel(new DefaultTreeModelSuffixUtil(maps, "uName", "pName", "department").getDefaultTreeModel());
+            mgrJTree.setExpandsSelectedPaths(true);
 
-        DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
-        try {
-            Image openIcon = ImageIO.read(getClass().getResourceAsStream("/open.jpg"));
-            Image closeIcon = ImageIO.read(getClass().getResourceAsStream("/close.jpg"));
-            Image leafIcon = ImageIO.read(getClass().getResourceAsStream("/leaf.jpg"));
-            defaultTreeCellRenderer.setOpenIcon(new ImageIcon(openIcon));
-            defaultTreeCellRenderer.setClosedIcon(new ImageIcon(closeIcon));
-            defaultTreeCellRenderer.setLeafIcon(new ImageIcon(leafIcon));
-        } catch (IOException e) {
-            e.printStackTrace();
+            DefaultTreeCellRenderer defaultTreeCellRenderer = new DefaultTreeCellRenderer();
+            try {
+                Image openIcon = ImageIO.read(getClass().getResourceAsStream("/open.jpg"));
+                Image closeIcon = ImageIO.read(getClass().getResourceAsStream("/close.jpg"));
+                Image leafIcon = ImageIO.read(getClass().getResourceAsStream("/leaf.jpg"));
+                defaultTreeCellRenderer.setOpenIcon(new ImageIcon(openIcon));
+                defaultTreeCellRenderer.setClosedIcon(new ImageIcon(closeIcon));
+                defaultTreeCellRenderer.setLeafIcon(new ImageIcon(leafIcon));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mgrJTree.setCellRenderer(defaultTreeCellRenderer);
+
+            TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
+            treeSelectionModel.setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+            mgrJTree.setSelectionModel(treeSelectionModel);
         }
-        mgrJTree.setCellRenderer(defaultTreeCellRenderer);
-
-        TreeSelectionModel treeSelectionModel = new DefaultTreeSelectionModel();
-        treeSelectionModel.setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
-        mgrJTree.setSelectionModel(treeSelectionModel);
     }
 
 
@@ -262,8 +266,8 @@ public class BrowseDailyPerfStatisticsFrame
         int[] selectedRows = table.getSelectedRows();
         if (selectedRows.length == 1) {
             final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-            final int selectedRow = table.getSelectedRow();
-            final String uName = tableModel.getStringByName(selectedRow, "uName");
+            final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+            final String uName = tableModel.getStringByName(selectedRow1, "uName");
             if (!uName.equals("<总计>")) {
                 controller().enable("name-list");
             } else {

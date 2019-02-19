@@ -14,6 +14,7 @@
     <action name="monthStatistic" title="月数据统计(M)" mnemonic="M" description="月数据统计"/>
     <action name="firstInvestor" title="首次投资客户(F)" mnemonic="F" description="第一次投资客户"/>
     <action name="vipInvestor" title="VIP投资客户(V)" mnemonic="V" description="VIP投资客户"/>
+    <action name="infoDisclosure" title="信息披露数据(I)" mnemonic="I" description="信息披露数据"/>
 
     <action name="browseBaPrjEngineers" title="工程项目(N)" mnemonic="N" description="工程项目"/>
     <action name="browseBaPrjCtors" title="施工单位(C)" mnemonic="C" description="施工单位"/>
@@ -46,6 +47,7 @@
     <action name="editSettings" title="系统设置(S)" mnemonic="S" description="查看和修改系统设置"/>
 
     <action name="exit" title="退出(X)" mnemonic="X" description="退出后台管理系统"/>
+    <action name="resign" title="重新登录(R)" mnemonic="X" description="重新登录"/>
     <action name="about" title="关于(A)..." mnemonic="A" description="后台管理系统的简介"/>
     <action name="manual" title="下载操作手册(M)..." mnemonic="M" description="下载系统操作手册"/>
     <action name="update" title="更新最新版本.." mnemonic="U" description="更新管理系统最新版本"/>
@@ -60,7 +62,10 @@
                 <menuItem value="monthStatistic"/>
                 <menuItem value="firstInvestor"/>
                 <menuItem value="vipInvestor"/>
+                <menuItem value="infoDisclosure"/>
             </subMenu>
+            <menuItem value="-"/>
+            <menuItem value="resign"/>
             <menuItem value="exit"/>
         </menu>
         <menu title="基础数据(D)" mnemonic="D">
@@ -104,7 +109,7 @@
             <menuItem value="changePassword"/>
         </menu>
         <menu title="工具(T)" mnemonic="S">
-            <!--<menuItem value="exportExcel"/>-->
+            <menuItem value="exportExcel"/>
             <menuItem value="editSettings"/>
         </menu>
         <menu title="->"/>

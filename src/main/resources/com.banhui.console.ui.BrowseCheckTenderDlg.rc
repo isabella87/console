@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="查看状态未知投标-"
+        width="900"
+        height="500">
+    <message name="check-title"><![CDATA[检查投标中]]></message>
+    <action name="check" title="开始检查(S)" mnemonic="S"/>
+    <action name="excel" title="导出Excel"/>
+    <gridLayout>
+        <column/>
+        <row>
+            <cell>
+                <boxLayout horizontalAlignment="FIRST">
+                    <button actionName="check"/>
+                    <button actionName="excel"/>
+                </boxLayout>
+            </cell>
+        </row>
+        <row stretch="100">
+            <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                <table name="list">
+                    <tableColumn name="jbId" title="ID" type="NUMBER_TEXT" size="100"/>
+                    <tableColumn name="auId" title="用户ID" type="NUMBER_TEXT" size="100"/>
+                    <tableColumn name="realName" title="投资人姓名/机构名" type="TEXT" size="140"/>
+                    <tableColumn name="amt" title="金额" type="CURRENCY" size="120"/>
+                    <tableColumn name="datepoint" title="投资时间" type="DATE_TIME" size="200"/>
+                    <tableColumn name="orderId" title="订单号" type="TEXT" size="200"/>
+                </table>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

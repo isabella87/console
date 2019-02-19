@@ -100,16 +100,14 @@ public class CreatePrjBorrowDlg
                         params.put("bpmp-id", this.bpmpId);
                         new ProjectProxy().createBorPerson(params)
                                           .thenApplyAsync(Result::map)
-                                          .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                          .exceptionally(ErrorHandler::handle)
+                                          .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                           .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
                         break;
                     case 4:
                         params.put("bpmo-id", this.bpmoId);
                         new ProjectProxy().createBorOrg(params)
                                           .thenApplyAsync(Result::map)
-                                          .thenAcceptAsync(this::saveCallback, UPDATE_UI)
-                                          .exceptionally(ErrorHandler::handle)
+                                          .whenCompleteAsync(this::saveCallback, UPDATE_UI)
                                           .thenAcceptAsync(v -> controller().enable("ok"), UPDATE_UI);
                 }
             }
@@ -119,10 +117,15 @@ public class CreatePrjBorrowDlg
     }
 
     private void saveCallback(
-            Map<String, Object> row
+            Map<String, Object> row,
+            Throwable t
     ) {
-        this.row = row;
-        super.done(OK);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.row = row;
+            super.done(OK);
+        }
     }
 
     public Map<String, Object> getResultRow() {

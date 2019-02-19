@@ -8,7 +8,7 @@
     <standardAction value="cancel"/>
     <options name="project-type">
         <option value="10">企业贷</option>
-        <option value="2">票据贷</option>
+        <option value="9">个人贷</option>
     </options>
     <gridLayout>
         <column stretch="0"/>
@@ -26,7 +26,7 @@
                 <label for="item-name">融资项目名称：</label>
             </cell>
             <cell>
-                <text name="item-name" pattern="\w{4,}"/>
+                <text name="item-name" pattern=".{4,}"/>
             </cell>
         </row>
         <row>

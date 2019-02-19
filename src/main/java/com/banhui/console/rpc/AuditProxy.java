@@ -33,12 +33,6 @@ public class AuditProxy
         return super.http().post("mgr/trans/cancel-tender/" + tct_id + "/execution", null);
     }
 
-    //输入服务费
-    public CompletableFuture<Result> updatePrjBond(Map<String, Object> params) {
-        long pid = takeLong(params, "p-id");
-        return super.http().post("mgr/prj/" + pid + "/bond", params);
-    }
-
     //查看放款记录
     public CompletableFuture<Result> queryLoans(long id) {
         return super.http().get("mgr/prj/" + id + "/loans", null);
@@ -67,7 +61,7 @@ public class AuditProxy
     }
 
     //结清
-        public CompletableFuture<Result> completedPrj(long id) {
+    public CompletableFuture<Result> completedPrj(long id) {
         return super.http().post("mgr/prj/" + id + "/completed", null);
     }
 
@@ -130,5 +124,20 @@ public class AuditProxy
     public CompletableFuture<Result> busVpConfirmLoan(Map<String, Object> params) {
         long pid = takeLong(params, "p-id");
         return super.http().post("mgr/prj/loan-projs/" + pid + "/bus-vp-confirm-loan", params);
+    }
+
+    public CompletableFuture<Result> uncheckedTenders(long pid) {
+        return super.http().get("mgr/prj/" + pid + "/unchecked-tenders", null);
+    }
+
+    public CompletableFuture<Result> checkTenders(Map<String, Object> params) {
+        long pid = takeLong(params, "p-id");
+        long jbId = takeLong(params, "jb-id");
+        return super.http().post("mgr/prj/" + pid + "/update-unchecked-tender/" + jbId, params);
+    }
+
+    //项目投资人数
+    public CompletableFuture<Result> prjInvestorNum(long id) {
+        return super.http().get("mgr/prj/prj-investor-num/" + id , null);
     }
 }

@@ -31,7 +31,7 @@
     </options>
     <boxLayout>
         <tabbedPane>
-            <tab title="机构" description="机构数据">
+            <tab title="机构信息" description="机构信息">
                 <gridLayout>
                     <column stretch="0"/>
                     <column/>
@@ -42,13 +42,13 @@
                             <label for="org-name">机构名称：</label>
                         </cell>
                         <cell>
-                            <text name="org-name" required="true" pattern="\w{2,}" size="19"/>
+                            <text name="org-name" required="true" pattern="\w{2,}" size="20"/>
                         </cell>
                         <cell>
                             <label for="show-org-name">机构展示名称：</label>
                         </cell>
                         <cell>
-                            <text name="show-org-name" size="19" required="true" />
+                            <text name="show-org-name" size="20" required="true" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -62,7 +62,7 @@
                             <label for="registered-show-fund">注册展示资金：</label>
                         </cell>
                         <cell>
-                            <text name="registered-show-fund" size="10" />
+                            <text name="registered-show-fund"/>
                         </cell>
                     </row>
                     <row>
@@ -70,13 +70,13 @@
                             <label for="address">注册地址：</label>
                         </cell>
                         <cell>
-                            <text name="address" size="19"/>
+                            <text name="address"/>
                         </cell>
                         <cell>
                             <label for="show-address">注册展示地址：</label>
                         </cell>
                         <cell>
-                            <text name="show-address" size="19"/>
+                            <text name="show-address"/>
                         </cell>
                     </row>
                     <row>
@@ -84,7 +84,7 @@
                             <label for="registered-date">注册时间：</label>
                         </cell>
                         <cell>
-                            <text name="registered-date" size="10" type="DATE"/>
+                            <text name="registered-date" type="DATE"/>
                         </cell>
                         <cell>
                             <label for="industry">所属行业：</label>
@@ -98,13 +98,13 @@
                             <label for="social-credit-code">社会信用代码：</label>
                         </cell>
                         <cell>
-                            <text name="social-credit-code" size="19"/>
+                            <text name="social-credit-code"/>
                         </cell>
                         <cell>
                             <label for="show-social-credit-code">展示社会信用代码：</label>
                         </cell>
                         <cell>
-                            <text name="show-social-credit-code" size="19"/>
+                            <text name="show-social-credit-code"/>
                         </cell>
                     </row>
                     <row>
@@ -112,13 +112,13 @@
                             <label for="work-address">办公地址：</label>
                         </cell>
                         <cell>
-                            <text name="work-address" size="19" required="true"/>
+                            <text name="work-address" required="true"/>
                         </cell>
                         <cell>
                             <label for="show-work-address">展示办公地址：</label>
                         </cell>
                         <cell>
-                            <text name="show-work-address" size="19" required="true"/>
+                            <text name="show-work-address" required="true" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -126,13 +126,13 @@
                             <label for="qq">借款人QQ：</label>
                         </cell>
                         <cell>
-                            <text name="qq" size="24"/>
+                            <text name="qq"/>
                         </cell>
                         <cell>
                             <label for="linkman-relation">借款人和联系人关系：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-relation" size="20"/>
+                            <text name="linkman-relation"/>
                         </cell>
                     </row>
                     <row>
@@ -148,7 +148,7 @@
                             <label for="show-shareholder-info">展示股东信息：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="show-shareholder-info" required="true"/>
+                            <text name="show-shareholder-info" required="true" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -167,6 +167,14 @@
                             <text name="other-info" type="TEXT_AREA" rowSize="3" required="true"/>
                         </cell>
                     </row>
+                    <row>
+                        <cell verticalAlignment="FIRST">
+                            <label for="intro">介绍：</label>
+                        </cell>
+                        <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
+                            <text name="intro" type="TEXT_AREA" rowSize="6"/>
+                        </cell>
+                    </row>
                 </gridLayout>
             </tab>
             <tab title="法人" description="法人数据">
@@ -180,13 +188,13 @@
                             <label for="legal-person-name">姓名：</label>
                         </cell>
                         <cell>
-                            <text name="legal-person-name" size="19" pattern="\w{2,}"/>
+                            <text name="legal-person-name" pattern="\w{2,}"/>
                         </cell>
                         <cell>
                             <label for="legal-person-show-name">展示姓名：</label>
                         </cell>
                         <cell>
-                            <text name="legal-person-show-name" size="19" pattern="\w{2,}"/>
+                            <text name="legal-person-show-name" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
@@ -194,13 +202,13 @@
                             <label for="legal-id-card">身份证号：</label>
                         </cell>
                         <cell>
-                            <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="19"/>
+                            <text name="legal-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
                         </cell>
                         <cell>
                             <label for="mobile">手机号：</label>
                         </cell>
                         <cell>
-                            <text name="mobile" pattern="^1[34578]\d{9}$" size="19"/>
+                            <text name="mobile" pattern="^1[34578]\d{9}$"/>
                         </cell>
                     </row>
                     <row>
@@ -208,13 +216,13 @@
                             <label for="email">E-Mail：</label>
                         </cell>
                         <cell>
-                            <text name="email" size="19" required="true"/>
+                            <text name="email" required="true"/>
                         </cell>
                         <cell>
                             <label for="wchat">微信：</label>
                         </cell>
                         <cell>
-                            <text name="wchat" size="19"/>
+                            <text name="wchat"/>
                         </cell>
                     </row>
                     <row>
@@ -222,7 +230,7 @@
                             <label for="fax">传真：</label>
                         </cell>
                         <cell>
-                            <text name="fax" size="19"/>
+                            <text name="fax"/>
                         </cell>
                     </row>
                     <row stretch="1">
@@ -232,7 +240,7 @@
                     </row>
                 </gridLayout>
             </tab>
-            <tab title="联系人" description="联系人数据">
+            <tab title="联系人1" description="联系人数据1">
                 <gridLayout>
                     <column stretch="0"/>
                     <column/>
@@ -243,41 +251,41 @@
                             <label for="linkman-name">姓名：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-name" size="19" pattern="\w{2,}"/>
+                            <text name="linkman-name" pattern="\w{2,}"/>
                         </cell>
                         <cell>
                             <label for="linkman-show-name">展示姓名：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-show-name" size="19" pattern="\w{2,}"/>
+                            <text name="linkman-show-name" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="linkman-id-card">身份证号：</label>
+                            <label for="linkman-mobile">手机号码：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-id-card"  pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])" size="19"/>
+                            <text name="linkman-mobile" pattern="^1[34578]\d{9}$"/>
                         </cell>
-                        <cell>
-                            <label for="linkman-mobile">手机号：</label>
-                        </cell>
-                        <cell>
-                            <text name="linkman-mobile" pattern="^1[34578]\d{9}$" size="19"/>
-                        </cell>
-                    </row>
-                    <row>
                         <cell>
                             <label for="linkman-email">E-Mail：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-email" size="19"/>
+                            <text name="linkman-email" required="true"/>
                         </cell>
+                    </row>
+                    <row>
                         <cell>
                             <label for="linkman-wchat">微信：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-wchat" size="19"/>
+                            <text name="linkman-wchat"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax"/>
                         </cell>
                     </row>
                     <row>
@@ -285,29 +293,448 @@
                             <label for="linkman-address">送达地址：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-address" size="19"/>
+                            <text name="linkman-address"/>
                         </cell>
                         <cell>
-                            <label for="linkman-show-address">展示送达地址：</label>
+                            <label for="linkman-show-address">展示地址：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-show-address" size="19"/>
+                            <text name="linkman-show-address" pattern=".{2,}"/>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="linkman-fax">传真：</label>
+                            <label for="linkman-id-card">身份证：</label>
                         </cell>
                         <cell>
-                            <text name="linkman-fax" size="19"/>
+                            <text name="linkman-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation">借款人和联系人关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation"/>
                         </cell>
                     </row>
-                    <row stretch="100">
-                        <cell verticalAlignment="FIRST">
-                            <label for="intro">介绍：</label>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
                         </cell>
-                        <cell columnSpan="3" horizontalAlignment="BOTH" verticalAlignment="BOTH">
-                            <text name="intro" type="TEXT_AREA" rowSize="6"/>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="联系人2" description="联系人数据2">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name2">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name2"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name2">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name2"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile2">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile2"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email2">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email2"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat2">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat2"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax2">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax2"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address2">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address2"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address2">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address2"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card2">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card2"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation2">借款人和联系人2关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation2"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="联系人3" description="联系人数据3">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name3">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name3"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name3">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name3"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile3">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile3"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email3">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email3"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat3">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat3"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax3">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax3"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address3">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address3"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address3">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address3"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card3">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card3"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation3">借款人和联系人3关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation3"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="联系人4" description="联系人数据4">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name4">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name4"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name4">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name4"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile4">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile4"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email4">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email4"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat4">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat4"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax4">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax4"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address4">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address4"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address4">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address4"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card4">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card4"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation4">借款人和联系人4关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation4"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+
+            <tab title="联系人5" description="联系人数据5">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name5">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name5"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name5">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name5"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile5">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile5"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email5">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email5"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat5">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat5"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax5">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax5"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address5">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address5"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address5">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address5"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card5">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card5"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation5">借款人和联系人5关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation5"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
+                        </cell>
+                    </row>
+                </gridLayout>
+            </tab>
+            <tab title="联系人6" description="联系人数据6">
+                <gridLayout>
+                    <column stretch="0"/>
+                    <column/>
+                    <column stretch="0"/>
+                    <column/>
+                    <row>
+                        <cell>
+                            <label for="linkman-name6">姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-name6"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-name6">展示姓名：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-name6"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-mobile6">手机号码：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-mobile6"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-email6">E-Mail：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-email6"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-wchat6">微信：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-wchat6"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-fax6">传真：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-fax6"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-address6">送达地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-address6"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-show-address6">展示地址：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-show-address6"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
+                            <label for="linkman-id-card6">身份证：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-id-card6"/>
+                        </cell>
+                        <cell>
+                            <label for="linkman-relation6">借款人和联系人6关系：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-relation6"/>
+                        </cell>
+                    </row>
+                    <row stretch="1">
+                        <cell verticalAlignment="BOTH">
+                            <label/>
                         </cell>
                     </row>
                 </gridLayout>

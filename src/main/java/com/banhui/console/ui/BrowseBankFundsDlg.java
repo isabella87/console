@@ -50,8 +50,7 @@ public class BrowseBankFundsDlg
         params.put("end-date", endDate);
         new AccountsProxy().bankFundsDetail(params)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                            .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
@@ -60,14 +59,19 @@ public class BrowseBankFundsDlg
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void accelerateDate(

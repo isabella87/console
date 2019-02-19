@@ -132,25 +132,25 @@ public class ChoosePrjGuaranteeBorDlg
             controller().disable("ok");
             JTable table1 = controller().get(JTable.class, listName);
             TypedTableModel tableModel1 = (TypedTableModel) table1.getModel();
-            final int selectedRow = table1.getSelectedRow();
+            final int selectedRow1 = table1.convertRowIndexToModel(table1.getSelectedRow());
             switch (role) {
                 case 1:
-                    this.bgpId = tableModel1.getNumberByName(selectedRow, "bgpId");
-                    this.showName = tableModel1.getStringByName(selectedRow, "showName");
-                    this.name = tableModel1.getStringByName(selectedRow, "name");
+                    this.bgpId = tableModel1.getNumberByName(selectedRow1, "bgpId");
+                    this.showName = tableModel1.getStringByName(selectedRow1, "showName");
+                    this.name = tableModel1.getStringByName(selectedRow1, "name");
                     break;
                 case 2:
-                    this.bgoId = tableModel1.getNumberByName(selectedRow, "bgoId");
-                    this.showName = tableModel1.getStringByName(selectedRow, "showName");
-                    this.name = tableModel1.getStringByName(selectedRow, "name");
+                    this.bgoId = tableModel1.getNumberByName(selectedRow1, "bgoId");
+                    this.showName = tableModel1.getStringByName(selectedRow1, "showName");
+                    this.name = tableModel1.getStringByName(selectedRow1, "name");
                     break;
                 case 3:
-                    this.bpmpId = tableModel1.getNumberByName(selectedRow, "bpmpId");
-                    this.name = tableModel1.getStringByName(selectedRow, "realName");
+                    this.bpmpId = tableModel1.getNumberByName(selectedRow1, "bpmpId");
+                    this.name = tableModel1.getStringByName(selectedRow1, "realName");
                     break;
                 case 4:
-                    this.bpmoId = tableModel1.getNumberByName(selectedRow, "bpmoId");
-                    this.name = tableModel1.getStringByName(selectedRow, "orgName");
+                    this.bpmoId = tableModel1.getNumberByName(selectedRow1, "bpmoId");
+                    this.name = tableModel1.getStringByName(selectedRow1, "orgName");
                     break;
             }
             super.done(OK);

@@ -33,6 +33,8 @@
                     <label mnemonic="K" for="search-key">关键字(K)：</label>
                     <text name="search-key" type="TEXT"/>
                     <button actionName="search" default="true"/>
+                    <label name="tip" visible="false"><![CDATA[<html><font color="gray">
+                        (机构名称，法人姓名，创建人，更新人，全比配手机号)</font></html>]]></label>
                 </boxLayout>
             </cell>
         </row>
@@ -51,8 +53,7 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
-                    <tableColumn name="bpmoId" title="ID" type="TEXT" size="80"/>
+                    <tableColumn name="bpmoId" title="ID" type="NUMBER_TEXT" size="80"/>
                     <tableColumn name="orgName" title="机构名称" type="TEXT" size="200"/>
                     <tableColumn name="showOrgName" title="机构展示名称" type="TEXT" size="140"/>
                     <tableColumn name="registeredFund" title="注册资金（万元）" type="CURRENCY" size="160"/>

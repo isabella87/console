@@ -52,18 +52,21 @@ public class BrowsePrjAutoTenderDlg
         controller().disable("search");
         new ProjectProxy().prjAutoTender(params)
                           .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle)
+                          .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                           .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> maps
+            Collection<Map<String, Object>> maps,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(maps);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(maps);
+        }
     }
-
 
     private void accelerateDate(
             Object event

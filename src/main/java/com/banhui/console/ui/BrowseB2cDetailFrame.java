@@ -27,7 +27,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseB2cDetailFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
 
     private final Logger logger = LoggerFactory.getLogger(BrowseB2cDetailFrame.class);
 
@@ -49,7 +49,7 @@ public class BrowseB2cDetailFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void search(
@@ -71,16 +71,20 @@ public class BrowseB2cDetailFrame
 //串行异步，链式异步
         new B2cTransProxy().queryB2cDetails(params)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle)
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI)
                            .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void create(
@@ -115,7 +119,8 @@ public class BrowseB2cDetailFrame
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
         final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "tbdId");
+        final int selectedRow1 = table.convertRowIndexToModel(selectedRow);
+        final long id = tableModel.getNumberByName(selectedRow1, "tbdId");
 
         final B2cExecutionDlg dlg = new B2cExecutionDlg(id);
         dlg.setFixedSize(false);

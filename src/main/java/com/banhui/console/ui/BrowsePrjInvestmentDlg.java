@@ -27,7 +27,7 @@ public class BrowsePrjInvestmentDlg extends DialogPane {
             params.put("p-id", id);
         }
         setTitle(getTitle() + id);
-        controller().setDate("datepoint",new Date());
+        controller().setDate("datepoint", new Date());
 
         controller().connect("excel", this::excel);
         controller().connect("search", this::search);
@@ -37,6 +37,7 @@ public class BrowsePrjInvestmentDlg extends DialogPane {
     private void search(
             ActionEvent actionEvent
     ) {
+        controller().disable("search");
         final Map<String, Object> params = new HashMap<>();
         if (this.id != 0) {
             params.put("p-id", id);
@@ -44,8 +45,8 @@ public class BrowsePrjInvestmentDlg extends DialogPane {
         params.put("datepoint", controller().getDate("datepoint"));
         new AuditProxy().queryInvests(params)
                         .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
+                        .whenCompleteAsync(this::searchCallback, UPDATE_UI)
+                        .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
     }
 
     private void excel(
@@ -53,13 +54,18 @@ public class BrowsePrjInvestmentDlg extends DialogPane {
     ) {
         JTable table = controller().get(JTable.class, "list");
         TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave();
+        new ExcelExportUtil(getTitle(), tableModel).choiceDirToSave(getTitle());
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 }

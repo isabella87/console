@@ -84,7 +84,7 @@ public class ExcelExportUtil {
         List<TypedTableColumn> cloumns = tableModel.getAllColumns();
         for (TypedTableColumn column : cloumns) {
             String columnName = column.getName();
-            if (columnName == null || columnName.isEmpty() || columnName.equals("_row")) {
+            if (columnName == null || columnName.isEmpty()) {
                 flag = true;
                 break;
             }
@@ -111,7 +111,7 @@ public class ExcelExportUtil {
             final TypedTableColumn column = columns.get(i);
 
             String columnName = column.getName();
-            if (columnName == null || columnName.isEmpty() || columnName.equals("_row")) {
+            if (columnName == null || columnName.isEmpty()) {
                 continue;
             }
 
@@ -177,7 +177,7 @@ public class ExcelExportUtil {
             final TypedTableColumn column = columns.get(i);
 
             String columnName = column.getName();
-            if (columnName == null || columnName.isEmpty() || columnName.equals("_row")) {
+            if (columnName == null || columnName.isEmpty()) {
                 continue;
             }
 
@@ -237,11 +237,13 @@ public class ExcelExportUtil {
         }
     }
 
-    public void choiceDirToSave() {
+    public void choiceDirToSave(String fileName) {
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("另存为");
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        fileChooser.setCurrentDirectory(new File("C:/Users/Administrator/Desktop/"));
+        fileChooser.setSelectedFile(new File(fileName+".xls"));
 
         FileFilter xlsFilter = new FileNameExtensionFilter("xls file(*.xls)", "xls");
         fileChooser.addChoosableFileFilter(xlsFilter);
@@ -253,4 +255,5 @@ public class ExcelExportUtil {
 
         }
     }
+
 }

@@ -1,19 +1,19 @@
 package com.banhui.console.ui;
 
+import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.AuthenticationProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.DialogPane;
-import org.xx.armory.swing.components.InternalFramePane;
+import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -21,11 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.banhui.console.rpc.ResultUtils.dateValue;
+import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
 import static com.banhui.console.ui.InputUtils.today;
 import static com.banhui.console.ui.InputUtils.tomorrow;
-import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -34,7 +35,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseProjectsFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     /**
      * {@inheritDoc}
      */
@@ -53,10 +54,13 @@ public class BrowseProjectsFrame
         controller().connect("list", "change", this::listChanged);
         controller().connect("hide", this::hidePrj);
         controller().connect("cancel-hide", this::cancelHide);
+        controller().connect("lock", this::lock);
+        controller().connect("unlock", this::unlock);
         controller().connect("top", this::top);
         controller().connect("cancel-top", this::cancelTop);
-//        controller().connect("creditProtocolSign", this::creditProtocolSign);
         controller().connect("accelerate-date", "change", this::accelerateDate);
+        controller().connect("bonds-man", this::getBondsMan);
+        controller().connect("modify-bonds-man", this::modifyBondsman);
 
         controller().disable("audit");
         controller().disable("view");
@@ -65,38 +69,155 @@ public class BrowseProjectsFrame
         controller().disable("delete");
         controller().disable("hide");
         controller().disable("top");
-//        controller().disable("creditProtocolSign");
 
         controller().hide("cancel-hide");
         controller().hide("cancel-top");
+        controller().hide("modify-bonds-man");
 
         controller().setNumber("status", 40L);
         controller().setNumber("locked", 0L);
-
-        TableColumnModel tcm = controller().get(JTable.class, "list").getColumnModel();
-        TableColumn visibleColumn = tcm.getColumn(20);
-        TableColumn topTimeColumn = tcm.getColumn(21);
-        TableColumn lockTimeColumn = tcm.getColumn(22);
+        JTable jTable = controller().get(JTable.class, "list");
+        doubleClickEvent(jTable);
+        TableColumnModel tcm = jTable.getColumnModel();
+        TableColumn visibleColumn = tcm.getColumn(18);
+        TableColumn topTimeColumn = tcm.getColumn(19);
+        TableColumn lockTimeColumn = tcm.getColumn(20);
         tcm.removeColumn(visibleColumn);
         tcm.removeColumn(topTimeColumn);
         tcm.removeColumn(lockTimeColumn);
 
         final JTable table = controller().get(JTable.class, "list");
+        table.setDragEnabled(true);
+
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
 
         new AuthenticationProxy().current()
                                  .thenApply(Result::map)
                                  .whenCompleteAsync(this::userInfo, UPDATE_UI);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowOpened(
-                    WindowEvent event
-            ) {
-            }
-            });
     }
+
+    private void modifyBondsman(ActionEvent actionEvent) {
+        final JTable table = controller().get(JTable.class, "list");
+        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
+        final ChooseBondsManDlg dlg = new ChooseBondsManDlg(pid);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
+    private void getBondsMan(ActionEvent actionEvent) {
+        final BrowseBondsManDlg dlg = new BrowseBondsManDlg();
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
+    private void unlock(ActionEvent actionEvent) {
+        controller().enable("unlock");
+        ProgressDialog pd = new ProgressDialog(new ProgressDialog.ProgressRunner<Long>() {
+            @Override
+            public String getTitle() {
+
+                return "解锁";
+            }
+
+            @Override
+            protected Collection<Long> load() {
+                JTable jTable = controller().get(JTable.class, "list");
+                TypedTableModel typedTableModel = (TypedTableModel) jTable.getModel();
+                Collection<Long> pids = new ArrayList<>();
+                int[] rows = jTable.getSelectedRows();
+                for (int row : rows) {
+                    row = jTable.convertRowIndexToModel(row);
+                    pids.add(typedTableModel.getNumberByName(row, "pId"));
+                }
+
+                return pids;
+            }
+
+            @Override
+            protected String getCurrent(
+                    int i,
+                    Long id
+            ) {
+                return "已执行到" + id;
+            }
+
+            @Override
+            protected void execute(
+                    int i,
+                    Long id
+            )
+                    throws Exception {
+                new AuditProxy().unlockPrj(id)
+                                .thenApplyAsync(Result::map);
+
+            }
+        });
+        if(showModel(null, pd) == DialogPane.OK ||showModel(null, pd) == DialogPane.CANCEL){
+            controller().enable("unlock");
+            controller().call("search");
+        }
+
+    }
+
+    private void lock(ActionEvent actionEvent) {
+        controller().disable("lock");
+        ProgressDialog pd = new ProgressDialog(new ProgressDialog.ProgressRunner<Long>() {
+            @Override
+            public String getTitle() {
+
+                return "锁定";
+            }
+
+            @Override
+            protected Collection<Long> load() {
+                JTable jTable = controller().get(JTable.class, "list");
+                TypedTableModel typedTableModel = (TypedTableModel) jTable.getModel();
+                Collection<Long> pids = new ArrayList<>();
+                int[] rows = jTable.getSelectedRows();
+                for (int row : rows) {
+                    row = jTable.convertRowIndexToModel(row);
+                    pids.add(typedTableModel.getNumberByName(row, "pId"));
+                }
+
+                return pids;
+            }
+
+            @Override
+            protected String getCurrent(
+                    int i,
+                    Long id
+            ) {
+                return "已执行到" + id;
+            }
+
+            @Override
+            protected void execute(
+                    int i,
+                    Long id
+            )
+                    throws Exception {
+                new AuditProxy().lockPrj(id)
+                                .thenApplyAsync(Result::map);
+
+            }
+        });
+        if(showModel(null, pd) == DialogPane.OK ||showModel(null, pd) == DialogPane.CANCEL){
+            controller().enable("lock");
+            controller().call("search");
+        }
+    }
+
+//    public void mouseClicked(MouseEvent e) {
+//        if (e.getClickCount() == 2) {
+//            JTable jTable = controller().get(JTable.class, "list");
+//            final TypedTableModel typedTableModel = (TypedTableModel) jTable.getModel();
+//            int row = jTable.convertRowIndexToModel(jTable.getSelectedRow());
+//            jTable.setColumnSelectionInterval(0, jTable.getColumnCount());
+//        }
+//    }
 
     private void userInfo(
             Map<String, Object> user,
@@ -108,28 +229,17 @@ public class BrowseProjectsFrame
         this.userName = stringValue(user, "userName");
     }
 
-//    private void creditProtocolSign(ActionEvent actionEvent) {
-//        final JTable table = controller().get(JTable.class, "list");
-//        final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-//        if (table.getSelectedRow() < 0) {
-//            return;
-//        }
-//        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
-//
-//        CreditProtocolDlg dlg = new CreditProtocolDlg(pId);
-//        showModel(null, dlg);
-//
-//    }
 
     private void top(
             ActionEvent actionEvent
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         new ProjectProxy().goTop(pid);
         controller().call("search");
     }
@@ -139,10 +249,11 @@ public class BrowseProjectsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         new ProjectProxy().revokeTop(pid);
         controller().call("search");
     }
@@ -152,10 +263,11 @@ public class BrowseProjectsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         final Map<String, Object> params = new HashMap<>();
         params.put("p-id", pid);
         params.put("visible", false);
@@ -168,10 +280,11 @@ public class BrowseProjectsFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pid = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pid = tableModel.getNumberByName(selectedRow1, "pId");
         final Map<String, Object> params = new HashMap<>();
         params.put("p-id", pid);
         params.put("visible", true);
@@ -203,14 +316,12 @@ public class BrowseProjectsFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-
-        final int selectedRow = table.getSelectedRow();
-
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pId = tableModel.getNumberByName(selectedRow, "pId");
-        final long status = tableModel.getNumberByName(selectedRow, "status");
+        final long pId = tableModel.getNumberByName(selectedRow1, "pId");
+        final long status = tableModel.getNumberByName(selectedRow1, "status");
 
         EditPrjRepayDlg dlg = new EditPrjRepayDlg(pId, status);
         dlg.setFixedSize(false);
@@ -282,32 +393,34 @@ public class BrowseProjectsFrame
                 params.put("creator-key", key);
                 break;
         }
-
         controller().disable("search");
         new ProjectProxy().allProjects(params)
                           .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle)
-                          .thenAcceptAsync(v -> controller().enable("search"), UPDATE_UI);
+                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            if (tableModel.getNumberByName(i, "visible") == 0) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已隐藏）", i, 4);
+        controller().enable("search");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            for (Map<String, Object> data : c) {
+                if (longValue(data, "visible") == 0) {
+                    data.put("itemName", stringValue(data, "itemName") + "(已隐藏)");
+                }
+                if (dateValue(data, "topTime") != null) {
+                    data.put("itemName", stringValue(data, "itemName") + "(已置顶)");
+                }
+                if (dateValue(data, "lockedTime") != null) {
+                    data.put("itemName", stringValue(data, "itemName") + "(已锁定)");
+                }
             }
-            if (tableModel.getDateByName(i, "topTime") != null) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已置顶）", i, 4);
-            }
-            if (tableModel.getDateByName(i, "lockedTime") != null) {
-                tableModel.setValueAt(tableModel.getStringByName(i, "itemName") + "（已锁定）", i, 4);
-            }
+            tableModel.setAllRows(c);
         }
-
     }
 
     private void view(
@@ -316,20 +429,20 @@ public class BrowseProjectsFrame
         assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pId = tableModel.getNumberByName(selectedRow1, "pId");
         final EditProjectsDlg dlg = new EditProjectsDlg(pId, 0);
-        final long type = tableModel.getNumberByName(selectedRow, "status");
+        final long type = tableModel.getNumberByName(selectedRow1, "status");
         if (type == 40) {
             dlg.controller().enable("delay");
         }
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
-            tableModel.setRow(selectedRow, row);
+            tableModel.setRow(selectedRow1, row);
         }
     }
 
@@ -361,16 +474,16 @@ public class BrowseProjectsFrame
         assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        if (selectedRow < 0) {
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        if (selectedRow1 < 0) {
             return;
         }
-        final long pId = tableModel.getNumberByName(table.getSelectedRow(), "pId");
+        final long pId = tableModel.getNumberByName(selectedRow1, "pId");
         final EditProjectsDlg dlg = new EditProjectsDlg(pId, 1);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             Map<String, Object> row = dlg.getResultRow();
-            tableModel.setRow(selectedRow, row);
+            tableModel.setRow(selectedRow1, row);
         }
     }
 
@@ -409,9 +522,13 @@ public class BrowseProjectsFrame
         assertUIThread();
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final long id = tableModel.getNumberByName(table.getSelectedRow(), "pId");
-        final long status = tableModel.getNumberByName(table.getSelectedRow(), "status");
-        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "pId");
+        final long status = tableModel.getNumberByName(selectedRow1, "status");
+        final double amt = tableModel.getFloatByName(selectedRow1, "amt");
+        final double investedAmt = tableModel.getFloatByName(selectedRow1, "investedAmt");
+
+        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status, amt, investedAmt);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             controller().call("search");
@@ -427,6 +544,13 @@ public class BrowseProjectsFrame
             dateRange = latestSomeYears(new Date(), years);
         } else {
             switch (years) {
+                case -1:
+                    EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+                    dlg.setFixedSize(false);
+                    if (showModel(null, dlg) == DialogPane.OK) {
+                        dateRange = dlg.getDateRange();
+                    }
+                    break;
                 case -2:
                     Date date = new Date();
                     Calendar cal = Calendar.getInstance();
@@ -455,17 +579,12 @@ public class BrowseProjectsFrame
         final JTable table = controller().get(JTable.class, "list");
         int[] selectedRows = table.getSelectedRows();
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        if (table.getSelectedRow() > -1) {
-            int selectRow = table.getSelectedRow();
-            final long status = tableModel.getNumberByName(selectRow, "status");
-            final long visible = tableModel.getNumberByName(selectRow, "visible");
-            final Date topTime = tableModel.getDateByName(selectRow, "topTime");
-            final Date lockedTime = tableModel.getDateByName(selectRow, "lockedTime");
-//            if (lockedTime != null) {
-//                controller().enable("creditProtocolSign");
-//            } else {
-//                controller().disable("creditProtocolSign");
-//            }
+        final int selectedRow1 = table.getSelectedRow();
+        if (selectedRow1 > -1) {
+            final long status = tableModel.getNumberByName(selectedRow1, "status");
+            final long visible = tableModel.getNumberByName(selectedRow1, "visible");
+            final Date topTime = tableModel.getDateByName(selectedRow1, "topTime");
+            //final Date lockedTime = tableModel.getDateByName(selectedRow1, "lockedTime");
             if (visible == 1) {
                 controller().hide("cancel-hide");
                 controller().show("hide");
@@ -486,6 +605,7 @@ public class BrowseProjectsFrame
                 controller().enable("cancel-hide");
                 controller().enable("cancel-top");
                 controller().enable("audit");
+                controller().enable("modify-bonds-man");
                 // 选中了行，并且仅选中一行。
                 if (status == 0) {
                     controller().enable("delete");
@@ -509,6 +629,11 @@ public class BrowseProjectsFrame
                     } else {
                         controller().disable("repay");
                     }
+                    if (status >= 40) {
+                        controller().show("modify-bonds-man");
+                    } else {
+                        controller().hide("modify-bonds-man");
+                    }
                 }
             } else if (selectedRows.length > 1) {
                 controller().disable("view");
@@ -519,6 +644,7 @@ public class BrowseProjectsFrame
                 controller().disable("top");
                 controller().disable("cancel-hide");
                 controller().disable("cancel-top");
+                controller().hide("modify-bonds-man");
             }
         } else {
             controller().disable("view");
@@ -530,6 +656,7 @@ public class BrowseProjectsFrame
             controller().disable("top");
             controller().disable("cancel-hide");
             controller().disable("cancel-top");
+            controller().hide("modify-bonds-man");
         }
     }
 }

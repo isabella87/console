@@ -22,7 +22,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowsePerAccountFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
     //private volatile Collection<Map<String, Object>> lists;
     private volatile int pageNum;
     private volatile int pageIndex;
@@ -44,7 +44,7 @@ public class BrowsePerAccountFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(),tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void updatePage() {
@@ -64,9 +64,9 @@ public class BrowsePerAccountFrame
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        final int selectedRow = table.getSelectedRow();
-        final long id = tableModel.getNumberByName(selectedRow, "auId");
-        final long status = tableModel.getNumberByName(selectedRow, "status");
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        final long id = tableModel.getNumberByName(selectedRow1, "auId");
+        final long status = tableModel.getNumberByName(selectedRow1, "status");
 
         final EditPerAccountInfoDlg dlg = new EditPerAccountInfoDlg(id, status);
         dlg.setFixedSize(false);
@@ -80,16 +80,20 @@ public class BrowsePerAccountFrame
         controller().disable("search");
         new AccountsProxy().getAccPersonTotal(getParams())
                            .thenApplyAsync(Result::longValue)
-                           .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle);
+                           .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            Long num
+            Long num,
+            Throwable t
     ) {
-        pageNum = (PAGE_SIZE + num.intValue() - 1) / PAGE_SIZE;
-        controller().setText("page-num", controller().formatMessage("all-page", num, pageNum));
-        search2(null, 1);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            pageNum = (PAGE_SIZE + num.intValue() - 1) / PAGE_SIZE;
+            controller().setText("page-num", controller().formatMessage("all-page", num, pageNum));
+            search2(null, 1);
+        }
     }
 
     private void previousPage(
@@ -131,18 +135,22 @@ public class BrowsePerAccountFrame
         param.put("pn", pageIndex);
         new AccountsProxy().queryAccPersonInfos(param)
                            .thenApplyAsync(Result::list)
-                           .thenAcceptAsync(this::searchCallback2, UPDATE_UI)
-                           .exceptionally(ErrorHandler::handle);
+                           .whenCompleteAsync(this::searchCallback2, UPDATE_UI);
     }
 
     private void searchCallback2(
-            Collection<Map<String, Object>> map
+            Collection<Map<String, Object>> map,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(map);
-        controller().setInteger("this-page", pageIndex);
-        updatePage();
-        controller().enable("search");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(map);
+            controller().setInteger("this-page", pageIndex);
+            updatePage();
+            controller().enable("search");
+        }
     }
 
     private void accelerateDate(
@@ -191,7 +199,7 @@ public class BrowsePerAccountFrame
         return params;
     }
 
-    public void disablePage(){
+    public void disablePage() {
         controller().disable("previous-page");
         controller().disable("next-page");
         controller().disable("to-page");

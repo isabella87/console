@@ -41,7 +41,6 @@
         <row stretch="100">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="name" title="角色" type="TEXT" size="100"/>
                     <tableColumn name="title" title="标题" type="TEXT" size="320"/>
                     <tableColumn name="description" title="说明" type="TEXT" size="320"/>

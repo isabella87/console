@@ -1,6 +1,5 @@
 package com.banhui.console.ui;
 
-import com.banhui.console.rpc.AccountsProxy;
 import com.banhui.console.rpc.MessageProxy;
 import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.longValue;
@@ -26,7 +24,7 @@ import static org.xx.armory.swing.UIUtils.ceilingOfDay;
 import static org.xx.armory.swing.UIUtils.floorOfDay;
 
 public class BrowseYiMeiMessageFrame
-        extends InternalFramePane {
+        extends BaseFramePane {
 
     private final Logger logger = LoggerFactory.getLogger(BrowseYiMeiMessageFrame.class);
     private volatile int pageNum;
@@ -45,7 +43,7 @@ public class BrowseYiMeiMessageFrame
 
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        MainFrame.setTableTitleAndTableModel(getTitle(), tableModel);
+        setTableTitleAndTableModelForExport(getTitle(), tableModel);
     }
 
     private void search(
@@ -93,18 +91,22 @@ public class BrowseYiMeiMessageFrame
         param.put("pn", pageIndex);
         new MessageProxy().queryYmMsgs(param)
                           .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback2, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+                          .whenCompleteAsync(this::searchCallback2, UPDATE_UI);
     }
 
     private void searchCallback2(
-            Collection<Map<String, Object>> map
+            Collection<Map<String, Object>> map,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(map);
-        controller().setInteger("this-page", pageIndex);
-        updatePage();
-        controller().enable("search");
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(map);
+            controller().setInteger("this-page", pageIndex);
+            updatePage();
+            controller().enable("search");
+        }
     }
 
     private void updatePage() {
@@ -163,7 +165,7 @@ public class BrowseYiMeiMessageFrame
         return params;
     }
 
-    public void disablePage(){
+    public void disablePage() {
         controller().disable("previous-page");
         controller().disable("next-page");
         controller().disable("to-page");

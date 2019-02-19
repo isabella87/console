@@ -1,5 +1,6 @@
 package com.banhui.console.ui;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -194,6 +195,7 @@ public class ExcelImportUtil {
 
     public String choiceFile() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File("C:/Users/Administrator/Desktop/"));
         fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
 
         FileFilter xlsFilter = new FileNameExtensionFilter("xls file(*.xls)", "xls");

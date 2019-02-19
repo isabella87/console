@@ -34,25 +34,29 @@ public class BrowsePrjPreviewDlg extends DialogPane {
         }
         new ProjectProxy().previewLoanPrjBonus(params)
                           .thenApplyAsync(Result::list)
-                          .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                          .exceptionally(ErrorHandler::handle);
+                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            List<Map<String, Object>> c
+            List<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        final Map<String, Object> params = new HashMap<>();
-        BigDecimal total = new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP);
-        for (final Map<String, Object> map : c) {
-            final BigDecimal amt = decimalValue(map, "amt").setScale(2, RoundingMode.HALF_UP);
-            if (amt != null) {
-                total = total.add(amt);
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            final Map<String, Object> params = new HashMap<>();
+            BigDecimal total = new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP);
+            for (final Map<String, Object> map : c) {
+                final BigDecimal amt = decimalValue(map, "amt").setScale(2, RoundingMode.HALF_UP);
+                if (amt != null) {
+                    total = total.add(amt);
+                }
             }
+            params.put("type", 2);
+            params.put("amt", total);
+            c.add(params);
+            tableModel.setAllRows(c);
         }
-        params.put("type", 2);
-        params.put("amt", total);
-        c.add(params);
-        tableModel.setAllRows(c);
     }
 }

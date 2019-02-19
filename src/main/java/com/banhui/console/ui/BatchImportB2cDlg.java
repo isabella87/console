@@ -110,7 +110,7 @@ public class BatchImportB2cDlg
                 } else {
                     ctx = controller().getMessage("success");
                 }
-                tableModel.setValueAt(ctx, row, 4);
+                tableModel.setValueAt(ctx, row, 3);
             }
         });
         showModel(null, dlg);
@@ -122,8 +122,8 @@ public class BatchImportB2cDlg
     ) {
         final JTable table = controller().get(JTable.class, "list");
         final TypedTableModel tableModel = (TypedTableModel) table.getModel();
-        int selectedRow = table.getSelectedRow();
-        tableModel.removeRow(selectedRow);
+        final int selectedRow1 = table.convertRowIndexToModel(table.getSelectedRow());
+        tableModel.removeRow(selectedRow1);
     }
 
     private void load(

@@ -53,7 +53,6 @@
                             <row stretch="100">
                                 <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                                     <table name="list">
-                                        <tableColumn name="_row" title="" type="TEXT" size="40"/>
                                         <tableColumn name="uName" title="客户经理" type="TEXT" size="100"/>
                                         <tableColumn name="rCode" title="客户经理编码" type="TEXT" size="120"/>
                                         <tableColumn name="pName" title="客户经理上级" type="TEXT" size="120"/>
@@ -61,11 +60,11 @@
                                         <tableColumn name="sumInvestAmt" title="投资余额" type="CURRENCY" size="120"/>
                                         <tableColumn name="sumTenderAmt" title="投资总额" type="CURRENCY" size="120"/>
                                         <tableColumn name="sumRepaidCapitalAmt" title="已还本金总额" type="CURRENCY" size="120"/>
-                                        <tableColumn name="sumFirstInvestCount" title="首次投标人数" type="TEXT" size="100"/>
-                                        <tableColumn name="sumInvesterCount" title="投标人数" type="TEXT" size="100"/>
-                                        <tableColumn name="sumInvestCount" title="投标次数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumFirstInvestCount" title="首次投标人数" type="NUMBER" size="100"/>
+                                        <tableColumn name="sumInvesterCount" title="投标人数" type="NUMBER" size="100"/>
+                                        <tableColumn name="sumInvestCount" title="投标次数" type="NUMBER" size="100"/>
                                         <tableColumn name="sumCreditAmt" title="买入债权本金总额" type="CURRENCY" size="120"/>
-                                        <tableColumn name="sumBindCount" title="绑卡人数" type="TEXT" size="100"/>
+                                        <tableColumn name="sumBindCount" title="绑卡人数" type="NUMBER" size="100"/>
                                         <tableColumn name="sumIncomeAmt" title="平台收入" type="CURRENCY" size="120"/>
                                     </table>
                                 </cell>

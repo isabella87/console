@@ -1,7 +1,7 @@
 package com.banhui.console.ui;
 
-
 import com.banhui.console.rpc.AuditProxy;
+import com.banhui.console.rpc.AuthenticationProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.ProjectRepayProxy;
 import com.banhui.console.rpc.Result;
@@ -10,6 +10,7 @@ import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -20,10 +21,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
+import static com.banhui.console.rpc.ResultUtils.longValue;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.DialogUtils.fail;
-import static org.xx.armory.swing.DialogUtils.inputText;
+import static org.xx.armory.swing.DialogUtils.inputPassword;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 
@@ -31,16 +33,28 @@ public class AuditProjectsDlg extends DialogPane {
 
     private volatile long id;
     private volatile int role;
-
     private Map<String, Object> row;
+    private Map<String, Object> auditParam;
+    private volatile double amt;
+    private volatile double investedAmt;
+    private volatile boolean lockStatus;
 
     public AuditProjectsDlg(
             long id,
-            long status
+            long status,
+            double amt,
+            double investedAmt
     ) {
         this.id = id;
         role = (int) status;
+        this.amt = amt;
+        this.investedAmt = investedAmt;
         setTitle(getTitle() + id);
+
+        JLabel perAmtLable = controller().get(JLabel.class, "investedAmt");
+        perAmtLable.setForeground(Color.red);
+        JLabel roleSuffixInfoLable = controller().get(JLabel.class, "role-suffix-info");
+        roleSuffixInfoLable.setForeground(Color.red);
 
         controller().connect("npass", this::npass);
         controller().connect("auctionsPass", this::auctionsPass);
@@ -51,8 +65,6 @@ public class AuditProjectsDlg extends DialogPane {
         controller().connect("loan", this::loan);
         controller().connect("investment", this::investment);
         controller().connect("completed", this::completed);
-        controller().connect("lock", this::lock);
-        controller().connect("unlock", this::unlock);
         controller().connect("projectProtocol", this::projectProtocol);
         controller().connect("billProtocol", this::billProtocol);
         controller().connect("checkProtocol", this::checkProtocol);
@@ -67,21 +79,59 @@ public class AuditProjectsDlg extends DialogPane {
         controller().hide("beizhu");
         controller().hide("auctionsPass");
         controller().hide("completed");
-        controller().hide("lock");
-        controller().hide("unlock");
         controller().hide("projectProtocol");
         controller().hide("billProtocol");
         controller().hide("checkProtocol");
         controller().hide("autoTender");
+        controller().hide("investedAmt");
+        controller().hide("role-suffix-info");
+        controller().hide("immedit-online-flag");
+        controller().hide("immedit-online-flag-mes");
+        if (role == 20) {
+            controller().show("immedit-online-flag");
+            controller().show("immedit-online-flag-mes");
+        }
 
         new AuditProxy().queryAudit(id)
                         .thenApplyAsync(Result::list)
-                        .thenAcceptAsync(this::searchCallback, UPDATE_UI)
-                        .exceptionally(ErrorHandler::handle);
+                        .whenCompleteAsync(this::searchCallback, UPDATE_UI);
+
         getUi();
+        new AuditProxy().prjInvestorNum(id)
+                        .thenApplyAsync(Result::map)
+                        .whenCompleteAsync(this::prjInvestorNumCallback,UPDATE_UI);
+
         new AuditProxy().prjLockStatus(id)
-                        .thenApplyAsync(Result::longValue)
-                        .thenAcceptAsync(this::lockStatus, UPDATE_UI);
+                        .thenApplyAsync(Result::booleanValue)
+                        .whenCompleteAsync(this::lockStatus, UPDATE_UI);
+
+
+    }
+
+    private void prjInvestorNumCallback(
+            Map<String, Object> prjInvestors,
+            Throwable throwable
+    ) {
+        if(throwable != null){
+            ErrorHandler.handle(throwable);
+        }else{
+            if(role == 50) {
+                StringBuffer roleSuffixInfo = new StringBuffer();
+                if (longValue(prjInvestors, "userType") == 1 && longValue(prjInvestors, "investorNum") > 29) {
+                    roleSuffixInfo.append("  最多允许29个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
+
+                }else if (longValue(prjInvestors, "userType") == 2 && longValue(prjInvestors, "investorNum") > 149) {
+                    roleSuffixInfo.append("  最多允许149个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
+                }else{
+                    roleSuffixInfo.append("  测试环境下你能看到我~最多允许XXX个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
+                }
+
+                if (roleSuffixInfo.toString().length() > 0) {
+                    controller().show("role-suffix-info");
+                    controller().setText("role-suffix-info", roleSuffixInfo.toString());
+                }
+            }
+        }
     }
 
     private void autoTender(
@@ -212,79 +262,56 @@ public class AuditProjectsDlg extends DialogPane {
     }
 
     private void lockStatus(
-            long status
+            Boolean status,
+            Throwable t
     ) {
-        if (status == 1L) {
-            controller().hide("pass");
-            controller().hide("npass");
-            controller().hide("auctions");
-            controller().hide("auctionsPass");
-            controller().hide("completed");
-            controller().hide("lock");
-            controller().hide("beizhu");
-            controller().hide("comments");
-            controller().show("unlock");
+        this.lockStatus = status;
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            controller().show("lock");
-            controller().hide("unlock");
+            if (status) {
+                controller().hide("pass");
+                controller().hide("npass");
+                controller().hide("auctions");
+                controller().hide("auctionsPass");
+                controller().hide("completed");
+                controller().hide("beizhu");
+                controller().hide("comments");
+            }
         }
-    }
-
-    //锁定
-    private void lock(
-            ActionEvent actionEvent
-    ) {
-        new AuditProxy().lockPrj(id)
-                        .thenApplyAsync(Result::map);
-        controller().hide("pass");
-        controller().hide("npass");
-        controller().hide("auctions");
-        controller().hide("auctionsPass");
-        controller().hide("completed");
-        controller().hide("lock");
-        controller().hide("beizhu");
-        controller().hide("comments");
-        controller().show("unlock");
-    }
-
-    //解锁
-    private void unlock(
-            ActionEvent actionEvent
-    ) {
-        new AuditProxy().unlockPrj(id)
-                        .thenApplyAsync(Result::map);
-        controller().show("lock");
-        controller().hide("unlock");
-        getUi();
     }
 
     //结清
     private void completed(ActionEvent actionEvent) {
         new ProjectRepayProxy().queryPrjBonus(id)
                                .thenApplyAsync(Result::list)
-                               .thenAcceptAsync(this::updateUnPaidAmt, UPDATE_UI)
-                               .exceptionally(ErrorHandler::handle);
+                               .whenCompleteAsync(this::updateUnPaidAmt, UPDATE_UI);
     }
 
     private void updateUnPaidAmt(
-            Collection<Map<String, Object>> rows
+            Collection<Map<String, Object>> rows,
+            Throwable t
     ) {
-        final BigDecimal unPaidAmt;
-        if (rows == null || rows.isEmpty()) {
-            unPaidAmt = BigDecimal.ZERO;
+        if (t != null) {
+            ErrorHandler.handle(t);
         } else {
-            unPaidAmt = rows.stream()
-                            .map(item -> decimalValue(item, "unpaidAmt"))
-                            .filter(Objects::nonNull)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
-        String confirmClose = controller().formatMessage("confirm-close", unPaidAmt);
-        String confirmCompleted = controller().formatMessage("confirm-completed");
+            final BigDecimal unPaidAmt;
+            if (rows == null || rows.isEmpty()) {
+                unPaidAmt = BigDecimal.ZERO;
+            } else {
+                unPaidAmt = rows.stream()
+                                .map(item -> decimalValue(item, "unpaidAmt"))
+                                .filter(Objects::nonNull)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            }
+            String confirmClose = controller().formatMessage("confirm-close", unPaidAmt);
+            String confirmCompleted = controller().formatMessage("confirm-completed");
 
-        if (confirm(this.getOwner(), confirmClose, confirmCompleted)) {
-            new AuditProxy().completedPrj(id)
-                            .thenApplyAsync(Result::booleanValue)
-                            .whenCompleteAsync(this::saveCallback, UPDATE_UI);
+            if (confirm(this.getOwner(), confirmClose, confirmCompleted)) {
+                new AuditProxy().completedPrj(id)
+                                .thenApplyAsync(Result::booleanValue)
+                                .whenCompleteAsync(this::saveCallback, UPDATE_UI);
+            }
         }
     }
 
@@ -301,7 +328,7 @@ public class AuditProjectsDlg extends DialogPane {
     private void loan(
             ActionEvent actionEvent
     ) {
-        final BrowsePrjLoanDlg dlg = new BrowsePrjLoanDlg(id);
+        final BrowsePrjLoanDlg dlg = new BrowsePrjLoanDlg(id, role);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -319,7 +346,7 @@ public class AuditProjectsDlg extends DialogPane {
     private void tender(
             ActionEvent actionEvent
     ) {
-        final BrowsePrjTenderDlg dlg = new BrowsePrjTenderDlg(id, role);
+        final BrowsePrjTenderDlg dlg = new BrowsePrjTenderDlg(id, role, lockStatus);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -387,7 +414,6 @@ public class AuditProjectsDlg extends DialogPane {
     public void pass(
             ActionEvent actionEvent
     ) {
-        controller().disable("pass");
         final Map<String, Object> params = new HashMap<>();
         if (this.id != 0) {
             params.put("p-id", id);
@@ -395,24 +421,13 @@ public class AuditProjectsDlg extends DialogPane {
         params.put("flag", true);
         params.put("comments", controller().getText("comments").trim());
         params.put("signature", null);
-        if (role == 60) {
-            String bondText = inputText(getOwner(), "输入财务核收服务费", "0");
-            long bond;
-            if (bondText != null) {
-                bond = Long.valueOf(bondText);
-            } else {
-                return;
-            }
-            final Map<String, Object> params2 = new HashMap<>();
-            params2.put("p-id", id);
-            params2.put("bond_amt", bond);
-            new AuditProxy().updatePrjBond(params2)
-                            .thenApplyAsync(Result::booleanValue)
-                            .whenCompleteAsync(this::saveCallback, UPDATE_UI)
-                            .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
+        this.auditParam = params;
+        if (role == 60 || role == 70) {
+            checkPwd();
+        } else {
+            doAudit(params);
+            this.done(OK);
         }
-        doAudit(params);
-        this.done(OK);
     }
 
     public void doAudit(
@@ -438,10 +453,17 @@ public class AuditProjectsDlg extends DialogPane {
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 20:
-                new AuditProxy().busSecAudit(params)
-                                .thenApplyAsync(Result::booleanValue)
-                                .whenCompleteAsync(this::saveCallback, UPDATE_UI)
-                                .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
+                if (controller().getBoolean("immedit-online-flag")) {
+                    new AuditProxy().busVpAprOnLine(params)
+                                    .thenApplyAsync(Result::booleanValue)
+                                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
+                                    .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
+                } else {
+                    new AuditProxy().busSecAudit(params)
+                                    .thenApplyAsync(Result::booleanValue)
+                                    .whenCompleteAsync(this::saveCallback, UPDATE_UI)
+                                    .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
+                }
                 break;
             case 30:
                 new AuditProxy().busVpAprOnLine(params)
@@ -450,6 +472,7 @@ public class AuditProjectsDlg extends DialogPane {
                                 .thenAcceptAsync(v -> controller().enable("pass"), UPDATE_UI);
                 break;
             case 50:
+
                 new AuditProxy().busVpConfirmFull(params)
                                 .thenApplyAsync(Result::booleanValue)
                                 .whenCompleteAsync(this::saveCallback, UPDATE_UI)
@@ -473,11 +496,15 @@ public class AuditProjectsDlg extends DialogPane {
     }
 
     private void searchCallback(
-            Collection<Map<String, Object>> c
+            Collection<Map<String, Object>> c,
+            Throwable t
     ) {
-        final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
-        tableModel.setAllRows(c);
-
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows(c);
+        }
     }
 
     private void saveCallback(
@@ -515,12 +542,12 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("beizhu");
                 break;
             case 20:
-                controller().setText("role", "待评委会审批");
+                controller().setText("role", "业务副总审批上线");
                 controller().show("comments");
                 controller().show("beizhu");
                 break;
             case 30:
-                controller().setText("role", "业务副总批准上线");
+                controller().setText("role", "业务副总批准立刻上线");
                 controller().show("comments");
                 controller().show("beizhu");
                 break;
@@ -533,6 +560,10 @@ public class AuditProjectsDlg extends DialogPane {
                 break;
             case 50:
                 controller().setText("role", "业务副总确认满标");
+                if (investedAmt > amt) {
+                    controller().show("investedAmt");
+                    controller().setText("investedAmt", controller().formatMessage("amt", amt, investedAmt));
+                }
                 controller().show("tender");
                 controller().show("comments");
                 controller().show("beizhu");
@@ -542,7 +573,7 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("autoTender");
                 break;
             case 60:
-                controller().setText("role", "财务核收服务费");
+                controller().setText("role", "风控复核");
                 controller().show("tender");
                 controller().show("comments");
                 controller().show("beizhu");
@@ -614,5 +645,34 @@ public class AuditProjectsDlg extends DialogPane {
                 break;
         }
 
+    }
+
+    public void checkPwd() {
+        String inputPwd = inputPassword(getOwner(), "操作人员身份验证：输入登录密码", "");
+        if (inputPwd == null) {
+            return;
+        }
+        final Map<String, Object> param = new HashMap<>();
+        param.put("password", inputPwd);
+        new AuthenticationProxy().validateUser(param)
+                                 .thenApplyAsync(Result::booleanValue)
+                                 .whenCompleteAsync(this::validateUser, UPDATE_UI);
+
+    }
+
+    private void validateUser(
+            Boolean flag,
+            Throwable t
+    ) {
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            if (flag) {
+                doAudit(auditParam);
+                this.done(OK);
+            } else {
+                fail(getOwner(), controller().getMessage("pwd-fail"));
+            }
+        }
     }
 }

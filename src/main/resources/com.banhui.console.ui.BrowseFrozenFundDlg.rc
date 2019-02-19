@@ -25,7 +25,6 @@
         <row stretch="1">
             <cell horizontalAlignment="BOTH" verticalAlignment="BOTH">
                 <table name="list">
-                    <tableColumn name="_row" title="" type="TEXT" size="40"/>
                     <tableColumn name="buyDate" title="冻结时间" type="DATE" size="140"/>
                     <tableColumn name="txAmount" title="冻结金额" type="CURRENCY" size="140"/>
                     <tableColumn name="orderId" title="订单号" type="TEXT" size="140"/>
