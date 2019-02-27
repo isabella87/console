@@ -44,6 +44,7 @@ public class EditSysRolePermDlg
         controller().connect("pro-protocol", "change", this::proProtocol);
         controller().connect("credit", "change", this::credit);
         controller().connect("statistics", "change", this::statistics);
+        controller().connect("disclosure", "change", this::disclosure);
         controller().connect("prj-engineer", "change", this::prjEngineer);
         controller().connect("prj-ctors", "change", this::prjCtors);
         controller().connect("prj-owner", "change", this::prjOwner);
@@ -58,7 +59,6 @@ public class EditSysRolePermDlg
         controller().connect("frozen-funds", "change", this::frozenFunds);
         controller().connect("plat-message", "change", this::platMessage);
         controller().connect("yimei-message", "change", this::yimeiMessage);
-//        controller().connect("track-investors", "change", this::trackInvestors);
         controller().connect("reg-investors", "change", this::regInvestors);
         controller().connect("customer-manager", "change", this::customerManager);
         controller().connect("manager-statistic", "change", this::managerStatistic);
@@ -120,7 +120,7 @@ public class EditSysRolePermDlg
 
     private void proOperate(Object event) {
         final Boolean flag = controller().getBoolean("pro-operate");
-        int[] perms = {60080, 60087, 60088, 60089, 60090, 60091, 60092, 60093, 60094, 60095, 60097, 60098, 60099, 60100, 60101, 60102};
+        int[] perms = {60080, 60087, 60088, 60089, 60090, 60091, 60092, 60093, 60094, 60095, 60097, 60098, 60099, 60100, 60101, 60102, 60180, 60181};
         doSelect(perms, flag);
     }
 
@@ -157,6 +157,12 @@ public class EditSysRolePermDlg
     private void statistics(Object event) {
         final Boolean flag = controller().getBoolean("statistics");
         int[] perms = {80901, 80902, 80903, 80904};
+        doSelect(perms, flag);
+    }
+
+    private void disclosure(Object event) {
+        final Boolean flag = controller().getBoolean("disclosure");
+        int[] perms = {81001, 81002, 81003, 81004, 81005, 81006, 81007, 81008};
         doSelect(perms, flag);
     }
 
@@ -244,11 +250,6 @@ public class EditSysRolePermDlg
         doSelect(perms, flag);
     }
 
-//    private void trackInvestors(Object event) {
-//        final Boolean flag = controller().getBoolean("track-investors");
-//        int[] perms = {20401, 20402, 20403, 20404, 20407, 20501, 20406, 20502, 20405};
-//        doSelect(perms, flag);
-//    }
 
     private void regInvestors(Object event) {
         final Boolean flag = controller().getBoolean("reg-investors");
@@ -295,7 +296,7 @@ public class EditSysRolePermDlg
                     60111, 60112, 60113, 60115, 60120, 60121, 60130, 60131, 60133, 60134, 60135, 60136, 60137, 60150, 60151, 60160, 60163, 60171, 80011, 80012, 80013,
                     80014, 80015, 80021, 80022, 80023, 80024, 80025, 80031, 80032, 80033, 80034, 80035, 80041, 80042, 80043, 80044, 80045, 80051, 80052, 80053, 80054,
                     80055, 80061, 80062, 80063, 80064, 80065, 80071, 80072, 80073, 80074, 80075, 80081, 80082, 80083, 80086, 80087, 80088, 80091, 80092, 80093, 80096,
-                    80097, 80098, 80101, 80102, 80106, 80107, 80108, 80901, 80902, 80903, 80904};
+                    80097, 80098, 80101, 80102, 80106, 80107, 80108, 80901, 80902, 80903, 80904, 81001, 81002, 81003, 81004, 81005, 81006, 81007, 81008, 60180, 60181};
             StringBuffer str = new StringBuffer();
             for (int perm1 : perms) {
                 String perm = String.valueOf(perm1);

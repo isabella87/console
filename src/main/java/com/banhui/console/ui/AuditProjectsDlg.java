@@ -15,17 +15,21 @@ import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.banhui.console.rpc.ResultUtils.allDone;
+import static com.banhui.console.rpc.ResultUtils.dateValue;
 import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.longValue;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
 import static org.xx.armory.swing.DialogUtils.fail;
 import static org.xx.armory.swing.DialogUtils.inputPassword;
+import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 
 
@@ -38,17 +42,26 @@ public class AuditProjectsDlg extends DialogPane {
     private volatile double amt;
     private volatile double investedAmt;
     private volatile boolean lockStatus;
+    private volatile boolean canPass = true;
+    private Map<String, Object> investors = new HashMap<>();
+    private Date timeoutFlag;
+    private Date extensionFlag;
 
     public AuditProjectsDlg(
             long id,
             long status,
             double amt,
-            double investedAmt
+            double investedAmt,
+            Date timeoutFlag,
+            Date extensionFlag
     ) {
         this.id = id;
         role = (int) status;
         this.amt = amt;
         this.investedAmt = investedAmt;
+        this.timeoutFlag = timeoutFlag;
+        this.extensionFlag = extensionFlag;
+
         setTitle(getTitle() + id);
 
         JLabel perAmtLable = controller().get(JLabel.class, "investedAmt");
@@ -69,6 +82,8 @@ public class AuditProjectsDlg extends DialogPane {
         controller().connect("billProtocol", this::billProtocol);
         controller().connect("checkProtocol", this::checkProtocol);
         controller().connect("autoTender", this::autoTender);
+        controller().connect("timeOutBt", this::setTimeOut);
+        controller().connect("extensionBt", this::SetExtension);
 
         controller().hide("auctions");
         controller().hide("tender");
@@ -87,45 +102,102 @@ public class AuditProjectsDlg extends DialogPane {
         controller().hide("role-suffix-info");
         controller().hide("immedit-online-flag");
         controller().hide("immedit-online-flag-mes");
+        controller().hide("timeOutBt");
+        controller().hide("extensionBt");
         if (role == 20) {
             controller().show("immedit-online-flag");
             controller().show("immedit-online-flag-mes");
         }
 
-        new AuditProxy().queryAudit(id)
-                        .thenApplyAsync(Result::list)
-                        .whenCompleteAsync(this::searchCallback, UPDATE_UI);
+        allDone(new ProjectProxy().queryPrjLoanById(id),
+                new AuditProxy().queryAudit(id)/*,
+                new AuditProxy().prjInvestorNum(id),
+                new AuditProxy().prjLockStatus(id)*/)
+                .thenApply(results -> new Object[]{
+                        results[0].map(),
+                        results[1].list()/*,
+                        results[2].map(),
+                        results[3].booleanValue()*/
+                })
+                .whenCompleteAsync(this::callback, UPDATE_UI);
 
-        getUi();
+        /*new AuditProxy().queryAudit(id)
+                        .thenApplyAsync(Result::list)
+                        .whenCompleteAsync(this::searchCallback, UPDATE_UI);*/
+
+//        getUi();
         new AuditProxy().prjInvestorNum(id)
                         .thenApplyAsync(Result::map)
-                        .whenCompleteAsync(this::prjInvestorNumCallback,UPDATE_UI);
+                        .whenCompleteAsync(this::prjInvestorNumCallback, UPDATE_UI);
 
         new AuditProxy().prjLockStatus(id)
                         .thenApplyAsync(Result::booleanValue)
                         .whenCompleteAsync(this::lockStatus, UPDATE_UI);
 
+        //new ProjectProxy().queryPrjLoanById(id).thenApplyAsync(Result::map).whenCompleteAsync(this::searchPrjCallback, UPDATE_UI);
 
+    }
+
+    private void callback(
+            Object[] objects,
+            Throwable t
+    ) {
+        if(t!=null){
+            ErrorHandler.handle(t);
+        }else{
+            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            tableModel.setAllRows((Collection<? extends Map<String, Object>>) objects[1]);
+
+            this.timeoutFlag = dateValue((Map<String, Object>) objects[0], "timeOutDate");
+            this.extensionFlag = dateValue((Map<String, Object>) objects[0], "extensionDate");
+
+            getUi();
+        }
+    }
+
+    private void searchPrjCallback(
+            Map<String, Object> map,
+            Throwable t
+    ) {
+        if (t != null) {
+            ErrorHandler.handle(t);
+        } else {
+            this.timeoutFlag = dateValue(map, "timeOutDate");
+            this.extensionFlag = dateValue(map, "extensionDate");
+        }
+    }
+
+    private void SetExtension(ActionEvent actionEvent) {
+        SetPrjRelationTimeDlg dlg = new SetPrjRelationTimeDlg(id, false);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
+    }
+
+    private void setTimeOut(ActionEvent actionEvent) {
+        SetPrjRelationTimeDlg dlg = new SetPrjRelationTimeDlg(id, true);
+        dlg.setFixedSize(false);
+        showModel(null, dlg);
     }
 
     private void prjInvestorNumCallback(
             Map<String, Object> prjInvestors,
             Throwable throwable
     ) {
-        if(throwable != null){
+        if (throwable != null) {
             ErrorHandler.handle(throwable);
-        }else{
-            if(role == 50) {
+        } else {
+            if (role == 50) {
                 StringBuffer roleSuffixInfo = new StringBuffer();
                 if (longValue(prjInvestors, "userType") == 1 && longValue(prjInvestors, "investorNum") > 29) {
-                    roleSuffixInfo.append("  最多允许29个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
+                    this.investors.put("num", 29);
+                    this.investors.put("investorNum", longValue(prjInvestors, "investorNum"));
+                    roleSuffixInfo.append("最多允许29个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
 
-                }else if (longValue(prjInvestors, "userType") == 2 && longValue(prjInvestors, "investorNum") > 149) {
-                    roleSuffixInfo.append("  最多允许149个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
-                }else{
-                    roleSuffixInfo.append("  测试环境下你能看到我~最多允许XXX个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
+                } else if (longValue(prjInvestors, "userType") == 2 && longValue(prjInvestors, "investorNum") > 149) {
+                    this.investors.put("num", 149);
+                    this.investors.put("investorNum", longValue(prjInvestors, "investorNum"));
+                    roleSuffixInfo.append("最多允许149个出借人，目前已有").append(longValue(prjInvestors, "investorNum")).append("个出借人。");
                 }
-
                 if (roleSuffixInfo.toString().length() > 0) {
                     controller().show("role-suffix-info");
                     controller().setText("role-suffix-info", roleSuffixInfo.toString());
@@ -322,6 +394,7 @@ public class AuditProjectsDlg extends DialogPane {
         final BrowsePrjInvestmentDlg dlg = new BrowsePrjInvestmentDlg(id);
         dlg.setFixedSize(false);
         showModel(null, dlg);
+
     }
 
     //查看放款信息
@@ -422,6 +495,18 @@ public class AuditProjectsDlg extends DialogPane {
         params.put("comments", controller().getText("comments").trim());
         params.put("signature", null);
         this.auditParam = params;
+        if (role == 50 && !this.canPass) {
+            warn(null, controller().formatMessage("amt-warn", amt, investedAmt));
+            return;
+        }
+        if (role == 50 && this.investors.size() > 0) {
+            if (confirm(null, controller().formatMessage("investors-warn", investors.get("investorNum"), investors.get("num")), "满标")) {
+                doAudit(params);
+                this.done(OK);
+            } else {
+                return;
+            }
+        }
         if (role == 60 || role == 70) {
             checkPwd();
         } else {
@@ -561,6 +646,7 @@ public class AuditProjectsDlg extends DialogPane {
             case 50:
                 controller().setText("role", "业务副总确认满标");
                 if (investedAmt > amt) {
+                    this.canPass = false;
                     controller().show("investedAmt");
                     controller().setText("investedAmt", controller().formatMessage("amt", amt, investedAmt));
                 }
@@ -624,6 +710,12 @@ public class AuditProjectsDlg extends DialogPane {
                 controller().show("billProtocol");
                 controller().show("checkProtocol");
                 controller().show("autoTender");
+                if (timeoutFlag == null) {
+                    controller().show("timeOutBt");
+                }
+                if (extensionFlag == null) {
+                    controller().show("extensionBt");
+                }
                 break;
             case 999:
                 controller().show("investor");

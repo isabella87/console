@@ -11,7 +11,7 @@
     <action name="batch-assign" title="批量分配客户经理(B)" mnemonic="B"/>
     <action name="fast-assign" title="快速重新分配客户经理(R)" mnemonic="R"/>
     <options name="accelerate-date">
-        <option value="-1">快速选择日期</option>
+        <option value="-1">选择日期</option>
         <option value="1">最近一年</option>
         <option value="3">最近三年</option>
         <option value="5">最近五年</option>

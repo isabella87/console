@@ -5,7 +5,7 @@ import com.banhui.console.rpc.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xx.armory.commons.DateRange;
-import org.xx.armory.swing.components.InternalFramePane;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
@@ -17,6 +17,7 @@ import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.ui.InputUtils.latestSomeYears;
+import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -60,12 +61,19 @@ public class BrowseYiMeiMessageFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
+        DateRange dateRange = null;
         if (years >= 0) {
-            DateRange dateRange = latestSomeYears(new Date(), years);
-            if (dateRange != null) {
-                controller().setDate("start-date", dateRange.getStart());
-                controller().setDate("end-date", dateRange.getEnd());
+            dateRange = latestSomeYears(new Date(), years);
+        } else {
+            EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+            dlg.setFixedSize(false);
+            if (showModel(null, dlg) == DialogPane.OK) {
+                dateRange = dlg.getDateRange();
             }
+        }
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
         }
     }
 

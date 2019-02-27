@@ -61,7 +61,7 @@ public class EditBaPrjBorPerDlg
             params.put("position", controller().getText("position").trim());
             params.put("age", controller().getText("age").trim());
             params.put("id-card-address-prov", controller().getText("id-card-address-prov").trim());
-            params.put("id-card-address-city", controller().getText("id-card-address-city").trim());
+            //params.put("id-card-address-city", controller().getText("id-card-address-city").trim());
             params.put("show-age", controller().getText("show-age").trim());
             params.put("gender", controller().getText("gender").trim());
             params.put("wchat", controller().getText("wchat").trim());
@@ -86,6 +86,8 @@ public class EditBaPrjBorPerDlg
                 params.put("linkman-show-address" + num, controller().getText("linkman-show-address" + num).trim());
                 params.put("linkman-id-card" + num, controller().getText("linkman-id-card" + num).trim());
                 params.put("linkman-relation" + num, controller().getText("linkman-relation" + num).trim());
+                params.put("linkman-relation" + num, controller().getText("linkman-relation" + num).trim());
+                params.put("linkman-qq" + num, controller().getText("linkman-qq" + num).trim());
             }
             (this.id == 0 ? new BaPrjBorPersProxy().add(params) : new BaPrjBorPersProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
@@ -125,8 +127,12 @@ public class EditBaPrjBorPerDlg
             controller().setText("company", stringValue(data, "company"));
             controller().setText("position", stringValue(data, "position"));
             controller().setNumber("age", longValue(data, "age"));
-            controller().setText("id-card-address-prov", stringValue(data, "idCardAddressProv"));
-            controller().setText("id-card-address-city", stringValue(data, "idCardAddressCity"));
+            String city = stringValue(data, "idCardAddressProv");
+            if (city.isEmpty()) {
+                controller().setText("id-card-address-prov", stringValue(data, "idCardAddressCity"));
+            } else {
+                controller().setText("id-card-address-prov", stringValue(data, "idCardAddressProv"));
+            }
             controller().setText("show-age", stringValue(data, "showAge"));
             controller().setText("gender", stringValue(data, "gender"));
             controller().setText("wchat", stringValue(data, "wchat"));
@@ -151,6 +157,7 @@ public class EditBaPrjBorPerDlg
                 controller().setText("linkman-show-address" + num, stringValue(data, "linkmanShowAddress" + num));
                 controller().setText("linkman-id-card" + num, stringValue(data, "linkmanIdCard" + num));
                 controller().setText("linkman-relation" + num, stringValue(data, "linkmanRelation" + num));
+                controller().setText("linkman-qq" + num, stringValue(data, "linkmanQq" + num));
             }
         }
     }

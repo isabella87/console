@@ -24,6 +24,8 @@
     <message name="file9"><![CDATA[票据融资协议(脱敏)]]></message>
     <message name="pwd-fail"><![CDATA[密码错误，禁止操作！]]></message>
     <message name="amt"><![CDATA[     预期募集金额:{}  实际募集金额:{}]]></message>
+    <message name="amt-warn"><![CDATA[计划募集金额：{}，实际募集金额：{}，不允许确认满标！]]></message>
+    <message name="investors-warn"><![CDATA[实际出借人数：<b>{}</b>，已超过：{}，确认满标吗？]]></message>
     <standardAction value="cancel"/>
     <action name="pass" title="通过(P)" mnemonic="P"/>
     <action name="npass" title="不通过(N)" mnemonic="N"/>
@@ -35,7 +37,8 @@
     <action name="investment" title="有效投资"/>
     <action name="completed" title="结清"/>
     <action name="autoTender" title="自动出借日志"/>
-
+    <action name="timeOutBt" title="设置逾期时间"/>
+    <action name="extensionBt" title="设置展期时间"/>
     <action name="projectProtocol" title="生成工程贷协议"/>
     <action name="billProtocol" title="生成票据贷协议"/>
     <action name="checkProtocol" title="查看协议"/>
@@ -76,8 +79,12 @@
                 <boxLayout>
                     <label name="role"/>
                     <label name="investedAmt"/>
-                    <label name="role-suffix-info"/>
                 </boxLayout>
+            </cell>
+        </row>
+        <row>
+            <cell>
+                <label name="role-suffix-info"/>
             </cell>
         </row>
         <row>
@@ -103,6 +110,8 @@
                     <button actionName="projectProtocol" name="projectProtocol"/>
                     <button actionName="billProtocol" name="billProtocol"/>
                     <button actionName="checkProtocol" name="checkProtocol"/>
+                    <button actionName="extensionBt" name="extensionBt"/>
+                    <button actionName="timeOutBt" name="timeOutBt"/>
                 </boxLayout>
             </cell>
         </row>

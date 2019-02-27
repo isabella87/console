@@ -222,6 +222,8 @@
                                                     <checkBox name="60100" text="项目解锁"/>
                                                     <checkBox name="60101" text="查询项目是否锁定"/>
                                                     <checkBox name="60102" text="执行放款"/>
+                                                    <checkBox name="60180" text="项目展期"/>
+                                                    <checkBox name="60181" text="项目逾期"/>
                                                 </boxLayout>
                                             </cell>
                                         </row>
@@ -357,6 +359,29 @@
                                     </gridLayout>
                                 </cell>
                             </row>
+                            <row>
+                                <cell>
+                                    <gridLayout title="信息披露">
+                                        <column alignment="FIRST"/>
+                                        <row>
+                                            <cell>
+                                                <boxLayout>
+                                                    <checkBox name="disclosure" text="全选"/>
+                                                    <checkBox name="81001" text="查询信息披露信息列表"/>
+                                                    <checkBox name="81002" text="查询信息披露信息详情"/>
+                                                    <checkBox name="81003" text="查询信息披露详情内容"/>
+                                                    <checkBox name="81004" text="创建信息披露概况"/>
+                                                    <checkBox name="81005" text="创建信息披露详情"/>
+                                                    <checkBox name="81006" text="删除信息披露"/>
+                                                    <checkBox name="81007" text="编辑信息披露概况"/>
+                                                    <checkBox name="81008" text="编辑信息披露详情"/>
+                                                </boxLayout>
+                                            </cell>
+                                        </row>
+                                    </gridLayout>
+                                </cell>
+                            </row>
+
                             <row stretch="1">
                                 <cell verticalAlignment="BOTH">
                                     <label/>

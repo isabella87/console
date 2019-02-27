@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.banhui.console.rpc.ResultUtils.dateValue;
-import static com.banhui.console.rpc.ResultUtils.decimalValue;
 import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
@@ -76,6 +75,7 @@ public class EditBaPrjBorOrgDlg
             params.put("show-shareholder-info", controller().getText("show-shareholder-info").trim());
             params.put("operate-area", controller().getText("operate-area").trim());
             params.put("other-info", controller().getText("other-info").trim());
+            params.put("id-card-address-prov", controller().getText("id-card-address-prov").trim());
             for (int i = 1; i <= 6; i++) {
                 String num = "";
                 if (i != 1) {
@@ -91,6 +91,7 @@ public class EditBaPrjBorOrgDlg
                 params.put("linkman-show-address" + num, controller().getText("linkman-show-address" + num).trim());
                 params.put("linkman-id-card" + num, controller().getText("linkman-id-card" + num).trim());
                 params.put("linkman-relation" + num, controller().getText("linkman-relation" + num).trim());
+                params.put("linkman-qq" + num, controller().getText("linkman-qq" + num).trim());
             }
             (this.id == 0 ? new BaPrjBorOrgsProxy().add(params) : new BaPrjBorOrgsProxy().update(this.id, params))
                     .thenApplyAsync(Result::map)
@@ -144,6 +145,7 @@ public class EditBaPrjBorOrgDlg
             controller().setText("show-shareholder-info", stringValue(data, "showShareholderInfo"));
             controller().setText("operate-area", stringValue(data, "operateArea"));
             controller().setText("other-info", stringValue(data, "otherInfo"));
+            controller().setText("id-card-address-prov", stringValue(data, "idCardAddressProv"));
             for (int i = 1; i <= 6; i++) {
                 String num = "";
                 if (i != 1) {
@@ -159,6 +161,7 @@ public class EditBaPrjBorOrgDlg
                 controller().setText("linkman-show-address" + num, stringValue(data, "linkmanShowAddress" + num));
                 controller().setText("linkman-id-card" + num, stringValue(data, "linkmanIdCard" + num));
                 controller().setText("linkman-relation" + num, stringValue(data, "linkmanRelation" + num));
+                controller().setText("linkman-qq" + num, stringValue(data, "linkmanQq" + num));
             }
         }
     }

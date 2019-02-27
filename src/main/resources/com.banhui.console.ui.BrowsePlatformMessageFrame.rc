@@ -8,7 +8,7 @@
     <action name="create" title="创建消息(C)" mnemonic="S"/>
     <action name="edit" title="查看(C)" mnemonic="S" smallIcon="view.png"/>
     <options name="accelerate-date">
-        <option value="-1">快速选择日期</option>
+        <option value="-1">选择日期</option>
         <option value="1">最近一年</option>
         <option value="3">最近三年</option>
         <option value="5">最近五年</option>

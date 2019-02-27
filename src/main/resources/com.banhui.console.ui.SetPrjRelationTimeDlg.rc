@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ui
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
+        title="-时间设置"
+>
+
+    <standardAction value="ok"/>
+    <standardAction value="cancel"/>
+
+    <gridLayout>
+        <column stretch="0"/>
+        <column/>
+        <row>
+            <cell>
+                <label>时间:</label>
+            </cell>
+            <cell>
+                <text name="relation-date"  type="DATE_TIME"/>
+            </cell>
+        </row>
+        <row>
+            <cell columnSpan="2" horizontalAlignment="CENTER">
+                <boxLayout horizontalAlignment="LAST" verticalAlignment="CENTER">
+                    <button actionName="ok" default="true"/>
+                    <button actionName="cancel"/>
+                </boxLayout>
+            </cell>
+        </row>
+    </gridLayout>
+
+</ui>

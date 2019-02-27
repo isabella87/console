@@ -30,7 +30,6 @@ public class BrowseCheckTenderDlg
         setTitle(getTitle() + id);
 
         controller().connect("check", this::check);
-
         new AuditProxy().uncheckedTenders(id)
                         .thenApplyAsync(Result::list)
                         .whenCompleteAsync(this::searchCallback, UPDATE_UI);
@@ -85,7 +84,9 @@ public class BrowseCheckTenderDlg
             }
 
         });
-        showModel(null, dlg);
+        if (showModel(null, dlg) == DialogPane.OK || showModel(null, dlg) == DialogPane.CANCEL) {
+            controller().call("search");
+        }
     }
 
     private void searchCallback(

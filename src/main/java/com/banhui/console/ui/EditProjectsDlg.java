@@ -28,6 +28,7 @@ import static com.banhui.console.rpc.ResultUtils.longValue;
 import static com.banhui.console.rpc.ResultUtils.stringValue;
 import static org.xx.armory.swing.ComponentUtils.showModel;
 import static org.xx.armory.swing.DialogUtils.confirm;
+import static org.xx.armory.swing.DialogUtils.prompt;
 import static org.xx.armory.swing.DialogUtils.warn;
 import static org.xx.armory.swing.UIUtils.UPDATE_UI;
 import static org.xx.armory.swing.UIUtils.assertUIThread;
@@ -60,7 +61,6 @@ public class EditProjectsDlg
         controller().readOnly("item-no", true);
         controller().readOnly("type", true);
         controller().readOnly("financier_cu", true);
-        controller().readOnly("nominal_au", true);
         controller().readOnly("bondsman_au", true);
         controller().readOnly("interest", true);
 
@@ -126,8 +126,6 @@ public class EditProjectsDlg
                 controller().hide("close");
             }
         }
-        JLabel perAmtLable = controller().get(JLabel.class, "per-amt");
-        perAmtLable.setForeground(Color.red);
     }
 
     private void updateData() {
@@ -508,9 +506,7 @@ public class EditProjectsDlg
             this.financierName = stringValue(maps.get(0), "realName");
             this.bondsName = stringValue(maps.get(2), "realName");
             controller().setText("financier_cu", userType(stringValue(maps.get(0), "userType")) + this.financierName);
-            controller().setText("nominal_au", userType(stringValue(maps.get(1), "userType")) + stringValue(maps.get(1), "realName"));
             controller().setText("bondsman_au", userType(stringValue(maps.get(2), "userType")) + this.bondsName);
-            this.setNominalAuId(longValue(maps.get(1), "auId"));
             this.setBondsmanAuId(longValue(maps.get(2), "auId"));
             this.setFinancierId(longValue(maps.get(0), "auId"));
         }
@@ -539,31 +535,64 @@ public class EditProjectsDlg
             params.put("item-no", controller().getText("item-no").trim());
             params.put("amt", controller().getDecimal("amt"));
             params.put("rate", controller().getFloat("rate"));
-            params.put("extension-rate", controller().getFloat("extension-rate"));
-            params.put("time-out-rate", controller().getFloat("time-out-rate"));
-            //params.put("interest", controller().getText("penalty-ratio").trim());
+            params.put("time-out-rate", controller().getFloat("rate") + 2);
+            params.put("extension-rate", controller().getFloat("rate") + 2);
+
             params.put("borrow-days", controller().getNumber("borrow-days"));
-            params.put("extension-days", controller().getNumber("extension-days"));
+            params.put("extension-days", controller().getNumber("borrow-days"));
+
             params.put("in-time", controller().getDate("in-time"));
             params.put("out-time", controller().getDate("out-time"));
             params.put("financing-days", controller().getNumber("financing-days"));
             params.put("expected-borrow-time", controller().getDate("expected-borrow-time"));
-            params.put("per-invest-min-amt", controller().getDecimal("per-invest-min-amt"));
-            params.put("invest-max-amt-ratio", 100);
-            params.put("per-invest-amt", controller().getDecimal("per-invest-amt"));
-            params.put("core-guara-name", controller().getText("core-guara-name").trim());
-            if (controller().getDecimal("invest-max-amt") != null) {
-                params.put("invest-max-amt", controller().getDecimal("invest-max-amt"));
-            } else {
-                params.put("invest-max-amt", params.get("amt"));
+
+            BigDecimal amt = controller().getDecimal("amt");
+            BigDecimal maxAmt = controller().getDecimal("invest-max-amt");//单人投资上限
+            BigDecimal perMaxAmt = controller().getDecimal("per-invest-max-amt");//单笔投资上限
+            BigDecimal minAmt = controller().getDecimal("per-invest-min-amt");//单笔投资下限
+            BigDecimal perAmt = controller().getDecimal("per-invest-amt");//每份起投金额
+
+            //1 单人投资上限 <= 借款金额
+            if (maxAmt.compareTo(amt) > 0) {
+                warn(null, "单人投资上限必须小于等于借款金额！");
+                controller().enable("ok");
+                return;
             }
+            //2 单笔投资上限 <= 单人投资上限
+            if (perMaxAmt.compareTo(maxAmt) > 0) {
+                warn(null, "单笔投资上限必须小于等于单人投资上限！");
+                controller().enable("ok");
+                return;
+            }
+            //5 单笔投资下限 <= 单笔投资上限
+            if (minAmt.compareTo(perMaxAmt) > 0) {
+                warn(null, "单笔投资下限必须小于等于单笔投资上限！");
+                controller().enable("ok");
+                return;
+            }
+            //4 每份起投金额 <= 单笔投资下限  并且必须是 每份起投金额的整数倍
+            if (perAmt.compareTo(minAmt) > 0 || minAmt.compareTo(perAmt.multiply(minAmt.divide(perAmt, 0, RoundingMode.DOWN))) > 0) {
+                warn(null, controller().getMessage("min-amt"));
+                controller().enable("ok");
+                return;
+            }
+
+//            //3 每份起投金额 <= 单笔投资上限
+//            if (perAmt.compareTo(perMaxAmt) > 0) {
+//                warn(null, "每份起投金额必须小于等于单笔投资上限！");
+//                controller().enable("ok");
+//                return;
+//            }
+
+            params.put("invest-max-amt", maxAmt);
+            params.put("per-invest-max-amt", perMaxAmt);
+            params.put("per-invest-min-amt", minAmt);
+            params.put("per-invest-amt", perAmt);
+
+            params.put("invest-max-amt-ratio", 100);
+            params.put("core-guara-name", controller().getText("core-guara-name").trim());
             params.put("key", controller().getText("key").trim());
             params.put("water-mark", controller().getText("water-mark").trim());
-            if (controller().getDecimal("per-invest-max-amt") != null) {
-                params.put("per-invest-max-amt", controller().getDecimal("per-invest-max-amt"));
-            } else {
-                params.put("per-invest-max-amt", params.get("amt"));
-            }
             params.put("fee-rate", controller().getFloat("fee-rate"));
             params.put("cost-fee", controller().getFloat("cost-fee"));
             params.put("out-proxy", controller().getText("out-proxy").trim());
@@ -668,11 +697,7 @@ public class EditProjectsDlg
         controller().setText("item-no", stringValue(data, "itemNo"));
         controller().setNumber("amt", longValue(data, "amt"));
         controller().setDecimal("rate", decimalValue(data, "rate"));
-        controller().setDecimal("extension-rate", decimalValue(data, "extensionRate"));
-        controller().setDecimal("time-out-rate", decimalValue(data, "timeOutRate"));
-
         controller().setNumber("borrow-days", longValue(data, "borrowDays"));
-        controller().setNumber("extension-days", longValue(data, "extensionDays"));
 
         Date inTime = dateValue(data, "inTime");
         Date outTime = dateValue(data, "outTime");
@@ -683,7 +708,6 @@ public class EditProjectsDlg
         }
         controller().setDate("in-time", inTime);
         controller().setDate("out-time", outTime);
-
         controller().setNumber("financing-days", longValue(data, "financingDays"));
         controller().setDate("expected-borrow-time", dateValue(data, "expectedBorrowTime"));
         controller().setDecimal("per-invest-min-amt", decimalValue(data, "perInvestMinAmt"));

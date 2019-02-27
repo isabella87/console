@@ -175,12 +175,20 @@ public class BrowseBaPrjGuaranteeOrgsFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
-        DateRange dateRange = latestSomeYears(new Date(), years);
+        DateRange dateRange = null;
+        if (years >= 0) {
+            dateRange = latestSomeYears(new Date(), years);
+        } else {
+            EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+            dlg.setFixedSize(false);
+            if (showModel(null, dlg) == DialogPane.OK) {
+                dateRange = dlg.getDateRange();
+            }
+        }
         if (dateRange != null) {
             controller().setDate("start-date", dateRange.getStart());
             controller().setDate("end-date", dateRange.getEnd());
         }
-
     }
 
 

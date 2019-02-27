@@ -4,6 +4,7 @@ import com.banhui.console.rpc.CreditAssignmentsProxy;
 import com.banhui.console.rpc.ProjectProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
+import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.TypedTableModel;
 
 import javax.swing.*;
@@ -205,6 +206,12 @@ public class BrowseCreditAssignmentsFrame
         DateRange dateRange = null;
         if (years >= 0) {
             dateRange = latestSomeYears(new Date(), years);
+        } else if (years == -1) {
+            EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+            dlg.setFixedSize(false);
+            if (showModel(null, dlg) == DialogPane.OK) {
+                dateRange = dlg.getDateRange();
+            }
         } else if (years == -2) {
             Date date = new Date();
             Calendar cal = Calendar.getInstance();

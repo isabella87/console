@@ -22,6 +22,42 @@
         <option>军人</option>
         <option>不便分类的其他从业人员</option>
     </options>
+    <options name="city">
+        <option>北京</option>
+        <option>天津</option>
+        <option>上海</option>
+        <option>重庆</option>
+        <option>河北</option>
+        <option>山西</option>
+        <option>辽宁</option>
+        <option>吉林</option>
+        <option>黑龙江</option>
+        <option>江苏</option>
+        <option>浙江</option>
+        <option>安徽</option>
+        <option>福建</option>
+        <option>江西</option>
+        <option>山东</option>
+        <option>河南</option>
+        <option>湖北</option>
+        <option>湖南</option>
+        <option>广东</option>
+        <option>海南</option>
+        <option>四川</option>
+        <option>贵州</option>
+        <option>云南</option>
+        <option>陕西</option>
+        <option>甘肃</option>
+        <option>青海</option>
+        <option>台湾</option>
+        <option>内蒙古自治区</option>
+        <option>广西壮族自治区</option>
+        <option>西藏自治区</option>
+        <option>西藏自治区</option>
+        <option>新疆维吾尔自治区</option>
+        <option>香港特别行政区</option>
+        <option>澳门特别行政区</option>
+    </options>
 
     <boxLayout>
         <tabbedPane>
@@ -56,7 +92,7 @@
                             <label for="show-age">展示年龄：</label>
                         </cell>
                         <cell>
-                            <text name="show-age" required="true" type="NUMBER"/>
+                            <text name="show-age" required="true"/>
                         </cell>
                     </row>
                     <row>
@@ -112,20 +148,15 @@
                             <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
                         </cell>
                         <cell>
-                            <label for="id-card-address">地址：</label>
+                            <label for="id-card-address-prov">所在省市：</label>
                         </cell>
                         <cell horizontalAlignment="FIRST">
-                            <boxLayout horizontalAlignment="FIRST">
-                                <text name="id-card-address-prov" size="6"/>
-                                <label>省</label>
-                                <text name="id-card-address-city" size="6"/>
-                                <label>市</label>
-                            </boxLayout>
+                            <text name="id-card-address-prov" size="12" optionsName="city"/>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="address">现住址：</label>
+                            <label for="address">详细地址：</label>
                         </cell>
                         <cell>
                             <text name="address"/>
@@ -168,16 +199,14 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="qq">借款人QQ：</label>
+                            <label for="qq">QQ：</label>
                         </cell>
                         <cell>
-                            <text name="qq"/>
-                        </cell>
-                        <cell>
-                            <label for="linkman-relation">借款人和联系人关系：</label>
-                        </cell>
-                        <cell>
-                            <text name="linkman-relation" size="20"/>
+                            <boxLayout>
+                                <text name="qq"/>
+                                <label><![CDATA[<html><font color="gray">
+                            （用于生成协议）</font></html>]]></label>
+                            </boxLayout>
                         </cell>
                     </row>
                     <row>
@@ -248,6 +277,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address">送达地址：</label>
                         </cell>
                         <cell>
@@ -268,7 +305,7 @@
                             <text name="linkman-id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation">借款人和联系人关系：</label>
+                            <label for="linkman-relation">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation"/>
@@ -331,6 +368,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq2">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq2"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address2">送达地址：</label>
                         </cell>
                         <cell>
@@ -351,7 +396,7 @@
                             <text name="linkman-id-card2"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation2">借款人和联系人2关系：</label>
+                            <label for="linkman-relation2">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation2"/>
@@ -414,6 +459,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq3">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq3"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address3">送达地址：</label>
                         </cell>
                         <cell>
@@ -434,7 +487,7 @@
                             <text name="linkman-id-card3"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation3">借款人和联系人3关系：</label>
+                            <label for="linkman-relation3">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation3"/>
@@ -497,6 +550,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq4">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq4"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address4">送达地址：</label>
                         </cell>
                         <cell>
@@ -517,7 +578,7 @@
                             <text name="linkman-id-card4"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation4">借款人和联系人4关系：</label>
+                            <label for="linkman-relation4">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation4"/>
@@ -581,6 +642,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq5">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq5"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address5">送达地址：</label>
                         </cell>
                         <cell>
@@ -601,7 +670,7 @@
                             <text name="linkman-id-card5"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation5">借款人和联系人5关系：</label>
+                            <label for="linkman-relation5">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation5"/>
@@ -664,6 +733,14 @@
                     </row>
                     <row>
                         <cell>
+                            <label for="linkman-qq6">联系人QQ：</label>
+                        </cell>
+                        <cell>
+                            <text name="linkman-qq6"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell>
                             <label for="linkman-address6">送达地址：</label>
                         </cell>
                         <cell>
@@ -684,7 +761,7 @@
                             <text name="linkman-id-card6"/>
                         </cell>
                         <cell>
-                            <label for="linkman-relation6">借款人和联系人6关系：</label>
+                            <label for="linkman-relation6">与借款人关系：</label>
                         </cell>
                         <cell>
                             <text name="linkman-relation6"/>

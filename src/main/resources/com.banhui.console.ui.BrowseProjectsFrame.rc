@@ -140,6 +140,8 @@
                     <tableColumn name="visible" title="可见" type="NUMBER" size="50"/>
                     <tableColumn name="topTime" title="置顶时间" type="DATE_TIME" size="50"/>
                     <tableColumn name="lockedTime" title="锁定时间" type="DATE_TIME" size="50"/>
+                    <tableColumn name="extensionDate" title="展期时间" type="DATE_TIME" size="160"/>
+                    <tableColumn name="timeOutDate" title="逾期时间" type="DATE_TIME" size="160"/>
                 </table>
             </cell>
         </row>

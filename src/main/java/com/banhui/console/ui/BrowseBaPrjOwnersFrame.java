@@ -80,9 +80,9 @@ public class BrowseBaPrjOwnersFrame
             Collection<Map<String, Object>> c,
             Throwable t
     ) {
-        if (t!=null){
+        if (t != null) {
             ErrorHandler.handle(t);
-        }else {
+        } else {
             final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
             tableModel.setAllRows(c);
         }
@@ -162,7 +162,7 @@ public class BrowseBaPrjOwnersFrame
             return;
         }
         final long id = tableModel.getNumberByName(selectedRow1, "boId");
-        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 26,1);
+        final ChooseProtocolDlg dlg = new ChooseProtocolDlg(id, 26, 1);
         dlg.setFixedSize(false);
         showModel(null, dlg);
     }
@@ -171,12 +171,19 @@ public class BrowseBaPrjOwnersFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
+        DateRange dateRange = null;
         if (years >= 0) {
-            DateRange dateRange = latestSomeYears(new Date(), years);
-            if (dateRange != null) {
-                controller().setDate("start-date", dateRange.getStart());
-                controller().setDate("end-date", dateRange.getEnd());
+            dateRange = latestSomeYears(new Date(), years);
+        } else {
+            EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+            dlg.setFixedSize(false);
+            if (showModel(null, dlg) == DialogPane.OK) {
+                dateRange = dlg.getDateRange();
             }
+        }
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
         }
     }
 

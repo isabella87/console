@@ -3,6 +3,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="项目"
+        width="870"
+        height="700"
 >
     <message name="delete-guaPer"><![CDATA[删除以下担保人：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-guaOrg"><![CDATA[删除以下担保机构：{}，此操作不可恢复！确认吗？]]></message>
@@ -10,6 +12,7 @@
     <message name="delete-borOrg"><![CDATA[删除以下借款机构：{}，此操作不可恢复！确认吗？]]></message>
     <message name="delete-mortgage"><![CDATA[删除以下抵押物：{}，此操作不可恢复！确认吗？]]></message>
     <message name="null-borPer"><![CDATA[必须选择一个借款人!]]></message>
+    <message name="min-amt"><![CDATA[单笔投资下限必须是每份起投金额的正整数倍!]]></message>
     <message name="create">创建-</message>
     <message name="edit">编辑-</message>
     <message name="view">查看-</message>
@@ -34,7 +37,7 @@
     <action name="createBorOrg" title="创建借款机构(E)" mnemonic="E"/>
     <action name="deleteBorOrg" title="删除(M)" mnemonic="M"/>
     <action name="createMortgage" title="创建抵押/质押人(E)"/>
-    <action name="deleteMortgage" title="删除(M)" />
+    <action name="deleteMortgage" title="删除(M)"/>
     <options name="project-type">
         <option value="10">企业贷</option>
         <option value="9">个人贷</option>
@@ -133,7 +136,7 @@
                             <label for="amt">借款金额：</label>
                         </cell>
                         <cell>
-                            <text name="amt" suffix=" 元 " type="CURRENCY" size="10"/>
+                            <text name="amt" suffix="元" type="CURRENCY" size="10"/>
                         </cell>
                         <cell>
                             <label for="src">项目来源：</label>
@@ -147,21 +150,13 @@
                             <label for="rate">借款利率：</label>
                         </cell>
                         <cell>
-                            <text name="rate" suffix=" % " type="CURRENCY" size="7"/>
+                            <text name="rate" suffix="%" type="CURRENCY" size="10"/>
                         </cell>
                         <cell>
-                            <label for="extension-rate">展期利率：</label>
+                            <label for="borrow-days">借款天数：</label>
                         </cell>
                         <cell>
-                            <text name="extension-rate" suffix=" % " type="CURRENCY" size="7"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell>
-                            <label for="time-out-rate">逾期利率：</label>
-                        </cell>
-                        <cell>
-                            <text name="time-out-rate" suffix=" % " type="CURRENCY" size="7"/>
+                            <text name="borrow-days" suffix="天" type="NUMBER" size="10"/>
                         </cell>
                     </row>
                     <row>
@@ -169,29 +164,13 @@
                             <label for="deposit-ratio">保证金比例：</label>
                         </cell>
                         <cell>
-                            <text name="deposit-ratio" suffix=" % " type="CURRENCY" size="7"/>
+                            <text name="deposit-ratio" suffix="%" type="CURRENCY" size="10"/>
                         </cell>
-                    </row>
-                    <row>
-                        <cell>
-                            <label for="borrow-days">借款天数：</label>
-                        </cell>
-                        <cell>
-                            <text name="borrow-days" suffix=" 天 " type="NUMBER" size="7"/>
-                        </cell>
-                        <cell>
-                            <label for="extension-days">允许展期：</label>
-                        </cell>
-                        <cell>
-                            <text name="extension-days" suffix=" 天 " type="NUMBER" size="7"/>
-                        </cell>
-                    </row>
-                    <row>
                         <cell>
                             <label for="cost-fee">总借款成本：</label>
                         </cell>
                         <cell>
-                            <text name="cost-fee" suffix=" % " type="CURRENCY" size="7"/>
+                            <text name="cost-fee" suffix="%" type="CURRENCY" size="10"/>
                         </cell>
                     </row>
                     <row>
@@ -216,7 +195,7 @@
                             <label for="financing-days">募集天数：</label>
                         </cell>
                         <cell>
-                            <text name="financing-days" suffix=" 天 " type="NUMBER" size="7"/>
+                            <text name="financing-days" suffix=" 天 " type="NUMBER" size="10"/>
                         </cell>
                         <cell>
                             <label for="expected-borrow-time">预期放款日期：</label>
@@ -232,47 +211,54 @@
                         <cell>
                             <label for="interest">总利息：</label>
                         </cell>
-                        <cell columnSpan="3">
-                            <boxLayout>
-                                <text name="interest" suffix=" 元     " type="CURRENCY" size="10"/>
-                                <label><![CDATA[<html><font color="red">
-                                注意！此处的总利息与最终的每期应付利息总和相比可能存在误差！</font></html>]]></label>
-                            </boxLayout>
+                        <cell>
+                            <text name="interest" suffix="元" type="CURRENCY" size="10"/>
+                        </cell>
+                        <cell>
+                            <label for="fee-rate">利息服务费率：</label>
+                        </cell>
+                        <cell>
+                            <text name="fee-rate" suffix="%" type="CURRENCY" size="10"/>
+                        </cell>
+                    </row>
+                    <row>
+                        <cell columnSpan="4">
+                            <label><![CDATA[<html><font color="red">
+                                注意！总利息与最终的每期应付利息总和相比可能存在误差！</font></html>]]></label>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="per-invest-min-amt">起投金额：</label>
+                            <label for="per-invest-amt">每份起投金额：</label>
                         </cell>
-                        <cell columnSpan="3" horizontalAlignment="FIRST">
-                            <boxLayout>
-                                <text name="per-invest-min-amt" suffix="元   " type="NUMBER" size="10"/>
-                                <label for="per-invest-amt">每份起投金额：</label>
-                                <text name="per-invest-amt" suffix="元   " type="NUMBER" size="10"/>
-                                <label for="fee-rate">利息服务费率：</label>
-                                <text name="fee-rate" suffix=" %   " type="CURRENCY" size="7"/>
-                                <label name="per-amt">注意！起投金额必须为每份起投金额的整数倍！</label>
-                            </boxLayout>
+                        <cell>
+                            <text name="per-invest-amt" suffix="元" type="CURRENCY" size="10" minValue="1"/>
+                        </cell>
+                        <cell>
+                            <label for="per-invest-min-amt">单笔投资下限：</label>
+                        </cell>
+                        <cell>
+                            <text name="per-invest-min-amt" suffix="元" type="CURRENCY" size="10" minValue="1"/>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="invest-max-amt">投资限额：</label>
+                            <label for="per-invest-max-amt">单笔投资上限：</label>
                         </cell>
                         <cell>
-                            <text name="invest-max-amt" type="NUMBER" size="10" suffix=" 元 "/>
+                            <text name="per-invest-max-amt" suffix="元" type="CURRENCY" size="10" minValue="0"/>
+                        </cell>
+                        <cell>
+                            <label for="invest-max-amt">单人投资上限：</label>
+                        </cell>
+                        <cell>
+                            <text name="invest-max-amt" type="CURRENCY" size="10" suffix="元" minValue="0"/>
                         </cell>
                     </row>
                     <row>
-                        <cell>
-                            <label for="per-invest-max-amt">单笔投资上限额：</label>
-                        </cell>
-                        <cell columnSpan="2">
-                            <boxLayout horizontalAlignment="FIRST">
-                                <text name="per-invest-max-amt" suffix=" 元   " type="NUMBER" size="8" minValue="1000"/>
-                                <label><![CDATA[<html><font color="red">
-                            注意！单笔投资限额设置：下限1千元，上限为借款总额！</font></html>]]></label>
-                            </boxLayout>
+                        <cell columnSpan="4">
+                            <label><![CDATA[<html><font color="red">
+                               注意！1.00元&lt;=每份起投金额&lt;=单笔投资下限&lt;=单笔投资上限&lt;=单人投资上限&lt;=项目融资额，且单笔投资下限必须为每份起投金额的正整数倍！</font></html>]]></label>
                         </cell>
                     </row>
                     <row>
@@ -282,7 +268,7 @@
                         <cell columnSpan="3">
                             <boxLayout>
                                 <dropDown name="bonus-period" optionsName="repayment"/>
-                                <text name="bonus-day" suffix=" 日     " type="NUMBER" size="5" minValue="1"
+                                <text name="bonus-day" suffix="日" type="NUMBER" size="5" minValue="1"
                                       maxValue="31"/>
                                 <button actionName="preview" name="preview"/>
                             </boxLayout>
@@ -293,7 +279,7 @@
                             <label for="loan-purposes">借款用途：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="loan-purposes" type="TEXT_AREA" rowSize="6"/>
+                            <text name="loan-purposes" type="TEXT_AREA" rowSize="5"/>
                         </cell>
                     </row>
                     <row>
@@ -301,7 +287,7 @@
                             <label for="remark">备注：</label>
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="remark"/>
+                            <text name="remark" type="TEXT_AREA" rowSize="3"/>
                         </cell>
                     </row>
                 </gridLayout>
@@ -324,20 +310,6 @@
                                     </cell>
                                     <cell horizontalAlignment="FIRST">
                                         <button actionName="chooseMgrPer"/>
-                                    </cell>
-                                </row>
-                                <row>
-                                    <cell>
-                                        <label for="nominal_au">名义借款人账户：</label>
-                                    </cell>
-                                    <cell>
-                                        <text name="nominal_au"/>
-                                    </cell>
-                                    <cell>
-                                        <boxLayout>
-                                            <button actionName="choose1"/>
-                                            <button actionName="cancel1"/>
-                                        </boxLayout>
                                     </cell>
                                 </row>
                                 <row>
@@ -369,7 +341,7 @@
                                     </cell>
                                     <cell columnSpan="2" horizontalAlignment="FIRST">
                                         <boxLayout>
-                                            <checkBox name="contract1" text="《出借居住协议》"/>
+                                            <checkBox name="contract1" text="《出借居间协议》"/>
                                             <checkBox name="contract2" text="《借款协议》"/>
                                             <checkBox name="contract3" text="《票据融资协议》"/>
                                         </boxLayout>
@@ -608,9 +580,11 @@
                                         <table name="mortgages">
                                             <tableColumn name="pmId" title="ID" type="NUMBER_TEXT" size="60"/>
                                             <tableColumn name="ownerName" title="姓名或者机构名称" type="TEXT" size="200"/>
-                                            <tableColumn name="mType" title="类型" type="TEXT" size="160" optionsName="mType"/>
+                                            <tableColumn name="mType" title="类型" type="TEXT" size="160"
+                                                         optionsName="mType"/>
                                             <tableColumn name="orderNo" title="排列顺序" type="TEXT" size="100"/>
-                                            <tableColumn name="guaraHighCreditAmt" title="担保的最高债权额" type="CURRENCY" size="160"/>
+                                            <tableColumn name="guaraHighCreditAmt" title="担保的最高债权额" type="CURRENCY"
+                                                         size="160"/>
                                             <tableColumn name="visible" title="协议可见" type="TEXT" size="100"
                                                          optionsName="visible"/>
                                         </table>
@@ -637,7 +611,7 @@
             </tab>
         </tabbedPane>
     </boxLayout>
-    <boxLayout>
+    <boxLayout border="EMPTY">
         <ruler/>
     </boxLayout>
     <boxLayout horizontalAlignment="CENTER">

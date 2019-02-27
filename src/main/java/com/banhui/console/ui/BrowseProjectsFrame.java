@@ -527,8 +527,10 @@ public class BrowseProjectsFrame
         final long status = tableModel.getNumberByName(selectedRow1, "status");
         final double amt = tableModel.getFloatByName(selectedRow1, "amt");
         final double investedAmt = tableModel.getFloatByName(selectedRow1, "investedAmt");
+        final Date extensionDate = tableModel.getDateByName(selectedRow1, "extensionDate");
+        final Date timeoutDate = tableModel.getDateByName(selectedRow1, "timeOutDate");
 
-        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status, amt, investedAmt);
+        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status, amt, investedAmt,timeoutDate,extensionDate);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             controller().call("search");

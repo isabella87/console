@@ -28,6 +28,10 @@ public final class ErrorHandler {
     public static Void handle(
             Throwable throwable
     ) {
+        if (throwable == null) {
+            return null;
+        }
+
         // 对于Error，继续抛出。
         if (throwable instanceof Error) {
             throw (Error) throwable;

@@ -219,7 +219,16 @@ public class ProjectProxy
 
     public CompletableFuture<Result> modifyBondsman(Map<String, Object> params) {
         long pId = takeLong(params, "p-id");
-        return super.http().post("mgr/prj/modify-bondsman/" + pId, params);
+        return super.http().post("mgr/prj/prj-bondsman/" + pId, params);
     }
 
+    public CompletableFuture<Result> setPrjExtensionTime(Map<String, Object> params) {
+        long pId = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/prj-extension/"+pId, params);
+    }
+
+    public CompletableFuture<Result> setPrjTimeOut(Map<String, Object> params) {
+        long pId = takeLong(params, "p-id");
+        return super.http().post("mgr/prj/prj-time-out/"+pId, params);
+    }
 }

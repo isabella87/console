@@ -49,14 +49,22 @@ public class BrowsePlatformMessageFrame
             Object event
     ) {
         final int years = controller().getInteger("accelerate-date");
+        DateRange dateRange = null;
         if (years >= 0) {
-            DateRange dateRange = latestSomeYears(new Date(), years);
-            if (dateRange != null) {
-                controller().setDate("start-date", dateRange.getStart());
-                controller().setDate("end-date", dateRange.getEnd());
+            dateRange = latestSomeYears(new Date(), years);
+        } else {
+            EditDateTimeOptionDlg dlg = new EditDateTimeOptionDlg();
+            dlg.setFixedSize(false);
+            if (showModel(null, dlg) == DialogPane.OK) {
+                dateRange = dlg.getDateRange();
             }
         }
+        if (dateRange != null) {
+            controller().setDate("start-date", dateRange.getStart());
+            controller().setDate("end-date", dateRange.getEnd());
+        }
     }
+
     private void search(
             ActionEvent event
     ) {
@@ -76,16 +84,16 @@ public class BrowsePlatformMessageFrame
 //串行异步，链式异步
         new MessageProxy().queryMsgListByCond(params)
                           .thenApplyAsync(Result::list)
-                         .whenCompleteAsync(this::searchCallback,UPDATE_UI);
+                          .whenCompleteAsync(this::searchCallback, UPDATE_UI);
     }
 
     private void searchCallback(
-            List<Map<String,Object>> maps,
+            List<Map<String, Object>> maps,
             Throwable t
     ) {
-        if(t!= null){
+        if (t != null) {
             ErrorHandler.handle(t);
-        }else{
+        } else {
             final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
             tableModel.setAllRows(maps);
         }

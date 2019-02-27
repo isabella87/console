@@ -14,7 +14,7 @@
     <action name="debt-file" title="收入及负债情况文件"/>
     <action name="delete" title="删除(X)" mnemonic="X" smallIcon="delete.png"/>
     <options name="accelerate-date">
-        <option value="-1">快速选择日期</option>
+        <option value="-1">选择日期</option>
         <option value="1">最近一年</option>
         <option value="3">最近三年</option>
         <option value="5">最近五年</option>
