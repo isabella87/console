@@ -114,7 +114,9 @@ public class StatisticDailyDlg
         html.append(statistic3.get("creditAmt"));
         html.append("</td><td>总债权转让成交金额</td><td>");
         html.append(statistic3.get("totalCreditAmt"));
-        html.append("<tr><td></td><td></td><td>借款余额</td><td>");
+        html.append("<tr><td>流标金额</td><td>");
+        html.append(statistic9.get("cancelTenderAmt"));
+        html.append("</td><td>借款余额</td><td>");
         html.append(statistic5.get("loanBalanceAmt"));
         html.append("</td></tr><tr><td>当日还本金额</td><td>");
         html.append(statistic9.get("repayCapitalAmt"));
@@ -240,6 +242,7 @@ public class StatisticDailyDlg
             statistic9.put("totalCreditApplyCount", intValue(result8, "totalCreditApplyCount"));
             statistic9.put("creditedCount", intValue(result8, "creditedCount"));
             statistic9.put("totalCreditedCount", intValue(result8, "totalCreditedCount"));
+            statistic9.put("cancelTenderAmt", to2Scale(result8, "cancelTenderAmt"));
 
             doHtml();
         }
@@ -318,5 +321,6 @@ public class StatisticDailyDlg
         statistic9.put("totalCreditApplyCount", "");
         statistic9.put("creditedCount", "");
         statistic9.put("totalCreditedCount", "");
+        statistic9.put("cancelTenderAmt", "");
     }
 }

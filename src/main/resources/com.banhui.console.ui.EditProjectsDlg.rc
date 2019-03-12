@@ -3,7 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://armory.xx.org/ui" xsi:schemaLocation=""
         title="项目"
-        width="870"
+        width="900"
         height="700"
 >
     <message name="delete-guaPer"><![CDATA[删除以下担保人：{}，此操作不可恢复！确认吗？]]></message>
@@ -83,7 +83,7 @@
                     <column alignment="FIRST"/>
                     <row>
                         <cell>
-                            <label for="item-name">融资项目名称：</label>
+                            <label for="item-name">借款项目名称：</label>
                         </cell>
                         <cell horizontalAlignment="BOTH">
                             <text name="item-name" required="true" pattern=".{2,}"/>
@@ -115,20 +115,16 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="out-proxy">代理：</label>
-                        </cell>
-                        <cell horizontalAlignment="BOTH">
-                            <text name="out-proxy"/>
-                        </cell>
-                        <cell>
                             <label for="financier">借款人：</label>
                         </cell>
                         <cell horizontalAlignment="BOTH">
-                            <boxLayout>
-                                <text name="financier" size="8"/>
-                                <label for="core-guara-name">核心担保人：</label>
-                                <text name="core-guara-name" size="8"/>
-                            </boxLayout>
+                            <text name="financier" type="TEXT"/>
+                        </cell>
+                        <cell>
+                            <label for="core-guara-name">核心担保人：</label>
+                        </cell>
+                        <cell>
+                            <text name="core-guara-name" type="TEXT"/>
                         </cell>
                     </row>
                     <row>
@@ -139,10 +135,10 @@
                             <text name="amt" suffix="元" type="CURRENCY" size="10"/>
                         </cell>
                         <cell>
-                            <label for="src">项目来源：</label>
+                            <label for="cost-fee">总借款成本：</label>
                         </cell>
-                        <cell horizontalAlignment="BOTH">
-                            <text name="src"/>
+                        <cell>
+                            <text name="cost-fee" suffix="%" type="CURRENCY" size="10"/>
                         </cell>
                     </row>
                     <row>
@@ -157,20 +153,6 @@
                         </cell>
                         <cell>
                             <text name="borrow-days" suffix="天" type="NUMBER" size="10"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell>
-                            <label for="deposit-ratio">保证金比例：</label>
-                        </cell>
-                        <cell>
-                            <text name="deposit-ratio" suffix="%" type="CURRENCY" size="10"/>
-                        </cell>
-                        <cell>
-                            <label for="cost-fee">总借款成本：</label>
-                        </cell>
-                        <cell>
-                            <text name="cost-fee" suffix="%" type="CURRENCY" size="10"/>
                         </cell>
                     </row>
                     <row>
@@ -215,7 +197,7 @@
                             <text name="interest" suffix="元" type="CURRENCY" size="10"/>
                         </cell>
                         <cell>
-                            <label for="fee-rate">利息服务费率：</label>
+                            <label for="fee-rate">出借居间费率：</label>
                         </cell>
                         <cell>
                             <text name="fee-rate" suffix="%" type="CURRENCY" size="10"/>
@@ -229,13 +211,13 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="per-invest-amt">每份起投金额：</label>
+                            <label for="per-invest-amt">出借资金步长：</label>
                         </cell>
                         <cell>
                             <text name="per-invest-amt" suffix="元" type="CURRENCY" size="10" minValue="1"/>
                         </cell>
                         <cell>
-                            <label for="per-invest-min-amt">单笔投资下限：</label>
+                            <label for="per-invest-min-amt">单笔出借下限：</label>
                         </cell>
                         <cell>
                             <text name="per-invest-min-amt" suffix="元" type="CURRENCY" size="10" minValue="1"/>
@@ -243,13 +225,13 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="per-invest-max-amt">单笔投资上限：</label>
+                            <label for="per-invest-max-amt">单笔出借上限：</label>
                         </cell>
                         <cell>
                             <text name="per-invest-max-amt" suffix="元" type="CURRENCY" size="10" minValue="0"/>
                         </cell>
                         <cell>
-                            <label for="invest-max-amt">单人投资上限：</label>
+                            <label for="invest-max-amt">单人出借上限：</label>
                         </cell>
                         <cell>
                             <text name="invest-max-amt" type="CURRENCY" size="10" suffix="元" minValue="0"/>
@@ -258,7 +240,7 @@
                     <row>
                         <cell columnSpan="4">
                             <label><![CDATA[<html><font color="red">
-                               注意！1.00元&lt;=每份起投金额&lt;=单笔投资下限&lt;=单笔投资上限&lt;=单人投资上限&lt;=项目融资额，且单笔投资下限必须为每份起投金额的正整数倍！</font></html>]]></label>
+                               注意！1000.00元&lt;=出借资金步长&lt;=单笔出借下限&lt;=单笔出借上限&lt;=单人出借上限&lt;=项目融资额，且单笔出借下限必须为出借资金步长的正整数倍！</font></html>]]></label>
                         </cell>
                     </row>
                     <row>
@@ -314,7 +296,7 @@
                                 </row>
                                 <row>
                                     <cell>
-                                        <label for="bondsman_au">代偿账户：</label>
+                                        <label for="bondsman_au">担保人账户：</label>
                                     </cell>
                                     <cell>
                                         <text name="bondsman_au"/>
@@ -362,17 +344,7 @@
                                     <cell columnSpan="2" horizontalAlignment="FIRST">
                                         <boxLayout>
                                             <checkBox name="flag1" text="新手项目"/>
-                                            <checkBox name="flag2" text="优选标"/>
-                                            <checkBox name="flag3" text="保险"/>
                                         </boxLayout>
-                                    </cell>
-                                </row>
-                                <row>
-                                    <cell>
-                                        <label for="water-mark">水印图片：</label>
-                                    </cell>
-                                    <cell horizontalAlignment="FIRST">
-                                        <text name="water-mark" optionsName="water"/>
                                     </cell>
                                 </row>
                                 <row>
@@ -395,8 +367,6 @@
                                         <boxLayout horizontalAlignment="FIRST">
                                             <label for="prj-rating">项目评级：</label>
                                             <text name="prj-rating" optionsName="rating" size="6" required="true"/>
-                                            <label for="s-all">项目总评分：</label>
-                                            <text name="s-all" type="NUMBER" size="6"/>
                                         </boxLayout>
                                     </cell>
                                 </row>

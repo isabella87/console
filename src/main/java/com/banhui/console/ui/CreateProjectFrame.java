@@ -40,11 +40,11 @@ public class CreateProjectFrame
             params.put("type", controller().getNumber("type"));
             params.put("amt", 1000);
             params.put("borrow-days", 180);
-            params.put("per-invest-min-amt", 100);
-            params.put("per-invest-amt", 1);
+            params.put("per-invest-min-amt", 1000);
+            params.put("per-invest-amt", 1000);
             params.put("fee-rate", 6);
             params.put("per-invest-max-amt", 1000);
-            params.put("invest-max-amt", 1000);
+            params.put("invest-max-amt", 0);
             params.put("in-time", new Date());
             params.put("out-time", new Date());
             params.put("expected-borrow-time", new Date());

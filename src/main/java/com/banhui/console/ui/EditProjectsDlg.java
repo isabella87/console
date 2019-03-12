@@ -105,7 +105,8 @@ public class EditProjectsDlg
         controller().connect("borrow-days", "change", this::interestChange);*/
         controller().connect("in-time", "change", this::inTimeChange);
         controller().connect("", "verify-error", MsgUtils::verifyError);
-
+        controller().connect("in-time","change",this::financingDaysChange);
+        controller().connect("financing-days","change",this::financingDaysChange);
         JTextArea jTextArea = controller().get(JTextArea.class, "prj-risk-assess");
         jTextArea.setLineWrap(true);
         this.id = id;
@@ -126,6 +127,16 @@ public class EditProjectsDlg
                 controller().hide("close");
             }
         }
+        controller().readOnly("expected-borrow-time",true);
+    }
+
+    private void financingDaysChange(Object o) {
+        Date date = controller().getDate("in-time");
+        int financingDays = controller().getInteger("financing-days");
+        if(date == null){
+            date = new Date();
+        }
+        controller().setDate("expected-borrow-time",InputUtils.latestNdays(date,-1*financingDays).getEnd());
     }
 
     private void updateData() {
@@ -494,7 +505,6 @@ public class EditProjectsDlg
     ) {
         if (data != null && !data.isEmpty()) {
             controller().setText("prj-rating", stringValue(data, "prjRating"));
-            controller().setNumber("s-all", longValue(data, "sAll"));
             controller().setText("prj-risk-assess", stringValue(data, "prjRiskAssess"));
         }
     }
@@ -535,8 +545,8 @@ public class EditProjectsDlg
             params.put("item-no", controller().getText("item-no").trim());
             params.put("amt", controller().getDecimal("amt"));
             params.put("rate", controller().getFloat("rate"));
-            params.put("time-out-rate", controller().getFloat("rate") + 2);
             params.put("extension-rate", controller().getFloat("rate") + 2);
+            params.put("time-out-rate", 24);
 
             params.put("borrow-days", controller().getNumber("borrow-days"));
             params.put("extension-days", controller().getNumber("borrow-days"));
@@ -552,6 +562,9 @@ public class EditProjectsDlg
             BigDecimal minAmt = controller().getDecimal("per-invest-min-amt");//单笔投资下限
             BigDecimal perAmt = controller().getDecimal("per-invest-amt");//每份起投金额
 
+            if(maxAmt==BigDecimal.ZERO){
+                maxAmt = amt;
+            }
             //1 单人投资上限 <= 借款金额
             if (maxAmt.compareTo(amt) > 0) {
                 warn(null, "单人投资上限必须小于等于借款金额！");
@@ -592,16 +605,12 @@ public class EditProjectsDlg
             params.put("invest-max-amt-ratio", 100);
             params.put("core-guara-name", controller().getText("core-guara-name").trim());
             params.put("key", controller().getText("key").trim());
-            params.put("water-mark", controller().getText("water-mark").trim());
             params.put("fee-rate", controller().getFloat("fee-rate"));
             params.put("cost-fee", controller().getFloat("cost-fee"));
-            params.put("out-proxy", controller().getText("out-proxy").trim());
             params.put("in-proxy", controller().getText("in-proxy").trim());
             params.put("type", controller().getNumber("type"));
-            params.put("src", controller().getText("src").trim());
             params.put("remark", controller().getText("remark").trim());
             params.put("financier", controller().getText("financier").trim());
-            params.put("deposit-ratio", controller().getFloat("deposit-ratio"));
             params.put("loan-purposes", controller().getText("loan-purposes").trim());
             params.put("visible", true);
             params.put("sold-fee", 0);
@@ -610,12 +619,7 @@ public class EditProjectsDlg
             if (controller().getBoolean("flag1")) {
                 flags += 1;
             }
-            if (controller().getBoolean("flag2")) {
-                flags += 16;
-            }
-            if (controller().getBoolean("flag3")) {
-                flags += 64;
-            }
+
             params.put("flags", flags);
             int contract = 0;
             if (controller().getBoolean("contract1")) {
@@ -643,7 +647,6 @@ public class EditProjectsDlg
             final Map<String, Object> paramsRating = new HashMap<>();
             paramsRating.put("p-id", this.id);
             paramsRating.put("prj-rating", controller().getText("prj-rating"));
-            paramsRating.put("s-all", controller().getNumber("s-all"));
             paramsRating.put("prj-risk-assess", controller().getText("prj-risk-assess"));
 
             final Map<String, Object> paramsFinancier = new HashMap<>();
@@ -716,18 +719,14 @@ public class EditProjectsDlg
         controller().setText("key", stringValue(data, "key"));
 //        controller().setText("visible", stringValue(data, "visible"));c
         controller().setDecimal("interest", nullToZero(decimalValue(data, "totalInterest")));
-        controller().setText("water-mark", stringValue(data, "waterMark"));
         controller().setDecimal("per-invest-max-amt", decimalValue(data, "perInvestMaxAmt"));
         controller().setFloat("fee-rate", doubleValue(data, "feeRate"));
         controller().setDecimal("cost-fee", decimalValue(data, "costFee"));
 //        controller().setText("sold-fee", stringValue(data, "soldFee"));
-        controller().setText("out-proxy", stringValue(data, "outProxy"));
         controller().setText("in-proxy", stringValue(data, "inProxy"));
         controller().setInteger("type", intValue(data, "type"));
-        controller().setText("src", stringValue(data, "src"));
         controller().setText("remark", stringValue(data, "remark"));
         controller().setText("financier", stringValue(data, "financier"));
-        controller().setDecimal("deposit-ratio", nullToZero(decimalValue(data, "depositRatio")));
         controller().setText("loan-purposes", stringValue(data, "loanPurposes"));
         controller().setText("core-guara-name", stringValue(data, "coreGuaraName"));
         controller().setInteger("bonus-day", intValue(data, "bonusDay"));

@@ -54,7 +54,6 @@
                     <tableColumn name="regYears" title="注册年限（年）" type="NUMBER_TEXT" size="140"/>
                     <tableColumn name="regAddress" title="注册地址" type="TEXT" size="200"/>
                     <tableColumn name="regFunds" title="注册资本金（万元）" type="NUMBER" size="160"/>
-                    <tableColumn name="ranking" title="行业排名" type="NUMBER" size="160"/>
                     <tableColumn name="createTime" title="创建时间" type="DATE_TIME" size="180"/>
                 </table>
             </cell>

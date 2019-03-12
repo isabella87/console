@@ -81,7 +81,7 @@
                             <text name="org-name" required="true" pattern="\w{2,}" size="20"/>
                         </cell>
                         <cell>
-                            <label for="show-org-name">机构展示名称：</label>
+                            <label for="show-org-name">展示机构名称：</label>
                         </cell>
                         <cell>
                             <text name="show-org-name" size="20" required="true" pattern=".{2,}"/>
@@ -95,29 +95,21 @@
                             <text name="registered-fund" size="10" suffix="万元" type="NUMBER"/>
                         </cell>
                         <cell>
-                            <label for="registered-show-fund">注册展示资金：</label>
+                            <label for="id-card-address-prov">经营区域：</label>
                         </cell>
                         <cell>
-                            <text name="registered-show-fund"/>
+                            <text name="id-card-address-prov" size="12" type="TEXT" optionsName="city"/>
                         </cell>
                     </row>
                     <row>
                         <cell>
-                            <label for="id-card-address-prov">所在省市：</label>
-                        </cell>
-                        <cell horizontalAlignment="FIRST">
-                            <text name="id-card-address-prov" size="12" type="TEXT" optionsName="city"/>
-                        </cell>
-                        <cell>
-                            <label for="address">详细地址：</label>
+                            <label for="address">注册地址：</label>
                         </cell>
                         <cell>
                             <text name="address"/>
                         </cell>
-                    </row>
-                    <row>
                         <cell>
-                            <label for="show-address">注册展示地址：</label>
+                            <label for="show-address">展示注册地址：</label>
                         </cell>
                         <cell columnSpan="3">
                             <text name="show-address"/>
@@ -125,7 +117,7 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="registered-date">注册时间：</label>
+                            <label for="registered-date">成立时间：</label>
                         </cell>
                         <cell>
                             <text name="registered-date" type="DATE"/>
@@ -191,14 +183,6 @@
                         </cell>
                         <cell columnSpan="3" horizontalAlignment="BOTH">
                             <text name="show-shareholder-info" required="true" pattern=".{2,}"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell horizontalAlignment="FIRST">
-                            <label for="operate-area">经营区域：</label>
-                        </cell>
-                        <cell columnSpan="3" horizontalAlignment="BOTH">
-                            <text name="operate-area" required="true"/>
                         </cell>
                     </row>
                     <row>

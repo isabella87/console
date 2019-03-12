@@ -33,41 +33,21 @@
         </row>
         <row>
             <cell>
-                <label for="age">年龄：</label>
-            </cell>
-            <cell>
-                <text name="age" type="NUMBER" required="true"/>
-            </cell>
-            <cell>
-                <label for="show-age">展示年龄：</label>
-            </cell>
-            <cell>
-                <text name="show-age" type="NUMBER" required="true"/>
-            </cell>
-        </row>
-        <row>
-            <cell>
                 <label for="id-card">身份证号：</label>
             </cell>
-            <cell>
+            <cell columnSpan="3">
                 <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
-            </cell>
-            <cell>
-                <label for="gender">性别：</label>
-            </cell>
-            <cell>
-                <dropDown name="gender" optionsName="gender-status"/>
             </cell>
         </row>
         <row>
             <cell>
-                <label for="address">地址：</label>
+                <label for="address">居住地址：</label>
             </cell>
             <cell>
                 <text name="address"/>
             </cell>
             <cell>
-                <label for="show-address">展示地址：</label>
+                <label for="show-address">展示居住地址：</label>
             </cell>
             <cell>
                 <text name="show-address"/>

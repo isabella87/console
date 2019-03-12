@@ -28,19 +28,11 @@
         </row>
         <row>
             <cell>
-                <label for="registered-date">注册时间：</label>
+                <label for="registered-date">成立时间：</label>
             </cell>
             <cell>
                 <text name="registered-date" type="DATE" size="10"/>
             </cell>
-            <cell>
-                <label for="reg-years">注册年限：</label>
-            </cell>
-            <cell>
-                <text name="reg-years" size="10" suffix=" 年 " type="NUMBER" required="true"/>
-            </cell>
-        </row>
-        <row>
             <cell>
                 <label for="reg-funds">注册资金：</label>
             </cell>
@@ -56,7 +48,7 @@
                 <text name="reg-address"/>
             </cell>
             <cell>
-                <label for="show-reg-address">显示注册地址：</label>
+                <label for="show-reg-address">展示注册地址：</label>
             </cell>
             <cell>
                 <text name="show-reg-address"/>
@@ -69,8 +61,6 @@
             <cell>
                 <text name="postcode" size="10"/>
             </cell>
-        </row>
-        <row>
             <cell>
                 <label for="legal-id-card">法人身份证号：</label>
             </cell>
@@ -86,7 +76,7 @@
                 <text name="legal-person-name" pattern="\w{2,}" required="true"/>
             </cell>
             <cell>
-                <label for="legal-person-show-name">法人展示名：</label>
+                <label for="legal-person-show-name">展示法人名：</label>
             </cell>
             <cell>
                 <text name="legal-person-show-name" pattern=".{2,}" required="true"/>
@@ -108,19 +98,9 @@
         </row>
         <row>
             <cell>
-                <label for="ranking">行业地位：</label>
-            </cell>
-            <cell horizontalAlignment="FIRST">
-                <boxLayout>
-                    <label>第</label>
-                    <text name="ranking" size="5" type="NUMBER"/>
-                    <label>位</label>
-                </boxLayout>
-            </cell>
-            <cell>
                 <label for="qualification">行业资质：</label>
             </cell>
-            <cell>
+            <cell horizontalAlignment="FIRST">
                 <text name="qualification"/>
             </cell>
         </row>
@@ -136,22 +116,6 @@
             </cell>
             <cell>
                 <text name="show-social-credit-code"/>
-            </cell>
-        </row>
-        <row>
-            <cell horizontalAlignment="FIRST">
-                <label for="get-prize">获得奖项：</label>
-            </cell>
-            <cell columnSpan="3" horizontalAlignment="BOTH">
-                <text name="get-prize"/>
-            </cell>
-        </row>
-        <row>
-            <cell verticalAlignment="FIRST">
-                <label for="org-web-site">公司官网：</label>
-            </cell>
-            <cell columnSpan="3" horizontalAlignment="BOTH">
-                <text name="org-web-site"/>
             </cell>
         </row>
         <row>

@@ -84,12 +84,12 @@ public class EditInfoDisclosureDlg
 
 
     private void saveCallback(
-            boolean flag,
+            boolean rets,
             Throwable t
     ) {
-        if (t != null || !flag) {
+        controller().enable("ok");
+        if (t != null) {
             ErrorHandler.handle(t);
-            controller().enable("ok");
         } else {
             super.done(OK);
         }

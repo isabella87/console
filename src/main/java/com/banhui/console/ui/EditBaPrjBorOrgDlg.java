@@ -53,7 +53,6 @@ public class EditBaPrjBorOrgDlg
             params.put("org-name", controller().getText("org-name").trim());
             params.put("show-org-name", controller().getText("show-org-name").trim());
             params.put("registered-fund", controller().getNumber("registered-fund"));
-            params.put("registered-show-fund", controller().getText("registered-show-fund").trim());
             params.put("registered-date", controller().getDate("registered-date"));
             params.put("legal-id-card", controller().getText("legal-id-card").trim());
             params.put("legal-person-name", controller().getText("legal-person-name").trim());
@@ -73,7 +72,6 @@ public class EditBaPrjBorOrgDlg
             params.put("show-work-address", controller().getText("show-work-address").trim());
             params.put("shareholder-info", controller().getText("shareholder-info").trim());
             params.put("show-shareholder-info", controller().getText("show-shareholder-info").trim());
-            params.put("operate-area", controller().getText("operate-area").trim());
             params.put("other-info", controller().getText("other-info").trim());
             params.put("id-card-address-prov", controller().getText("id-card-address-prov").trim());
             for (int i = 1; i <= 6; i++) {
@@ -123,7 +121,6 @@ public class EditBaPrjBorOrgDlg
             controller().setText("org-name", stringValue(data, "orgName"));
             controller().setText("show-org-name", stringValue(data, "showOrgName"));
             controller().setNumber("registered-fund", longValue(data, "registeredFund"));
-            controller().setText("registered-show-fund", stringValue(data, "registeredShowFund"));
             controller().setDate("registered-date", dateValue(data, "registeredDate"));
             controller().setText("legal-id-card", stringValue(data, "legalIdCard"));
             controller().setText("legal-person-name", stringValue(data, "legalPersonName"));
@@ -143,7 +140,6 @@ public class EditBaPrjBorOrgDlg
             controller().setText("show-work-address", stringValue(data, "showWorkAddress"));
             controller().setText("shareholder-info", stringValue(data, "shareholderInfo"));
             controller().setText("show-shareholder-info", stringValue(data, "showShareholderInfo"));
-            controller().setText("operate-area", stringValue(data, "operateArea"));
             controller().setText("other-info", stringValue(data, "otherInfo"));
             controller().setText("id-card-address-prov", stringValue(data, "idCardAddressProv"));
             for (int i = 1; i <= 6; i++) {

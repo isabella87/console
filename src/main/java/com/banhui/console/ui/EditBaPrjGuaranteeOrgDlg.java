@@ -53,7 +53,6 @@ public class EditBaPrjGuaranteeOrgDlg
             params.put("name", controller().getText("name").trim());
             params.put("show-name", controller().getText("show-name").trim());
             params.put("registered-date", controller().getDate("registered-date"));
-            params.put("reg-years", controller().getNumber("reg-years"));
             params.put("reg-funds", controller().getNumber("reg-funds"));
             params.put("reg-address", controller().getText("reg-address").trim());
             params.put("show-reg-address", controller().getText("show-reg-address").trim());
@@ -63,12 +62,9 @@ public class EditBaPrjGuaranteeOrgDlg
             params.put("legal-person-show-name", controller().getText("legal-person-show-name").trim());
             params.put("linkman", controller().getText("linkman").trim());
             params.put("mobile", controller().getText("mobile").trim());
-            params.put("ranking", controller().getNumber("ranking"));
             params.put("qualification", controller().getText("qualification").trim());
             params.put("social-credit-code", controller().getText("social-credit-code").trim());
             params.put("show-social-credit-code", controller().getText("show-social-credit-code").trim());
-            params.put("get-prize", controller().getText("get-prize").trim());
-            params.put("org-web-site", controller().getText("org-web-site").trim());
             params.put("intro", controller().getText("intro").trim());
 
             (this.id == 0 ? new BaPrjGuaranteeOrgsProxy().add(params) : new BaPrjGuaranteeOrgsProxy().update(params))
@@ -101,7 +97,6 @@ public class EditBaPrjGuaranteeOrgDlg
             controller().setText("name", stringValue(data, "name"));
             controller().setText("show-name", stringValue(data, "showName"));
             controller().setDate("registered-date", dateValue(data, "registeredDate"));
-            controller().setNumber("reg-years", longValue(data, "regYears"));
             controller().setNumber("reg-funds", longValue(data, "regFunds"));
             controller().setText("reg-address", stringValue(data, "regAddress"));
             controller().setText("show-reg-address", stringValue(data, "showRegAddress"));
@@ -111,12 +106,9 @@ public class EditBaPrjGuaranteeOrgDlg
             controller().setText("legal-person-show-name", stringValue(data, "legalPersonShowName"));
             controller().setText("linkman", stringValue(data, "linkman"));
             controller().setText("mobile", stringValue(data, "mobile"));
-            controller().setNumber("ranking", longValue(data, "ranking"));
             controller().setText("qualification", stringValue(data, "qualification"));
             controller().setText("social-credit-code", stringValue(data, "socialCreditCode"));
             controller().setText("show-social-credit-code", stringValue(data, "showSocialCreditCode"));
-            controller().setText("get-prize", stringValue(data, "getPrize"));
-            controller().setText("org-web-site", stringValue(data, "orgWebSite"));
             controller().setText("intro", stringValue(data, "intro"));
         }
     }

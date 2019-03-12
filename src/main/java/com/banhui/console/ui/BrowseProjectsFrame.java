@@ -3,21 +3,25 @@ package com.banhui.console.ui;
 import com.banhui.console.rpc.AuditProxy;
 import com.banhui.console.rpc.AuthenticationProxy;
 import com.banhui.console.rpc.ProjectProxy;
+import com.banhui.console.rpc.ProjectRepayProxy;
 import com.banhui.console.rpc.Result;
 import org.xx.armory.commons.DateRange;
 import org.xx.armory.swing.components.DialogPane;
 import org.xx.armory.swing.components.ProgressDialog;
 import org.xx.armory.swing.components.TypedTableModel;
 
+
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -40,6 +44,7 @@ public class BrowseProjectsFrame
      * {@inheritDoc}
      */
     private volatile String userName;
+    private int curHighLightRow;
 
     public BrowseProjectsFrame() {
         controller().connect("search", this::search);
@@ -155,7 +160,7 @@ public class BrowseProjectsFrame
 
             }
         });
-        if(showModel(null, pd) == DialogPane.OK ||showModel(null, pd) == DialogPane.CANCEL){
+        if (showModel(null, pd) == DialogPane.OK || showModel(null, pd) == DialogPane.CANCEL) {
             controller().enable("unlock");
             controller().call("search");
         }
@@ -204,7 +209,7 @@ public class BrowseProjectsFrame
 
             }
         });
-        if(showModel(null, pd) == DialogPane.OK ||showModel(null, pd) == DialogPane.CANCEL){
+        if (showModel(null, pd) == DialogPane.OK || showModel(null, pd) == DialogPane.CANCEL) {
             controller().enable("lock");
             controller().call("search");
         }
@@ -407,7 +412,8 @@ public class BrowseProjectsFrame
         if (t != null) {
             ErrorHandler.handle(t);
         } else {
-            final TypedTableModel tableModel = (TypedTableModel) controller().get(JTable.class, "list").getModel();
+            JTable table = controller().get(JTable.class, "list");
+            final TypedTableModel tableModel = (TypedTableModel) table.getModel();
             for (Map<String, Object> data : c) {
                 if (longValue(data, "visible") == 0) {
                     data.put("itemName", stringValue(data, "itemName") + "(已隐藏)");
@@ -420,6 +426,31 @@ public class BrowseProjectsFrame
                 }
             }
             tableModel.setAllRows(c);
+
+            //做点特别的渲染，设置还款中的项目，如果还息还本正处于特殊日期，则高亮显示
+            /*for (int i = 0; i < table.getRowCount(); i++) {
+                long pId = tableModel.getNumberByName(i, "pId");
+                long status = tableModel.getNumberByName(i, "status");
+                if (status == 90) {
+                    curHighLightRow = i;
+                    new ProjectRepayProxy().queryPrjBonus(pId)
+                                           .thenApplyAsync(Result::list)
+                                           .whenCompleteAsync(this::callbackForHighLight, UPDATE_UI);
+                }
+
+            }*/
+
+        }
+    }
+
+    private void callbackForHighLight(
+            List<Map<String, Object>> maps,
+            Throwable throwable
+    ) {
+        JTable table = controller().get(JTable.class, "list");
+        Color color = PrjUtils.getColorOfPrj(maps);
+        if (color != Color.black) {
+            PrjUtils.setOneRowBackgroundColor(table, curHighLightRow, color);
         }
     }
 
@@ -530,7 +561,7 @@ public class BrowseProjectsFrame
         final Date extensionDate = tableModel.getDateByName(selectedRow1, "extensionDate");
         final Date timeoutDate = tableModel.getDateByName(selectedRow1, "timeOutDate");
 
-        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status, amt, investedAmt,timeoutDate,extensionDate);
+        final AuditProjectsDlg dlg = new AuditProjectsDlg(id, status, amt, investedAmt, timeoutDate, extensionDate);
         dlg.setFixedSize(false);
         if (showModel(null, dlg) == DialogPane.OK) {
             controller().call("search");
@@ -608,6 +639,7 @@ public class BrowseProjectsFrame
                 controller().enable("cancel-top");
                 controller().enable("audit");
                 controller().enable("modify-bonds-man");
+//                PrjUtils.setOneRowBackgroundColor(table,selectedRow1,Color.red);
                 // 选中了行，并且仅选中一行。
                 if (status == 0) {
                     controller().enable("delete");

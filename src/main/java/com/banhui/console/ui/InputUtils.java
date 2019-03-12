@@ -529,6 +529,33 @@ public final class InputUtils {
         return truncateRange(firstDay, endDate);
     }
 
+    /**
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    public static int dateDomainValue(Date start,Date end){
+
+        if(start !=null && end != null){
+            Calendar startD = Calendar.getInstance();
+            startD.setTime(start);
+            startD.set(Calendar.HOUR_OF_DAY,0);
+            startD.set(Calendar.MINUTE,0);
+            startD.set(Calendar.SECOND,0);
+
+            Calendar endD = Calendar.getInstance();
+            endD.setTime(end);
+            endD.set(Calendar.HOUR_OF_DAY,0);
+            endD.set(Calendar.MINUTE,0);
+            endD.set(Calendar.SECOND,0);
+            if(startD.after(endD)){
+                return -1;
+            }
+            return (int)(endD.getTimeInMillis()-startD.getTimeInMillis())/(1000*60*60*24);
+        }
+        return 0;
+    }
     public static void main(String[] args) {
         Calendar cur = Calendar.getInstance();
         cur.add(Calendar.DAY_OF_YEAR, 1);

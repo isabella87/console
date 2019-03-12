@@ -50,10 +50,7 @@ public class EditBaPrjGuaranteePerDlg
 
             params.put("name", controller().getText("name").trim());
             params.put("show-name", controller().getText("show-name").trim());
-            params.put("age", controller().getNumber("age"));
-            params.put("show-age", controller().getText("show-age"));
             params.put("id-card", controller().getText("id-card"));
-            params.put("gender", controller().getText("gender").trim());
             params.put("address", controller().getText("address").trim());
             params.put("show-address", controller().getText("show-address").trim());
             params.put("mobile", controller().getText("mobile").trim());
@@ -89,10 +86,7 @@ public class EditBaPrjGuaranteePerDlg
         } else {
             controller().setText("name", stringValue(data, "name"));
             controller().setText("show-name", stringValue(data, "showName"));
-            controller().setInteger("age", intValue(data, "age"));
-            controller().setInteger("show-age", intValue(data, "showAge"));
             controller().setText("id-card", stringValue(data, "idCard"));
-            controller().setText("gender", stringValue(data, "gender"));
             controller().setText("address", stringValue(data, "address"));
             controller().setText("show-address", stringValue(data, "showAddress"));
             controller().setText("mobile", stringValue(data, "mobile"));

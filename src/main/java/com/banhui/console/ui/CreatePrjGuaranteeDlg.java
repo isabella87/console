@@ -95,8 +95,6 @@ public class CreatePrjGuaranteeDlg
                 params.put("order-no", controller().getNumber("order-no"));
                 params.put("visible", controller().getNumber("visible"));
                 params.put("guara-high-credit-amt", controller().getDecimal("guara-high-credit-amt"));
-                params.put("main-credit-amt", controller().getDecimal("main-credit-amt"));
-                params.put("intro", controller().getText("intro").trim());
                 switch (role) {
                     case 1:
                         params.put("bgp-id", this.bgpId);

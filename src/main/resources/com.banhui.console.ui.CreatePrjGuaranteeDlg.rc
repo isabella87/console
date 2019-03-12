@@ -87,14 +87,6 @@
         </row>
         <row>
             <cell>
-                <label for="main-credit-amt">主债权余额：</label>
-            </cell>
-            <cell>
-                <text name="main-credit-amt" type="CURRENCY" suffix="元"/>
-            </cell>
-        </row>
-        <row>
-            <cell>
                 <label for="form">担保方式：</label>
             </cell>
             <cell>
@@ -163,14 +155,6 @@
             </cell>
             <cell>
                 <dropDown name="visible" optionsName="visible-status"/>
-            </cell>
-        </row>
-        <row>
-            <cell verticalAlignment="FIRST">
-                <label for="intro">担保介绍</label>
-            </cell>
-            <cell horizontalAlignment="BOTH">
-                <text name="intro" type="TEXT_AREA" rowSize="6"/>
             </cell>
         </row>
         <row>

@@ -55,20 +55,15 @@ public class EditBaPrjBorPerDlg
             params.put("mobile", controller().getText("mobile").trim());
             params.put("email", controller().getText("email").trim());
             params.put("address", controller().getText("address").trim());
-            params.put("work-years", controller().getNumber("work-years"));
             params.put("intro", controller().getText("intro").trim());
             params.put("company", controller().getText("company").trim());
             params.put("position", controller().getText("position").trim());
-            params.put("age", controller().getText("age").trim());
             params.put("id-card-address-prov", controller().getText("id-card-address-prov").trim());
             //params.put("id-card-address-city", controller().getText("id-card-address-city").trim());
-            params.put("show-age", controller().getText("show-age").trim());
-            params.put("gender", controller().getText("gender").trim());
             params.put("wchat", controller().getText("wchat").trim());
             params.put("fax", controller().getText("fax").trim());
             params.put("qq", controller().getText("qq").trim());
             params.put("show-address", controller().getText("show-address").trim());
-            params.put("industry", controller().getText("industry").trim());
             params.put("work-nature", controller().getText("work-nature").trim());
             params.put("other-info", controller().getText("other-info").trim());
             for (int i = 1; i <= 6; i++) {
@@ -122,24 +117,19 @@ public class EditBaPrjBorPerDlg
             controller().setText("mobile", stringValue(data, "mobile"));
             controller().setText("email", stringValue(data, "email"));
             controller().setText("address", stringValue(data, "address"));
-            controller().setNumber("work-years", longValue(data, "workYears"));
             controller().setText("intro", stringValue(data, "intro"));
             controller().setText("company", stringValue(data, "company"));
             controller().setText("position", stringValue(data, "position"));
-            controller().setNumber("age", longValue(data, "age"));
             String city = stringValue(data, "idCardAddressProv");
             if (city.isEmpty()) {
                 controller().setText("id-card-address-prov", stringValue(data, "idCardAddressCity"));
             } else {
                 controller().setText("id-card-address-prov", stringValue(data, "idCardAddressProv"));
             }
-            controller().setText("show-age", stringValue(data, "showAge"));
-            controller().setText("gender", stringValue(data, "gender"));
             controller().setText("wchat", stringValue(data, "wchat"));
             controller().setText("qq", stringValue(data, "qq"));
             controller().setText("fax", stringValue(data, "fax"));
             controller().setText("show-address", stringValue(data, "showAddress"));
-            controller().setText("industry", stringValue(data, "industry"));
             controller().setText("work-nature", stringValue(data, "workNature"));
             controller().setText("other-info", stringValue(data, "otherInfo"));
             for (int i = 1; i <= 6; i++) {

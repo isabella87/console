@@ -83,20 +83,6 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="age">年龄：</label>
-                        </cell>
-                        <cell>
-                            <text name="age" required="true" type="NUMBER"/>
-                        </cell>
-                        <cell>
-                            <label for="show-age">展示年龄：</label>
-                        </cell>
-                        <cell>
-                            <text name="show-age" required="true"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell>
                             <label for="mobile">手机号码：</label>
                         </cell>
                         <cell>
@@ -125,30 +111,13 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="gender">性别：</label>
-                        </cell>
-                        <cell horizontalAlignment="FIRST">
-                            <dropDown name="gender" optionsName="genders" size="8"/>
-                        </cell>
-                        <cell>
-                            <label for="work-years">从业经历：</label>
-                        </cell>
-                        <cell horizontalAlignment="FIRST">
-                            <boxLayout>
-                                <text name="work-years" size="8" pattern="\d{1,}"/>
-                                <label>年</label>
-                            </boxLayout>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell>
                             <label for="id-card">身份证：</label>
                         </cell>
                         <cell>
                             <text name="id-card" pattern="\d{18}|(\d{17}[xX])|\d{15}|(\d{14}[xX])"/>
                         </cell>
                         <cell>
-                            <label for="id-card-address-prov">所在省市：</label>
+                            <label for="id-card-address-prov">经营区域：</label>
                         </cell>
                         <cell horizontalAlignment="FIRST">
                             <text name="id-card-address-prov" size="12" optionsName="city"/>
@@ -156,14 +125,14 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="address">详细地址：</label>
+                            <label for="address">居住地址：</label>
                         </cell>
                         <cell>
                             <text name="address"/>
 
                         </cell>
                         <cell>
-                            <label for="show-address">展示地址：</label>
+                            <label for="show-address">展示居住地址：</label>
                         </cell>
                         <cell>
                             <text name="show-address" pattern=".{2,}"/>
@@ -185,20 +154,6 @@
                     </row>
                     <row>
                         <cell>
-                            <label for="industry">所属行业：</label>
-                        </cell>
-                        <cell>
-                            <text name="industry" required="true"/>
-                        </cell>
-                        <cell>
-                            <label for="work-nature">工作性质：</label>
-                        </cell>
-                        <cell>
-                            <text name="work-nature" optionsName="works" size="20"/>
-                        </cell>
-                    </row>
-                    <row>
-                        <cell>
                             <label for="qq">QQ：</label>
                         </cell>
                         <cell>
@@ -207,6 +162,12 @@
                                 <label><![CDATA[<html><font color="gray">
                             （用于生成协议）</font></html>]]></label>
                             </boxLayout>
+                        </cell>
+                        <cell>
+                            <label for="work-nature">工作性质：</label>
+                        </cell>
+                        <cell>
+                            <text name="work-nature" optionsName="works" size="20"/>
                         </cell>
                     </row>
                     <row>
