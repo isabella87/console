@@ -82,7 +82,7 @@ public class BrowseInfoDisclosureFrame
     }
 
     private void delCallback(
-            boolean flag,
+            Boolean flag,
             Throwable t
     ) {
         if (t != null) {

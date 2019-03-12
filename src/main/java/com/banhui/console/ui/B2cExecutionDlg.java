@@ -145,7 +145,7 @@ public class B2cExecutionDlg
             }
 
             private void executeCallback(
-                    boolean flag,
+                    Boolean flag,
                     Throwable t
             ) {
                 if (t != null) {

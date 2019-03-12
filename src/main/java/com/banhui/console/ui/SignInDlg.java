@@ -125,7 +125,7 @@ public class SignInDlg
     }
 
     private void signInCallback(
-            boolean result,
+            Boolean result,
             Throwable throwable
     ) {
         if (throwable != null) {

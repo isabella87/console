@@ -84,7 +84,7 @@ public class EditInfoDisclosureDlg
 
 
     private void saveCallback(
-            boolean rets,
+            Boolean rets,
             Throwable t
     ) {
         controller().enable("ok");

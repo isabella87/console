@@ -76,7 +76,7 @@ public class ChangePasswordDlg
     }
 
     private void saveCallback(
-            boolean result,
+            Boolean result,
             Throwable throwable
     ) {
         if (throwable != null) {
